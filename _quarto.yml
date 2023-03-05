@@ -1,6 +1,6 @@
 project:
   type: book
-  output-dir: _docs
+  output-dir: docs
 
 book:
   title: "An Introduction to Statistical Learning (Non Official Solution Book)"
