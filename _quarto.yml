@@ -1,0 +1,37 @@
+project:
+  type: book
+  output-dir: _docs
+
+book:
+  title: "An Introduction to Statistical Learning (Non Official Solution Book)"
+  author: "Angel Feliz"
+  reader-mode: true
+
+  page-footer:
+    left: |
+      Non official solitions of An Introduction to Statistical Learning 
+      Second Edition
+    right: |
+      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  cover-image: cover.png
+  favicon: cover.png
+  site-url: https://r4ds.hadley.nz/
+  repo-url: https://github.com/AngelFelizR/ISL-Solutuon-Book
+  repo-branch: main
+  chapters:
+    - teorical-summary.qmd
+    - 02-execises.qmd
+    - 03-execises.qmd
+    - 04-execises.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - isl.scss
+    code-link: true
+
+    author-meta: "Angel Feliz"
+    callout-appearance: simple
+
+editor: source
