@@ -27,7 +27,6 @@ format:
   html:
     theme:
       - cosmo
-      - isl.scss
     code-link: true
 
     author-meta: "Angel Feliz"
