@@ -1,4 +1,4 @@
-# Solutions 02
+# Statistical Learning (Charpter 02)
 
 ## Conceptual
 

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Angel Feliz">
 
-<title>An Introduction to Statistical Learning (Non Official Solution Book)</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - Generative Models for Classiﬁcation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./model-performance.html" rel="next">
+<link href="./non-parametric-models.html" rel="next">
+<link href="./generalized-linear-models.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -62,6 +63,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -71,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">An Introduction to Statistical Learning (Non Official Solution Book)</h1>
+      <h1 class="quarto-secondary-nav-title">Generative Models for Classiﬁcation</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -104,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -127,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">Generative Models for Classiﬁcation</a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link active">Generative Models for Classiﬁcation</a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -171,7 +173,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link active" data-scroll-target="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
+  <li><a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a></li>
+  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes">Naive Bayes</a></li>
   </ul>
 </nav>
     </div>
@@ -180,19 +184,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">An Introduction to Statistical Learning (Non Official Solution Book)</h1>
+<h1 class="title d-none d-lg-block">Generative Models for Classiﬁcation</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Angel Feliz </p>
-          </div>
-  </div>
     
   
     
@@ -201,11 +199,115 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-
-<section id="preface" class="level1 unnumbered">
-<p><img src="cover.png" title="An Introduction to Statistical Learning (Non Official Solution Book)" class="quarto-cover-image img-fluid"></p><h1 class="unnumbered">Preface</h1>
-<p>The purpose of creating this book is share the lessons learnt by reading and completing the exercises in the book.</p>
-<p>It also could work as summary of the main point of the book.</p>
+<p>These models instead of trying to predict the <strong>posterior probability</strong> ( <span class="math inline">\(Pr(Y=k|X=x)\)</span> ) directly, they try to estimate the distribution of the predictors <span class="math inline">\(X\)</span> separately in each of the response classes <span class="math inline">\(Y\)</span> ( <span class="math inline">\(f_{k}(X) = Pr(X|Y=k)\)</span> ). Then, they use the <strong>Bayes’ Theorem</strong> and the <strong>overall or prior probability</strong> <span class="math inline">\(\pi_{k}\)</span> (probability of a randomly chosen observation comes from the <span class="math inline">\(k\)</span>th class) to flip these around into estimates for <span class="math inline">\(Pr(Y=k|X=x)\)</span> by approximating the <strong><em>Bayes Classifier</em></strong>, which has the lowest <strong><em>total error rate</em></strong>.</p>
+<p><span class="math display">\[
+p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
+\]</span></p>
+<p>Estimating the <em>prior probability</em> can be as easy calculate <span class="math inline">\(\hat{\pi}_{k} = n_{k}/ n\)</span> for each <span class="math inline">\(Y\)</span> class by assuming that the trainning data its representative of the population, but estimating the density function of <span class="math inline">\(X\)</span> for each class <span class="math inline">\(f_{k}\)</span> it’s more challenging, so models need to make more simplifying assumptions to estimate it.</p>
+<section id="linear-discriminant-analysis-lda" class="level2">
+<h2 class="anchored" data-anchor-id="linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</h2>
+<p>This model assumes that:</p>
+<ul>
+<li>The density function of <span class="math inline">\(X\)</span> for each <span class="math inline">\(Y\)</span> class <span class="math inline">\(f_{k}\)</span> follows a <strong>Normal (Gaussian) distribution</strong> within each class. Even though, it is often remarkably robust to model violations like Boolean variables.</li>
+<li><span class="math inline">\(X\)</span> has a <strong>different mean</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\mu_{1}^2 \neq \dots \neq \mu_{k}^2\)</span>.</li>
+<li><span class="math inline">\(X\)</span> has a <strong>common variance</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\sigma_{1}^2 = \dots = \sigma_{k}^2\)</span>.</li>
+</ul>
+<p>To understand how the model calculates its parameters, let’s see the <strong>discriminant function</strong> when the number of predictors is <span class="math inline">\(p=1\)</span> and the number of <span class="math inline">\(Y\)</span> classes is <span class="math inline">\(K=2\)</span>.</p>
+<p><span class="math display">\[
+\begin{split}
+\delta_{k}(x) &amp; = \log{ \left( p_{x}(x) \right)} \\
+              &amp; = \log{(\pi_{k})}
+                - \frac{\mu_{k}^2}{2\sigma^2}
+                + x \cdot \frac{\mu_{k}}{\sigma^2}
+\end{split}
+\]</span></p>
+<p>In this function, it’s clear that a class <span class="math inline">\(k\)</span> has more possibilities to be selected as mean of <span class="math inline">\(x\)</span> for that particular class increases and its variance decreases. It is also important to take in consideration the effect of <span class="math inline">\(\log{(\pi_{k})}\)</span>, in consequence the proportion of classes also influence the results.</p>
+<p>If we want to extend the model to work with <span class="math inline">\(p \geq 1\)</span> we also need to consider that:</p>
+<ul>
+<li>Each individual predictor follows a one-dimensional normal distribution</li>
+<li>There is some correlation between each pair of predictors</li>
+</ul>
+<p>As result, the <em>discriminant function</em> is:</p>
+<p><span class="math display">\[
+\begin{split}
+\delta_{k}(x) &amp; = \log{\pi_{k}}  - \frac{1}{2} \mu_{k}^T \Sigma^{-1} \mu_{k} \\
+                &amp; \quad + x^T \Sigma^{-1} \mu_{k}
+\end{split}                      
+\]</span></p>
+<ul>
+<li><p>Where:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> refers to a vector the current value of each <span class="math inline">\(p\)</span> element.</li>
+<li><span class="math inline">\(\mu\)</span> refers to a vector with the mean of each predictor.</li>
+<li><span class="math inline">\(\Sigma\)</span> refers to the covariance matrix <span class="math inline">\(p \times p\)</span> of <span class="math inline">\(\text{Cov}(X)\)</span>.</li>
+</ul></li>
+</ul>
+<p>The model also can be extended to handle <span class="math inline">\(K &gt; 2\)</span> after defining the <span class="math inline">\(K\)</span> class as the baseline, we can extend the <em>discriminant function</em> to have the next form:</p>
+<p><span class="math display">\[
+\begin{split}
+\delta_{k}(x) &amp; = \log{ \left(
+                        \frac{Pr(Y = k|K=x)}
+                             {Pr(Y=K|X=x)}
+                      \right)} \\
+              &amp; = \log{ \left( \frac{\pi_{k}}{\pi_{K}} \right)}
+                  - \frac{1}{2} (\mu_{k} + \mu_{K})^T \Sigma^{-1} (\mu_{k} - \mu_{K}) \\
+              &amp; \quad + x^{T} \Sigma^{-1} (\mu_{k} - \mu_{K})
+\end{split}
+\]</span></p>
+</section>
+<section id="quadratic-discriminant-analysis-qda" class="level2">
+<h2 class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</h2>
+<p>Like LDA, the QDA classiﬁer plugs estimates for the parameters into Bayes’ theorem in order to perform prediction results and assumes that:</p>
+<ul>
+<li>The observations from each class are drawn from a Gaussian distribution</li>
+<li>Each class has its own <strong>covariance matrix</strong>, <span class="math inline">\(X \sim N(\mu_{k}, \Sigma_{k})\)</span></li>
+</ul>
+<p>Under this assumption, the Bayes classiﬁer assigns an observation <span class="math inline">\(X = x\)</span> to the class for which <span class="math inline">\(\delta_{k}(x)\)</span> is largest.</p>
+<p><span class="math display">\[
+\begin{split}
+\delta_{k}(x) = &amp; \quad \log{\pi_{k}}
+                - \frac{1}{2} \log{|\Sigma_{k}|}
+                - \frac{1}{2} \mu_{k}^T \Sigma_{k}^{-1}\mu_{k} \\
+              &amp; + x^T \Sigma_{k}^{-1} \mu_{k} \\
+              &amp; - \frac{1}{2} x^T \Sigma_{k}^{-1} x
+\end{split}                  
+\]</span></p>
+<p>In consequence, QDA is more flexible than LDA and has the potential to be more accurate in settings where interactions among the predictors are important in discriminating between classes or when we need non-linear decision boundaries.</p>
+<p>The model also can be extended to handle <span class="math inline">\(K &gt; 2\)</span> after defining the <span class="math inline">\(K\)</span> class as the baseline, we can extend the <em>discriminant function</em> to have the next form:</p>
+<p><span class="math display">\[
+\log{ \left( \frac{Pr(Y = k|K=x)}{Pr(Y=K|X=x)} \right)} =
+a_k + \sum_{j=1}^{p}b_{kj}x_{j} +
+      \sum_{j=1}^{p} \sum_{l=1}^{p} c_{kjl} x_{j}x_{l}
+\]</span></p>
+<p>Where <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_{kj}\)</span> and <span class="math inline">\(c_{kjl}\)</span> are functions of <span class="math inline">\(\pi_{k}\)</span>, <span class="math inline">\(\pi_{K}\)</span>, <span class="math inline">\(\mu_{k}\)</span>, <span class="math inline">\(\mu_{K}\)</span>, <span class="math inline">\(\Sigma_{k}\)</span> and <span class="math inline">\(\Sigma_{K}\)</span></p>
+</section>
+<section id="naive-bayes" class="level2">
+<h2 class="anchored" data-anchor-id="naive-bayes">Naive Bayes</h2>
+<p>To estimate <span class="math inline">\(f_{k}(X)\)</span> this model assumes that <em>Within the kth class, the p predictors are independent</em> (correlation = 0) and as consequence:</p>
+<p><span class="math display">\[
+f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
+\]</span></p>
+<p>Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where <span class="math inline">\(n\)</span> is not large enough relative to <span class="math inline">\(p\)</span> for us to eﬀectively estimate the joint distribution of the predictors within each class.</p>
+<p>To estimate the one-dimensional density function <span class="math inline">\(f_{kj}\)</span> using training data we have the following options:</p>
+<ul>
+<li>We can assume that <span class="math inline">\(X_{j}|Y = k \sim N(\mu_{jk}, \sigma_{jk}^2)\)</span></li>
+<li>We can estimate the distribution by defining bins and creating a histogram</li>
+<li>We can estimate the distribution by use a kernel density estimator</li>
+<li>If <span class="math inline">\(X_{j}\)</span> is <strong>qualitative</strong>, we can count the proportion of training observations for the <span class="math inline">\(j\)</span>th predictor corresponding to each class.</li>
+</ul>
+<p>The model also can be extended to handle <span class="math inline">\(K &gt; 2\)</span> after defining the <span class="math inline">\(K\)</span> class as the baseline, we can extend the function to have the next form:</p>
+<p><span class="math display">\[
+\log{ \left( \frac{Pr(Y = k|K=x)}{Pr(Y=K|X=x)} \right)} =
+\log{ \left(
+        \frac{\pi_{k}}
+             {\pi_{K}}
+      \right)}
++
+\log{ \left(
+        \frac{\prod_{j=1}^{p} f_{kj}(x_{j}) }
+             {\prod_{j=1}^{p} f_{Kj}(x_{j}) }
+      \right)}
+\]</span></p>
 
 
 </section>
@@ -346,10 +448,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./generalized-linear-models.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Generalized linear models (GLM)</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./model-performance.html" class="pagination-link">
-        <span class="nav-page-text">Understanding model performance</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./non-parametric-models.html" class="pagination-link">
+        <span class="nav-page-text">Non-parametric Methods</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

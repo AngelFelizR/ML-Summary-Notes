@@ -1,0 +1,47 @@
+# Non-parametric Methods {.unnumbered}
+
+## K-nearest neighbors (KNN) 
+
+This method performs worst than a parametric as we starting adding *noise* predictors. In fact, we will get in the situation where for a given observation has no *nearby neighbors*, known as **curse of dimensionality** and leading to a very poor prediction of $f(x_{0})$.
+
+KNN unlike parametric models does not tell us which predictors are important, making it hard to make inferences using this model.
+
+It also sensible the scale of the variables. Variables that are on a large scale will have a much larger eﬀect on the distance between the observations, and hence on the KNN classiﬁer, than variables that are on a small scale. To solve that problem we can *standardize* the data so that all variables are given a mean of zero and a standard deviation of one with the function `scale()`.
+
+### Classiﬁer
+
+The next function estimates the conditional probability for class $j$ as the fraction of points in $N_{0}$ whose response values equal $j$.
+
+$$
+\text{Pr}(Y = j|X = x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} I(y_{i} = j)
+$$
+
+- Where
+  - $j$ response value to test
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+  
+Then KNN classiﬁes the test observation $x_{0}$ to the class with the largest probability.
+
+![](img/08-knn-classifier.png){fig-align="center"}
+
+
+### Regression
+
+KNN regression estimates $f(x_{0})$ using the average of all the training responses in $N_{0}$.
+ 
+$$
+\hat{f}(x_{0}) = \frac{1}{K} 
+                      \displaystyle\sum_{i \in N_{0}} y_{i}
+$$
+
+- Where
+  - $x_{0}$ is the test observation
+  - $K$ the number of points in the training data that are closest to $x_{0}$ and reduce the model flexibility
+  - $N_{0}$ points in the training data that are closest to $x_{0}$
+  
+
+
+

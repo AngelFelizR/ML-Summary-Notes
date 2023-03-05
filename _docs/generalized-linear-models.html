@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Angel Feliz">
+
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - Generalized linear models (GLM)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./generative-classification-models.html" rel="next">
+<link href="./model-performance.html" rel="prev">
+<link href="./cover.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Generalized linear models (GLM)</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">An Introduction to Statistical Learning (Non Official Solution Book)</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AngelFelizR/ISL-Solutuon-Book" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Teorical Summary</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">Understanding model performance</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link active">Generalized linear models (GLM)</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">Generative Models for Classiﬁcation</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">Non-parametric Methods</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical Learning (Charpter 02)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression (Chapter 03)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classification (Chapter 04)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#linear-regresion" id="toc-linear-regresion" class="nav-link active" data-scroll-target="#linear-regresion">Linear regresion</a>
+  <ul class="collapse">
+  <li><a href="#getting-the-least-squares-line-of-a-sample" id="toc-getting-the-least-squares-line-of-a-sample" class="nav-link" data-scroll-target="#getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</a></li>
+  <li><a href="#getting-confident-intervarls-of-coeffients" id="toc-getting-confident-intervarls-of-coeffients" class="nav-link" data-scroll-target="#getting-confident-intervarls-of-coeffients">Getting confident intervarls of coeffients</a></li>
+  <li><a href="#insights-to-extract" id="toc-insights-to-extract" class="nav-link" data-scroll-target="#insights-to-extract">Insights to extract</a></li>
+  <li><a href="#standard-linear-regression-model-assumptions" id="toc-standard-linear-regression-model-assumptions" class="nav-link" data-scroll-target="#standard-linear-regression-model-assumptions">Standard linear regression model assumptions</a></li>
+  <li><a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems">Possible problems</a></li>
+  <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems">Avoid using for classification problems</a></li>
+  </ul></li>
+  <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson Regression</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
+  <ul class="collapse">
+  <li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients">Estimating coefficients</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression">Multiple regression</a></li>
+  <li><a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model">Interpreting the model</a></li>
+  <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
+  <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios">Model limitatios</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Generalized linear models (GLM)</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="linear-regresion" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regresion">Linear regresion</h2>
+<section id="getting-the-least-squares-line-of-a-sample" class="level3">
+<h3 class="anchored" data-anchor-id="getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</h3>
+<p>As the <em>population regression line</em> is unobserved the <em>least squares line</em> of a sample is a good estimation. To get it we need to follow the next steps:</p>
+<ol type="1">
+<li>Define the function to fit.</li>
+</ol>
+<p><span class="math display">\[
+\hat{y} = \hat{\beta}_{0} + \hat{\beta}_{1} x
+\]</span></p>
+<ol start="2" type="1">
+<li>Define how to calculate <strong>residuals</strong>.</li>
+</ol>
+<p><span class="math display">\[
+e_{i} = y_{i} - \hat{y}_{i}
+\]</span></p>
+<ol start="3" type="1">
+<li>Define the <strong>residual sum of squares (RSS)</strong>.</li>
+</ol>
+<p><span class="math display">\[
+RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
+\]</span></p>
+<ol start="4" type="1">
+<li>Use calculus or make estimation with a computer to find the coefficients that minimize the RSS.</li>
+</ol>
+<p><span class="math display">\[
+\hat{\beta}_{1} = \frac{\Sigma_{i=1}^{n}(x_{i}-\overline{x})(y_{i}-\overline{y})}
+                       {\Sigma_{i=1}^{n}(x_{i}-\overline{x})}
+, \quad
+\hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
+\]</span></p>
+</section>
+<section id="getting-confident-intervarls-of-coeffients" class="level3">
+<h3 class="anchored" data-anchor-id="getting-confident-intervarls-of-coeffients">Getting confident intervarls of coeffients</h3>
+<p>To estimate the <strong>population regression line</strong> we can calculate <strong>conﬁdence intervals</strong> for sample coefficients, to define a range where we can find the population values with a defined <strong>confidence level</strong>.</p>
+<blockquote class="blockquote">
+<p>If we want to use 95% of confidence we need to know that after taking many samples only 95% of the intervals produced with this <strong>confident level</strong> would have the true value (parameter).</p>
+</blockquote>
+<p>To generate confident intervals we would need to calculate the variance of the <em>random error</em>.</p>
+<p><span class="math display">\[
+\sigma^2 = Var(\epsilon)
+\]</span></p>
+<p>But as we can not calculate that variance an alternative can be to estimate it based on residuals if they meet the next conditions:</p>
+<ol type="1">
+<li>Each residual have common variance <span class="math inline">\(\sigma^2\)</span>, so the variances of the error terms shouldn’t have any relation with the value of the response.</li>
+<li>Residuals are uncorrelated. For example, if <span class="math inline">\(\epsilon_{i}\)</span> is positive, that provides little or no information about the sign of <span class="math inline">\(\epsilon_{i+1}\)</span>.</li>
+</ol>
+<p>If not, we would end underestimating the true standard errors, reducing the probability a given confident level to contain the true value of the parameter and underrating the <em>p-values</em> associated with the model.</p>
+<p><span class="math display">\[
+\sigma \approx RSE = \sqrt{\frac{RSS}{(n-p-1)}}
+\]</span></p>
+<p>Now we can calculate the <strong>standard error</strong> of each coefficient and calculate the confident intervals.</p>
+<p><span class="math display">\[
+SE(\hat{\beta_{0}})^2 = \sigma^2
+                       \left[\frac{1}{n}+
+                             \frac{\overline{x}^2}
+                                  {\Sigma_{i=1}^{n} (x_{i}-\overline{x})^2}
+                       \right]
+\]</span></p>
+<p><span class="math display">\[
+SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
+                             {\Sigma_{i=1}^{n} (x_{i} - \overline{x})^2}
+\]</span></p>
+<p><span class="math display">\[  
+\hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
+\]</span></p>
+</section>
+<section id="insights-to-extract" class="level3">
+<h3 class="anchored" data-anchor-id="insights-to-extract">Insights to extract</h3>
+<section id="confirm-the-relationship-between-the-response-and-predictors" class="level4">
+<h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</h4>
+<p>Use the regression <strong>overall P-value</strong> (based on the F-statistic) to confirm that at <strong>least one predictor</strong> is related with the Response and avoid interpretative problems associated with the number of observations (<em>n</em>) or predictors (<em>p</em>).</p>
+<p><span class="math display">\[
+H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
+\]</span></p>
+<p><span class="math display">\[
+H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
+\]</span></p>
+</section>
+<section id="accuracy-of-the-model-relationship-strength" class="level4">
+<h4 class="anchored" data-anchor-id="accuracy-of-the-model-relationship-strength">Accuracy of the model (relationship strength)</h4>
+<p>If we want to know how well the model fits to the data we have two options:</p>
+<ul>
+<li><p><strong>Residual standard error (RSE)</strong>: Even if the model were correct, the actual values of <span class="math inline">\(\hat{y}\)</span> would differ from the true regression line by approximately <em>this units</em>, on average. To get the percentage error we can calculate <span class="math inline">\(RSE/\overline{x}\)</span></p></li>
+<li><p><strong>The <span class="math inline">\(R^2\)</span> statistic</strong>: The proportion of variance explained by taking as a reference the <strong>total sum of squares (TSS)</strong>.</p></li>
+</ul>
+<p><span class="math display">\[
+TSS = \Sigma(y_{i} - \overline{y})^2
+\]</span></p>
+<p><span class="math display">\[
+R^2 = \frac{TSS - RSS}{TSS}
+\]</span></p>
+<p><span class="math display">\[
+R^2 =
+\begin{cases}
+    Cor(X, Y)^2  &amp; \text{Simple Lineal Regresion} \\
+    Cor(Y,\hat{Y})^2 &amp; \text{Multipline Lineal Regresion}
+\end{cases}
+\]</span></p>
+</section>
+<section id="confirm-the-relationship-between-the-response-and-each-predictor" class="level4">
+<h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-each-predictor">Confirm the relationship between the Response and each predictor</h4>
+<p>To answer that we can test if a particular subset of q of the coefficients are zero.</p>
+<p><span class="math display">\[
+H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
+\]</span></p>
+<p>In this case, F-statistic reports the <strong>partial eﬀect</strong> of adding a extra variable to the model (the order matters) to apply a <em>variable selection</em> technique. The classical approach is to:</p>
+<ol type="1">
+<li>Fit a model for each variable combination <span class="math inline">\(2^p\)</span>.</li>
+<li>Select the best model based on <em>Mallow’s Cp</em>, <em>Akaike information criterion (AIC)</em>, <em>Bayesian information criterion (BIC)</em>, and <em>adjusted</em> <span class="math inline">\(R^2\)</span> or plot various model outputs, such as the residuals, in order to search for patterns.</li>
+</ol>
+<p>But just think that if we have <span class="math inline">\(p = 30\)</span> we will have <span class="math inline">\(2^{30} = =1,073,741,824\ models\)</span> to fit, that it’s too much. Some alternative approaches for this task:</p>
+<ul>
+<li>Forward selection</li>
+<li>Backward selection (cannot be used if p &gt;n)</li>
+<li>Mixed selection</li>
+</ul>
+</section>
+<section id="size-of-association-between-each-predictor-and-the-response." class="level4">
+<h4 class="anchored" data-anchor-id="size-of-association-between-each-predictor-and-the-response.">Size of association between each predictor and the response.</h4>
+<p>To check that we need to see the <span class="math inline">\(\hat{\beta}_{j}\)</span> <em>confident intervals</em> as the real <span class="math inline">\(\beta_{j}\)</span> is in that range.</p>
+</section>
+<section id="predicting-future-values" class="level4">
+<h4 class="anchored" data-anchor-id="predicting-future-values">Predicting future values</h4>
+<p>If we want to predict the average response <span class="math inline">\(f(X)\)</span> we can use the confident intervals, but if we want to predict an individual response <span class="math inline">\(Y = f(X) + \epsilon\)</span> we need to use prediction intervals as they account for the uncertainty associated with <span class="math inline">\(\epsilon\)</span>, the irreducible error.</p>
+</section>
+</section>
+<section id="standard-linear-regression-model-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="standard-linear-regression-model-assumptions">Standard linear regression model assumptions</h3>
+<ul>
+<li><p>The <strong>additivity assumption</strong> means that the association between a predictor <span class="math inline">\(X_{j}\)</span> and the response <span class="math inline">\(Y\)</span> does not depend on the values of the other predictors, as it happens when there is a <em>interaction (synergy) effect</em></p></li>
+<li><p>The <strong>linearity assumption</strong> states that the change in the response Y associated with a one-unit change in <span class="math inline">\(X_{j}\)</span> is constant, regardless of the value of <span class="math inline">\(X_{j}\)</span>.</p></li>
+</ul>
+<section id="including-an-interaction-term" class="level4">
+<h4 class="anchored" data-anchor-id="including-an-interaction-term">Including an interaction term</h4>
+<p>This approach relax the <em>additivity assumption</em> that models usually have.</p>
+<ul>
+<li><strong>2 quantitative variables</strong></li>
+</ul>
+<p>It consist in adding an extra coefficient which multiplies two or more variables.</p>
+<p><span class="math display">\[
+\begin{split}
+Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} + \beta_{3} X_{1} X_{2} + \epsilon \\
+  &amp; = \beta_{0} + (\beta_{1} + \beta_{3} X_{2}) X_{1} + \beta_{2} X_{2} + \epsilon \\
+  &amp; = \beta_{0} + \tilde{\beta}_{1} X_{1} + \beta_{2} X_{2} + \epsilon
+\end{split}
+\]</span></p>
+<p>After adding the interaction term we could interpret the change as making one of the original coefficient a function of the another variable. Now we could say that <span class="math inline">\(\beta_{3}\)</span> <em>represent <strong>the change of</strong></em> <span class="math inline">\(X_{1}\)</span> <em><strong>effectiveness</strong> associated with a one-unit increase in</em> <span class="math inline">\(X_{2}\)</span>.</p>
+<p>It very important that we keep <strong>hierarchical principle</strong>, which states that if we include an interaction in a model, we should also include the main effects, even if the p-values associated with their coefficients are not significant as <strong><em>it would alter the meaning of the interaction</em></strong>.</p>
+<ul>
+<li><strong>1 quantitative and 1 qualitative variable</strong></li>
+</ul>
+<p>If <span class="math inline">\(X_{1}\)</span> is quantitative and <span class="math inline">\(X_{2}\)</span> is qualitative:</p>
+<p><span class="math display">\[
+\hat{Y} =
+\begin{cases}
+    (\beta_{0} + \beta_{2}) + (\beta_{1} + \beta_{3})X_{1} &amp; \text{if }X_{2} \text{ is TRUE}\\
+    \beta_{0} + \beta_{1}X_{1}                             &amp; \text{if }X_{2} \text{ is FALSE}
+\end{cases}
+\]</span></p>
+<p>Adding the <span class="math inline">\(\beta_{3}\)</span> interaction allow the line to change the line slope based on <span class="math inline">\(X_{2}\)</span> and not just a different intercept.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/03-factor-interaction.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="polynomial-regression" class="level4">
+<h4 class="anchored" data-anchor-id="polynomial-regression">Polynomial regression</h4>
+<p>This approach relax the <em>linearity assumption</em> that models usually have. It consist in including transformed versions of the predictors.</p>
+<p><span class="math display">\[
+\begin{split}
+Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
+  &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{1}^2
+\end{split}
+\]</span></p>
+</section>
+</section>
+<section id="possible-problems" class="level3">
+<h3 class="anchored" data-anchor-id="possible-problems">Possible problems</h3>
+<section id="non-linearity-of-the-response-predictor-relationships" class="level4">
+<h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Plot the <strong>residuals versus predicted values</strong> <span class="math inline">\(\hat{y}_{i}\)</span>. Ideally, the residual plot will show no discernible pattern. The presence of a pattern may indicate a problem with some aspect of the linear model.</td>
+<td style="text-align: left;">A simple approach is to use non-linear transformations of the predictors, such as <span class="math inline">\(\log{X}\)</span>, <span class="math inline">\(\sqrt{X}\)</span>, and <span class="math inline">\(X^2\)</span>, in the regression model</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/04-residuals-predicted-values.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="correlation-of-error-terms" class="level4">
+<h4 class="anchored" data-anchor-id="correlation-of-error-terms">Correlation of error terms</h4>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. <br> <br> 2. Check if some observation have been exposed to the same environmental factors</td>
+<td style="text-align: left;">Good experimental design is crucial in order to mitigate these problems</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="non-constant-variance-heteroscedasticity-of-error-terms" class="level4">
+<h4 class="anchored" data-anchor-id="non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</h4>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Plot the residual plot en check if you can see a funnel shape</td>
+<td style="text-align: left;">We can transform the response using a concave function such as <span class="math inline">\(\log{Y}\)</span> or <span class="math inline">\(\sqrt{Y}\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/05-non-constance-variance.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="outliers" class="level4">
+<h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
+<p>An outlier is a point for which <span class="math inline">\(y_{i}\)</span> is far from the value predicted by the model. Sometimes, they have little effect on the least squares line, but <em>over estimate the RSE</em> making bigger p-values of the model and <em>under estimate the</em> <span class="math inline">\(R^2\)</span>.</p>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Plot the <strong>studentized residuals</strong>, computed by dividing each residual <span class="math inline">\(e_{i}\)</span> by its estimated standard error. Then search for points which absolute value is greater than 3</td>
+<td style="text-align: left;">They can be removed if it has occurred due to an error in data collection. Otherwise, they may indicate a deficiency with the model, such as a missing predictor.</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/06-studentized-residuals-plot.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="high-leverage-points" class="level4">
+<h4 class="anchored" data-anchor-id="high-leverage-points">High-leverage points</h4>
+<p>Observations with <strong>high leverage</strong> have an unusual value for <span class="math inline">\(x_{i}\)</span>. High leverage observations tend to have a sizable impact on the estimated regression line and any problems with these points may invalidate the entire fit.</p>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Compute the leverage statistic. Find an observation with higher value than mean, represented by <span class="math inline">\((p + 1)/n\)</span>. Leverage values are always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span></td>
+<td style="text-align: left;">Make sure that the value is correct and not a data collection problem</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
+h_{i} = \frac{1}{n} +
+        \frac{(x_{i} - \overline{x})^2}
+              {\Sigma_{i'=1}^n(x_{i'} - \overline{x})^2}
+\]</span></p>
+<p>In a <em>multiple linear regression</em>, it is possible to have an observation that is well within the range of each individual predictor’s values, but that is unusual in terms of the full set of predictors.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/07-studentized-residuals-leverage-plot.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="collinearity" class="level4">
+<h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
+<p><strong>Collinearity</strong> refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for <span class="math inline">\(\hat{\beta}_{j}\)</span> to grow. That reduce the <strong>power of the hypothesis test</strong>,that is, the probability of correctly detecting a non-zero coeﬃcient.</p>
+<p>Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (<strong>multicollinearity</strong>).</p>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The best way to assess multicollinearity is to compute the <strong>variance inﬂation factor (VIF)</strong>, which is the ratio of the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> when ﬁtting the full model divided by the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity</td>
+<td style="text-align: left;">1. Drop one of the problematic variables from the regression. <br> <br> 2. Combine the collinear variables together into a single predictor</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
+\text{VIF}(\hat{\beta}_{j}) = \frac{1}
+                                   {1 - R_{X_{j}|X_{-j}}^2}
+\]</span></p>
+<p>Where <span class="math inline">\(R_{X_{j}|X_{-j}}^2\)</span> is the <span class="math inline">\(R^2\)</span> from a regression of <span class="math inline">\(X_{j}\)</span> onto all of the other predictors.</p>
+</section>
+</section>
+<section id="avoid-using-for-classification-problems" class="level3">
+<h3 class="anchored" data-anchor-id="avoid-using-for-classification-problems">Avoid using for classification problems</h3>
+<p>There are better model to achieve that kind of situation. For example, he linear <strong>discriminant analysis (LDA)</strong> procedure the same response of a linear regression for a binary problem. Other reasons are:</p>
+<ul>
+<li>A regression method cannot accommodate a qualitative response with more than two classes.</li>
+<li>A regression method will not provide meaningful estimates of <span class="math inline">\(Pr(Y|X)\)</span> as some of our estimates might be outside the [0, 1] interval.</li>
+</ul>
+</section>
+</section>
+<section id="poisson-regression" class="level2">
+<h2 class="anchored" data-anchor-id="poisson-regression">Poisson Regression</h2>
+<p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
+<p><span class="math display">\[
+Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
+                 {k!}
+\]</span></p>
+<p>Where: - <span class="math inline">\(\lambda\)</span> must be greater than 0. It represents the expected number of events <span class="math inline">\(E(Y)\)</span> and variance related <span class="math inline">\(Var(Y)\)</span> - <span class="math inline">\(k\)</span> represent the number of events that we want to evaluate base of <span class="math inline">\(\lambda\)</span>. Its numbers should be greater or equal to 0.</p>
+<p>So, it makes sense that the value that we want to predict with our regression would be <span class="math inline">\(\lambda\)</span>, by using next structure:</p>
+<p><span class="math display">\[
+\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
+\]</span></p>
+<p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
+</section>
+<section id="logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
+<p><span class="math display">\[
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
+            {1+e^{\beta_{0}+\beta_{1}X}}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/09-logistic-function-example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
+<section id="estimating-coefficients" class="level3">
+<h3 class="anchored" data-anchor-id="estimating-coefficients">Estimating coefficients</h3>
+<p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
+<p><span class="math display">\[
+\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
+\]</span></p>
+</section>
+<section id="multiple-regression" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-regression">Multiple regression</h3>
+<p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
+<p><span class="math display">\[
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+\]</span></p>
+</section>
+<section id="interpreting-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-the-model">Interpreting the model</h3>
+<p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
+<p><span class="math display">\[
+\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
+\]</span></p>
+<p>As we can see, the result of the linear combination is the <span class="math inline">\(\log\)</span> of the <em>odds ratio</em>, known as <strong>log odd</strong> or <strong>logit</strong>.</p>
+<p>An <strong>odds ratio</strong> of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won’t occur. It can take any value between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span>, where low probabilities are close to <span class="math inline">\(0\)</span>, higher to <span class="math inline">\(\infty\)</span> and equivalents ones are equals to 1. For example, if we have an <span class="math inline">\(\text{odds ratio} = 2\)</span>, we can say that it’s 2 times more likely that the event happens rather than not.</p>
+<p>Applying <span class="math inline">\(\log{(\text{odds ratio})}\)</span> makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it’s hard to see at first hand, but if we apply the <span class="math inline">\(\log\)</span> to each value we can see that <span class="math inline">\(\log{(2)} = 0.69\)</span> and <span class="math inline">\(\log{(0.5)} = -0.69\)</span>.</p>
+<p>At end, <span class="math inline">\(p(X)\)</span> will increase as <span class="math inline">\(X\)</span> increases if <span class="math inline">\(\beta_{1}\)</span> is positive despite the relationship between each other isn’t a linear one.</p>
+<section id="understanding-a-confounding-paradox" class="level4">
+<h4 class="anchored" data-anchor-id="understanding-a-confounding-paradox">Understanding a confounding paradox</h4>
+<table class="table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Simple Regression</th>
+<th style="text-align: left;">Multiple Regression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><img src="img/10-Default-table-4_2.png" class="img-fluid" data-fig-align="center"></td>
+<td style="text-align: left;"><img src="img/11-Default-table-4_3.png" class="img-fluid" data-fig-align="center"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The positive coeﬃcient for student indicates that for <strong>over all values of balance and income</strong>, a student is <em>more</em> likely to default than a non-student.</td>
+<td style="text-align: left;">The negative coeﬃcient for student indicates that for a <strong>ﬁxed value of balance and income</strong>, a student is less likely to default than a non-student.</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/12-Default-multiple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>The problem relays on the fact that <em>student</em> and <em>balance</em> are <strong>correlated</strong>. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the <em>same credit card balance</em>!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/13-Default-simple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="multinomial-logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic Regression</h3>
+<p>We also can generalize the <em>logistic function</em> to support more than 2 categories (<span class="math inline">\(K &gt; 2\)</span>) by defining by convention the last category <span class="math inline">\(K\)</span> as a <strong>baseline</strong>.</p>
+<p>For <span class="math inline">\(k = 1, \dotsc,K-1\)</span> we use function.</p>
+<p><span class="math display">\[
+Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+\]</span></p>
+<p>For <span class="math inline">\(k=K\)</span>, we use the function.</p>
+<p><span class="math display">\[
+Pr(Y = K|X= x) = \frac{1}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+\]</span> And after some manipulations we can show that <span class="math inline">\(\log\)</span> of the probability of getting <span class="math inline">\(k\)</span> divided by the probability of the <em>baseline</em> is equivalent to a linear combinations of the functions parameters.</p>
+<p><span class="math display">\[
+\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
+\]</span></p>
+<p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
+</section>
+<section id="model-limitatios" class="level3">
+<h3 class="anchored" data-anchor-id="model-limitatios">Model limitatios</h3>
+<p>There are models that could make better classifications when:</p>
+<ul>
+<li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
+<li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
+<li>When the decision boundary is not lineal.</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./model-performance.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Understanding model performance</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./generative-classification-models.html" class="pagination-link">
+        <span class="nav-page-text">Generative Models for Classiﬁcation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
+    <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

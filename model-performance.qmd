@@ -1,0 +1,124 @@
+# Understanding model performance {.unnumbered}
+
+## Reducible and irreducible error
+
+The goal when we are analyzing data is to find a function that based on some Predictors and some random noise could explain the Response variable.
+
+$$
+Y = f(X) + \epsilon
+$$
+
+**$\epsilon$** represent the **random error** and correspond to the **irreducible error** as it cannot be predicted using the Predictors in regression models. It would have a mean of 0 unless are missing some relevant Predictors. 
+
+In classification models, the **irreducible error** is represented by the **Bayes Error Rate**.
+
+$$
+1 -  E\left( 
+     \underset{j}{max}Pr(Y = j|X)
+     \right)
+$$
+
+An error is **reducible** if we can improve the accuracy of $\hat{f}$ by using a most appropriate statistical learning technique to estimate $f$.
+
+The challenge to achieve that goal it's that we don't at the beginning how much of the error correspond to each type.
+
+$$
+\begin{split}
+E(Y-\hat{Y})^2 & = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
+               & = \underbrace{[f(X)- \hat{f}(X)]^2}_\text{Reducible} +
+                   \underbrace{Var(\epsilon)}_\text{Irredicible}
+\end{split}
+$$
+
+The reducible error can be also spitted in two parts:
+
+- **Variance** refers to the amount by which $\hat{f}$ would change if we estimate it using a different **training data set**. If a method has high variance then small changes in the training data can result in large changes of $\hat{f}$.
+
+- **Squared bias** refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model as for example a linear model.
+
+
+$$
+E(y_{0} - \hat{f}(x_{0}))^2 = 
+Var(\hat{f}(x_{0})) + 
+[Bias(\hat{f}(x_{0}))]^2 + 
+Var(\epsilon)
+$$
+
+::: {.callout-note}
+
+Our challenge lies in ﬁnding a method for which both the variance and the squared bias are low.
+
+:::
+
+
+## Types of models
+
+- **Parametric methods**
+    1. Make an assumption about the functional form. For example, assuming linearity.
+    2. Estimate a small number parameters based on training data.
+    3. Are easy to interpret.
+    4. Tend to outperform non-parametric approaches when there is a small number of observations per predictor.
+
+    
+- **Non-parametric methods**
+    1.  Don't make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for $f$.
+    2.  Need a large number of observations in order to obtain an accurate estimate for $f$.
+    3.  The data analyst must select a level of smoothness (degrees of freedom).
+    
+
+![](img/01-accuracy-vs-interpretability.png){fig-align="center"}
+
+## Evaluating model performance
+
+To evaluate how good works a models we need to split the available data in two parts. 
+
+- **Training data**: Used to fit the model.
+- **Test data**: Used to confirm how well the model works with new data.
+
+Some measurements to evaluate our test data are:
+
+- **Test mean squared error (MSE)**
+
+$$
+Ave(y_{0}-\hat{f}(x_{0}))^2
+$$
+
+
+- **Test error rate**
+
+$$
+I(y_{0} \neq \hat{y}_{0}) = 
+\begin{cases}
+    1 & \text{If } y_{0} \neq \hat{y}_{0} \\
+    0 & \text{If } y_{0} = \hat{y}_{0}
+\end{cases}
+$$
+
+$$
+Ave(I(y_{0} \neq \hat{y}_{0}))
+$$ 
+
+
+- **Confusion Matrix**
+
+It contracts the model's outputs with real values and makes easier to calculate more metrics to validate the model.
+
+![](img/14-confution-matrix.png){fig-align="center"}
+
+- Some metrics related with the confussion matrix are:
+
+  - **Sensitivity**: Represents the percentage of **positive** values that have been correctly identiﬁed $\text{TP}/\text{P}$.
+  - **Specificity**: Represents the percentage of **negative** values that have been correctly identiﬁed $\text{TN}/\text{N}$.
+  
+
+You can more metrics in the next table.
+
+![](img/14-confution-matrix-metrics.png){fig-align="center"}
+  
+The **ROC _(receiver operating characteristics)_ Curve** displays the two types of errors for all possible thresholds.
+The **area under the curve (AUC)** the represent overall performance of a classiﬁer, summarized over all possible thresholds and as larger the AUC the better the classiﬁer.
+
+![](img/15-ROC-curve.png){fig-align="center"}
+
+
+

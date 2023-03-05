@@ -6,6 +6,7 @@ book:
   title: "An Introduction to Statistical Learning (Non Official Solution Book)"
   author: "Angel Feliz"
   reader-mode: true
+  page-navigation: true
 
   page-footer:
     left: |
@@ -18,17 +19,24 @@ book:
   repo-url: https://github.com/AngelFelizR/ISL-Solutuon-Book
   repo-branch: main
   chapters:
-    - index.qmd
-    - 02-execises.qmd
-    - 03-execises.qmd
-    - 04-execises.qmd
-
+  - index.qmd
+  - part: "Teorical Summary"
+    chapters: 
+      - model-performance.qmd
+      - generalized-linear-models.qmd
+      - generative-classification-models.qmd
+      - non-parametric-models.qmd
+  - part: "Exercices"
+    chapters:
+      - 02-execises.qmd
+      - 03-execises.qmd
+      - 04-execises.qmd
+      
 format:
   html:
     theme:
       - cosmo
     code-link: true
-
     author-meta: "Angel Feliz"
     callout-appearance: simple
 

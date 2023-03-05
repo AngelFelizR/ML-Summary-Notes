@@ -1,4 +1,4 @@
-# Solutions 04
+# Classification (Chapter 04)
 
 ## Conceptual
 

@@ -1,4 +1,4 @@
-# Solutions 03
+# Linear Regression (Chapter 03)
 
 ## Conceptual
 
