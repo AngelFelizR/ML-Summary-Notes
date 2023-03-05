@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://r4ds.hadley.nz/index.html</loc>
+    <lastmod>2023-03-05T10:48:05.943Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r4ds.hadley.nz/02-execises.html</loc>
+    <lastmod>2023-03-05T10:48:05.948Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r4ds.hadley.nz/03-execises.html</loc>
+    <lastmod>2023-03-05T10:48:05.964Z</lastmod>
+  </url>
+  <url>
+    <loc>https://r4ds.hadley.nz/04-execises.html</loc>
+    <lastmod>2023-03-05T10:48:05.973Z</lastmod>
+  </url>
+</urlset>

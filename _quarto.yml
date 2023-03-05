@@ -19,7 +19,7 @@ book:
   repo-url: https://github.com/AngelFelizR/ISL-Solutuon-Book
   repo-branch: main
   chapters:
-    - teorical-summary.qmd
+    - index.qmd
     - 02-execises.qmd
     - 03-execises.qmd
     - 04-execises.qmd
