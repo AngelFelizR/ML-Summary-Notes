@@ -1,4 +1,4 @@
-# Statistical Learning (Charpter 02)
+# 02 - Statistical Learning
 
 ## Conceptual
 

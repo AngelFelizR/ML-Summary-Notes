@@ -8,7 +8,7 @@
 
 <meta name="author" content="Angel Feliz">
 
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 3&nbsp; Classification (Chapter 04)</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 3&nbsp; 04 - Classification</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classification (Chapter 04)</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">04 - Classification</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -151,11 +151,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <a href="./">An Introduction to Statistical Learning (Non Official Solution Book)</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/AngelFelizR/ISL-Solutuon-Book" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-reader-toggle sidebar-tool" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
-  <div class="quarto-reader-toggle-btn">
-  <i class="bi"></i>
-  </div>
-</a>
 </div>
     </div>
       </div>
@@ -203,7 +198,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercices</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercise Solutions</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -211,17 +206,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Statistical Learning (Charpter 02)</span></a>
+  <a href="./02-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">02 - Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression (Chapter 03)</span></a>
+  <a href="./03-execises.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">03 - Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-execises.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classification (Chapter 04)</span></a>
+  <a href="./04-execises.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">04 - Classification</span></a>
   </div>
 </li>
       </ul>
@@ -245,7 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classification (Chapter 04)</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">04 - Classification</span></h1>
 </div>
 
 
@@ -276,6 +271,7 @@ p(X) &amp; = (1 - p(X))e^{\beta_{0}+\beta_{1}X} \\
 \frac{p(X)}{1 - p(X)} &amp; = e^{\beta_{0}+\beta_{1}X}
 \end{split}
 \]</span></p>
+<p><br></p>
 <ol start="2" type="1">
 <li><strong>It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.</strong></li>
 </ol>
@@ -350,7 +346,7 @@ x &amp; = \frac{\mu_1 + \mu_2}{2}
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>k_function <span class="ot">&lt;-</span> <span class="cf">function</span>(x,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ldm_k_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(x,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                       k,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sigma =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>),</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">pi_k =</span> <span class="fu">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>),</span>
@@ -386,13 +382,13 @@ x &amp; = \frac{\mu_1 + \mu_2}{2}
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  BasePlot <span class="sc">+</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">k_function</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">k_function</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">ldm_k_prop</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">ldm_k_prop</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"red"</span>)</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  BasePlot <span class="sc">+</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">k_function</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">1</span>, <span class="at">logit =</span> <span class="cn">TRUE</span>), <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">k_function</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">logit =</span> <span class="cn">TRUE</span>), <span class="at">color =</span> <span class="st">"red"</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">ldm_k_prop</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">1</span>, <span class="at">logit =</span> <span class="cn">TRUE</span>), <span class="at">color =</span> <span class="st">"blue"</span>)<span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> \(y) <span class="fu">ldm_k_prop</span>(<span class="at">x =</span> y, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">logit =</span> <span class="cn">TRUE</span>), <span class="at">color =</span> <span class="st">"red"</span>)</span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>(p1 <span class="sc">/</span> p2) <span class="sc">+</span></span>
@@ -402,6 +398,7 @@ x &amp; = \frac{\mu_1 + \mu_2}{2}
 <p><img src="04-execises_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><br></p>
 <ol start="3" type="1">
 <li><strong>This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e.&nbsp;there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.</strong></li>
 </ol>
@@ -437,6 +434,7 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 + \frac{\mu_k}{\sigma_k^2} \cdot x - \frac{1}{2\sigma_k^2} \cdot x^2 \\
 \end{split}
 \]</span></p>
+<p><br></p>
 <ol start="4" type="1">
 <li><strong>When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the <em>curse of dimensionality</em>, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.</strong></li>
 </ol>
@@ -492,6 +490,7 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 <li><strong>Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.</strong></li>
 </ul>
 <p>As <em>p</em> gets lager every point has more specifications to meet and the number of point which meet them decrease.</p>
+<p><br></p>
 <ol start="5" type="1">
 <li><strong>We now examine the differences between LDA and QDA.</strong></li>
 </ol>
@@ -545,6 +544,7 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 <li><strong>True or False: Even if the Bayes decision boundary for a given problem is linear, we will probably achieve a superior test error rate using QDA rather than LDA because QDA is flexible enough to model a linear decision boundary. Justify your answer.</strong></li>
 </ul>
 <p><strong>FALSE</strong>, as QDA would model some noise that could affect the prediction accuracy.</p>
+<p><br></p>
 <ol start="6" type="1">
 <li><strong>Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, <span class="math inline">\(\hat{\beta}_0 = −6\)</span>, <span class="math inline">\(\hat{\beta}_1 = 0.05\)</span> and <span class="math inline">\(\hat{\beta}_2 = 1\)</span>.</strong></li>
 </ol>
@@ -568,28 +568,77 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 \log{ \left( \frac{0.5}{1 - 0.5} \right)} &amp; = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
 0 &amp; = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
 X_2 &amp; = \frac{-\beta_0-\beta_{2}X_2}{\beta_{1}} \\
-X_2 &amp; = \frac{-(-6)-(1 \times 3.5)}{0.05}
+X_2 &amp; = \frac{-(-6)-(1 \times 3.5)}{0.05} \\
+X_2 &amp; = 50 \text{ horas}
+\end{split}
+\]</span></p>
+<p><br></p>
+<ol start="7" type="1">
+<li><strong>Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on <span class="math inline">\(X\)</span>, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was <span class="math inline">\(\overline{X}_y = 10\)</span>, while the mean for those that didn’t was <span class="math inline">\(\overline{X}_n = 0\)</span>. In addition, the variance of X for these two sets of companies was <span class="math inline">\(\hat{\sigma}^2 = 36\)</span>. Finally, <span class="math inline">\(80\text{%}\)</span> of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was <span class="math inline">\(x = 4\)</span> last year.</strong></li>
+</ol>
+<p><span class="math display">\[
+\begin{split}
+p_{k}(x) &amp; = \frac{\pi_{k} f_{k}(x)}
+                  {\sum_{l=1}^{K} \pi_{l} f_{l}(x)} \\
+p_{y}(4) &amp; =
+\frac{0.8 \times
+      \left(
+      \frac{e^{\frac{-(4-10)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}}
+      \right)}
+{0.2 \times
+\left(
+\frac{e^{\frac{-(4-0)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}}
+\right)
++
+0.8 \times
+\left(
+\frac{e^{\frac{-(4-10)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}}
+\right)
+} \\
+p_{k}(4) &amp; = 0.75
 \end{split}
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>((<span class="dv">6</span><span class="fl">-3.5</span>)<span class="sc">/</span><span class="fl">0.05</span>, <span class="st">"horas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ldm_k_prop</span>(<span class="dv">4</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">k =</span> <span class="dv">1</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">6</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">pi_k =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  scales<span class="sc">::</span><span class="fu">percent</span>(<span class="at">accuracy =</span> <span class="fl">0.01</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "50 horas"</code></pre>
+<pre><code>[1] "75.19%"</code></pre>
 </div>
 </div>
-<ol start="7" type="1">
-<li><strong>Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on X, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was ¯X = 10, while the mean for those that didn’t was ¯X = 0. In addition, the variance of X for these two sets of companies was ˆσ2 = 36. Finally, 80 % of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was X = 4 last year.</strong></li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">log</span>(<span class="fl">0.80</span>) <span class="sc">-</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="dv">36</span>) <span class="sc">+</span> <span class="dv">4</span> <span class="sc">*</span> <span class="dv">10</span><span class="sc">/</span><span class="dv">36</span>) <span class="sc">|&gt;</span> scales<span class="sc">::</span><span class="fu">percent</span>(<span class="at">accuracy =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "61%"</code></pre>
-</div>
-</div>
+<p><br></p>
 <ol start="8" type="1">
-<li><strong>Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures. First we use logistic regression and get an error rate of 20 % on the training data and 30 % on the test data. Next we use 1-nearestbors (i.e.&nbsp;K = 1) and get an average error rate (averaged over both test and training data sets) of 18 %. Based on these results, which method should we prefer to use for classification of new observations? Why?</strong></li>
+<li><strong>Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.</strong></li>
 </ol>
-<p>We should use the KNN as it has a lower test error rate than the logistic regression.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">Training Error Rate</th>
+<th style="text-align: center;">Test Error Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Logistic regression</td>
+<td style="text-align: center;">20%</td>
+<td style="text-align: center;">30%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1-nearestbors</td>
+<td style="text-align: center;">0%</td>
+<td style="text-align: center;">36%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Based on these results, which method should we prefer to use for classification of new observations? Why?</strong></li>
+</ul>
+<p>We should use the <strong><em>Logistic Regression</em></strong> as it has a lower <strong><em>test error rate</em></strong> than the logistic regression.</p>
+<p><br></p>
 <ol start="9" type="1">
 <li><strong>This problem has to do with odds.</strong></li>
 </ol>
@@ -608,7 +657,7 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 <li><strong>Suppose that an individual has a 16 % chance of defaulting on her credit card payment. What are the odds that she will default?</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.16</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fl">0.16</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1904762</code></pre>
 </div>
@@ -802,7 +851,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./03-execises.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression (Chapter 03)</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">03 - Linear Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

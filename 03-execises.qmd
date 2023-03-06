@@ -1,4 +1,12 @@
-# Linear Regression (Chapter 03)
+# 03 - Linear Regression
+
+```{r}
+#| echo: false
+#| include : false
+
+if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+renv::restore()
+```
 
 ## Conceptual
 

@@ -5,7 +5,6 @@ project:
 book:
   title: "An Introduction to Statistical Learning (Non Official Solution Book)"
   author: "Angel Feliz"
-  reader-mode: true
   page-navigation: true
 
   page-footer:
@@ -26,7 +25,7 @@ book:
       - generalized-linear-models.qmd
       - generative-classification-models.qmd
       - non-parametric-models.qmd
-  - part: "Exercices"
+  - part: "Exercise Solutions"
     chapters:
       - 02-execises.qmd
       - 03-execises.qmd

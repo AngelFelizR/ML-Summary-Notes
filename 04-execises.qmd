@@ -1,4 +1,4 @@
-# Classification (Chapter 04)
+# 04 - Classification
 
 ## Conceptual
 
@@ -16,6 +16,7 @@ p(X) & = (1 - p(X))e^{\beta_{0}+\beta_{1}X} \\
 \end{split}
 $$
 
+<br>
 
 2. **It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.**
 
@@ -77,7 +78,7 @@ Let's see an example visually by setting as example the next values for each $Y$
 library(ggplot2)
 library(patchwork)
 
-k_function <- function(x,
+ldm_k_prop <- function(x,
                        k,
                        sigma = c(0.5,0.5),
                        pi_k = c(0.5,0.5),
@@ -113,13 +114,13 @@ BasePlot <-
   
 p1 <-
   BasePlot +
-  geom_function(fun = \(y) k_function(x = y, k = 1), color = "blue")+
-  geom_function(fun = \(y) k_function(x = y, k = 2), color = "red")
+  geom_function(fun = \(y) ldm_k_prop(x = y, k = 1), color = "blue")+
+  geom_function(fun = \(y) ldm_k_prop(x = y, k = 2), color = "red")
 
 p2 <-
   BasePlot +
-  geom_function(fun = \(y) k_function(x = y, k = 1, logit = TRUE), color = "blue")+
-  geom_function(fun = \(y) k_function(x = y, k = 2, logit = TRUE), color = "red")
+  geom_function(fun = \(y) ldm_k_prop(x = y, k = 1, logit = TRUE), color = "blue")+
+  geom_function(fun = \(y) ldm_k_prop(x = y, k = 2, logit = TRUE), color = "red")
 
 
 (p1 / p2) +
@@ -127,6 +128,8 @@ p2 <-
                   theme = theme(plot.title = element_text(face = "bold")) )
 
 ```
+
+<br>
 
 3. **This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.**
 
@@ -166,6 +169,8 @@ p_k(x) & = g(x) \frac{\pi_k}{\sigma_k}
 \end{split}
 $$
 
+<br>
+
 4. **When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.**
 
 - **Suppose that we have a set of observations, each with measurements on p = 1 feature, X. We assume that X is uniformly (evenly) distributed on [0, 1]. Associated with each observation is a response value. Suppose that we wish to predict a test observation’s response using only observations that are within 10 % of the range of X closest to that test observation. For instance, in order to predict the response for a test observation with X = 0.6, we will use observations in the range [0.55, 0.65]. On average, what fraction of the available observations will we use to make the prediction?**
@@ -189,7 +194,6 @@ mean(UnifDistVar1$prop)
 - **Now suppose that we have a set of observations, each with measurements on p = 2 features, X1 and X2. We assume that (X1, X2) are uniformly distributed on [0, 1] × [0, 1]. We wish to predict a test observation’s response using only observations that are within 10 % of the range of X1 and within 10 % of the range of X2 closest to that test observation. For instance, in order to predict the response for a test observation with X1 = 0.6 and X2 = 0.35, we will use observations in the range [0.55, 0.65] for X1 and in the range [0.3, 0.4] for X2. On average, what fraction of the available observations will we use to make the prediction?**
 
 ```{r}
-
 set.seed(123)
 
 UnifDistVar2 <-
@@ -213,6 +217,8 @@ mean(UnifDistVar2$prop)
 - **Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.**
 
 As *p* gets lager every point has more specifications to meet and the number of point which meet them decrease.
+
+<br>
 
 5. **We now examine the differences between LDA and QDA.**
 
@@ -238,6 +244,8 @@ The test prediction accuracy won't change by increasing *n*, as that measure dep
 
 **FALSE**, as QDA would model some noise that could affect the prediction accuracy.
 
+<br>
+
 6. **Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.**
 
 - **Estimate the probability that a student who studies for 40 h and has an undergrad GPA of 3.5 gets an A in the class.**
@@ -256,25 +264,62 @@ $$
 \log{ \left( \frac{0.5}{1 - 0.5} \right)} & = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
 0 & = \beta_{0}+\beta_{1}X_1+\beta_{2}X_2 \\
 X_2 & = \frac{-\beta_0-\beta_{2}X_2}{\beta_{1}} \\
-X_2 & = \frac{-(-6)-(1 \times 3.5)}{0.05}
+X_2 & = \frac{-(-6)-(1 \times 3.5)}{0.05} \\
+X_2 & = 50 \text{ horas}
+\end{split}
+$$
+
+<br>
+
+7. **Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, $80\text{%}$ of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.**
+
+
+$$
+\begin{split}
+p_{k}(x) & = \frac{\pi_{k} f_{k}(x)} 
+                  {\sum_{l=1}^{K} \pi_{l} f_{l}(x)} \\
+p_{y}(4) & = 
+\frac{0.8 \times 
+      \left(
+      \frac{e^{\frac{-(4-10)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}} 
+      \right)}
+{0.2 \times 
+ \left(
+ \frac{e^{\frac{-(4-0)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}} 
+\right)
+ +
+ 0.8 \times 
+ \left(
+ \frac{e^{\frac{-(4-10)^2}{2 \times 36} }}{\sqrt{2 \times \pi \times 36}} 
+ \right)
+ } \\
+p_{k}(4) & = 0.75
 \end{split}
 $$
 
 ```{r}
-paste((6-3.5)/0.05, "horas")
+ldm_k_prop(4,
+           k = 1,
+           sigma = c(6, 6),
+           pi_k = c(0.8, 0.2),
+           mu = c(10, 0)) |>
+  scales::percent(accuracy = 0.01)
 ```
 
+<br>
 
-7. **Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on X, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was ¯X = 10, while the mean for those that didn’t was ¯X = 0. In addition, the variance of X for these two sets of companies was ˆσ2 = 36. Finally, 80 % of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was X = 4 last year.**
+8. **Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.**
 
-```{r}
-exp(log(0.80) - 10^2/(2*36) + 4 * 10/36) |> scales::percent(accuracy = 1)
-```
+|Model|Training Error Rate|Test Error Rate|
+|:---:|:-------------:|:-----:|
+|Logistic regression|20%|30%|
+|1-nearestbors|0%|36%|
 
+- **Based on these results, which method should we prefer to use for classification of new observations? Why?**
 
-8. **Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures. First we use logistic regression and get an error rate of 20 % on the training data and 30 % on the test data. Next we use 1-nearestbors (i.e. K = 1) and get an average error rate (averaged over both test and training data sets) of 18 %. Based on these results, which method should we prefer to use for classification of new observations? Why?**
+We should use the ***Logistic Regression*** as it has a lower ***test error rate*** than the logistic regression.
 
-We should use the KNN as it has a lower test error rate than the logistic regression.
+<br>
 
 9. **This problem has to do with odds.**
 

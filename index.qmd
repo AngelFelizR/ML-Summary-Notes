@@ -1,5 +1,13 @@
 # Preface {.unnumbered}
 
+```{r}
+#| echo: false
+#| include : false
+
+if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+renv::restore()
+```
+
 The purpose of creating this book is share the lessons learnt by reading and completing the exercises in the book.
 
 It also could work as summary of the main point of the book.
