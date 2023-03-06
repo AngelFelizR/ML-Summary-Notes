@@ -238,7 +238,7 @@ As *p* gets lager every point has more specifications to meet and the number of 
 
 - **In general, as the sample size n increases, do we expect the test prediction accuracy of QDA relative to LDA to improve, decline, or be unchanged? Why?**
 
-The test prediction accuracy won't change by increasing *n*, as that measure depends on the real shape of the *Bayes decision boundary*.
+If the Bayes decision boundary is non-linear, QDA could improve its test prediction accuracy as the sample size n increases. When the model has more examples it has less changes to overfit the data.
 
 - **True or False: Even if the Bayes decision boundary for a given problem is linear, we will probably achieve a superior test error rate using QDA rather than LDA because QDA is flexible enough to model a linear decision boundary. Justify your answer.**
 
