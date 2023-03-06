@@ -5,7 +5,12 @@ project:
 book:
   title: "An Introduction to Statistical Learning (Non Official Solution Book)"
   author: "Angel Feliz"
+  reader-mode: true
   page-navigation: true
+  navbar:
+    pinned: true
+  sidebar:
+    pinned: true
 
   page-footer:
     left: |
