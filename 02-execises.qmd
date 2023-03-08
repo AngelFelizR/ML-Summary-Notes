@@ -1,4 +1,4 @@
-# 02 - Statistical Learning
+# 02 - Statistical Learning {.unnumbered}
 
 ## Conceptual
 
