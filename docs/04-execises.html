@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -238,8 +238,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#conceptual" id="toc-conceptual" class="nav-link active" data-scroll-target="#conceptual">Conceptual</a></li>
-  <li><a href="#applied" id="toc-applied" class="nav-link" data-scroll-target="#applied">Applied</a></li>
+  <li><a href="#conceptual" id="toc-conceptual" class="nav-link active" data-scroll-target="#conceptual">Conceptual</a>
+  <ul class="collapse">
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">1</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">2</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">3</a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3">4</a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">5</a></li>
+  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5">6</a></li>
+  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6">7</a></li>
+  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7">8</a></li>
+  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8">9</a></li>
+  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9">10</a></li>
+  <li><a href="#missing" id="toc-missing" class="nav-link" data-scroll-target="#missing">11 (missing)</a></li>
+  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10">12</a></li>
+  </ul></li>
+  <li><a href="#applied" id="toc-applied" class="nav-link" data-scroll-target="#applied">Applied</a>
+  <ul class="collapse">
+  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11">13</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -256,15 +273,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title-meta">
 
     
-  
     
   </div>
   
 
 </header>
 
+<style>
+
+h3 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+</style>
 <section id="conceptual" class="level2">
 <h2 class="anchored" data-anchor-id="conceptual">Conceptual</h2>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section">1</h3>
 <ol type="1">
 <li><strong>Using a little bit of algebra, prove that (4.2) is equivalent to (4.3). In other words, the logistic function representation and logit representation for the logistic regression model are equivalent.</strong></li>
 </ol>
@@ -279,7 +311,9 @@ p(X) &amp; = (1 - p(X))e^{\beta_{0}+\beta_{1}X} \\
 \frac{p(X)}{1 - p(X)} &amp; = e^{\beta_{0}+\beta_{1}X}
 \end{split}
 \]</span></p>
-<p><br></p>
+</section>
+<section id="section-1" class="level3">
+<h3 class="anchored" data-anchor-id="section-1">2</h3>
 <ol start="2" type="1">
 <li><strong>It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.</strong></li>
 </ol>
@@ -406,7 +440,9 @@ x &amp; = \frac{\mu_1 + \mu_2}{2}
 <p><img src="04-execises_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><br></p>
+</section>
+<section id="section-2" class="level3">
+<h3 class="anchored" data-anchor-id="section-2">3</h3>
 <ol start="3" type="1">
 <li><strong>This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e.&nbsp;there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.</strong></li>
 </ol>
@@ -442,7 +478,9 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 + \frac{\mu_k}{\sigma_k^2} \cdot x - \frac{1}{2\sigma_k^2} \cdot x^2 \\
 \end{split}
 \]</span></p>
-<p><br></p>
+</section>
+<section id="section-3" class="level3">
+<h3 class="anchored" data-anchor-id="section-3">4</h3>
 <ol start="4" type="1">
 <li><strong>When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the <em>curse of dimensionality</em>, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.</strong></li>
 </ol>
@@ -491,7 +529,9 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 <p><strong>(D) Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.</strong></p>
 <p>As <em>p</em> gets lager every point has more specifications to meet and the number of point which meet them decrease.</p>
 <p><strong>(E) Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For p = 1, 2, and 100, what is the length of each side of the hypercube? Comment on your answer.</strong></p>
-<p><br></p>
+</section>
+<section id="section-4" class="level3">
+<h3 class="anchored" data-anchor-id="section-4">5</h3>
 <ol start="5" type="1">
 <li><strong>We now examine the differences between LDA and QDA.</strong></li>
 </ol>
@@ -537,7 +577,9 @@ p_k(x) &amp; = g(x) \frac{\pi_k}{\sigma_k}
 <p>If the Bayes decision boundary is non-linear, QDA could improve its test prediction accuracy as the sample size n increases. When the model has more examples it has less changes to overfit the data.</p>
 <p><strong>(D) True or False: Even if the Bayes decision boundary for a given problem is linear, we will probably achieve a superior test error rate using QDA rather than LDA because QDA is flexible enough to model a linear decision boundary. Justify your answer.</strong></p>
 <p><strong>FALSE</strong>, as QDA would model some noise that could affect the prediction accuracy.</p>
-<p><br></p>
+</section>
+<section id="section-5" class="level3">
+<h3 class="anchored" data-anchor-id="section-5">6</h3>
 <ol start="6" type="1">
 <li><strong>Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, <span class="math inline">\(\hat{\beta}_0 = −6\)</span>, <span class="math inline">\(\hat{\beta}_1 = 0.05\)</span> and <span class="math inline">\(\hat{\beta}_2 = 1\)</span>.</strong></li>
 </ol>
@@ -561,7 +603,9 @@ X_2 &amp; = \frac{-(-6)-(1 \times 3.5)}{0.05} \\
 X_2 &amp; = 50 \text{ horas}
 \end{split}
 \]</span></p>
-<p><br></p>
+</section>
+<section id="section-6" class="level3">
+<h3 class="anchored" data-anchor-id="section-6">7</h3>
 <ol start="7" type="1">
 <li><strong>Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on <span class="math inline">\(X\)</span>, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was <span class="math inline">\(\overline{X}_y = 10\)</span>, while the mean for those that didn’t was <span class="math inline">\(\overline{X}_n = 0\)</span>. In addition, the variance of X for these two sets of companies was <span class="math inline">\(\hat{\sigma}^2 = 36\)</span>. Finally, <span class="math inline">\(80\text{%}\)</span> of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was <span class="math inline">\(x = 4\)</span> last year.</strong></li>
 </ol>
@@ -598,7 +642,9 @@ p_{k}(4) &amp; = 0.75
 <pre><code>[1] "75.19%"</code></pre>
 </div>
 </div>
-<p><br></p>
+</section>
+<section id="section-7" class="level3">
+<h3 class="anchored" data-anchor-id="section-7">8</h3>
 <ol start="8" type="1">
 <li><strong>Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.</strong></li>
 </ol>
@@ -625,7 +671,9 @@ p_{k}(4) &amp; = 0.75
 </table>
 <p><strong>Based on these results, which method should we prefer to use for classification of new observations? Why?</strong></p>
 <p>We should use the <strong><em>Logistic Regression</em></strong> as it has a lower <strong><em>test error rate</em></strong> than the logistic regression.</p>
-<p><br></p>
+</section>
+<section id="section-8" class="level3">
+<h3 class="anchored" data-anchor-id="section-8">9</h3>
 <ol start="9" type="1">
 <li><strong>This problem has to do with odds.</strong></li>
 </ol>
@@ -645,6 +693,9 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 <pre><code>[1] "19.05%"</code></pre>
 </div>
 </div>
+</section>
+<section id="section-9" class="level3">
+<h3 class="anchored" data-anchor-id="section-9">10</h3>
 <ol start="10" type="1">
 <li><strong>Equation 4.32 derived an expression for <span class="math inline">\(\log{ \left( \frac{\text{Pr}(Y=k|X=x)}{\text{Pr}(Y=K|X=x)} \right)}\)</span> in the setting where <span class="math inline">\(p &gt; 1\)</span>, so that the mean for the <span class="math inline">\(k\)</span>th class, <span class="math inline">\(\mu_k\)</span>, is p-dimensional vector, and the shared covariance <span class="math inline">\(\Sigma\)</span> is a <span class="math inline">\(p \times p\)</span> matrix. However, in the setting with <span class="math inline">\(p=1\)</span>, (4.32) takes a simpler form, since the means <span class="math inline">\(\mu_1,\dots,\mu_K\)</span> and the variance <span class="math inline">\(\sigma^2\)</span> are scalars In this simpler setting, repeat the calculation in (4.32), and provide expressions for <span class="math inline">\(a_k\)</span> and <span class="math inline">\(b_{kj}\)</span> in terms of <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(\mu_K\)</span>, and <span class="math inline">\(\sigma^2\)</span>.</strong></li>
 </ol>
@@ -653,9 +704,17 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 \log{ \left( \frac{\text{Pr}(Y=k|X=x)}{\text{Pr}(Y=K|X=x)} \right)}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                &amp; =
 \end{split}
 \]</span></p>
+</section>
+<section id="missing" class="level3">
+<h3 class="anchored" data-anchor-id="missing">11 (missing)</h3>
 <ol start="11" type="1">
-<li><p><strong>Work out the detailed forms of <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_{kj}\)</span> , and <span class="math inline">\(b_{kjl}\)</span> in (4.33). Your answer should involve <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(\mu_K\)</span>, <span class="math inline">\(\Sigma_k\)</span>, and <span class="math inline">\(\Sigma_K\)</span>.</strong></p></li>
-<li><p><strong>Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that</strong></p></li>
+<li><strong>Work out the detailed forms of <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_{kj}\)</span> , and <span class="math inline">\(b_{kjl}\)</span> in (4.33). Your answer should involve <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(\mu_K\)</span>, <span class="math inline">\(\Sigma_k\)</span>, and <span class="math inline">\(\Sigma_K\)</span>.</strong></li>
+</ol>
+</section>
+<section id="section-10" class="level3">
+<h3 class="anchored" data-anchor-id="section-10">12</h3>
+<ol start="12" type="1">
+<li><strong>Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that</strong></li>
 </ol>
 <p><span class="math display">\[
 \widehat{\text{Pr}}(Y = \text{orange}|X=x) =
@@ -698,8 +757,11 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 <p><strong>(E) Finally, suppose you apply both models from (D) to a data set with 2,000 test observations. What fraction of the time do you expect the predicted class labels from your model to agree with those from your friend’s model? Explain your answer.</strong></p>
 <p>Both models will predict the same class for every test observation.</p>
 </section>
+</section>
 <section id="applied" class="level2">
 <h2 class="anchored" data-anchor-id="applied">Applied</h2>
+<section id="section-11" class="level3">
+<h3 class="anchored" data-anchor-id="section-11">13</h3>
 <ol start="13" type="1">
 <li><strong>This question should be answered using the Weekly data set, which is part of the ISLR2 package. This data is similar in nature to the Smarket data from this chapter’s lab, except that it contains 1,089 weekly returns for 21 years, from the beginning of 1990 to the end of 2010.</strong></li>
 </ol>
@@ -707,7 +769,9 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>WeeklyDT <span class="ot">&lt;-</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.table</span>(ISLR2<span class="sc">::</span>Weekly</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  )[, id <span class="sc">:</span><span class="er">=</span> .I]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  )[,<span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">id =</span> .I,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>          <span class="co"># We want to predict the prob of going Up</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">Direction =</span> <span class="fu">factor</span>(Direction, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Up"</span>,<span class="st">"Down"</span>)))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WeeklyDT,<span class="fu">aes</span>(Year))<span class="sc">+</span></span>
@@ -732,12 +796,15 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>WeeklyDT[, .(<span class="at">sd =</span> <span class="fu">sd</span>(Today),</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Today =</span> <span class="fu">quantile</span>(Today,<span class="fl">0.40</span>) <span class="sc">&gt;=</span> <span class="dv">0</span>),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Today =</span> <span class="fu">median</span>(Today) <span class="sc">&gt;=</span> <span class="dv">0</span>),</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         by <span class="ot">=</span> <span class="st">"Year"</span>] <span class="sc">|&gt;</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year, sd))<span class="sc">+</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">group =</span> <span class="st">"1"</span>)<span class="sc">+</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Today))<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"La Desvación Standar cambia con el tiempo"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"The standar desviation changes over time"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"The median is over 0"</span>)<span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="04-execises_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -746,30 +813,39 @@ p(X) &amp; = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 <li><strong>(B) Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>LogisticModel <span class="ot">&lt;-</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glm</span>(Direction <span class="sc">~</span> . , <span class="at">family =</span> <span class="st">"binomial"</span>,  </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> WeeklyDT[,<span class="sc">!</span><span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Year"</span>,<span class="st">"Today"</span>)])</span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(parsnip)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>WeeklyTrain <span class="ot">&lt;-</span> WeeklyDT[,<span class="sc">!</span><span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Year"</span>,<span class="st">"Today"</span>)]</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LogisticModel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>LogisticModel <span class="ot">&lt;-</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> ., <span class="at">data =</span> WeeklyTrain)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>WeeklyTrainPred <span class="ot">&lt;-</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  WeeklyTrain[, <span class="fu">cbind</span>(.SD,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">predict</span>(LogisticModel, </span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LogisticModel<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = Direction ~ ., family = "binomial", data = WeeklyDT[, 
-    !c("id", "Year", "Today")])
+stats::glm(formula = Direction ~ ., family = stats::binomial, 
+    data = data)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
--1.6949  -1.2565   0.9913   1.0849   1.4579  
+-1.4579  -1.0849  -0.9913   1.2565   1.6949  
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)   
-(Intercept)  0.26686    0.08593   3.106   0.0019 **
-Lag1        -0.04127    0.02641  -1.563   0.1181   
-Lag2         0.05844    0.02686   2.175   0.0296 * 
-Lag3        -0.01606    0.02666  -0.602   0.5469   
-Lag4        -0.02779    0.02646  -1.050   0.2937   
-Lag5        -0.01447    0.02638  -0.549   0.5833   
-Volume      -0.02274    0.03690  -0.616   0.5377   
+(Intercept) -0.26686    0.08593  -3.106   0.0019 **
+Lag1         0.04127    0.02641   1.563   0.1181   
+Lag2        -0.05844    0.02686  -2.175   0.0296 * 
+Lag3         0.01606    0.02666   0.602   0.5469   
+Lag4         0.02779    0.02646   1.050   0.2937   
+Lag5         0.01447    0.02638   0.549   0.5833   
+Volume       0.02274    0.03690   0.616   0.5377   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -787,60 +863,196 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <li><strong>(C) Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of mistakes made by logistic regression.</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>conf_matrix_summary <span class="ot">&lt;-</span> <span class="cf">function</span>(DT,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                                model,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                                var,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">threshold =</span> <span class="fl">0.5</span>){</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> <span class="fu">contrasts</span>(DT[[var]]) <span class="sc">|&gt;</span> <span class="fu">rownames</span>()</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="st">"var should have 2 levels"</span><span class="ot">=</span><span class="fu">length</span>(values) <span class="sc">==</span> 2L)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">newdata =</span> DT)</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.list</span>(prediction)) prediction <span class="ot">&lt;-</span> prediction<span class="sc">$</span>posterior[, <span class="dv">1</span>]</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  DT[, .N, </span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>     by <span class="ot">=</span> .(<span class="at">predicted =</span> <span class="fu">fifelse</span>(prediction <span class="sc">&gt;</span> threshold,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                                values[<span class="dv">2</span>], values[<span class="dv">1</span>]),</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">true_var =</span> <span class="fu">get</span>(var) <span class="sc">|&gt;</span> <span class="fu">as.character</span>())</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  ][, .(<span class="at">error_rate =</span> <span class="fu">sum</span>(N[predicted <span class="sc">==</span> true_var])<span class="sc">/</span> <span class="fu">sum</span>(N),</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">sensitivity =</span> <span class="fu">sum</span>(N[true_var <span class="sc">==</span> values[<span class="dv">2</span>] <span class="sc">&amp;</span> predicted <span class="sc">==</span> values[<span class="dv">2</span>]])<span class="sc">/</span> </span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(N[true_var <span class="sc">==</span> values[<span class="dv">2</span>]]),</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">specificity =</span> <span class="fu">sum</span>(N[true_var <span class="sc">==</span> values[<span class="dv">1</span>] <span class="sc">&amp;</span> predicted <span class="sc">==</span> values[<span class="dv">1</span>]])<span class="sc">/</span> </span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sum</span>(N[true_var <span class="sc">==</span> values[<span class="dv">1</span>]]))</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  ][, <span class="fu">lapply</span>(.SD, \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))]</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_matrix_summary</span>(WeeklyDT,</span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model =</span> LogisticModel,</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>                    <span class="at">var =</span> <span class="st">"Direction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(yardstick)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>For binary classification, the first factor level is assumed to be the event.
+Use the argument `event_level = "second"` to alter this as needed.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>get_class_metrics <span class="ot">&lt;-</span> <span class="fu">metric_set</span>(sens, spec)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(WeeklyTrainPred,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   error_rate sensitivity specificity
-        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
-1:       0.47        0.07        0.96</code></pre>
+<pre><code>          Truth
+Prediction  Up Down
+      Up   557  430
+      Down  48   54</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_class_metrics</span>(WeeklyTrainPred,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">truth =</span> Direction,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary         0.921
+2 spec    binary         0.112</code></pre>
 </div>
 </div>
-<p>By checking the sensitivity rate we can see that the model is making a bad job identifying the number is going to get <strong>Up</strong>.</p>
+<p>By checking the specificity rate we can see that the model is making a bad job identifying when the number is going to get <strong>Down</strong>.</p>
 <ul>
 <li><strong>(D) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glm</span>(Direction <span class="sc">~</span> Lag2 , </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"binomial"</span>,  </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>]) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_matrix_summary</span>(<span class="at">DT =</span> WeeklyDT[Year <span class="sc">&gt;=</span> <span class="dv">2009</span>],</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">var =</span> <span class="st">"Direction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>LogisticModelSplitYear <span class="ot">&lt;-</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span>  WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>])</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>WeeklyTestPred <span class="ot">&lt;-</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  WeeklyDT[Year <span class="sc">&gt;</span> <span class="dv">2008</span>, </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">cbind</span>(.SD,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">predict</span>(LogisticModelSplitYear, </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(WeeklyTestPred,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   error_rate sensitivity specificity
-        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
-1:       0.44        0.08        0.95</code></pre>
+<pre><code>          Truth
+Prediction Up Down
+      Up   56   34
+      Down  5    9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>LogisticMetrics <span class="ot">&lt;-</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_class_metrics</span>(WeeklyTestPred,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">truth =</span> Direction,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>LogisticMetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary         0.918
+2 spec    binary         0.209</code></pre>
 </div>
 </div>
 <ul>
 <li><strong>(E) Repeat (d) using LDA.</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(discrim)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>LdaModelSplitYear <span class="ot">&lt;-</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">discrim_linear</span>() <span class="sc">|&gt;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span>  WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>])</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>LdaWeeklyTestPred <span class="ot">&lt;-</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  WeeklyDT[Year <span class="sc">&gt;</span> <span class="dv">2008</span>, </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">cbind</span>(.SD,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">predict</span>(LdaModelSplitYear, </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(LdaWeeklyTestPred,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Up Down
+      Up   56   34
+      Down  5    9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>LdaMetrics <span class="ot">&lt;-</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_class_metrics</span>(LdaWeeklyTestPred,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">truth =</span> Direction,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>LdaMetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary         0.918
+2 spec    binary         0.209</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>(F) Repeat (d) using QDA.</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>QdaModelSplitYear <span class="ot">&lt;-</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">discrim_quad</span>() <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span>  WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>])</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>QdaWeeklyTestPred <span class="ot">&lt;-</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  WeeklyDT[Year <span class="sc">&gt;</span> <span class="dv">2008</span>, </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>           <span class="fu">cbind</span>(.SD,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">predict</span>(QdaModelSplitYear, </span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(QdaWeeklyTestPred,</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Up Down
+      Up   61   43
+      Down  0    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>QdaMetrics <span class="ot">&lt;-</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_class_metrics</span>(QdaWeeklyTestPred,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">truth =</span> Direction,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>QdaMetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary             1
+2 spec    binary             0</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>(G) Repeat (d) using KNN with K = 1.</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kknn)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>KnnModelSplitYear <span class="ot">&lt;-</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nearest_neighbor</span>(<span class="at">neighbors =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"kknn"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span>  WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>])</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>KnnWeeklyTestPred <span class="ot">&lt;-</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  WeeklyDT[Year <span class="sc">&gt;</span> <span class="dv">2008</span>, </span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">cbind</span>(.SD,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">predict</span>(KnnModelSplitYear, </span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>                         <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(KnnWeeklyTestPred,</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Up Down
+      Up   30   21
+      Down 31   22</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>KnnMetrics <span class="ot">&lt;-</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_class_metrics</span>(KnnWeeklyTestPred,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">truth =</span> Direction,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>KnnMetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary         0.492
+2 spec    binary         0.512</code></pre>
+</div>
+</div>
+<ul>
+<li><strong>(H) Repeat (d) using naive Bayes.</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(klaR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: MASS</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'MASS'</code></pre>
@@ -850,32 +1062,68 @@ Attaching package: 'MASS'</code></pre>
 
     area</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lda</span>(Direction <span class="sc">~</span> Lag2 , </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>]) <span class="sc">|&gt;</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_matrix_summary</span>(<span class="at">DT =</span> WeeklyDT[Year <span class="sc">&gt;=</span> <span class="dv">2009</span>],</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">var =</span> <span class="st">"Direction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>NbModelSplitYear <span class="ot">&lt;-</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">naive_Bayes</span>() <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"klaR"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_args</span>(<span class="at">usekernel =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(Direction <span class="sc">~</span> Lag2, <span class="at">data =</span>  WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>])</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>NbWeeklyTestPred <span class="ot">&lt;-</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  WeeklyDT[Year <span class="sc">&gt;</span> <span class="dv">2008</span>, </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>           <span class="fu">cbind</span>(.SD,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">predict</span>(NbModelSplitYear, </span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">new_data =</span> .SD,  <span class="at">type =</span> <span class="st">"class"</span>))]</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a><span class="fu">conf_mat</span>(NbWeeklyTestPred,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">truth =</span> <span class="st">"Direction"</span>, </span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   error_rate sensitivity specificity
-        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
-1:       0.38        0.08        0.79</code></pre>
+<pre><code>          Truth
+Prediction Up Down
+      Up   61   43
+      Down  0    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>NbMetrics <span class="ot">&lt;-</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_class_metrics</span>(NbWeeklyTestPred,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">truth =</span> Direction,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">estimate =</span> .pred_class)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>NbMetrics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 sens    binary             1
+2 spec    binary             0</code></pre>
 </div>
 </div>
 <ul>
-<li><strong>(F) Repeat (d) using QDA.</strong></li>
+<li><strong>(I) Which of these methods appears to provide the best results on this data?</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qda</span>(Direction <span class="sc">~</span> Lag2 , </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> WeeklyDT[Year <span class="sc">&lt;=</span> <span class="dv">2008</span>]) <span class="sc">|&gt;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_matrix_summary</span>(<span class="at">DT =</span> WeeklyDT[Year <span class="sc">&gt;=</span> <span class="dv">2009</span>],</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">var =</span> <span class="st">"Direction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="fu">cbind</span>(LogisticMetrics, <span class="at">model =</span> <span class="st">"logistic"</span>),</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">cbind</span>(LdaMetrics, <span class="at">model =</span> <span class="st">"lda"</span>),</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">cbind</span>(QdaMetrics, <span class="at">model =</span> <span class="st">"qda"</span>),</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">cbind</span>(NbMetrics, <span class="at">model =</span> <span class="st">"nb"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbindlist</span>() <span class="sc">|&gt;</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  (\(DT) DT[.metric <span class="sc">==</span> <span class="st">"spec"</span>][<span class="fu">order</span>(<span class="sc">-</span>.estimate)])()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   error_rate sensitivity specificity
-        &lt;num&gt;       &lt;num&gt;       &lt;num&gt;
-1:       0.41           0           1</code></pre>
+<pre><code>   .metric .estimator .estimate    model
+    &lt;char&gt;     &lt;char&gt;     &lt;num&gt;   &lt;char&gt;
+1:    spec     binary 0.2093023 logistic
+2:    spec     binary 0.2093023      lda
+3:    spec     binary 0.0000000      qda
+4:    spec     binary 0.0000000       nb</code></pre>
 </div>
 </div>
+<p>The best models are <em>Logistic Regression</em> and the <em>Linear Discriminant Analysis</em>.</p>
+<ul>
+<li><strong>(J) Experiment with diﬀerent combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classiﬁer.</strong></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -920,24 +1168,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
     setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -973,42 +1204,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
       });
-    }
+      return popup.innerHTML;
+    });
   }
 });
 </script>

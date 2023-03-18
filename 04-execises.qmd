@@ -1,6 +1,24 @@
 # 04 - Classification {.unnumbered}
 
+<style>
+
+h3 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+</style>
+
+
 ## Conceptual
+
+### 1
 
 1. **Using a little bit of algebra, prove that (4.2) is equivalent to (4.3). In other words, the logistic function representation and logit representation for the logistic regression model are equivalent.**
 
@@ -16,7 +34,7 @@ p(X) & = (1 - p(X))e^{\beta_{0}+\beta_{1}X} \\
 \end{split}
 $$
 
-<br>
+### 2
 
 2. **It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.**
 
@@ -129,7 +147,7 @@ p2 <-
 
 ```
 
-<br>
+### 3
 
 3. **This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.**
 
@@ -169,7 +187,7 @@ p_k(x) & = g(x) \frac{\pi_k}{\sigma_k}
 \end{split}
 $$
 
-<br>
+### 4
 
 4. **When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.**
 
@@ -220,7 +238,7 @@ As *p* gets lager every point has more specifications to meet and the number of 
 
 **(E) Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For p = 1, 2, and 100, what is the length of each side of the hypercube? Comment on your answer.**
 
-<br>
+### 5
 
 5. **We now examine the differences between LDA and QDA.**
 
@@ -246,7 +264,7 @@ If the Bayes decision boundary is non-linear, QDA could improve its test predict
 
 **FALSE**, as QDA would model some noise that could affect the prediction accuracy.
 
-<br>
+### 6
 
 6. **Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.**
 
@@ -271,7 +289,7 @@ X_2 & = 50 \text{ horas}
 \end{split}
 $$
 
-<br>
+### 7
 
 7. **Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, $80\text{%}$ of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.**
 
@@ -308,7 +326,7 @@ ldm_k_prop(4,
   scales::percent(accuracy = 0.01)
 ```
 
-<br>
+### 8
 
 8. **Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.**
 
@@ -321,7 +339,7 @@ ldm_k_prop(4,
 
 We should use the ***Logistic Regression*** as it has a lower ***test error rate*** than the logistic regression.
 
-<br>
+### 9
 
 9. **This problem has to do with odds.**
 
@@ -342,6 +360,8 @@ $$
 scales::percent(0.16/(1-0.16), accuracy = 0.01) 
 ```
 
+### 10
+
 10. **Equation 4.32 derived an expression for $\log{ \left( \frac{\text{Pr}(Y=k|X=x)}{\text{Pr}(Y=K|X=x)} \right)}$ in the setting where $p > 1$, so that the mean for the $k$th class, $\mu_k$, is p-dimensional vector, and the shared covariance $\Sigma$ is a $p \times p$ matrix. However, in the setting with $p=1$, (4.32) takes a simpler form, since the means $\mu_1,\dots,\mu_K$ and the variance $\sigma^2$ are scalars In this simpler setting, repeat the calculation in (4.32), and provide expressions for $a_k$ and $b_{kj}$ in terms of $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, and $\sigma^2$.**
 
 $$
@@ -350,7 +370,12 @@ $$
 \end{split}
 $$
 
+### 11 (missing)
+
 11. **Work out the detailed forms of $a_k$, $b_{kj}$ , and $b_{kjl}$ in (4.33). Your answer should involve $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, $\Sigma_k$, and $\Sigma_K$.**
+
+
+### 12
 
 12. **Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that**
 
@@ -412,6 +437,8 @@ Both models will predict the same class for every test observation.
 
 ## Applied
 
+### 13
+
 13. **This question should be answered using the Weekly data set, which is part of the ISLR2 package. This data is similar in nature to the Smarket data from this chapter’s lab, except that it contains 1,089 weekly returns for 21 years, from the beginning of 1990 to the end of 2010.**
 
 **(A) Produce some numerical and graphical summaries of the Weekly data. Do there appear to be any patterns?**
@@ -419,7 +446,9 @@ Both models will predict the same class for every test observation.
 ```{r}
 WeeklyDT <- 
   as.data.table(ISLR2::Weekly
-  )[, id := .I]
+  )[,`:=`(id = .I,
+          # We want to predict the prob of going Up
+          Direction = factor(Direction, levels = c("Up","Down")))]
 ```
 
 ```{r}
@@ -439,22 +468,34 @@ ggplot(WeeklyDT,aes(id, Today, group = "1"))+
 
 ```{r}
 WeeklyDT[, .(sd = sd(Today),
-             Today = quantile(Today,0.40) >= 0),
+             Today = median(Today) >= 0),
          by = "Year"] |>
   ggplot(aes(Year, sd))+
   geom_line(group = "1")+
   geom_point(aes(color = Today))+
-  ggtitle("La Desvación Standar cambia con el tiempo")
+  labs(title = "The standar desviation changes over time",
+       color = "The median is over 0")+
+  theme(legend.position = "top",
+        plot.title = element_text(face = "bold"))
 ```
 
 - **(B) Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?**
 
 ```{r}
-LogisticModel <-
-  glm(Direction ~ . , family = "binomial",  
-      data = WeeklyDT[,!c("id", "Year","Today")])
+library(parsnip)
 
-summary(LogisticModel)
+WeeklyTrain <- WeeklyDT[,!c("id", "Year","Today")]
+
+LogisticModel <-
+  logistic_reg() |>
+  fit(Direction ~ ., data = WeeklyTrain)
+
+WeeklyTrainPred <-
+  WeeklyTrain[, cbind(.SD,
+                      predict(LogisticModel, 
+                              new_data = .SD,  type = "class"))]
+
+summary(LogisticModel$fit)
 ```
 
 *Lag2* it's significant.
@@ -462,69 +503,172 @@ summary(LogisticModel)
 - **(C) Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of mistakes made by logistic regression.**
 
 ```{r}
+library(yardstick)
 
-conf_matrix_summary <- function(DT,
-                                model,
-                                var,
-                                threshold = 0.5){
-  
-  values <- contrasts(DT[[var]]) |> rownames()
-  stopifnot("var should have 2 levels"=length(values) == 2L)
-  
-  prediction <- predict(model, newdata = DT)
-  if(is.list(prediction)) prediction <- prediction$posterior[, 1]
-  
-  DT[, .N, 
-     by = .(predicted = fifelse(prediction > threshold,
-                                values[2], values[1]),
-            true_var = get(var) |> as.character())
-  ][, .(error_rate = sum(N[predicted == true_var])/ sum(N),
-        sensitivity = sum(N[true_var == values[2] & predicted == values[2]])/ 
-          sum(N[true_var == values[2]]),
-        specificity = sum(N[true_var == values[1] & predicted == values[1]])/ 
-          sum(N[true_var == values[1]]))
-  ][, lapply(.SD, \(x) round(x, 2))]
-  
-}
+get_class_metrics <- metric_set(sens, spec)
 
-conf_matrix_summary(WeeklyDT,
-                    model = LogisticModel,
-                    var = "Direction")
+conf_mat(WeeklyTrainPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+get_class_metrics(WeeklyTrainPred,
+                  truth = Direction,
+                  estimate = .pred_class)
 
 ```
 
-By checking the sensitivity rate we can see that the model is making a bad job identifying the number is going to get **Up**. 
+By checking the specificity rate we can see that the model is making a bad job identifying when the number is going to get **Down**. 
 
 - **(D) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).**
 
 ```{r}
 
-glm(Direction ~ Lag2 , 
-    family = "binomial",  
-    data = WeeklyDT[Year <= 2008]) |>
-  conf_matrix_summary(DT = WeeklyDT[Year >= 2009],
-                      var = "Direction")
+LogisticModelSplitYear <-
+  logistic_reg() |>
+  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+
+WeeklyTestPred <-
+  WeeklyDT[Year > 2008, 
+           cbind(.SD,
+                 predict(LogisticModelSplitYear, 
+                         new_data = .SD,  type = "class"))]
+
+conf_mat(WeeklyTestPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+LogisticMetrics <-
+  get_class_metrics(WeeklyTestPred,
+                    truth = Direction,
+                    estimate = .pred_class)
+
+LogisticMetrics
 
 ```
 
 - **(E) Repeat (d) using LDA.**
 
 ```{r}
-library(MASS)
+library(discrim)
 
-lda(Direction ~ Lag2 , 
-    data = WeeklyDT[Year <= 2008]) |>
-  conf_matrix_summary(DT = WeeklyDT[Year >= 2009],
-                      var = "Direction")
+LdaModelSplitYear <-
+  discrim_linear() |>
+  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
 
+LdaWeeklyTestPred <-
+  WeeklyDT[Year > 2008, 
+           cbind(.SD,
+                 predict(LdaModelSplitYear, 
+                         new_data = .SD,  type = "class"))]
+
+conf_mat(LdaWeeklyTestPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+LdaMetrics <-
+  get_class_metrics(LdaWeeklyTestPred,
+                    truth = Direction,
+                    estimate = .pred_class)
+
+LdaMetrics
 ```
 
 - **(F) Repeat (d) using QDA.**
 
 ```{r}
-qda(Direction ~ Lag2 , 
-    data = WeeklyDT[Year <= 2008]) |>
-  conf_matrix_summary(DT = WeeklyDT[Year >= 2009],
-                      var = "Direction")
+QdaModelSplitYear <-
+  discrim_quad() |>
+  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+
+QdaWeeklyTestPred <-
+  WeeklyDT[Year > 2008, 
+           cbind(.SD,
+                 predict(QdaModelSplitYear, 
+                         new_data = .SD,  type = "class"))]
+
+conf_mat(QdaWeeklyTestPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+QdaMetrics <-
+  get_class_metrics(QdaWeeklyTestPred,
+                    truth = Direction,
+                    estimate = .pred_class)
+
+QdaMetrics
 ```
+
+- **(G) Repeat (d) using KNN with K = 1.**
+
+```{r}
+library(kknn)
+
+KnnModelSplitYear <-
+  nearest_neighbor(neighbors = 1) |>
+  set_mode("classification") |>
+  set_engine("kknn") |>
+  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+
+KnnWeeklyTestPred <-
+  WeeklyDT[Year > 2008, 
+           cbind(.SD,
+                 predict(KnnModelSplitYear, 
+                         new_data = .SD,  type = "class"))]
+
+conf_mat(KnnWeeklyTestPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+KnnMetrics <-
+  get_class_metrics(KnnWeeklyTestPred,
+                    truth = Direction,
+                    estimate = .pred_class)
+
+KnnMetrics
+```
+
+- **(H) Repeat (d) using naive Bayes.**
+
+```{r}
+library(klaR)
+
+NbModelSplitYear <-
+  naive_Bayes() |>
+  set_mode("classification") |> 
+  set_engine("klaR") |>
+  set_args(usekernel = FALSE) |>
+  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+
+NbWeeklyTestPred <-
+  WeeklyDT[Year > 2008, 
+           cbind(.SD,
+                 predict(NbModelSplitYear, 
+                         new_data = .SD,  type = "class"))]
+
+conf_mat(NbWeeklyTestPred,
+         truth = "Direction", 
+         estimate = .pred_class)
+
+NbMetrics <-
+  get_class_metrics(NbWeeklyTestPred,
+                    truth = Direction,
+                    estimate = .pred_class)
+
+NbMetrics
+```
+
+- **(I) Which of these methods appears to provide the best results on this data?**
+
+```{r}
+list(cbind(LogisticMetrics, model = "logistic"),
+     cbind(LdaMetrics, model = "lda"),
+     cbind(QdaMetrics, model = "qda"),
+     cbind(NbMetrics, model = "nb")) |>
+  rbindlist() |>
+  (\(DT) DT[.metric == "spec"][order(-.estimate)])()
+```
+
+The best models are *Logistic Regression* and the *Linear Discriminant Analysis*.
+
+- **(J) Experiment with diﬀerent combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classiﬁer.**
 
