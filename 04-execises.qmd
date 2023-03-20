@@ -2,7 +2,7 @@
 
 <style>
 
-h3 {
+h3, h4 {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -15,12 +15,24 @@ h3 {
 
 </style>
 
+```{r}
+library(ggplot2)
+library(patchwork)
+library(data.table)
+library(tidymodels)
+library(discrim)
+library(klaR)
+library(poissonreg)
+library(corrr)
+library(paletteer)
+```
+
 
 ## Conceptual
 
 ### 1
 
-1. **Using a little bit of algebra, prove that (4.2) is equivalent to (4.3). In other words, the logistic function representation and logit representation for the logistic regression model are equivalent.**
+**1.** Using a little bit of algebra, prove that (4.2) is equivalent to (4.3). In other words, the logistic function representation and logit representation for the logistic regression model are equivalent.
 
 $$
 \begin{split}
@@ -36,11 +48,11 @@ $$
 
 ### 2
 
-2. **It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.**
+**2.** It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.
 
-To prove that both functions would provide the same class we need to check that both functions change from one $Y$ class to other in the same $x$ value.
+- To prove that both functions would provide the same class we need to check that both functions change from one $Y$ class to other in the same $x$ value.
 
-If $K = 2$ and $\pi_1 = \pi_2 = \pi_c$ we can show that:
+- If $K = 2$ and $\pi_1 = \pi_2 = \pi_c$ we can show that:
 
 $$
 \begin{split}
@@ -67,7 +79,7 @@ x & = \frac{\mu_1 + \mu_2}{2}
 \end{split}
 $$
 
-And also:
+- And also:
 
 $$
 \begin{split}
@@ -85,7 +97,7 @@ x & = \frac{\mu_1 + \mu_2}{2}
 \end{split}
 $$
 
-Let's see an example visually by setting as example the next values for each $Y$ class:
+- Let's see an example visually by setting as example the next values for each $Y$ class:
 
 |$k$|$\sigma$|$\pi$|$\mu$|
 |:-:|:------:|:---:|:---:|
@@ -93,8 +105,6 @@ Let's see an example visually by setting as example the next values for each $Y$
 |2|0.5|0.5|4|
 
 ```{r}
-library(ggplot2)
-library(patchwork)
 
 ldm_k_prop <- function(x,
                        k,
@@ -149,7 +159,7 @@ p2 <-
 
 ### 3
 
-3. **This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.**
+**3.** This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.
 
 $$
 \begin{split}
@@ -167,7 +177,7 @@ p_k(x) & =
 \end{split}
 $$
 
-As the denominator is a constant for any $k$, we can define: $g(x) = \frac{1}{\sum_{l=1}^{K} \frac{\pi_l}{\sigma_l} e^{-\frac{1}{2\sigma_l^2} (x - \mu_{l})^2}}$
+- As the denominator is a constant for any $k$, we can define: $g(x) = \frac{1}{\sum_{l=1}^{K} \frac{\pi_l}{\sigma_l} e^{-\frac{1}{2\sigma_l^2} (x - \mu_{l})^2}}$
 
 
 $$
@@ -189,12 +199,13 @@ $$
 
 ### 4
 
-4. **When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.**
+**4.** When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.
 
-**(A) Suppose that we have a set of observations, each with measurements on p = 1 feature, X. We assume that X is uniformly (evenly) distributed on [0, 1]. Associated with each observation is a response value. Suppose that we wish to predict a test observation’s response using only observations that are within 10 % of the range of X closest to that test observation. For instance, in order to predict the response for a test observation with X = 0.6, we will use observations in the range [0.55, 0.65]. On average, what fraction of the available observations will we use to make the prediction?**
+#### A
+
+**(A)** Suppose that we have a set of observations, each with measurements on p = 1 feature, X. We assume that X is uniformly (evenly) distributed on [0, 1]. Associated with each observation is a response value. Suppose that we wish to predict a test observation’s response using only observations that are within 10 % of the range of X closest to that test observation. For instance, in order to predict the response for a test observation with X = 0.6, we will use observations in the range [0.55, 0.65]. On average, what fraction of the available observations will we use to make the prediction?
 
 ```{r}
-library(data.table)
 
 set.seed(123)
 
@@ -209,7 +220,9 @@ mean(UnifDistVar1$prop)
 
 ```
 
-**(B) Now suppose that we have a set of observations, each with measurements on p = 2 features, X1 and X2. We assume that (X1, X2) are uniformly distributed on [0, 1] × [0, 1]. We wish to predict a test observation’s response using only observations that are within 10 % of the range of X1 and within 10 % of the range of X2 closest to that test observation. For instance, in order to predict the response for a test observation with X1 = 0.6 and X2 = 0.35, we will use observations in the range [0.55, 0.65] for X1 and in the range [0.3, 0.4] for X2. On average, what fraction of the available observations will we use to make the prediction?**
+#### B
+
+**(B)** Now suppose that we have a set of observations, each with measurements on p = 2 features, X1 and X2. We assume that (X1, X2) are uniformly distributed on [0, 1] × [0, 1]. We wish to predict a test observation’s response using only observations that are within 10 % of the range of X1 and within 10 % of the range of X2 closest to that test observation. For instance, in order to predict the response for a test observation with X1 = 0.6 and X2 = 0.35, we will use observations in the range [0.55, 0.65] for X1 and in the range [0.3, 0.4] for X2. On average, what fraction of the available observations will we use to make the prediction?
 
 ```{r}
 set.seed(123)
@@ -225,58 +238,75 @@ UnifDistVar2 <-
 mean(UnifDistVar2$prop)
 ```
 
+#### C
 
-**(C) Now suppose that we have a set of observations on p = 100 features. Again the observations are uniformly distributed on each feature, and again each feature ranges in value from 0 to 1. We wish to predict a test observation’s response using observations within the 10 % of each feature’s range that is closest to that test observation. What fraction of the available observations will we use to make the prediction?**
+**(C)** Now suppose that we have a set of observations on p = 100 features. Again the observations are uniformly distributed on each feature, and again each feature ranges in value from 0 to 1. We wish to predict a test observation’s response using observations within the 10 % of each feature’s range that is closest to that test observation. What fraction of the available observations will we use to make the prediction?
 
 ```{r}
 0.1^100
 ```
 
-**(D) Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.**
+#### D
 
-As *p* gets lager every point has more specifications to meet and the number of point which meet them decrease.
+**(D)** Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.
 
-**(E) Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For p = 1, 2, and 100, what is the length of each side of the hypercube? Comment on your answer.**
+- As *p* gets lager every point has more specifications to meet and the number of point which meet them decrease.
+
+#### E (missing)
+
+**(E)** Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For p = 1, 2, and 100, what is the length of each side of the hypercube? Comment on your answer.
 
 ### 5
 
-5. **We now examine the differences between LDA and QDA.**
+**5.** We now examine the differences between LDA and QDA.
 
-**(A) If the Bayes decision boundary is linear, do we expect LDA or QDA to perform better on the training set? On the test set?**
+#### A
+
+**(A)** If the Bayes decision boundary is linear, do we expect LDA or QDA to perform better on the training set? On the test set?
 
 |Type of set to test| Perform better|
 |:-----------------:|:-------------:|
 |training set|***QDA***, as it will model some noise|
 |test set|***LDA***, as decision boundary is lineal|
 
-**(B) If the Bayes decision boundary is non-linear, do we expect LDA or QDA to perform better on the training set? On the test set?**
+#### B
+
+**(B)** If the Bayes decision boundary is non-linear, do we expect LDA or QDA to perform better on the training set? On the test set?
 
 |Type of set to test| Perform better|
 |:-----------------:|:-------------:|
 |training set|***QDA***, as it will model some noise|
 |test set|***QDA***, as decision boundary is non-linear|
 
-**(C) In general, as the sample size n increases, do we expect the test prediction accuracy of QDA relative to LDA to improve, decline, or be unchanged? Why?**
+#### C
 
-If the Bayes decision boundary is non-linear, QDA could improve its test prediction accuracy as the sample size n increases. When the model has more examples it has less changes to overfit the data.
+**(C)** In general, as the sample size n increases, do we expect the test prediction accuracy of QDA relative to LDA to improve, decline, or be unchanged? Why?
 
-**(D) True or False: Even if the Bayes decision boundary for a given problem is linear, we will probably achieve a superior test error rate using QDA rather than LDA because QDA is flexible enough to model a linear decision boundary. Justify your answer.**
+- If the Bayes decision boundary is non-linear, QDA could improve its test prediction accuracy as the sample size n increases. When the model has more examples it has less changes to overfit the data.
 
-**FALSE**, as QDA would model some noise that could affect the prediction accuracy.
+#### D
+
+**(D)** True or False: Even if the Bayes decision boundary for a given problem is linear, we will probably achieve a superior test error rate using QDA rather than LDA because QDA is flexible enough to model a linear decision boundary. Justify your answer.
+
+- **FALSE**, as QDA would model some noise that could affect the prediction accuracy.
 
 ### 6
 
-6. **Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.**
+**6.** Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.
 
-**(A) Estimate the probability that a student who studies for 40 h and has an undergrad GPA of 3.5 gets an A in the class.**
+#### A
+
+**(A)** Estimate the probability that a student who studies for 40 h and has an undergrad GPA of 3.5 gets an A in the class.
 
 ```{r}
-LogisticCOef <- -6 + 0.05 * 40 + 1* 3.5
+LogisticCoef <- -6 + 0.05 * 40 + 1* 3.5
 
-exp(LogisticCOef)/(1+exp(LogisticCOef))
+exp(LogisticCoef)/(1+exp(LogisticCoef))
 ```
 
-**(B) How many hours would the student in part (a) need to study to have a 50 % chance of getting an A in the class?**
+#### B
+
+**(B)** How many hours would the student in part (a) need to study to have a 50 % chance of getting an A in the class?
 
 $$
 \begin{split}
@@ -289,9 +319,10 @@ X_2 & = 50 \text{ horas}
 \end{split}
 $$
 
+
 ### 7
 
-7. **Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, $80\text{%}$ of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.**
+**7.** Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, $80\text{%}$ of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.
 
 
 $$
@@ -328,22 +359,24 @@ ldm_k_prop(4,
 
 ### 8
 
-8. **Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.**
+**8.** Suppose that we take a data set, divide it into equally-sized training and test sets, and then try out two different classification procedures.
 
 |Model|Training Error Rate|Test Error Rate|
 |:---:|:-------------:|:-----:|
 |Logistic regression|20%|30%|
 |1-nearestbors|0%|36%|
 
-**Based on these results, which method should we prefer to use for classification of new observations? Why?**
+Based on these results, which method should we prefer to use for classification of new observations? Why?
 
-We should use the ***Logistic Regression*** as it has a lower ***test error rate*** than the logistic regression.
+- We should use the ***Logistic Regression*** as it has a lower ***test error rate*** than the logistic regression.
 
 ### 9
 
-9. **This problem has to do with odds.**
+**9.** This problem has to do with odds.
 
-**(A) On average, what fraction of people with an odds of 0.37 of defaulting on their credit card payment will in fact default?**
+#### A
+
+**(A)** On average, what fraction of people with an odds of 0.37 of defaulting on their credit card payment will in fact default?
 
 $$
 \begin{split}
@@ -354,15 +387,17 @@ p(X) & = \frac{Y}{1+Y} = \frac{0.37}{1.37} = 0.27
 \end{split}
 $$
 
-**(B) Suppose that an individual has a 16 % chance of defaulting on her credit card payment. What are the odds that she will default?**
+#### B
+
+**(B)** Suppose that an individual has a 16 % chance of defaulting on her credit card payment. What are the odds that she will default?
 
 ```{r}
 scales::percent(0.16/(1-0.16), accuracy = 0.01) 
 ```
 
-### 10
+### 10 (missing)
 
-10. **Equation 4.32 derived an expression for $\log{ \left( \frac{\text{Pr}(Y=k|X=x)}{\text{Pr}(Y=K|X=x)} \right)}$ in the setting where $p > 1$, so that the mean for the $k$th class, $\mu_k$, is p-dimensional vector, and the shared covariance $\Sigma$ is a $p \times p$ matrix. However, in the setting with $p=1$, (4.32) takes a simpler form, since the means $\mu_1,\dots,\mu_K$ and the variance $\sigma^2$ are scalars In this simpler setting, repeat the calculation in (4.32), and provide expressions for $a_k$ and $b_{kj}$ in terms of $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, and $\sigma^2$.**
+**10.** Equation 4.32 derived an expression for $\log{ \left( \frac{\text{Pr}(Y=k|X=x)}{\text{Pr}(Y=K|X=x)} \right)}$ in the setting where $p > 1$, so that the mean for the $k$th class, $\mu_k$, is p-dimensional vector, and the shared covariance $\Sigma$ is a $p \times p$ matrix. However, in the setting with $p=1$, (4.32) takes a simpler form, since the means $\mu_1,\dots,\mu_K$ and the variance $\sigma^2$ are scalars In this simpler setting, repeat the calculation in (4.32), and provide expressions for $a_k$ and $b_{kj}$ in terms of $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, and $\sigma^2$.
 
 $$
 \begin{split}
@@ -372,12 +407,12 @@ $$
 
 ### 11 (missing)
 
-11. **Work out the detailed forms of $a_k$, $b_{kj}$ , and $b_{kjl}$ in (4.33). Your answer should involve $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, $\Sigma_k$, and $\Sigma_K$.**
+**11.** Work out the detailed forms of $a_k$, $b_{kj}$ , and $b_{kjl}$ in (4.33). Your answer should involve $\pi_k$, $\pi_k$, $\mu_k$, $\mu_K$, $\Sigma_k$, and $\Sigma_K$.
 
 
 ### 12
 
-12. **Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that**
+**12.** Suppose that you wish to classify an observation X ∈ R into apples and oranges. You fit a logistic regression model and find that
 
 $$
 \widehat{\text{Pr}}(Y = \text{orange}|X=x) =
@@ -385,8 +420,7 @@ $$
 {1 + \exp(\hat{\beta}_0+\hat{\beta}_1x)}
 $$
 
-
-**Your friend fits a logistic regression model to the same data using the _softmax_ formulation in (4.13), and finds that**
+Your friend fits a logistic regression model to the same data using the _softmax_ formulation in (4.13), and finds that
 
 $$
 \widehat{\text{Pr}}(Y = \text{orange}|X=x) =
@@ -398,7 +432,9 @@ $$
       \hat{\alpha}_{\text{apple}1}x)}
 $$
 
-**(A) What is the log odds of orange versus apple in your model?**
+#### A
+
+**(A)** What is the log odds of orange versus apple in your model?
 
 $$
 \log{
@@ -409,8 +445,9 @@ $$
 \hat{\beta}_0+\hat{\beta}_1x
 $$
 
+#### B
 
-**(B) What is the log odds of orange versus apple in your friend’s model?**
+**(B)** What is the log odds of orange versus apple in your friend’s model?
 
 $$
 \log{
@@ -422,253 +459,666 @@ $$
 (\hat{\alpha}_{\text{orange}1} - \hat{\alpha}_{\text{apple}1}) x
 $$
 
+#### C
 
-**(C) Suppose that in your model, $\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$. What are the coefficient estimates in your friend’s model? Be as specific as possible.**
+**(C)** Suppose that in your model, $\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$. What are the coefficient estimates in your friend’s model? Be as specific as possible.
 
-$\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$
+- $\hat{\beta}_0 = 2$ and $\hat{\beta}_1 = -1$
 
-**(D) Now suppose that you and your friend fit the same two models on a different data set. This time, your friend gets the coefficient estimates $\hat{\alpha}_{\text{orange}0} = 1.2$,  $\hat{\alpha}_{\text{orange}1} = −2$, $\hat{\alpha}_{\text{apple}0} = 3$,  $\hat{\alpha}_{\text{apple}1} = 0.6$. What are the coefficient estimates in your model?**
+#### D
 
-$\hat{\beta}_0 = 1.8$ and $\hat{\beta}_1 = -2.6$
+**(D)** Now suppose that you and your friend fit the same two models on a different data set. This time, your friend gets the coefficient estimates $\hat{\alpha}_{\text{orange}0} = 1.2$,  $\hat{\alpha}_{\text{orange}1} = −2$, $\hat{\alpha}_{\text{apple}0} = 3$,  $\hat{\alpha}_{\text{apple}1} = 0.6$. What are the coefficient estimates in your model?
 
-**(E) Finally, suppose you apply both models from (D) to a data set with 2,000 test observations. What fraction of the time do you expect the predicted class labels from your model to agree with those from your friend’s model? Explain your answer.**
+- $\hat{\beta}_0 = 1.8$ and $\hat{\beta}_1 = -2.6$
 
-Both models will predict the same class for every test observation.
+#### E
+
+**(E)** Finally, suppose you apply both models from (D) to a data set with 2,000 test observations. What fraction of the time do you expect the predicted class labels from your model to agree with those from your friend’s model? Explain your answer.
+
+- Both models will predict the same class for every test observation.
 
 ## Applied
 
 ### 13
 
-13. **This question should be answered using the Weekly data set, which is part of the ISLR2 package. This data is similar in nature to the Smarket data from this chapter’s lab, except that it contains 1,089 weekly returns for 21 years, from the beginning of 1990 to the end of 2010.**
+**13.** This question should be answered using the Weekly data set, which is part of the ISLR2 package. This data is similar in nature to the Smarket data from this chapter’s lab, except that it contains 1,089 weekly returns for 21 years, from the beginning of 1990 to the end of 2010.
 
-**(A) Produce some numerical and graphical summaries of the Weekly data. Do there appear to be any patterns?**
+#### A
+
+**(A)** Produce some numerical and graphical summaries of the Weekly data. Do there appear to be any patterns?
 
 ```{r}
 WeeklyDT <- 
   as.data.table(ISLR2::Weekly
-  )[,`:=`(id = .I,
-          # We want to predict the prob of going Up
-          Direction = factor(Direction, levels = c("Up","Down")))]
+  # We want to measure the prob of going Up rather than Down
+  )[, Direction := factor(Direction, levels = c("Up","Down"))
+  ][,`:=`(n_weeks = .N,
+          year_week = seq_len(.N)),
+    by = "Year"
+  # As 1990 has less week that the rest of year we assume that
+  # we are missing some weeks the beginning of the year rather than 
+  # the end if the year
+  ][n_weeks < 52L, 
+    year_week := year_week + (52L - n_weeks)]
+
+
+ggplot(WeeklyDT,aes(Year, Volume, color = Direction))+
+  geom_point(alpha = 0.3)+
+  geom_smooth(se = FALSE)+
+  scale_y_log10()+
+  labs(title = "Year and Volume are highly correlated",
+       subtitle = "So we can not use both in the same model")+
+  theme_classic()+
+  theme(legend.position = "top")
+
+
+ggplot(WeeklyDT,aes(year_week, Volume, color = Direction))+
+  geom_point(alpha = 0.3)+
+  geom_smooth(se = FALSE)+
+  scale_y_log10()+
+  scale_x_continuous(breaks = scales::breaks_width(10))+
+  labs(title = "The volume was higher for Down Direction",
+       subtitle = "In the first 35 weeks",
+       y = "Log10(Volume)")+
+  theme_classic()+
+  theme(legend.position = "top")
+
+
+melt(WeeklyDT,
+     measure.vars = patterns("^Lag\\d$"),
+     variable.name = "Lag_name",
+     value.name = "Lag_value") |>
+  ggplot(aes(Volume, Lag_value, color = Direction))+
+  geom_point(alpha = 0.3)+
+  geom_smooth(se = FALSE)+
+  scale_x_log10()+
+  facet_wrap(vars(Lag_name), scales = "free_y")+
+  labs(title = "There the lags can help to differenciate between Up and Down",
+       x = "Log10(Volume)")+
+  theme_classic()+
+  theme(legend.position = "top")
+
 ```
 
-```{r}
-ggplot(WeeklyDT,aes(Year))+
-  geom_bar()+
-  scale_y_continuous(breaks = c(10*1:4,52))+
-  labs(title = "1990 doesn't have all the weeks")
+#### B
 
-```
+**(B)** Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?
 
 ```{r}
-ggplot(WeeklyDT,aes(id, Today, group = "1"))+
-  geom_point(aes(color = Direction))+
-  geom_smooth()+
-  ggtitle("The average return doesn't change with time")
-```
 
-```{r}
-WeeklyDT[, .(sd = sd(Today),
-             Today = median(Today) >= 0),
-         by = "Year"] |>
-  ggplot(aes(Year, sd))+
-  geom_line(group = "1")+
-  geom_point(aes(color = Today))+
-  labs(title = "The standar desviation changes over time",
-       color = "The median is over 0")+
-  theme(legend.position = "top",
-        plot.title = element_text(face = "bold"))
-```
-
-- **(B) Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?**
-
-```{r}
-library(parsnip)
-
-WeeklyTrain <- WeeklyDT[,!c("id", "Year","Today")]
-
-LogisticModel <-
-  logistic_reg() |>
-  fit(Direction ~ ., data = WeeklyTrain)
-
-WeeklyTrainPred <-
-  WeeklyTrain[, cbind(.SD,
-                      predict(LogisticModel, 
-                              new_data = .SD,  type = "class"))]
-
-summary(LogisticModel$fit)
-```
-
-*Lag2* it's significant.
-
-- **(C) Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of mistakes made by logistic regression.**
-
-```{r}
-library(yardstick)
 
 get_class_metrics <- metric_set(sens, spec)
 
-conf_mat(WeeklyTrainPred,
+LogisticLagModelFit <-
+  logistic_reg() |>
+  fit(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume, data = WeeklyDT)
+
+LogisticLagTrainPred <-
+  cbind(WeeklyDT, augment(LogisticLagModelFit, new_data = NULL))
+
+summary(LogisticLagModelFit$fit)
+```
+
+- *Lag2* it's significant.
+
+#### C
+
+**(C)** Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of mistakes made by logistic regression.
+
+```{r}
+
+conf_mat(LogisticLagTrainPred,
          truth = "Direction", 
          estimate = .pred_class)
 
-get_class_metrics(WeeklyTrainPred,
+get_class_metrics(LogisticLagTrainPred,
                   truth = Direction,
                   estimate = .pred_class)
 
 ```
 
-By checking the specificity rate we can see that the model is making a bad job identifying when the number is going to get **Down**. 
+- By checking the specificity rate we can see that the model is making a bad job identifying when the number is going to get **Down**. 
 
-- **(D) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).**
+#### D
+
+**(D)** Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).
 
 ```{r}
 
-LogisticModelSplitYear <-
+WeeklyYearSplit <-
+  WeeklyDT[, list(analysis = .I[Year <= 2008],
+                  assessment = .I[Year > 2008]) |>
+             make_splits(data = .SD)]
+
+WeeklyYearTraining <- training(WeeklyYearSplit)
+
+get_class_matrix_metrics <- function(model,
+                                     split,
+                                     fit_formula,
+                                     metric_function = metric_set(sens, spec),
+                                     ...){
+  
+ testing_predictions <-
+  model |>
+  last_fit(as.formula(fit_formula), split = split) |>
+  collect_predictions() 
+ 
+ truth_var <- sub(pattern = " *~.+$", replacement = "", x = fit_formula)
+ 
+ list(conf_mat = conf_mat(testing_predictions, 
+                          truth = !!truth_var, 
+                          estimate = .pred_class),
+      metrics = metric_function(testing_predictions,
+                                truth = !!truth_var,
+                                estimate = .pred_class,
+                                ...) )
+}
+
+WeeklyYearLogisticResults <-
   logistic_reg() |>
-  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+  get_class_matrix_metrics(split = WeeklyYearSplit,
+                           fit_formula = "Direction ~ Lag2")
 
-WeeklyTestPred <-
-  WeeklyDT[Year > 2008, 
-           cbind(.SD,
-                 predict(LogisticModelSplitYear, 
-                         new_data = .SD,  type = "class"))]
-
-conf_mat(WeeklyTestPred,
-         truth = "Direction", 
-         estimate = .pred_class)
-
-LogisticMetrics <-
-  get_class_metrics(WeeklyTestPred,
-                    truth = Direction,
-                    estimate = .pred_class)
-
-LogisticMetrics
-
+WeeklyYearLogisticResults
 ```
 
-- **(E) Repeat (d) using LDA.**
+#### E
+
+**(E)** Repeat (d) using LDA.
 
 ```{r}
-library(discrim)
-
-LdaModelSplitYear <-
+WeeklyYearLdaResults <-
   discrim_linear() |>
-  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+  get_class_matrix_metrics(split = WeeklyYearSplit,
+                           fit_formula = "Direction ~ Lag2")
 
-LdaWeeklyTestPred <-
-  WeeklyDT[Year > 2008, 
-           cbind(.SD,
-                 predict(LdaModelSplitYear, 
-                         new_data = .SD,  type = "class"))]
+WeeklyYearLdaResults
 
-conf_mat(LdaWeeklyTestPred,
-         truth = "Direction", 
-         estimate = .pred_class)
-
-LdaMetrics <-
-  get_class_metrics(LdaWeeklyTestPred,
-                    truth = Direction,
-                    estimate = .pred_class)
-
-LdaMetrics
 ```
 
-- **(F) Repeat (d) using QDA.**
+#### F
+
+**(F)** Repeat (d) using QDA.
 
 ```{r}
-QdaModelSplitYear <-
+WeeklyYearQdaResults <-
   discrim_quad() |>
-  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+  get_class_matrix_metrics(split = WeeklyYearSplit,
+                           fit_formula = "Direction ~ Lag2")
 
-QdaWeeklyTestPred <-
-  WeeklyDT[Year > 2008, 
-           cbind(.SD,
-                 predict(QdaModelSplitYear, 
-                         new_data = .SD,  type = "class"))]
-
-conf_mat(QdaWeeklyTestPred,
-         truth = "Direction", 
-         estimate = .pred_class)
-
-QdaMetrics <-
-  get_class_metrics(QdaWeeklyTestPred,
-                    truth = Direction,
-                    estimate = .pred_class)
-
-QdaMetrics
+WeeklyYearQdaResults
 ```
 
-- **(G) Repeat (d) using KNN with K = 1.**
+#### G
+
+**(G)** Repeat (d) using KNN with K = 1.
 
 ```{r}
-library(kknn)
 
-KnnModelSplitYear <-
-  nearest_neighbor(neighbors = 1) |>
-  set_mode("classification") |>
-  set_engine("kknn") |>
-  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+model_knn_k <- function(k){
+  
+  model <-
+    nearest_neighbor(neighbors = k) |>
+    set_mode("classification") |>
+    set_engine("kknn")
+  
+  return(model)
+}
+  
 
-KnnWeeklyTestPred <-
-  WeeklyDT[Year > 2008, 
-           cbind(.SD,
-                 predict(KnnModelSplitYear, 
-                         new_data = .SD,  type = "class"))]
+WeeklyYearKnnResults <-
+  get_class_matrix_metrics(model_knn_k(1),
+                           split = WeeklyYearSplit,
+                           fit_formula = "Direction ~ Lag2")
 
-conf_mat(KnnWeeklyTestPred,
-         truth = "Direction", 
-         estimate = .pred_class)
-
-KnnMetrics <-
-  get_class_metrics(KnnWeeklyTestPred,
-                    truth = Direction,
-                    estimate = .pred_class)
-
-KnnMetrics
+WeeklyYearKnnResults
 ```
 
-- **(H) Repeat (d) using naive Bayes.**
+#### H
+
+**(H)** Repeat (d) using naive Bayes.
 
 ```{r}
-library(klaR)
-
-NbModelSplitYear <-
+ModelNaiveBayes <- 
   naive_Bayes() |>
   set_mode("classification") |> 
   set_engine("klaR") |>
-  set_args(usekernel = FALSE) |>
-  fit(Direction ~ Lag2, data =  WeeklyDT[Year <= 2008])
+  set_args(usekernel = FALSE)
+  
+WeeklyYearNbResults <-
+  get_class_matrix_metrics(ModelNaiveBayes,
+                           split = WeeklyYearSplit,
+                           fit_formula = "Direction ~ Lag2")
 
-NbWeeklyTestPred <-
-  WeeklyDT[Year > 2008, 
-           cbind(.SD,
-                 predict(NbModelSplitYear, 
-                         new_data = .SD,  type = "class"))]
-
-conf_mat(NbWeeklyTestPred,
-         truth = "Direction", 
-         estimate = .pred_class)
-
-NbMetrics <-
-  get_class_metrics(NbWeeklyTestPred,
-                    truth = Direction,
-                    estimate = .pred_class)
-
-NbMetrics
+WeeklyYearNbResults
 ```
 
-- **(I) Which of these methods appears to provide the best results on this data?**
+#### I
+
+**(I)** Which of these methods appears to provide the best results on this data?
 
 ```{r}
-list(cbind(LogisticMetrics, model = "logistic"),
-     cbind(LdaMetrics, model = "lda"),
-     cbind(QdaMetrics, model = "qda"),
-     cbind(NbMetrics, model = "nb")) |>
+list(cbind(WeeklyYearLogisticResults$metrics, model = "logistic"),
+     cbind(WeeklyYearLdaResults$metrics, model = "lda"),
+     cbind(WeeklyYearQdaResults$metrics, model = "qda"),
+     cbind(WeeklyYearNbResults$metrics, model = "nb")) |>
   rbindlist() |>
   (\(DT) DT[.metric == "spec"][order(-.estimate)])()
 ```
 
-The best models are *Logistic Regression* and the *Linear Discriminant Analysis*.
+- The best models are *Logistic Regression* and the *Linear Discriminant Analysis*.
 
-- **(J) Experiment with diﬀerent combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classiﬁer.**
+#### J
+
+**(J)** Experiment with diﬀerent combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classiﬁer.
+
+```{r}
+#| eval: FALSE
+
+# Defining the MODELS and METRICS to evaluate
+
+evaluate_models <- function(recipe,
+                            split){
+  
+  seq.int(10L, 100L, 10L) |>
+  c(1L) |>
+  (\(x) structure(x, names = paste("knn",x)) )() |>
+  lapply(model_knn_k) |>
+  append(list("logistic" = logistic_reg(),
+              "lda" = discrim_linear(),
+              "qda" = discrim_quad(),
+              bayes = ModelNaiveBayes)) |>
+  lapply(function(model, recipe, split){
+    workflow() |>
+      add_recipe(recipe) |>
+      add_model(model) |>
+      last_fit(split = split) |>
+      collect_metrics() |>
+      as.data.table() },
+  recipe = recipe,
+  split = split) |>
+  (\(list.DT) lapply(seq_along(list.DT), function(tb_i){
+              list.DT[[tb_i]][, model_name := names(list.DT)[tb_i] ] })
+  )() |>
+  rbindlist() |>
+  dcast(... ~ .metric, value.var = ".estimate")
+  
+}
+
+
+# Defining the RECIPES to use
+
+RecipeBaseFormula <-
+  recipe(Direction ~  Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume + year_week,
+         data = WeeklyYearTraining)
+
+RecipeLogVolume <-
+  RecipeBaseFormula |>
+  step_log(Volume, base = 10)
+
+RecipeInteractions <-
+  RecipeLogVolume |>
+  step_interact(~ Volume:year_week + Volume:starts_with("Lag")) 
+
+
+# Testing some models
+
+WeeklyEvaluationResults <-
+  list("BaseFormula" = RecipeBaseFormula,
+       "LogVolume" = RecipeLogVolume,
+       "Interactions" = RecipeInteractions) |>
+  lapply(evaluate_models, split = WeeklyYearSplit) |>
+  (\(list.DT) lapply(seq_along(list.DT), function(tb_i){
+    list.DT[[tb_i]][, recipe := names(list.DT)[tb_i] ] })
+  )() |>
+  rbindlist() |>
+  DT(order(-roc_auc)) |>
+  DT(j = k := sub(pattern = "[A-Za-z]+ ?", replacement = "", model_name) |> as.integer())
+ 
+
+WeeklyEvaluationResults[, .SD[1L], 
+                        by = .(model_name = fifelse(model_name %like% "knn", 
+                                                    "knn", model_name))]
+
+```
+
+
+```{r}
+#| echo: false
+
+fread(here::here("data/Weekly-best-recipes-models.csv"))
+
+RecipeInteractions <-
+  recipe(Direction ~  Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume + year_week,
+         data = WeeklyYearTraining) |>
+  step_log(Volume, base = 10) |>
+  step_interact(~ Volume:year_week + Volume:starts_with("Lag")) 
+
+```
+
+
+- In this case the *Logistic Regressions* has the best general resultas after adding interactions to the model.
+
+```{r}
+WeeklyFittedWorkFlow <-
+  workflow() |>
+  add_recipe(RecipeInteractions) |>
+  add_model(logistic_reg()) |>
+  fit(data = WeeklyYearTraining) 
+
+WeeklyFittedWorkFlow |>
+  augment(new_data = testing(WeeklyYearSplit)) |>
+  get_class_metrics(truth = Direction,
+                    estimate = .pred_class)
+```
+
+- The model can predict if the `Direction` would go "Up" 64 of 100 times correctly and predict "Down" correctly 54 of 100 times, that is little bit better than guessing.
+
+```{r}
+WeeklyFittedWorkFlow$fit$fit$fit |>
+  tidy() |>
+  as.data.table() |>
+  DT(order(-abs(estimate))) |>
+  head(5) |>
+  ggplot(aes(estimate, reorder(term,estimate)))+
+  geom_col()+
+  theme_classic()
+```
+
+### 14
+
+**14.** In this problem, you will develop a model to predict whether a given car gets high or low gas mileage based on the Auto data set.
+
+#### A
+
+**(A)** Create a binary variable, `mpg01`, that contains a 1 if `mpg` contains a value above its median, and a 0 if `mpg` contains a value below its median. You can compute the median using the `median()` function. Note you may ﬁnd it helpful to use the `data.frame()` function to create a single data set containing both `mpg01` and the other `Auto` variables.
+
+```{r}
+AutoDT <- 
+  as.data.table(ISLR2::Auto
+  )[,`:=`(mpg01 = factor(mpg > median(mpg), levels = c("TRUE","FALSE")),
+          origin = c("American","European","Japanese")[origin],
+          cylinders = factor(cylinders))]
+
+```
+
+#### B
+
+**(B)** Explore the data graphically in order to investigate the association between `mpg01` and the other features. Which of the other features seem most likely to be useful in predicting `mpg01`? Scatterplots and boxplots may be useful tools to answer this question. Describe your ﬁndings.
+
+- Exploring categorical variables
+
+```{r}
+AutoDT[, .(prob = mean(mpg01 == "TRUE")),  
+       by = "cylinders"] |>
+  ggplot(aes(cylinders, prob)) +
+  geom_col(aes(fill = prob > 0.6), alpha = 0.8) +
+  labs(title = "Cars with 4 and 5 cyclinders are more efficient") +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+AutoDT[, .(prob = mean(mpg01 == "TRUE")),
+       by = "origin"] |>
+  ggplot(aes(origin, prob)) +
+  geom_col(aes(fill = prob < 0.4), alpha = 0.8) +
+  labs(title = "American Cars are less efficient") +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_fill_manual(values = c("TRUE" = "firebrick3", "FALSE" = "#AAAAAA")) +
+  theme_classic() + 
+  theme(legend.position = "none")
+```
+
+- Exploring numerical variables
+
+```{r}
+
+AutoDT[, .(prob = mean(mpg01 == "TRUE")),
+       by = "year"] |>
+  ggplot(aes(year, prob)) +
+  geom_point(color = "#AAAAAA") +
+  geom_smooth(se = FALSE, method = "lm", color = "dodgerblue3")+
+  labs(title = "New cars are more efficient on average") +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  scale_fill_manual(values = c("TRUE" = "firebrick3", "FALSE" = "#AAAAAA")) +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(AutoDT, aes(mpg01, displacement))+
+  geom_boxplot(aes(fill = mpg01), alpha = 0.6)+
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The Engine displacement is lower for efficient cars") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(AutoDT, aes(mpg01, horsepower))+
+  geom_boxplot(aes(fill = mpg01), alpha = 0.6)+
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The Engine horsepower is lower for efficient cars") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(AutoDT, aes(mpg01, weight))+
+  geom_boxplot(aes(fill = mpg01), alpha = 0.6)+
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The weight is lower for efficient cars") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(AutoDT, aes(acceleration, fill = factor(mpg01,levels = c("FALSE","TRUE"))))+
+  geom_histogram(alpha = 0.5, position = "identity", bins = 15)+
+  scale_fill_manual(values = c("FALSE" = "#AAAAAA", "TRUE" = "dodgerblue3"))+
+  labs(title = "The acceleration is a little bit higher for efficient cars") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+```
+
+#### C
+
+**(C)** Split the data into a training set and a test set.
+
+```{r}
+set.seed(1224)
+
+AutoSplit <- initial_split(AutoDT, strata = mpg01)
+
+AutoTraining <- training(AutoSplit)
+
+```
+
+#### D
+
+**(D)**  Perform LDA on the training data in order to predict `mpg01` using the variables that seemed most associated with `mpg01` in (b). What is the test error of the model obtained?
+
+```{r}
+AutoRecipe <- 
+  recipe(mpg01 ~ cylinders + origin + year + displacement + horsepower + weight + acceleration,
+         data = AutoTraining) |>
+  step_dummy(cylinders, origin) |>
+  # I couldn't perform QDA with a higher threshold
+  step_corr(all_numeric_predictors(), threshold = 0.59)
+
+workflow() |>
+  add_recipe(AutoRecipe) |>
+  add_model(discrim_linear()) |>
+  last_fit(split = AutoSplit) |>
+  collect_predictions() |>
+  (\(DF) mean(DF$.pred_class != DF$mpg01) )()
+  
+```
+
+
+#### E
+
+**(E)** Perform QDA on the training data in order to predict `mpg01` using the variables that seemed most associated with `mpg01` in (b). What is the test error of the model obtained?
+
+```{r}
+
+workflow() |>
+  add_recipe(AutoRecipe) |>
+  add_model(discrim_quad()) |>
+  last_fit(split = AutoSplit) |>
+  collect_predictions() |>
+  (\(DF) mean(DF$.pred_class != DF$mpg01) )()
+
+```
+
+#### F
+
+**(F)** Perform logistic regression on the training data in order to predict `mpg01` using the variables that seemed most associated with `mpg01` in (b). What is the test error of the model obtained?
+
+```{r}
+
+workflow() |>
+  add_recipe(AutoRecipe) |>
+  add_model(logistic_reg()) |>
+  last_fit(split = AutoSplit) |>
+  collect_predictions() |>
+  (\(DF) mean(DF$.pred_class != DF$mpg01) )()
+
+```
+
+#### G
+
+**(G)** Perform naive Bayes on the training data in order to predict `mpg01` using the variables that seemed most associated with `mpg01` in (b). What is the test error of the model obtained?
+
+```{r}
+
+workflow() |>
+  add_recipe(AutoRecipe) |>
+  add_model(ModelNaiveBayes) |>
+  last_fit(split = AutoSplit) |>
+  collect_predictions() |>
+  (\(DF) mean(DF$.pred_class != DF$mpg01) )()
+
+```
+
+#### H
+
+**(H)** Perform KNN on the training data, with several values of K, in order to predict `mpg01`. Use only the variables that seemed most associated with `mpg01` in (b). What test errors do you obtain? Which value of K seems to perform the best on this data set?
+
+```{r}
+
+AutoKnnTestError <-
+  lapply(1:15, function(k){
+    
+    workflow() |>
+      add_recipe(AutoRecipe) |>
+      add_model(model_knn_k(k)) |>
+      last_fit(split = AutoSplit) |>
+      collect_predictions() |>
+      summarise(k = k,
+                test_error = mean(.pred_class != mpg01))
+    
+  }) |>
+  rbindlist() |>
+  arrange(test_error)
+
+ggplot(AutoKnnTestError, aes(k, test_error))+
+  geom_line(color = "#AAAAAA")+
+  geom_point(aes(color = test_error == min(test_error)))+
+  expand_limits(y = 0)+
+  scale_color_manual(values = c("FALSE" = "#AAAAAA", "TRUE" = "dodgerblue3"))+
+  labs(title = "The lowest error starts with k = 12 and keep constant")+
+  theme_classic()+
+  theme(legend.position = "none")
+
+head(AutoKnnTestError, 1L)
+
+```
+
+### 15
+
+**15.** This problem involves writing functions.
+
+#### A
+
+**(A)** Write a function, `Power()`, that prints out the result of raising 2 to the 3rd power. In other words, your function should compute $2^3$ and print out the results.
+
+```{r}
+Power <- \() 2^3
+
+Power()
+```
+
+#### B
+
+**(B)** Create a new function, `Power2()`, that allows you to pass any two numbers, `x` and `a`, and prints out the value of `x^a`.
+
+```{r}
+Power2<-function(x, a) { print(x^a)}
+
+Power2(3,8)
+```
+
+#### C
+
+**(C)** Using the Power2() function that you just wrote, compute $10^3$, $8^{17}$, and $131^{3}$.
+
+```{r}
+Power2(c(10,8,131),c(3, 17, 3))
+```
+
+#### D
+
+**(D)** Now create a new function, `Power3()`, that actually returns the result `x^a` as an `R` object, rather than simply printing it to the screen. That is, if you store the value `x^a` in an object called result within your function, then you can simply `return()` this result, using the following line:
+
+```{r}
+Power3 <- function(x, a) {
+  result <- x^a
+  return(result)
+}
+```
+
+#### E
+
+**(E)** Now using the `Power3()` function, create a plot of $f(x) =x^2$. The *x-axis* should display a range of integers from 1 to 10, and the y-axis should display $x^2$. Label the axes appropriately, and use an appropriate title for the ﬁgure. Consider displaying either the x-axis, the y-axis, or both on the log-scale. You can do this by using `log = "x"`, `log = "y"`, or `log = "xy"` as arguments to the `plot()` function.
+
+```{r}
+ggplot(data.frame(x = 1:10), aes(x))+
+  geom_function(fun  = \(x) Power3(x,2), color= "blue")+
+  scale_y_log10()+
+  scale_x_continuous(breaks = breaks_width(1))+
+  labs(title = "Plotting a function with ggplot2", y = "log10(x^2)")+
+  theme_classic()
+```
+
+#### F
+
+**(F)** Create a function, `PlotPower()`, that allows you to create a plot of x against x^a for a ﬁxed a and for a range of values of x. For instance, if you call
+
+> PlotPower(1:10,3)
+
+then a plot should be created with an *x-axis* taking on values 1, 2,...,10, and a *y-axis* taking on values $1^3, 2^3, \dots, 10^3$.
+
+```{r}
+
+PlotPower <- function(x, a){
+  
+  ggplot(data.frame(x_values = x), aes(x_values))+
+  geom_function(fun  = \(x) Power3(x, a), color= "blue")+
+  scale_y_log10()+
+  labs(title = "Plotting a function with ggplot2", 
+       y =paste0("log10(x^",a,")") )+
+  theme_classic()
+  
+}
+
+PlotPower(1:100,2)
+
+```
+
+
+### 16
+
+**16.** Using the `Boston` data set, ﬁt classiﬁcation models in order to predict whether a given census tract has a crime rate above or below the median. Explore logistic regression, LDA, naive Bayes, and KNN models using various subsets of the predictors. Describe your ﬁndings.
+
+*Hint: You will have to create the response variable yourself, using the variables that are contained in the `Boston` data set.*
+
 

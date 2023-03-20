@@ -1,16 +1,33 @@
 # 03 - Linear Regression {.unnumbered}
 
+<style>
+
+h3, h4 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+</style>
+
 ## Conceptual
 
-1. **Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.**
+### 1
 
-Null hypotheses for each predictor each coefficient is 0. We can see in the table that we can reject the null hypotheses for **TV** and **radio** but there isn't enough evidence to reject the null hypotheses for **newspaper**.
+**1.** Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
 
-2. **Carefully explain the differences between the KNN classifier and KNN regression methods.**
+- Null hypotheses for each predictor each coefficient is 0. We can see in the table that we can reject the null hypotheses for **TV** and **radio** but there isn't enough evidence to reject the null hypotheses for **newspaper**.
 
-The classifier assigns classes based on the most often class of the closest $K$ elements, on the other hand the regression estimate each value taking the mean of the closest $K$ elements.
+**2.** Carefully explain the differences between the KNN classifier and KNN regression methods.
 
-3. **Suppose we have a data set with five predictors to predict the starting salary after graduation (in thousands of dollars) and after using least squares we fitted the next model:**
+- The classifier assigns classes based on the most often class of the closest $K$ elements, on the other hand the regression estimate each value taking the mean of the closest $K$ elements.
+
+**3.** Suppose we have a data set with five predictors to predict the starting salary after graduation (in thousands of dollars) and after using least squares we fitted the next model:
 
 |Variable|Coefficient|
 |:-------|:----------|
@@ -21,15 +38,15 @@ The classifier assigns classes based on the most often class of the closest $K$ 
 |$X_{4}$ = Interaction between GPA and IQ|$\hat{\beta}_{4} = 0.01$|
 |$X_{5}$ = Interaction between GPA and Level|$\hat{\beta}_{5} = −10$|
 
-- **Which answer is correct, and why?**
+Which answer is correct, and why?
 
-Based on this information we can say that:
+- Based on this information we can say that:
 
 > For a fixed value of IQ and GPA, college graduates earn more, on average, than high school graduate.
 
-As High School students earn on average $\hat{\beta}_{0} = 50$ College students earn |$\hat{\beta}_{0} + \hat{\beta}_{3} = 85$
+- As High School students earn on average $\hat{\beta}_{0} = 50$ College students earn |$\hat{\beta}_{0} + \hat{\beta}_{3} = 85$
 
-- **Predict the salary of a college graduate with IQ of 110 and a GPA of 4.0.**
+**(A)** Predict the salary of a college graduate with IQ of 110 and a GPA of 4.0.
 
 $$
 \begin{split}

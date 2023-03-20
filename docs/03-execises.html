@@ -239,7 +239,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#conceptual" id="toc-conceptual" class="nav-link active" data-scroll-target="#conceptual">Conceptual</a></li>
+  <li><a href="#conceptual" id="toc-conceptual" class="nav-link active" data-scroll-target="#conceptual">Conceptual</a>
+  <ul>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section">1</a></li>
+  </ul></li>
   <li><a href="#applied" id="toc-applied" class="nav-link" data-scroll-target="#applied">Applied</a></li>
   </ul>
 </nav>
@@ -263,19 +266,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
+<style>
+
+h3, h4 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+</style>
 <section id="conceptual" class="level2">
 <h2 class="anchored" data-anchor-id="conceptual">Conceptual</h2>
-<ol type="1">
-<li><strong>Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.</strong></li>
-</ol>
-<p>Null hypotheses for each predictor each coefficient is 0. We can see in the table that we can reject the null hypotheses for <strong>TV</strong> and <strong>radio</strong> but there isn’t enough evidence to reject the null hypotheses for <strong>newspaper</strong>.</p>
-<ol start="2" type="1">
-<li><strong>Carefully explain the differences between the KNN classifier and KNN regression methods.</strong></li>
-</ol>
-<p>The classifier assigns classes based on the most often class of the closest <span class="math inline">\(K\)</span> elements, on the other hand the regression estimate each value taking the mean of the closest <span class="math inline">\(K\)</span> elements.</p>
-<ol start="3" type="1">
-<li><strong>Suppose we have a data set with five predictors to predict the starting salary after graduation (in thousands of dollars) and after using least squares we fitted the next model:</strong></li>
-</ol>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section">1</h3>
+<p><strong>1.</strong> Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.</p>
+<ul>
+<li>Null hypotheses for each predictor each coefficient is 0. We can see in the table that we can reject the null hypotheses for <strong>TV</strong> and <strong>radio</strong> but there isn’t enough evidence to reject the null hypotheses for <strong>newspaper</strong>.</li>
+</ul>
+<p><strong>2.</strong> Carefully explain the differences between the KNN classifier and KNN regression methods.</p>
+<ul>
+<li>The classifier assigns classes based on the most often class of the closest <span class="math inline">\(K\)</span> elements, on the other hand the regression estimate each value taking the mean of the closest <span class="math inline">\(K\)</span> elements.</li>
+</ul>
+<p><strong>3.</strong> Suppose we have a data set with five predictors to predict the starting salary after graduation (in thousands of dollars) and after using least squares we fitted the next model:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -310,17 +327,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
+<p>Which answer is correct, and why?</p>
 <ul>
-<li><strong>Which answer is correct, and why?</strong></li>
+<li>Based on this information we can say that:</li>
 </ul>
-<p>Based on this information we can say that:</p>
 <blockquote class="blockquote">
 <p>For a fixed value of IQ and GPA, college graduates earn more, on average, than high school graduate.</p>
 </blockquote>
-<p>As High School students earn on average <span class="math inline">\(\hat{\beta}_{0} = 50\)</span> College students earn |<span class="math inline">\(\hat{\beta}_{0} + \hat{\beta}_{3} = 85\)</span></p>
 <ul>
-<li><strong>Predict the salary of a college graduate with IQ of 110 and a GPA of 4.0.</strong></li>
+<li>As High School students earn on average <span class="math inline">\(\hat{\beta}_{0} = 50\)</span> College students earn |<span class="math inline">\(\hat{\beta}_{0} + \hat{\beta}_{3} = 85\)</span></li>
 </ul>
+<p><strong>(A)</strong> Predict the salary of a college graduate with IQ of 110 and a GPA of 4.0.</p>
 <p><span class="math display">\[
 \begin{split}
 \hat{Y} &amp; = 35 + 20 (4) + 0.07 (110) + 35 + 0.01(4)(110) - 10 (4) \\
@@ -390,6 +407,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \hat{y} &amp; = \overline{y}
 \end{split}
 \]</span></p>
+</section>
 </section>
 <section id="applied" class="level2">
 <h2 class="anchored" data-anchor-id="applied">Applied</h2>
@@ -1287,10 +1305,6 @@ Model 2: y ~ x + I(x^2)
 <span id="cb72-33"><a href="#cb72-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
 <span id="cb72-34"><a href="#cb72-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
 <span id="cb72-35"><a href="#cb72-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1302,10 +1316,10 @@ Model 2: y ~ x + I(x^2)
 <li><strong>Perform the following commands in R:</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span>x1<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">100</span>) <span class="sc">/</span> <span class="dv">10</span></span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>x1<span class="fl">+0.3</span><span class="sc">*</span>x2<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fl">0.5</span><span class="sc">*</span>x1<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">100</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>x1<span class="fl">+0.3</span><span class="sc">*</span>x2<span class="sc">+</span><span class="fu">rnorm</span>(<span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><strong>The last line corresponds to creating a linear model in which y is a function of x1 and x2. Write out the form of the linear model. What are the regression coeﬃcients?</strong></li>
@@ -1317,8 +1331,8 @@ Y = 2 + 2 x_{1} + 0.3 x_{2} + \epsilon
 <li><strong>What is the correlation between x1 and x2? Create a scatterplot displaying the relationship between the variables.</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x1,x2, </span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"x1 and x2 correlation :"</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x1,x2), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x1,x2, </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"x1 and x2 correlation :"</span>,<span class="fu">round</span>(<span class="fu">cor</span>(x1,x2), <span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1327,11 +1341,11 @@ Y = 2 + 2 x_{1} + 0.3 x_{2} + \epsilon
 <li><strong>Using this data, ﬁt a least squares regression to predict y using x1 and x2. Describe the results obtained. What are ˆβ0, ˆ β1, and ˆβ2? How do these relate to the true β0, β1, and β2? Can you reject the null hypothesis H0 : β1 = 0? How about the null hypothesis H0 : β2 = 0?</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x1<span class="sc">+</span>x2)</span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14Summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(SimulatedModelExc14)</span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14Summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y<span class="sc">~</span>x1<span class="sc">+</span>x2)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14Summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(SimulatedModelExc14)</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>SimulatedModelExc14Summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1359,8 +1373,8 @@ F-statistic:  12.8 on 2 and 97 DF,  p-value: 1.164e-05</code></pre>
 <li><strong>Now ﬁt a least squares regression to predict y using only x1. Comment on your results. Can you reject the null hypothesis H0 : β1 = 0?</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>x1) <span class="sc">|&gt;</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>x1) <span class="sc">|&gt;</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1385,8 +1399,8 @@ F-statistic: 24.86 on 1 and 98 DF,  p-value: 2.661e-06</code></pre>
 <p>Now <span class="math inline">\(\beta_{1}\)</span> we can surely reject the null t-value is now <strong>2.5 times higher</strong> that it used to be.</p>
 <p>-<strong>Now ﬁt a least squares regression to predict y using only x2. Comment on your results. Can you reject the null hypothesis H0 : β1 = 0?</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>x2) <span class="sc">|&gt;</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y<span class="sc">~</span>x2) <span class="sc">|&gt;</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1417,17 +1431,17 @@ F-statistic: 20.98 on 1 and 98 DF,  p-value: 1.366e-05</code></pre>
 <li><strong>Now suppose we obtain one additional observation, which was unfortunately mismeasured.</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>x1_c<span class="ot">&lt;-</span><span class="fu">c</span>(x1, <span class="fl">0.1</span>)</span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>x2_c<span class="ot">&lt;-</span><span class="fu">c</span>(x2, <span class="fl">0.8</span>)</span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>y_c<span class="ot">&lt;-</span><span class="fu">c</span>(y, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>x1_c<span class="ot">&lt;-</span><span class="fu">c</span>(x1, <span class="fl">0.1</span>)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>x2_c<span class="ot">&lt;-</span><span class="fu">c</span>(x2, <span class="fl">0.8</span>)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>y_c<span class="ot">&lt;-</span><span class="fu">c</span>(y, <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li><strong>Re-ﬁt the linear models from (c) to (e) using this new data. What eﬀect does this new observation have on the each of the models?</strong></li>
 </ul>
 <p>Thanks the additional row <strong>x2</strong> seems to be significant rather than <strong>x1</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>ModelC <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x1_c<span class="sc">+</span>x2_c) </span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>ModelC <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x1_c<span class="sc">+</span>x2_c) </span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1452,8 +1466,8 @@ F-statistic: 13.72 on 2 and 98 DF,  p-value: 5.564e-06</code></pre>
 </div>
 <p>In the next model, we can see that the previous model was fitting better to y based on x1. The <span class="math inline">\(R^2\)</span> went down from 0.20 to 0.16.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>ModelD <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x1_c) </span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>ModelD <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x1_c) </span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1477,8 +1491,8 @@ F-statistic: 18.33 on 1 and 99 DF,  p-value: 4.295e-05</code></pre>
 </div>
 <p>In the next model, we can see that the previous model was fitting worse to y based on x2. The <span class="math inline">\(R^2\)</span> went up from 0.18 to 0.21.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>ModelE <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x2_c) </span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>ModelE <span class="ot">&lt;-</span> <span class="fu">lm</span>(y_c<span class="sc">~</span>x2_c) </span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ModelE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1505,24 +1519,24 @@ F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06</code></pre>
 </ul>
 <p>In the <strong>c</strong> model the last observation is a high-leverage point.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-51-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In the <strong>d</strong> model the last observation is an outlier point as it’s studentized residuals is greater than 3.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In the <strong>e</strong> model the last observation is a high-leverage point.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ModelE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1535,20 +1549,20 @@ F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06</code></pre>
 </ul>
 <p>As we can see below the only predictor that wasn’t found significant was the <strong>chas</strong> one.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>BostonModelSummary <span class="ot">&lt;-</span></span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(<span class="at">predictor =</span> <span class="fu">colnames</span>(Boston) <span class="sc">|&gt;</span> <span class="fu">setdiff</span>(<span class="st">"crim"</span>)</span>
-<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  )[, model <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(predictor, \(x) <span class="fu">paste0</span>(<span class="st">"crim~"</span>,x) <span class="sc">|&gt;</span> </span>
-<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
-<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">coef</span>() <span class="sc">|&gt;</span></span>
-<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">as.data.table</span>(<span class="at">keep.rownames =</span> <span class="st">"coef"</span>)) </span>
-<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a>  ][, model[[<span class="dv">1</span>]], </span>
-<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> <span class="st">"predictor"</span></span>
-<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a>  ][predictor <span class="sc">==</span> coef, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"coef"</span>)</span>
-<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a>  ][, is_significant <span class="sc">:</span><span class="er">=</span>  <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span></span>
-<span id="cb92-12"><a href="#cb92-12" aria-hidden="true" tabindex="-1"></a>  ][<span class="fu">order</span>(<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span>)]</span>
-<span id="cb92-13"><a href="#cb92-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb92-14"><a href="#cb92-14" aria-hidden="true" tabindex="-1"></a>BostonModelSummary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>BostonModelSummary <span class="ot">&lt;-</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(<span class="at">predictor =</span> <span class="fu">colnames</span>(Boston) <span class="sc">|&gt;</span> <span class="fu">setdiff</span>(<span class="st">"crim"</span>)</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  )[, model <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(predictor, \(x) <span class="fu">paste0</span>(<span class="st">"crim~"</span>,x) <span class="sc">|&gt;</span> </span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">coef</span>() <span class="sc">|&gt;</span></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">as.data.table</span>(<span class="at">keep.rownames =</span> <span class="st">"coef"</span>)) </span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>  ][, model[[<span class="dv">1</span>]], </span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> <span class="st">"predictor"</span></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a>  ][predictor <span class="sc">==</span> coef, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"coef"</span>)</span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>  ][, is_significant <span class="sc">:</span><span class="er">=</span>  <span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span></span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>  ][<span class="fu">order</span>(<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span>)]</span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>BostonModelSummary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    predictor    Estimate  Std. Error   t value     Pr(&gt;|t|) is_significant
        &lt;char&gt;       &lt;num&gt;       &lt;num&gt;     &lt;num&gt;        &lt;num&gt;         &lt;lgcl&gt;
@@ -1568,16 +1582,16 @@ F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06</code></pre>
 </div>
 <p>Any relation seems to be really linear and the <strong>chas</strong> predictor has been wrongly classify as numeric when it should have been a <strong>qualitative variable</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(predictor <span class="cf">in</span> BostonModelSummary<span class="sc">$</span>predictor){</span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim) <span class="sc">|&gt;</span></span>
-<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"Crim vs "</span>, predictor,<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation :"</span>, <span class="at">correlation =</span> _) <span class="sc">|&gt;</span></span>
-<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim, </span>
-<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> predictor, <span class="at">ylab =</span> <span class="st">"crim"</span>, </span>
-<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> _)</span>
-<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(predictor <span class="cf">in</span> BostonModelSummary<span class="sc">$</span>predictor){</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim) <span class="sc">|&gt;</span></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"Crim vs "</span>, predictor,<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation :"</span>, <span class="at">correlation =</span> _) <span class="sc">|&gt;</span></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim, </span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> predictor, <span class="at">ylab =</span> <span class="st">"crim"</span>, </span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> _)</span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb93-10"><a href="#cb93-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-56-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1617,8 +1631,8 @@ F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06</code></pre>
 </div>
 <p>But after changing chas to a factor we keep the same conclusion and the coefficient it’s the same.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(crim<span class="sc">~</span><span class="fu">as.factor</span>(chas), <span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(crim<span class="sc">~</span><span class="fu">as.factor</span>(chas), <span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1645,15 +1659,15 @@ F-statistic: 1.579 on 1 and 504 DF,  p-value: 0.2094</code></pre>
 </ul>
 <p>Now we just can reject the null hypothesis for the following predictos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>BostonModel2 <span class="ot">&lt;-</span></span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(<span class="at">formula =</span> crim <span class="sc">~</span> . , <span class="at">data =</span> Boston)</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>BostonModelSummary2 <span class="ot">&lt;-</span></span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>(BostonModel2) <span class="sc">|&gt;</span></span>
-<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>() <span class="sc">|&gt;</span></span>
-<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.table</span>(<span class="at">keep.rownames =</span> <span class="st">"predictor"</span>)</span>
-<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>BostonModelSummary2[<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>BostonModel2 <span class="ot">&lt;-</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(<span class="at">formula =</span> crim <span class="sc">~</span> . , <span class="at">data =</span> Boston)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>BostonModelSummary2 <span class="ot">&lt;-</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>(BostonModel2) <span class="sc">|&gt;</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>() <span class="sc">|&gt;</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.table</span>(<span class="at">keep.rownames =</span> <span class="st">"predictor"</span>)</span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>BostonModelSummary2[<span class="st">`</span><span class="at">Pr(&gt;|t|)</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   predictor    Estimate Std. Error   t value     Pr(&gt;|t|)
       &lt;char&gt;       &lt;num&gt;      &lt;num&gt;     &lt;num&gt;        &lt;num&gt;
@@ -1667,26 +1681,26 @@ F-statistic: 1.579 on 1 and 504 DF,  p-value: 0.2094</code></pre>
 <li><strong>How do your results from (a) compare to your results from (b)? Create a plot displaying the univariate regression coeﬃcients from (a) on the x-axis, and the multiple regression coeﬃcients from (b) on the y-axis. That is, each predictor is displayed as a single point in the plot. Its coeﬃcient in a simple linear regression model is shown on the x-axis, and its coeﬃcient estimate in the multiple linear regression model is shown on the y-axis.</strong></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(BostonModelSummary, BostonModelSummary2,</span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">by =</span> <span class="st">"predictor"</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_uni"</span>,<span class="st">"_multi"</span>)</span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>  )[, .(predictor,</span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">Estimate_uni =</span> <span class="fu">round</span>(Estimate_uni, <span class="dv">2</span>),</span>
-<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">Estimate_multi =</span> <span class="fu">round</span>(Estimate_multi, <span class="dv">2</span>), </span>
-<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">coef_change =</span> <span class="fu">abs</span>(Estimate_uni <span class="sc">/</span> Estimate_multi),</span>
-<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">vif =</span> car<span class="sc">::</span><span class="fu">vif</span>(BostonModel2)[predictor],</span>
-<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">kept_significant =</span> is_significant <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Pr(&gt;|t|)_multi</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
-<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>  ][, predictor <span class="sc">:</span><span class="er">=</span> <span class="fu">reorder</span>(predictor, coef_change)] <span class="sc">|&gt;</span></span>
-<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(coef_change,vif))<span class="sc">+</span></span>
-<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> kept_significant))<span class="sc">+</span></span>
-<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> predictor), <span class="at">vjust =</span> <span class="fl">1.2</span>)<span class="sc">+</span></span>
-<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRUE"</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, <span class="st">"FALSE"</span> <span class="ot">=</span> <span class="st">"gray80"</span>))<span class="sc">+</span></span>
-<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
-<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
-<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Significan Predictors Change Less"</span>,</span>
-<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Predictos Coeﬃcient Change Between Simple and Multiple Lineal Models"</span>)<span class="sc">+</span></span>
-<span id="cb99-18"><a href="#cb99-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
-<span id="cb99-19"><a href="#cb99-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb99-20"><a href="#cb99-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">merge</span>(BostonModelSummary, BostonModelSummary2,</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">by =</span> <span class="st">"predictor"</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_uni"</span>,<span class="st">"_multi"</span>)</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  )[, .(predictor,</span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">Estimate_uni =</span> <span class="fu">round</span>(Estimate_uni, <span class="dv">2</span>),</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">Estimate_multi =</span> <span class="fu">round</span>(Estimate_multi, <span class="dv">2</span>), </span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">coef_change =</span> <span class="fu">abs</span>(Estimate_uni <span class="sc">/</span> Estimate_multi),</span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">vif =</span> car<span class="sc">::</span><span class="fu">vif</span>(BostonModel2)[predictor],</span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">kept_significant =</span> is_significant <span class="sc">&amp;</span> <span class="st">`</span><span class="at">Pr(&gt;|t|)_multi</span><span class="st">`</span> <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>  ][, predictor <span class="sc">:</span><span class="er">=</span> <span class="fu">reorder</span>(predictor, coef_change)] <span class="sc">|&gt;</span></span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(coef_change,vif))<span class="sc">+</span></span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> kept_significant))<span class="sc">+</span></span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> predictor), <span class="at">vjust =</span> <span class="fl">1.2</span>)<span class="sc">+</span></span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"TRUE"</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, <span class="st">"FALSE"</span> <span class="ot">=</span> <span class="st">"gray80"</span>))<span class="sc">+</span></span>
+<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
+<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Significan Predictors Change Less"</span>,</span>
+<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Predictos Coeﬃcient Change Between Simple and Multiple Lineal Models"</span>)<span class="sc">+</span></span>
+<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-59-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1698,23 +1712,23 @@ F-statistic: 1.579 on 1 and 504 DF,  p-value: 0.2094</code></pre>
 Y = \beta_{0} + \beta_{1} X + \beta_{2} X^2 + \beta_{3} X^2 + \epsilon
 \]</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>SimpleVsPolySummary <span class="ot">&lt;-</span></span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(<span class="at">predictor =</span> <span class="fu">colnames</span>(Boston) <span class="sc">|&gt;</span> <span class="fu">setdiff</span>(<span class="fu">c</span>(<span class="st">"crim"</span>,<span class="st">"chas"</span>))</span>
-<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a>  )[,<span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">r2_simple =</span> <span class="fu">sapply</span>(predictor, \(x) <span class="fu">paste0</span>(<span class="st">"crim~"</span>,x) <span class="sc">|&gt;</span> </span>
-<span id="cb100-4"><a href="#cb100-4" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
-<span id="cb100-5"><a href="#cb100-5" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb100-6"><a href="#cb100-6" aria-hidden="true" tabindex="-1"></a>                               (\(x) x[[<span class="st">"r.squared"</span>]])() ),</span>
-<span id="cb100-7"><a href="#cb100-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">r2_poly =</span> <span class="fu">sapply</span>(predictor, \(x) <span class="fu">gsub</span>(<span class="st">"x"</span>,x,<span class="st">"crim~x+I(x^2)+I(x^3)"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb100-8"><a href="#cb100-8" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
-<span id="cb100-9"><a href="#cb100-9" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
-<span id="cb100-10"><a href="#cb100-10" aria-hidden="true" tabindex="-1"></a>                             (\(x) x[[<span class="st">"r.squared"</span>]])() )), </span>
-<span id="cb100-11"><a href="#cb100-11" aria-hidden="true" tabindex="-1"></a>  ][, change <span class="sc">:</span><span class="er">=</span> r2_poly <span class="sc">-</span> r2_simple</span>
-<span id="cb100-12"><a href="#cb100-12" aria-hidden="true" tabindex="-1"></a>  ][<span class="fu">order</span>(<span class="sc">-</span>change)]</span>
-<span id="cb100-13"><a href="#cb100-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb100-14"><a href="#cb100-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb100-15"><a href="#cb100-15" aria-hidden="true" tabindex="-1"></a>SimpleVsPolySummary[, <span class="fu">lapply</span>(.SD, \(x) </span>
-<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">if</span>(<span class="fu">is.numeric</span>(x)) scales<span class="sc">::</span><span class="fu">percent</span>(x, <span class="at">accuracy =</span> <span class="fl">0.01</span>)</span>
-<span id="cb100-17"><a href="#cb100-17" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">else</span> x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>SimpleVsPolySummary <span class="ot">&lt;-</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.table</span>(<span class="at">predictor =</span> <span class="fu">colnames</span>(Boston) <span class="sc">|&gt;</span> <span class="fu">setdiff</span>(<span class="fu">c</span>(<span class="st">"crim"</span>,<span class="st">"chas"</span>))</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>  )[,<span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">r2_simple =</span> <span class="fu">sapply</span>(predictor, \(x) <span class="fu">paste0</span>(<span class="st">"crim~"</span>,x) <span class="sc">|&gt;</span> </span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a>                               (\(x) x[[<span class="st">"r.squared"</span>]])() ),</span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">r2_poly =</span> <span class="fu">sapply</span>(predictor, \(x) <span class="fu">gsub</span>(<span class="st">"x"</span>,x,<span class="st">"crim~x+I(x^2)+I(x^3)"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">lm</span>(<span class="at">data =</span> Boston) <span class="sc">|&gt;</span></span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">summary</span>() <span class="sc">|&gt;</span></span>
+<span id="cb99-10"><a href="#cb99-10" aria-hidden="true" tabindex="-1"></a>                             (\(x) x[[<span class="st">"r.squared"</span>]])() )), </span>
+<span id="cb99-11"><a href="#cb99-11" aria-hidden="true" tabindex="-1"></a>  ][, change <span class="sc">:</span><span class="er">=</span> r2_poly <span class="sc">-</span> r2_simple</span>
+<span id="cb99-12"><a href="#cb99-12" aria-hidden="true" tabindex="-1"></a>  ][<span class="fu">order</span>(<span class="sc">-</span>change)]</span>
+<span id="cb99-13"><a href="#cb99-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-14"><a href="#cb99-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-15"><a href="#cb99-15" aria-hidden="true" tabindex="-1"></a>SimpleVsPolySummary[, <span class="fu">lapply</span>(.SD, \(x) </span>
+<span id="cb99-16"><a href="#cb99-16" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">if</span>(<span class="fu">is.numeric</span>(x)) scales<span class="sc">::</span><span class="fu">percent</span>(x, <span class="at">accuracy =</span> <span class="fl">0.01</span>)</span>
+<span id="cb99-17"><a href="#cb99-17" aria-hidden="true" tabindex="-1"></a>                             <span class="cf">else</span> x)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    predictor r2_simple r2_poly change
        &lt;char&gt;    &lt;char&gt;  &lt;char&gt; &lt;char&gt;
@@ -1730,16 +1744,16 @@ Y = \beta_{0} + \beta_{1} X + \beta_{2} X^2 + \beta_{3} X^2 + \epsilon
 10:     lstat    20.76%  21.79%  1.03%
 11:       rad    39.13%  40.00%  0.88%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(predictor <span class="cf">in</span> SimpleVsPolySummary[change <span class="sc">&gt;=</span> <span class="fl">0.1</span> ,predictor]){</span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim) <span class="sc">|&gt;</span></span>
-<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"Crim vs "</span>, predictor,<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation :"</span>, <span class="at">correlation =</span> _) <span class="sc">|&gt;</span></span>
-<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim, </span>
-<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> predictor, <span class="at">ylab =</span> <span class="st">"crim"</span>, </span>
-<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> _)</span>
-<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(predictor <span class="cf">in</span> SimpleVsPolySummary[change <span class="sc">&gt;=</span> <span class="fl">0.1</span> ,predictor]){</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim) <span class="sc">|&gt;</span></span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">|&gt;</span></span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"Crim vs "</span>, predictor,<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation :"</span>, <span class="at">correlation =</span> _) <span class="sc">|&gt;</span></span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(Boston[[predictor]],Boston<span class="sc">$</span>crim, </span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> predictor, <span class="at">ylab =</span> <span class="st">"crim"</span>, </span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> _)</span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="03-execises_files/figure-html/unnamed-chunk-60-1.png" class="img-fluid" width="672"></p>
 </div>

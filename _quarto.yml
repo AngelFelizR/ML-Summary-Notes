@@ -43,5 +43,9 @@ format:
     code-link: true
     author-meta: "Angel Feliz"
     callout-appearance: simple
+    toc-depth: 4
+
+execute:
+  warning: false
 
 editor: source
