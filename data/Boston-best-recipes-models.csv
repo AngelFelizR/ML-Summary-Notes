@@ -1,0 +1,6 @@
+recipe,model,accuracy,roc_auc
+AllVars,knn 10,0.9375,0.965576171875
+AllVars,logistic,0.9375,0.964111328125
+Significant,logistic,0.9296875,0.9635009765625
+AllVars,knn 40,0.9375,0.9619140625
+Significant,knn 20,0.9296875,0.9619140625

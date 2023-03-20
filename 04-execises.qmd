@@ -15,6 +15,8 @@ h3, h4 {
 
 </style>
 
+## Libraries
+
 ```{r}
 library(ggplot2)
 library(patchwork)
@@ -23,8 +25,82 @@ library(tidymodels)
 library(discrim)
 library(klaR)
 library(poissonreg)
-library(corrr)
-library(paletteer)
+```
+
+## Custom functions
+
+In this section I place the functions that were used in many code chunks across the chapter.
+
+```{r}
+
+rbind_list_name <- function(list.DT, new_col_name, ...){
+  
+  stopifnot(is.list(list.DT))
+  stopifnot(all(sapply(list.DT, is.data.table)))
+  
+  lapply(seq_along(list.DT), 
+         function(tb_i){
+           list.DT[[tb_i]][, (new_col_name) := names(list.DT)[tb_i]] }) |>
+  rbindlist(...)
+}
+
+get_class_metrics <- metric_set(sens, spec)
+
+get_class_matrix_metrics <- function(model,
+                                     split,
+                                     fit_formula,
+                                     metric_function = metric_set(sens, spec),
+                                     ...){
+  
+ testing_predictions <-
+  model |>
+  last_fit(as.formula(fit_formula), split = split) |>
+  collect_predictions() 
+ 
+ truth_var <- sub(pattern = " *~.+$", replacement = "", x = fit_formula)
+ 
+ list(conf_mat = conf_mat(testing_predictions, 
+                          truth = !!truth_var, 
+                          estimate = .pred_class),
+      metrics = metric_function(testing_predictions,
+                                truth = !!truth_var,
+                                estimate = .pred_class,
+                                ...) )
+}
+
+
+model_knn_k <- function(k){
+  
+  model <-
+    nearest_neighbor(neighbors = k) |>
+    set_mode("classification") |>
+    set_engine("kknn")
+  
+  return(model)
+}
+
+
+ModelNaiveBayes <- 
+  naive_Bayes() |>
+  set_mode("classification") |> 
+  set_engine("klaR") |>
+  set_args(usekernel = FALSE)
+
+
+evaluate_model <- function(model, recipe_list, split){
+  
+  lapply(recipe_list, function(recipe, split){
+    workflow() |>
+      add_recipe(recipe) |>
+      add_model(model) |>
+      last_fit(split = split) |>
+      collect_metrics() |>
+      as.data.table() }, 
+  split = split) |>
+  rbind_list_name(new_col_name = "recipe")
+  
+}
+
 ```
 
 
@@ -48,7 +124,7 @@ $$
 
 ### 2
 
-**2.** It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the kth class are drawn from a N(µk,σ2) distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.
+**2.** It was stated in the text that classifying an observation to the class for which (4.17) is largest is equivalent to classifying an observation to the class for which (4.18) is largest. Prove that this is the case. In other words, under the assumption that the observations in the *k*th class are drawn from a $N(\mu_k,\sigma^2)$ distribution, the Bayes classiﬁer assigns an observation to the class for which the discriminant function is maximized.
 
 - To prove that both functions would provide the same class we need to check that both functions change from one $Y$ class to other in the same $x$ value.
 
@@ -129,6 +205,7 @@ ldm_k_prop <- function(x,
   
 }
 
+
 BasePlot <-
   data.frame(x = 1:5) |>
   ggplot(aes(x))+
@@ -159,7 +236,7 @@ p2 <-
 
 ### 3
 
-**3.** This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where p = 1; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the kth class then X comes from a one-dimensional normal distribution, X ∼ N(µk, σ2k). Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.
+**3.** This problem relates to the QDA model, in which the observations within each class are drawn from a normal distribution with a class specific mean vector and a class specific covariance matrix. We consider the simple case where $p = 1$; i.e. there is only one feature. Suppose that we have K classes, and that if an observation belongs to the *k*th class then X comes from a one-dimensional normal distribution, $X ∼ N(\mu_k, \sigma^2_k)$. Recall that the density function for the one-dimensional normal distribution is given in (4.16). Prove that in this case, the Bayes classifier is not linear. Argue that it is in fact quadratic.
 
 $$
 \begin{split}
@@ -199,11 +276,11 @@ $$
 
 ### 4
 
-**4.** When the number of features p is large, there tends to be a deterioration in the performance of KNN and other local approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.
+**4.** When the number of features *p* is large, there tends to be a deterioration in the performance of KNN and other *local* approaches that perform prediction using only observations that are near the test observation for which a prediction must be made. This phenomenon is known as the _curse of dimensionality_, and it ties into the fact that non-parametric approaches often perform poorly when p is large. We will now investigate this curse.
 
 #### A
 
-**(A)** Suppose that we have a set of observations, each with measurements on p = 1 feature, X. We assume that X is uniformly (evenly) distributed on [0, 1]. Associated with each observation is a response value. Suppose that we wish to predict a test observation’s response using only observations that are within 10 % of the range of X closest to that test observation. For instance, in order to predict the response for a test observation with X = 0.6, we will use observations in the range [0.55, 0.65]. On average, what fraction of the available observations will we use to make the prediction?
+**(A)** Suppose that we have a set of observations, each with measurements on $p = 1$ feature, X. We assume that X is uniformly (evenly) distributed on $[0, 1]$. Associated with each observation is a response value. Suppose that we wish to predict a test observation’s response using only observations that are within 10 % of the range of $X$ closest to that test observation. For instance, in order to predict the response for a test observation with $X = 0.6$, we will use observations in the range $[0.55, 0.65]$. On average, what fraction of the available observations will we use to make the prediction?
 
 ```{r}
 
@@ -222,7 +299,7 @@ mean(UnifDistVar1$prop)
 
 #### B
 
-**(B)** Now suppose that we have a set of observations, each with measurements on p = 2 features, X1 and X2. We assume that (X1, X2) are uniformly distributed on [0, 1] × [0, 1]. We wish to predict a test observation’s response using only observations that are within 10 % of the range of X1 and within 10 % of the range of X2 closest to that test observation. For instance, in order to predict the response for a test observation with X1 = 0.6 and X2 = 0.35, we will use observations in the range [0.55, 0.65] for X1 and in the range [0.3, 0.4] for X2. On average, what fraction of the available observations will we use to make the prediction?
+**(B)** Now suppose that we have a set of observations, each with measurements on $p = 2$ features, $X_1$ and $X_2$. We assume that $(X_1, X_2)$ are uniformly distributed on $[0, 1] \times [0, 1]$. We wish to predict a test observation’s response using only observations that are within 10 % of the range of X1 and within 10 % of the range of $X_2$ closest to that test observation. For instance, in order to predict the response for a test observation with $X_1 = 0.6$ and $X_2 = 0.35$, we will use observations in the range $[0.55, 0.65]$ for $X_1$ and in the range $[0.3, 0.4]$ for $X_2$. On average, what fraction of the available observations will we use to make the prediction?
 
 ```{r}
 set.seed(123)
@@ -248,13 +325,15 @@ mean(UnifDistVar2$prop)
 
 #### D
 
-**(D)** Using your answers to parts (a)–(c), argue that a drawback of KNN when p is large is that there are very few training observations “near” any given test observation.
+**(D)** Using your answers to parts (a)–(c), argue that a drawback of KNN when *p* is large is that there are very few training observations “near” any given test observation.
 
 - As *p* gets lager every point has more specifications to meet and the number of point which meet them decrease.
 
 #### E (missing)
 
-**(E)** Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For p = 1, 2, and 100, what is the length of each side of the hypercube? Comment on your answer.
+**(E)** Now suppose that we wish to make a prediction for a test observation by creating a p-dimensional hypercube centered around the test observation that contains, on average, 10% of the training observations. For $p = 1$, $2$, and $100$, what is the length of each side of the hypercube? Comment on your answer.
+
+*Note: A hypercube is a generalization of a cube to an arbitrary number of dimensions. When *$p = 1$*, a hypercube is simply a line segment, when *$p = 2$ *it is a square, and when *$p = 100$ *it is a 100-dimensional cube.*
 
 ### 5
 
@@ -292,7 +371,7 @@ mean(UnifDistVar2$prop)
 
 ### 6
 
-**6.** Suppose we collect data for a group of students in a statistics class with variables X1 = hours studied, X2 = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.
+**6.** Suppose we collect data for a group of students in a statistics class with variables $X_1$ = hours studied, $X_2$ = undergrad GPA, and Y = receive an A. We fit a logistic regression and produce estimated coefficient, $\hat{\beta}_0 = −6$, $\hat{\beta}_1 = 0.05$ and $\hat{\beta}_2 = 1$.
 
 #### A
 
@@ -322,7 +401,7 @@ $$
 
 ### 7
 
-**7.** Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, $80\text{%}$ of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.
+**7.** Suppose that we wish to predict whether a given stock will issue a dividend this year (“Yes” or “No”) based on $X$, last year’s percent profit. We examine a large number of companies and discover that the mean value of X for companies that issued a dividend was $\overline{X}_y = 10$, while the mean for those that didn’t was $\overline{X}_n = 0$. In addition, the variance of X for these two sets of companies was $\hat{\sigma}^2 = 36$. Finally, *80 %* of companies issued dividends. Assuming that X follows a normal distribution, predict the probability that a company will issue a dividend this year given that its percentage profit was $x = 4$ last year.
 
 
 $$
@@ -545,10 +624,6 @@ melt(WeeklyDT,
 **(B)** Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?
 
 ```{r}
-
-
-get_class_metrics <- metric_set(sens, spec)
-
 LogisticLagModelFit <-
   logistic_reg() |>
   fit(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume, data = WeeklyDT)
@@ -592,28 +667,6 @@ WeeklyYearSplit <-
 
 WeeklyYearTraining <- training(WeeklyYearSplit)
 
-get_class_matrix_metrics <- function(model,
-                                     split,
-                                     fit_formula,
-                                     metric_function = metric_set(sens, spec),
-                                     ...){
-  
- testing_predictions <-
-  model |>
-  last_fit(as.formula(fit_formula), split = split) |>
-  collect_predictions() 
- 
- truth_var <- sub(pattern = " *~.+$", replacement = "", x = fit_formula)
- 
- list(conf_mat = conf_mat(testing_predictions, 
-                          truth = !!truth_var, 
-                          estimate = .pred_class),
-      metrics = metric_function(testing_predictions,
-                                truth = !!truth_var,
-                                estimate = .pred_class,
-                                ...) )
-}
-
 WeeklyYearLogisticResults <-
   logistic_reg() |>
   get_class_matrix_metrics(split = WeeklyYearSplit,
@@ -655,17 +708,6 @@ WeeklyYearQdaResults
 
 ```{r}
 
-model_knn_k <- function(k){
-  
-  model <-
-    nearest_neighbor(neighbors = k) |>
-    set_mode("classification") |>
-    set_engine("kknn")
-  
-  return(model)
-}
-  
-
 WeeklyYearKnnResults <-
   get_class_matrix_metrics(model_knn_k(1),
                            split = WeeklyYearSplit,
@@ -679,12 +721,6 @@ WeeklyYearKnnResults
 **(H)** Repeat (d) using naive Bayes.
 
 ```{r}
-ModelNaiveBayes <- 
-  naive_Bayes() |>
-  set_mode("classification") |> 
-  set_engine("klaR") |>
-  set_args(usekernel = FALSE)
-  
 WeeklyYearNbResults <-
   get_class_matrix_metrics(ModelNaiveBayes,
                            split = WeeklyYearSplit,
@@ -712,97 +748,76 @@ list(cbind(WeeklyYearLogisticResults$metrics, model = "logistic"),
 
 **(J)** Experiment with diﬀerent combinations of predictors, including possible transformations and interactions, for each of the methods. Report the variables, method, and associated confusion matrix that appears to provide the best results on the held out data. Note that you should also experiment with values for K in the KNN classiﬁer.
 
+- Let's define different recipes to evaluate
+
 ```{r}
-#| eval: FALSE
 
-# Defining the MODELS and METRICS to evaluate
+WeeklyRecipeBaseFormula <-
+  recipe(Direction ~  Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume + year_week,
+         data = WeeklyYearTraining)
 
-evaluate_models <- function(recipe,
-                            split){
-  
-  seq.int(10L, 100L, 10L) |>
-  c(1L) |>
+WeeklyRecipeLogVolume <-
+  WeeklyRecipeBaseFormula |>
+  step_log(Volume, base = 10)
+
+WeeklyRecipeInteractions <-
+  WeeklyRecipeLogVolume |>
+  step_interact(~ Volume:year_week + Volume:starts_with("Lag")) 
+
+
+WeeklyRecipeList <-
+  list("BaseFormula" = WeeklyRecipeBaseFormula,
+       "LogVolume" = WeeklyRecipeLogVolume,
+       "Interactions" = WeeklyRecipeInteractions)
+```
+
+- The models to fit
+
+```{r}
+WeeklyModelList <-
+  c(1L, seq.int(10L, 100L, 10L)) |>
   (\(x) structure(x, names = paste("knn",x)) )() |>
   lapply(model_knn_k) |>
   append(list("logistic" = logistic_reg(),
               "lda" = discrim_linear(),
               "qda" = discrim_quad(),
-              bayes = ModelNaiveBayes)) |>
-  lapply(function(model, recipe, split){
-    workflow() |>
-      add_recipe(recipe) |>
-      add_model(model) |>
-      last_fit(split = split) |>
-      collect_metrics() |>
-      as.data.table() },
-  recipe = recipe,
-  split = split) |>
-  (\(list.DT) lapply(seq_along(list.DT), function(tb_i){
-              list.DT[[tb_i]][, model_name := names(list.DT)[tb_i] ] })
-  )() |>
-  rbindlist() |>
-  dcast(... ~ .metric, value.var = ".estimate")
-  
-}
-
-
-# Defining the RECIPES to use
-
-RecipeBaseFormula <-
-  recipe(Direction ~  Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume + year_week,
-         data = WeeklyYearTraining)
-
-RecipeLogVolume <-
-  RecipeBaseFormula |>
-  step_log(Volume, base = 10)
-
-RecipeInteractions <-
-  RecipeLogVolume |>
-  step_interact(~ Volume:year_week + Volume:starts_with("Lag")) 
-
-
-# Testing some models
-
-WeeklyEvaluationResults <-
-  list("BaseFormula" = RecipeBaseFormula,
-       "LogVolume" = RecipeLogVolume,
-       "Interactions" = RecipeInteractions) |>
-  lapply(evaluate_models, split = WeeklyYearSplit) |>
-  (\(list.DT) lapply(seq_along(list.DT), function(tb_i){
-    list.DT[[tb_i]][, recipe := names(list.DT)[tb_i] ] })
-  )() |>
-  rbindlist() |>
-  DT(order(-roc_auc)) |>
-  DT(j = k := sub(pattern = "[A-Za-z]+ ?", replacement = "", model_name) |> as.integer())
- 
-
-WeeklyEvaluationResults[, .SD[1L], 
-                        by = .(model_name = fifelse(model_name %like% "knn", 
-                                                    "knn", model_name))]
-
+              bayes = ModelNaiveBayes)) 
 ```
 
+- Performing the evaluation
+
+```{r}
+#| eval: false
+
+WeeklyEvaluationResults <-
+  lapply(WeeklyModelList,
+         FUN = evaluate_model,
+         recipe_list = WeeklyRecipeList,
+         split = WeeklyYearSplit) |>
+  rbind_list_name(new_col_name = "model", fill = TRUE)
+  
+ 
+WeeklyEvaluationResults[, dcast(.SD, recipe+model ~.metric,
+                                value.var = ".estimate")
+][order(-roc_auc)
+][1:5]
+
+```
 
 ```{r}
 #| echo: false
 
 fread(here::here("data/Weekly-best-recipes-models.csv"))
 
-RecipeInteractions <-
-  recipe(Direction ~  Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume + year_week,
-         data = WeeklyYearTraining) |>
-  step_log(Volume, base = 10) |>
-  step_interact(~ Volume:year_week + Volume:starts_with("Lag")) 
-
 ```
 
 
-- In this case the *Logistic Regressions* has the best general resultas after adding interactions to the model.
+- In this case the *Logistic Regressions* has the best general results after adding interactions to the model.
 
 ```{r}
 WeeklyFittedWorkFlow <-
   workflow() |>
-  add_recipe(RecipeInteractions) |>
+  add_recipe(WeeklyRecipeInteractions) |>
   add_model(logistic_reg()) |>
   fit(data = WeeklyYearTraining) 
 
@@ -1120,5 +1135,239 @@ PlotPower(1:100,2)
 **16.** Using the `Boston` data set, ﬁt classiﬁcation models in order to predict whether a given census tract has a crime rate above or below the median. Explore logistic regression, LDA, naive Bayes, and KNN models using various subsets of the predictors. Describe your ﬁndings.
 
 *Hint: You will have to create the response variable yourself, using the variables that are contained in the `Boston` data set.*
+
+- Let's transform the data.
+
+```{r}
+BostonDT <- 
+  as.data.table(Boston
+  )[,`:=`(high_crim = factor(crim > median(crim),levels = c("TRUE","FALSE")),
+          rad = factor(rad),
+          crim = NULL)]
+
+set.seed(2014)
+
+BostonSplit <- initial_split(BostonDT, strata = high_crim)
+
+BostonTraining <- training(BostonSplit)
+
+BostonRecipeAllVars <-
+  recipe(high_crim ~ . , data = BostonTraining) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_corr(all_numeric_predictors(), threshold = 0.8)
+
+BostonTrainingPrep <-
+  prep(BostonRecipeAllVars, training = BostonTraining) |>
+  bake(new_data = NULL) |>
+  as.data.table()
+```
+
+- Variable with differences
+
+```{r}
+
+ggplot(BostonTrainingPrep, aes(zn, fill =  factor(high_crim,levels = c("FALSE","TRUE"))))+
+  geom_histogram(alpha = 0.5, bins = 8, position = "identity")+
+  scale_fill_manual(values = c("FALSE" = "#AAAAAA", "TRUE" = "dodgerblue3"))+
+  labs(title = "The crime is higher in zones with less residential land") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(BostonTrainingPrep, aes(high_crim, indus))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher in zones with\na greater proportion of non-retail stores") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(high_crim, nox))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher in zones with higher concentration of nitrogen oxides") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(high_crim,  age))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher in old dwelling",
+       y = "Proportion of dwelling built prior to 1940") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(high_crim,  dis))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher as get closer to the employment centres",
+       y = "Proportion of dwelling built prior to 1940") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+BostonTraining[, .(prob = mean(high_crim == "TRUE"),
+                   x = sum(high_crim == "TRUE"),
+                   n = .N),
+               by = "rad"
+  # Using Jeffeys CI base on Beta distribution
+  ][, `:=`(lower = qbeta(0.025, 0.5+x, 0.5 +n-x),
+           higher = qbeta(0.975, 0.5+x, 0.5 +n-x),
+           rad = reorder(rad, prob))] |>
+  ggplot(aes(rad, prob, group = "1")) +
+  geom_ribbon(aes(ymin = lower, ymax = higher),
+                 fill = "gray90")+
+  geom_line(color = "dodgerblue3") +
+  geom_point(size = 2, color = "gray40")+
+  labs(title = "The crime has a positive correlation with the index of accessibility") +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(BostonTrainingPrep, aes(high_crim,  lstat))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher as lower status increases") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(high_crim,  medv))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime is higher as the dwelling is cheaper") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+```
+
+- Variable without differences
+
+```{r}
+BostonTrainingPrep[, .(prob = mean(high_crim == "TRUE"),
+                       x = sum(high_crim == "TRUE"),
+                       n = .N),
+                   by = .(chas = factor(chas))
+  # Using Jeffeys CI base on Beta distribution
+  ][, `:=`(lower = qbeta(0.025, 0.5+x, 0.5 +n-x),
+           higher = qbeta(0.975, 0.5+x, 0.5 +n-x))] |>
+  ggplot(aes(prob, chas)) +
+  geom_errorbarh(aes(xmin = lower, xmax = higher),
+                 color = "#AAAAAA",
+                 height = .3)+
+  geom_point(aes(color = chas), size = 3)+
+  labs(title = "We don't have enough evidence to confirm a significan\ndifference between tracts with or without river") +
+  scale_x_continuous(labels = percent_format(accuracy = 1)) +
+  scale_color_manual(values = c("1" = "dodgerblue3", "0" = "#AAAAAA")) +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(high_crim, rm))+
+  geom_violin(fill = NA, color = "#AAAAAA") +
+  geom_boxplot(aes(fill = high_crim), alpha = 0.8) +
+  scale_fill_manual(values = c("TRUE" = "dodgerblue3", "FALSE" = "#AAAAAA")) +
+  labs(title = "The crime level is the same no matter the number of rooms",
+       y = "Number of Rooms",
+       x = "Crime over the median") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+
+ggplot(BostonTrainingPrep, aes(ptratio, fill =  factor(high_crim,levels = c("FALSE","TRUE"))))+
+  geom_histogram(alpha = 0.5, bins = 6, position = "identity")+
+  scale_fill_manual(values = c("FALSE" = "#AAAAAA", "TRUE" = "dodgerblue3"))+
+  labs(title = "The crime level is the same no matter the pupil-teacher ratio") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+ggplot(BostonTrainingPrep, aes(black, fill =  factor(high_crim,levels = c("FALSE","TRUE"))))+
+  geom_histogram(alpha = 0.5, bins = 12, position = "identity")+
+  scale_fill_manual(values = c("FALSE" = "#AAAAAA", "TRUE" = "dodgerblue3"))+
+  labs(title = "The crime level is the same the proportion of blacks by town") +
+  theme_classic() + 
+  theme(legend.position = "none")
+
+```
+
+- Let's define different recipes to evaluate
+
+```{r}
+BostonRecipeSignificant <-
+  recipe(high_crim ~ zn + indus + nox + age + dis + rad + lstat + medv,
+         data = BostonTraining) |>
+  step_dummy(all_nominal_predictors()) |>
+  step_corr(all_numeric_predictors(), threshold = 0.8)
+
+
+BostonRecipeList <-
+  list("AllVars" = BostonRecipeAllVars,
+       "Significant" = BostonRecipeSignificant)
+```
+
+- The models to fit
+
+```{r}
+BostonModelList <-
+  c(1L, seq.int(10L, 100L, 10L)) |>
+  (\(x) structure(x, names = paste("knn",x)) )() |>
+  lapply(model_knn_k) |>
+  # We couldn't fit data with QDA or a Naive Bayes as the variables
+  # has the variable has zero variance in some cases
+  append(list("logistic" = logistic_reg(),
+              "lda" = discrim_linear())) 
+```
+
+- Performing the evaluation
+
+```{r}
+#| eval: false
+
+BostonEvaluationResults <-
+  lapply(BostonModelList,
+         FUN = evaluate_model,
+         recipe_list = BostonRecipeList,
+         split = BostonSplit) |>
+  rbind_list_name(new_col_name = "model", fill = TRUE)
+  
+ 
+BostonEvaluationResults[, dcast(.SD,recipe+model ~.metric,
+                                value.var = ".estimate")
+][order(-roc_auc)
+][1:5]
+
+```
+
+```{r}
+#| echo: false
+
+fread(here::here("data/Boston-best-recipes-models.csv"))
+
+```
+
+- As we can see the the Logistic Regression and the KNN can predict really well this variable no matter if we take all the predictor or the ones highlighted during the exploration process. In that case would use the **Logistic Regression** with the **Significant** recipe.
+
+```{r}
+BostonFittedWorkFlow <-
+  workflow() |>
+  add_recipe(BostonRecipeSignificant) |>
+  add_model(logistic_reg()) |>
+  fit(data = BostonTraining) 
+
+BostonFittedWorkFlow$fit$fit$fit |>
+  tidy() |>
+  filter(term != "(Intercept)") |>
+  ggplot(aes(abs(estimate), reorder(term,abs(estimate))))+
+  geom_col(aes(fill = estimate >= 0), alpha = 0.8)+
+  scale_fill_manual(values = c("FALSE" = "firebrick3", 
+                               "TRUE" = "dodgerblue3"))+
+  scale_x_log10(labels = comma_format(accuracy = 0.01))+
+  theme_classic()+
+  theme(legend.position = "none")
+```
 
 

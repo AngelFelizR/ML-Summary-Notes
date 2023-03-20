@@ -1,6 +1,6 @@
-model_name,.estimator,.config,accuracy,roc_auc,recipe,k
-logistic,binary,Preprocessor1_Model1,0.596153846153846,0.61646969119329,Interactions,
-lda,binary,Preprocessor1_Model1,0.605769230769231,0.615707205489897,Interactions,
-knn,binary,Preprocessor1_Model1,0.586538461538462,0.602363705680518,LogVolume,30
-qda,binary,Preprocessor1_Model1,0.432692307692308,0.529165078154785,BaseFormula,
-bayes,binary,Preprocessor1_Model1,0.442307692307692,0.492565764391918,BaseFormula,
+recipe,model,accuracy,roc_auc
+Interactions,logistic,0.596153846153846,0.61646969119329
+Interactions,lda,0.605769230769231,0.615707205489897
+LogVolume,knn 30,0.586538461538462,0.602363705680518
+LogVolume,knn 40,0.576923076923077,0.598170034311857
+LogVolume,knn 50,0.576923076923077,0.593213877239802
