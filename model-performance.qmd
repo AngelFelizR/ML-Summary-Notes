@@ -83,6 +83,9 @@ $$
 Ave(y_{0}-\hat{f}(x_{0}))^2
 $$
 
+![](img/01-Training-vs-Test-Error.png){fig-align="center"}
+
+
 
 - **Test error rate**
 

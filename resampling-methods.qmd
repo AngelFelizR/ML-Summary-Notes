@@ -1,0 +1,116 @@
+# Resampling methods {.unnumbered}
+
+## Introduction
+
+The *Resampling Methods* are **indispensable** to obtain additional **information** about a `fitted model`.
+
+In this chapter, we will explore the methods:
+
+- **Cross-validation**
+  - Used to estimate the `test error` in order to evaluate a ***model's performance*** (*model assessment*).
+  - The `location` of the *minimum point in the test error curve* to select between ***several models***  or find the best of ***level of ﬂexibility*** to one model (*model selection*).
+
+- **Bootstrap**
+  - Estimates the ***uncertainty*** associated with a given value or statistical learning method. Example, it can estimate the `standard errors` of the coeﬃcients from a linear regression ﬁt
+
+
+## Cross-Validation
+
+### Training error limitations
+
+The **training error** trends to underestimate the **real model's error**.
+
+![](img/01-Training-vs-Test-Error.png){fig-align="center"}
+
+To solve that problem we can ***hold out a subset of the training observations*** from the ﬁtting process.
+
+
+### Validation Set Approach
+
+***Splits randomly*** the available set of observations into two parts, a ***training set*** and a ***validation set***.
+
+![](img/16-validation-approach.png){fig-align="center"}
+
+As we split the data randomly we will have a ***different estimation of the error rate*** based on the ***seed*** set in `R`.
+
+![](img/17-validation-approach-results-variation.png){fig-align="center"}
+
+
+
+|Main Characteristics|Level|
+|:-------------|:---:|
+|Accuracy in estimating the testing error|***<span style='color:red;'>Low</span>***|
+|Time efficiency|***<span style='color:green;'>High</span>***|
+|Proportion of data used to train the models (bias mitigation)|***<span style='color:red;'>Low</span>***|
+|Estimation variance|***-***|
+
+
+### Leave-One-Out Cross-Validation (LOOCV)
+
+The statistical learning method is ﬁt on the $n-1$ ***training observations***, and ***a prediction*** $\hat{y}_1$ is made for the excluded observation to calculate $\text{MSE}_1 = (y_1-\hat{y}_1)^2$. Then it repeats the process $n$ times and estimate the ***test error rate***.
+
+![](img/18-Leave-One-Out-CV.png){fig-align="center"}
+
+Based on the average of $n$ test estimates it reports the ***test error rate***.
+
+$$
+\text{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n\text{MSE}_i
+$$
+
+
+![](img/19-Leave-One-Out-CV-results.png){fig-align="center"}
+
+|Main Characteristics|Level|
+|:-------------|:---:|
+|Accuracy in estimating the testing error|***<span style='color:green;'>High</span>***|
+|Time efficiency|***<span style='color:red;'>Low</span>***|
+|Proportion of data used to train the models (bias mitigation)|***<span style='color:green;'>High</span>***|
+|Estimation variance|***<span style='color:red;'>High</span>***|
+
+
+### k-Fold Cross-Validation
+
+Involves randomly dividing the set of observations into k groups, or folds, of approximately equal size. The ﬁrst fold is treated as a validation set, and the method is ﬁt on the remaining $k-1$ folds.
+
+![](img/20-k-Fold-Cross-Validation.png){fig-align="center"}
+
+Based on the average of $k$ test estimates it reports the ***test error rate***.
+
+$$
+\text{CV}_{(k)} = \frac{1}{k} \sum_{i=1}^k\text{MSE}_i
+$$
+
+
+![](img/21-k-Fold-Cross-Validation-Results.png){fig-align="center"}
+
+|Main Characteristics|Level|
+|:-------------------|:---:|
+|Accuracy in estimating the testing error|***<span style='color:green;'>High</span>***|
+|Time efficiency|***Regular***|
+|Proportion of data used to train the models (bias mitigation)|***Regular***|
+|Estimation variance|***Regular***|
+
+**Note**: The book recommends using $k = 5$ or $k = 10$.
+
+### LOOCV vs 10-Fold CV accuracy
+
+- **True test MSE**:  Blue solid line 
+- **LOOCV**: Black dashed line
+- **10-fold CV**: Orange solid line 
+
+![](img/22-k-fold-cv-vs-LOOCV-simulation.png){fig-align="center"}
+
+## Bootstrap
+
+By taking many samples from a population we can obtain the `Sampling Distribution` of a value, but in many cases we just can get a single sample from the population. In theses cases, we can resample the data `with replacement` to generate many samples from one sample, creating a `Bootstrap Distribution` of a value.
+
+![](img/23-bootstrap-example.png){fig-align="center"}
+
+As you can see bellow the center of the *Bootstrap Distribution* must of the time **differs from the center** of the *Sampling Distribution*, but its very accurate at estimating the **dispersion of the value**.
+
+
+![](img/24-Sampling-Bootstrap-distributions.png){fig-align="center"}
+
+
+
+

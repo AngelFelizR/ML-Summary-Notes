@@ -30,6 +30,7 @@ book:
       - generalized-linear-models.qmd
       - generative-classification-models.qmd
       - non-parametric-models.qmd
+      - resampling-methods.qmd
   - part: "Exercise Solutions"
     chapters:
       - 02-execises.qmd
