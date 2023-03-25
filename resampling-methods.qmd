@@ -11,7 +11,7 @@ In this chapter, we will explore the methods:
   - The `location` of the *minimum point in the test error curve* to select between ***several models***  or find the best of ***level of ﬂexibility*** to one model (*model selection*).
 
 - **Bootstrap**
-  - Estimates the ***uncertainty*** associated with a given value or statistical learning method. Example, it can estimate the `standard errors` of the coeﬃcients from a linear regression ﬁt
+  - Estimates the ***uncertainty*** associated with a given value or statistical learning method. For example, it can estimate the `standard errors` of the coeﬃcients from a linear regression ﬁt
 
 
 ## Cross-Validation

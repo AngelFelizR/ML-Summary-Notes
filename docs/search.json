@@ -88,7 +88,7 @@
     "href": "resampling-methods.html",
     "title": "Resampling methods",
     "section": "",
-    "text": "The Resampling Methods are indispensable to obtain additional information about a fitted model.\nIn this chapter, we will explore the methods:\n\nCross-validation\n\nUsed to estimate the test error in order to evaluate a model’s performance (model assessment).\nThe location of the minimum point in the test error curve to select between several models or find the best of level of ﬂexibility to one model (model selection).\n\nBootstrap\n\nEstimates the uncertainty associated with a given value or statistical learning method. Example, it can estimate the standard errors of the coeﬃcients from a linear regression ﬁt"
+    "text": "The Resampling Methods are indispensable to obtain additional information about a fitted model.\nIn this chapter, we will explore the methods:\n\nCross-validation\n\nUsed to estimate the test error in order to evaluate a model’s performance (model assessment).\nThe location of the minimum point in the test error curve to select between several models or find the best of level of ﬂexibility to one model (model selection).\n\nBootstrap\n\nEstimates the uncertainty associated with a given value or statistical learning method. For example, it can estimate the standard errors of the coeﬃcients from a linear regression ﬁt"
   },
   {
     "objectID": "resampling-methods.html#cross-validation",
