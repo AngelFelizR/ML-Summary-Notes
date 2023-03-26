@@ -45,6 +45,53 @@ As we split the data randomly we will have a ***different estimation of the erro
 |Estimation variance|***-***|
 
 
+#### Coding example
+
+You can learn more about tidymodels and this book in [ISLR tidymodels labs](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/05-resampling-methods.html) by Emil Hvitfeldt.
+
+```{r}
+# Loading functions and data
+library(tidymodels)
+library(ISLR)
+library(data.table)
+
+
+# Defining the model type to train
+LinealRegression <- linear_reg() |>
+  set_mode("regression") |>
+  set_engine("lm")
+
+
+# Creating the rplit object
+set.seed(1)
+AutoValidationSplit <- initial_split(Auto, strata = mpg, prop = 0.5)
+
+AutoValidationTraining <- training(AutoValidationSplit)
+AutoValidationTesting <- testing(AutoValidationSplit)
+
+
+lapply(1:10, function(degree){
+  
+  recipe_to_apply <- 
+    recipe(mpg ~ horsepower, data = AutoValidationTraining) |>
+    step_poly(horsepower, degree = degree)
+  
+  workflow() |>
+    add_model(LinealRegression) |>
+    add_recipe(recipe_to_apply) |>
+    fit(data = AutoValidationTraining) |>
+    augment(new_data = AutoValidationTesting) |>
+    rmse(truth = mpg, estimate = .pred) |>
+    transmute(degree = degree,
+              .metric, 
+              .estimator, 
+              .estimate) }) |>
+  rbindlist()
+
+```
+
+
+
 ### Leave-One-Out Cross-Validation (LOOCV)
 
 The statistical learning method is ﬁt on the $n-1$ ***training observations***, and ***a prediction*** $\hat{y}_1$ is made for the excluded observation to calculate $\text{MSE}_1 = (y_1-\hat{y}_1)^2$. Then it repeats the process $n$ times and estimate the ***test error rate***.
@@ -67,6 +114,64 @@ $$
 |Proportion of data used to train the models (bias mitigation)|***<span style='color:green;'>High</span>***|
 |Estimation variance|***<span style='color:red;'>High</span>***|
 
+#### Coding example
+
+```{r}
+
+collect_loo_testing_error <- function(formula,
+                                      loo_split,
+                                      metric_function = rmse,
+                                      ...){
+  # Validations
+  stopifnot("There is no espace between y and ~" = formula %like% "[A-Za-z]+ ")
+  stopifnot("loo_split must be a data.table object" = is.data.table(loo_split))
+  
+  predictor <- sub(pattern = " .+", replacement = "", formula)
+  formula_to_fit <- as.formula(formula)
+  
+  Results <-
+    loo_split[, training(splits[[1L]]), by = "id"
+    ][, .(model = .(lm(formula_to_fit, data = .SD))),
+      by = "id"
+    ][loo_split[, testing(splits[[1L]]), by = "id"],
+      on = "id"
+    ][, .pred := predict(model[[1L]], newdata = .SD),
+      by = "id"
+    ][,  metric_function(.SD, truth = !!predictor, estimate = .pred, ...) ]
+ 
+  setDT(Results)
+  
+  
+  if(formula %like% "degree"){
+    
+    degree <- gsub(pattern = "[ A-Za-z,=\\~()]", replacement = "", formula)
+    
+    Results <- 
+      Results[,.(degree = degree, 
+                .metric, 
+                .estimator, 
+                .estimate)]
+    
+  }
+  
+  return(Results)
+    
+}
+
+
+# Creating the rplit object
+set.seed(1)
+AutoLooSplit <- loo_cv(Auto)
+
+# Transforming to data.table
+setDT(AutoLooSplit)
+
+paste0("mpg ~ poly(horsepower, degree=", 1:10, ")") |>
+  lapply(collect_loo_testing_error,
+         loo_split = AutoLooSplit) |>
+  rbindlist()
+
+```
 
 ### k-Fold Cross-Validation
 
@@ -92,6 +197,28 @@ $$
 
 **Note**: The book recommends using $k = 5$ or $k = 10$.
 
+#### Coding example
+
+```{r}
+
+AutoKFoldRecipe <- 
+  recipe(mpg ~ horsepower, data = Auto) |>
+  step_poly(horsepower, degree = tune())
+
+AutoTuneReponse <-
+  workflow() |>
+  add_recipe(AutoKFoldRecipe) |>
+  add_model(LinealRegression) |>
+  tune_grid(resamples = vfold_cv(Auto, v = 10), 
+            grid = tibble(degree = seq(1, 10)))
+
+show_best(AutoTuneReponse, metric = "rmse")
+
+autoplot(AutoTuneReponse)
+
+```
+
+
 ### LOOCV vs 10-Fold CV accuracy
 
 - **True test MSE**:  Blue solid line 
@@ -111,6 +238,28 @@ As you can see bellow the center of the *Bootstrap Distribution* must of the tim
 
 ![](img/24-Sampling-Bootstrap-distributions.png){fig-align="center"}
 
+### Coding example
 
+```{r}
+
+AutoBootstraps <- bootstraps(Auto, times = 500)
+
+boot.fn <- function(split) {
+  LinealRegression |> 
+    fit(mpg ~ horsepower, data = analysis(split)) |>
+    tidy()
+}
+
+AutoBootstraps |>
+  mutate(models = map(splits, boot.fn)) |>
+  unnest(cols = c(models)) |>
+  group_by(term) |>
+  summarise(low = quantile(estimate, 0.025),
+            mean = mean(estimate),
+            high = quantile(estimate, 0.975),
+            sd = sd(estimate))
+
+
+```
 
 
