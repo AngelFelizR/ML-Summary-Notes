@@ -510,16 +510,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the rplit object</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>AutoLooSplit <span class="ot">&lt;-</span> <span class="fu">loo_cv</span>(Auto)</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming to data.table</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(AutoLooSplit)</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"mpg ~ poly(horsepower, degree="</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">")"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(collect_loo_testing_error,</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>         <span class="at">loo_split =</span> AutoLooSplit) <span class="sc">|&gt;</span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbindlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>AutoLooSplit <span class="ot">&lt;-</span> <span class="fu">loo_cv</span>(Auto)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Transforming to data.table</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(AutoLooSplit)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"mpg ~ poly(horsepower, degree="</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">")"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(collect_loo_testing_error,</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>         <span class="at">loo_split =</span> AutoLooSplit) <span class="sc">|&gt;</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbindlist</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    degree .metric .estimator .estimate
     &lt;char&gt;  &lt;char&gt;     &lt;char&gt;     &lt;num&gt;
@@ -604,11 +603,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 5 × 7
   degree .metric .estimator  mean     n std_err .config              
    &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
-1      5 rmse    standard    4.36    10   0.151 Preprocessor05_Model1
-2      7 rmse    standard    4.36    10   0.200 Preprocessor07_Model1
-3      2 rmse    standard    4.37    10   0.131 Preprocessor02_Model1
-4      6 rmse    standard    4.37    10   0.184 Preprocessor06_Model1
-5      8 rmse    standard    4.37    10   0.201 Preprocessor08_Model1</code></pre>
+1      7 rmse    standard    4.33    10   0.144 Preprocessor07_Model1
+2      6 rmse    standard    4.34    10   0.143 Preprocessor06_Model1
+3      8 rmse    standard    4.35    10   0.145 Preprocessor08_Model1
+4      5 rmse    standard    4.35    10   0.146 Preprocessor05_Model1
+5      9 rmse    standard    4.36    10   0.149 Preprocessor09_Model1</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(AutoTuneReponse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -668,8 +667,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code># A tibble: 2 × 5
   term           low   mean   high      sd
   &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
-1 (Intercept) 38.5   40.0   41.5   0.834  
-2 horsepower  -0.172 -0.158 -0.146 0.00715</code></pre>
+1 (Intercept) 38.5   40.0   41.7   0.851  
+2 horsepower  -0.173 -0.158 -0.145 0.00734</code></pre>
 </div>
 </div>
 

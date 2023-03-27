@@ -160,7 +160,6 @@ collect_loo_testing_error <- function(formula,
 
 
 # Creating the rplit object
-set.seed(1)
 AutoLooSplit <- loo_cv(Auto)
 
 # Transforming to data.table
