@@ -1,0 +1,56 @@
+# 04 - Classification {.unnumbered}
+
+<style>
+
+h3, h4 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+</style>
+
+## Libraries
+
+```{r}
+library(tidymodels)
+library(data.table)
+library(discrim)
+library(klaR)
+library(poissonreg)
+```
+
+## Custom functions
+
+In this section I place the functions that were used in many code chunks across the chapter.
+
+```{r}
+
+
+```
+
+
+## Conceptual
+
+### 1
+
+**1.** Using basic statistical properties of the variance, as well as single-variable calculus, derive (5.6). In other words, prove that $\alpha$ given by (5.6) does indeed minimize $\text{Var}(\alpha X + (1-\alpha)Y)$.
+
+$$
+\begin{split}
+\text{Var}(\alpha X + (1-\alpha)Y) & =  \alpha^2      \text{Var}(X)+
+                                        (1-\alpha)^2  \text{Var}(Y) +
+                                2 \alpha (1-\alpha)   \text{Cov}(X,Y) \\
+    & = \alpha^2      \text{Var}(X)+
+        \text{Var}(Y)
+        -\alpha^2 \text{Var}(Y) +
+        2 \alpha (1-\alpha)   \text{Cov}(X,Y) \\
+\end{split}
+$$
+
+
