@@ -1,4 +1,4 @@
-# 04 - Classification {.unnumbered}
+# 05 - Resampling Methods {.unnumbered}
 
 <style>
 
@@ -18,22 +18,10 @@ h3, h4 {
 ## Libraries
 
 ```{r}
+library(scales)
 library(tidymodels)
 library(data.table)
-library(discrim)
-library(klaR)
-library(poissonreg)
 ```
-
-## Custom functions
-
-In this section I place the functions that were used in many code chunks across the chapter.
-
-```{r}
-
-
-```
-
 
 ## Conceptual
 
@@ -41,16 +29,681 @@ In this section I place the functions that were used in many code chunks across 
 
 **1.** Using basic statistical properties of the variance, as well as single-variable calculus, derive (5.6). In other words, prove that $\alpha$ given by (5.6) does indeed minimize $\text{Var}(\alpha X + (1-\alpha)Y)$.
 
+By taking as a reference the Propagation section of the [Variance](https://en.wikipedia.org/wiki/Variance#Propagation) Wikipedia post. 
+
 $$
 \begin{split}
-\text{Var}(\alpha X + (1-\alpha)Y) & =  \alpha^2      \text{Var}(X)+
-                                        (1-\alpha)^2  \text{Var}(Y) +
-                                2 \alpha (1-\alpha)   \text{Cov}(X,Y) \\
-    & = \alpha^2      \text{Var}(X)+
-        \text{Var}(Y)
-        -\alpha^2 \text{Var}(Y) +
+\text{Var}(\alpha X + (1-\alpha)Y) & =  
+        \alpha^2 \text{Var}(X)+
+        (1-\alpha)^2  \text{Var}(Y) +
         2 \alpha (1-\alpha)   \text{Cov}(X,Y) \\
+    & = \alpha^2      \text{Var}(X)+
+        (1 - 2 \alpha + \alpha^2) \text{Var}(Y) +
+         (2 \alpha-2\alpha^2)   \text{Cov}(X,Y) \\
+    & = \alpha^2      \text{Var}(X)+
+        \text{Var}(Y) - 2 \alpha \text{Var}(Y) + \alpha^2 \text{Var}(Y)+
+         2 \alpha \text{Cov}(X,Y) - 2\alpha^2 \text{Cov}(X,Y)    \\   
+    & = [\text{Var}(X) + \text{Var}(Y) - 2 \text{Cov}(X,Y)] \alpha^2 +
+        2[ \text{Cov}(X,Y) - \text{Var}(Y)] \alpha + \text{Var}(Y)
 \end{split}
 $$
+
+
+Once we have the function, we can derivative using the [derivative of power](https://en.wikipedia.org/wiki/Derivative#Rules_for_basic_functions) and solve the equation.
+
+$$
+\begin{split}
+2[\text{Var}(X) + \text{Var}(Y) - 2 \text{Cov}(X,Y)] \alpha + 2[ \text{Cov}(X,Y) - \text{Var}(Y)] & =  0 \\
+2[\text{Var}(X) + \text{Var}(Y) - 2 \text{Cov}(X,Y)] \alpha & = 2[\text{Var}(Y) - \text{Cov}(X,Y)] \\
+\alpha  = \frac{\text{Var}(Y) - \text{Cov}(X,Y)}{\text{Var}(X) + \text{Var}(Y) - 2 \text{Cov}(X,Y)}
+\end{split}
+$$
+
+### 2
+
+**2.** We will now derive the probability that a given observation is part of a bootstrap sample. Suppose that we obtain a bootstrap sample from a set of n observations.
+
+#### A
+
+**(A)** What is the probability that the ﬁrst bootstrap observation is not the *j*th observation from the original sample? Justify your answer.
+
+The probability of an observation to be in any position of the bootstrap sample is $1/n$ and the opposite $1 - 1/n$.
+
+#### B
+
+**(B)** What is the probability that the second bootstrap observation is not the *j*th observation from the original sample?
+
+The probability it's the same ($1 - 1/n$) as we are sampling with replacement.
+
+#### C
+
+**(C)** Argue that the probability that the *j*th observation is *not* in the bootstrap sample is $(1 - 1/n)^n$.
+
+As the probability of the *j*th observation for avoiding each position in bootstrap sample is $1 - 1/n$ to get the probability in that situation we should use $(1 - 1/n)^n$ as the probabilities are independent.
+
+#### D
+
+**(D)** When $n = 5$, what is the probability that the *j*th observation is in the bootstrap sample?
+
+As $(1 - 1/5)^5$ represent the probability that an observation won't appear.
+
+$$
+1 - (1 - 1/5)^5 = 0.6723
+$$
+
+#### E
+
+**(E)** When $n = 100$, what is the probability that the *j*th observation is in the bootstrap sample?
+
+$$
+1 - (1 - 1/100)^{100} = 0.6340
+$$
+
+#### F
+
+**(F)** When $n = 10,000$, what is the probability that the *j*th observation is in the bootstrap sample?
+
+$$
+1 - (1 - 1/10000)^{10000} = 0.6321
+$$
+
+#### G
+
+**(G)** Create a plot that displays, for each integer value of n from $1$ to $100,000$, the probability that the *j*th observation is in the bootstrap sample. Comment on what you observe.
+
+```{r}
+
+ggplot(data.frame(x = 1:1e4))+
+  geom_function(aes(x), fun = \(x) 1 - (1 - 1/x)^x, 
+                color = "blue", linewidth = 0.8)+
+  geom_hline(yintercept = 1 - 1/exp(1), linetype = 2,
+             color = as.character(round(1 - 1/exp(1), 4)))+
+  expand_limits(y = 0)+
+  labs(x = "Number of observations",
+       y = "Probability",
+       title = "Probability an observation is in the bootstrap sample")+
+  scale_y_continuous(labels = percent_format(accuracy = 1),
+                     breaks = breaks_width(0.1))+
+  scale_x_continuous(labels = comma_format(accuracy = 1))+
+  theme_light()+
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+#### H
+
+**(H)** We will now investigate numerically the probability that a bootstrap sample of size $n = 100$ contains the *j*th observation. Here $j = 4$. We repeatedly create bootstrap samples, and each time we record whether or not the fourth observation is contained in the bootstrap sample.
+
+
+```{r}
+set.seed(2018)
+
+vapply(1:1e4, 
+       FUN = \(x) 4L %in% sample.int(100L, 100L, replace = TRUE),
+       FUN.VALUE = TRUE) |>
+  mean()
+
+```
+
+As we can see the probability es really close to $0.6340$.
+
+
+### 3
+
+**3.** We now review k-fold cross-validation.
+
+#### A
+
+**(A)** Explain how k-fold cross-validation is implemented.
+
+It involves randomly dividing the set of observations into *k* groups, or folds, of approximately equal size. The ﬁrst fold is treated as a validation set, and the method is ﬁt on the remaining $k - 1$ folds. 
+
+#### B
+
+**(B)** What are the advantages and disadvantages of *k*-fold cross validation relative to the validation set approach  and the LOOCV?
+
+|Main Characteristics|Validation Set Approach|LOOCV|
+|:-------------|:---:|:---:|
+|Accuracy in estimating the testing error|Lower|[Lower](https://stats.stackexchange.com/questions/61783/bias-and-variance-in-leave-one-out-vs-k-fold-cross-validation)|
+|Time efficiency|Higher|Lower|
+|Proportion of data used to train the models (bias mitigation)|Lower|Higher|
+|Estimation variance|-|Higher|
+
+### 4
+
+**4.** Suppose that we use some statistical learning method to make a prediction for the response *Y* for a particular value of the predictor *X*. Carefully describe how we might estimate the standard deviation of our prediction.
+
+I would use to bootstrap method to re-sample the original data set many times, fit a statistical learning method on each re-sample, predict the value based on the predictors we want to study and calculate the standard deviation of the response, which is a good approximation of the standard error as we can on page 210.
+
+
+## Applied
+
+### 5
+
+**5.** In Chapter 4, we used logistic regression to predict the probability of `default` using `income` and `balance` on the `Default` data set. We will now estimate the test error of this logistic regression model using the validation set approach. Do not forget to set a random seed before beginning your analysis.
+
+```{r}
+DefaultFormulaToFit <- as.formula("default ~ balance + income")
+```
+
+
+#### A
+
+**(A)** Fit a logistic regression model that uses `income` and `balance` to predict `default`.
+
+```{r}
+DefaultFittedModel <-
+  logistic_reg() |>
+  fit(DefaultFormulaToFit, data = ISLR::Default)
+
+DefaultFittedModel
+
+```
+
+#### B
+
+**(B)** Using the validation set approach, estimate the test error of this model. In order to do this, you must perform the following steps:
+
+1. Split the sample set into a training set and a validation set.
+
+```{r}
+set.seed(4)
+
+DefaultSplit <- initial_split(ISLR::Default, prop = 0.5, strata = default)
+
+DefaultSplit
+```
+
+2. Fit a multiple logistic regression model using only the training observations.
+
+```{r}
+DefaultTrainingModel <-
+  logistic_reg() |>
+  fit(DefaultFormulaToFit, data = training(DefaultSplit))
+
+DefaultTrainingModel
+```
+
+3. Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the `default` category if the posterior probability is greater than 0.5.
+
+```{r}
+DefaultTestPredictions <-
+  augment(DefaultTrainingModel, new_data = testing(DefaultSplit))
+
+DefaultTestPredictions
+```
+
+4. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassiﬁed.
+
+```{r}
+DefaultTestPredictions |>
+  summarize(`Test error rate` = mean(default != .pred_class))
+```
+
+#### C
+
+**(C)** Repeat the process in (b) three times, using three diﬀerent splits of the observations into a training set and a validation set. Comment on the results obtained.
+
+```{r}
+
+DefaultBasedResults <-
+  lapply(8:10, 
+         model_recipe = recipe(DefaultFormulaToFit, data = ISLR::Default),
+         
+         FUN = \(seed, model_recipe){
+           set.seed(seed)
+           
+           split <- initial_split(ISLR::Default, prop = 0.5, strata = default)
+           
+           workflow() |>
+             add_model(logistic_reg()) |>
+             add_recipe(model_recipe) |>
+             last_fit(split = split) |>
+             collect_predictions() |>
+             summarize(seed_used = seed,
+                       `test_error_rate` = mean(.pred_class != default)) }) |>
+  rbindlist()
+
+DefaultBasedResults
+
+```
+
+#### D
+
+**(D)** Now consider a logistic regression model that predicts the probability of `default` using `income`, `balance`, and a dummy variable for `student`. Estimate the test error for this model using the validation set approach. Comment on whether or not including a dummy variable for student leads to a reduction in the test error rate.
+
+Adding the student variable as a dummy one doesn't make a big impact on the prediction accurency. 
+
+```{r}
+
+DefaultDummyRecipe <- 
+  recipe(default ~ ., data = ISLR::Default) |>
+  step_dummy(student)
+
+
+DefaultDummyResults <- 
+  lapply(8:10, 
+         model_recipe = DefaultDummyRecipe,
+         
+         FUN = \(seed, model_recipe){
+           set.seed(seed)
+           
+           split <- initial_split(ISLR::Default, prop = 0.5, strata = default)
+           
+           workflow() |>
+             add_model(logistic_reg()) |>
+             add_recipe(model_recipe) |>
+             last_fit(split = split) |>
+             collect_predictions() |>
+             summarize(seed_used = seed,
+                       `test_error_rate_dummy` = mean(.pred_class != default)) }) |>
+  rbindlist()
+
+
+DefaultBasedResults[DefaultDummyResults, on = "seed_used"
+][, diff := comma(test_error_rate_dummy - test_error_rate, accuracy = 0.0001)][]
+
+```
+
+### 6
+
+**6.** We continue to consider the use of a logistic regression model to predict the probability of `default` using `income` and `balance` on the `Default` data set. In particular, we will now compute estimates for the standard errors of the `income` and `balance` logistic regression coeﬃcients in two diﬀerent ways: (1) using the bootstrap, and (2) using the standard formula for computing the standard errors in the `glm()` function. Do not forget to set a random seed before beginning your analysis.
+
+#### A
+
+**(A)** Using the `summary()` and `glm()` functions, determine the estimated standard errors for the coeﬃcients associated with `income` and `balance` in a multiple logistic regression model that uses both predictors.
+
+```{r}
+DefaultGlmSummary <- tidy(DefaultFittedModel)
+
+DefaultGlmSummary
+```
+
+
+#### B
+
+**(B)** Write a function, `boot.fn()`, that takes as input the `Default` data set as well as an index of the observations, and that outputs the coeﬃcient estimates for `income` and `balance` in the multiple logistic regression model.
+
+To create the function it's optimal
+
+#### C
+
+**(C)** Use the `boot()` function together with your `boot.fn()` function to estimate the standard errors of the logistic regression coeﬃcients for `income` and `balance`.
+
+```{r}
+set.seed(15)
+
+DefaultBootstrapsSe <- 
+  as.data.table(bootstraps(ISLR::Default, times = 500)
+  )[, logistic_reg() |> 
+      fit(DefaultFormulaToFit, 
+          data = analysis(splits[[1L]])) |>
+      tidy(),
+    by = "id"
+  ][, .(SE = sd(estimate)),
+    by = "term"]
+
+
+DefaultBootstrapsSe
+```
+
+
+#### D
+
+**(D)** Comment on the estimated standard errors obtained using the `glm()` function and using your bootstrap function.
+
+As you can see bellow the results are really close to each other.
+
+```{r}
+left_join(DefaultBootstrapsSe,
+          DefaultGlmSummary[,c("term","std.error")],
+          by = "term") |>
+  mutate(diff = SE - std.error)
+```
+
+
+### 7
+
+**7.** In Sections 5.3.2 and 5.3.3, we saw that the `cv.glm()` function can be used in order to compute the LOOCV test error estimate. Alternatively, one could compute those quantities using just the `glm()` and `predict.glm()` functions, and a for loop. You will now take this approach in order to compute the LOOCV error for a simple logistic regression model on the Weekly data set. Recall that in the context of classiﬁcation problems, the LOOCV error is given in (5.4).
+
+#### A
+
+**(A)** Fit a logistic regression model that predicts `Direction` using `Lag1` and `Lag2`.
+
+```{r}
+WeeklyModel <-
+  logistic_reg() |>
+  fit(Direction ~ Lag1 + Lag2, data = ISLR::Weekly)
+
+WeeklyModel
+```
+
+#### B
+
+**(B)** Fit a logistic regression model that predicts `Direction` using `Lag1` and `Lag2` *using all but the ﬁrst observation*.
+
+```{r}
+WeeklyModelNotFirst <-
+  logistic_reg() |>
+  fit(Direction ~ Lag1 + Lag2, data = ISLR::Weekly[-1L,])
+
+WeeklyModelNotFirst
+```
+
+
+#### C
+
+**(C)** Use the model from (b) to predict the direction of the ﬁrst observation. You can do this by predicting that the ﬁrst observation will go up if *P*(`Direction = "Up"` | `Lag1`, `Lag2`) > 0.5. Was this observation correctly classiﬁed?
+
+No, it wasn't.
+
+```{r}
+WeeklyModelNotFirst |>
+  augment(new_data = ISLR::Weekly[1L,] )
+```
+
+
+#### D
+
+**(D)** Write a for loop from $i = 1$ to $i = n$, where n is the number of observations in the data set, that performs each of the following steps:
+
+1. Fit a logistic regression model using all but the *i*th observation to predict `Direction` using `Lag1` and `Lag2`.
+2. Compute the posterior probability of the market moving up for the *i*th observation.
+3. Use the posterior probability for the *i*th observation in order to predict whether or not the market moves up.
+4. Determine whether or not an error was made in predicting the direction for the *i*th observation. If an error was made, then indicate this as a 1, and otherwise indicate it as a 0.
+
+```{r}
+WeeklyLoocv <- loo_cv(ISLR::Weekly)
+
+setDT(WeeklyLoocv)
+
+WeeklyLoocvPredictions <-
+  WeeklyLoocv[, training(splits[[1L]]), by = "id"
+  ][, .(model = .(logistic_reg() |>
+                    fit(Direction ~ Lag1 + Lag2, data = .SD))),
+    by = "id"
+  ][WeeklyLoocv[, testing(splits[[1L]]), by = "id"],
+    on = "id"
+  ][, .pred_class := predict(model[[1L]], new_data = .SD, type = "class"),
+    by = "id"
+  ][, is_error := Direction != .pred_class]
+
+```
+
+
+#### E
+
+**(E)** Take the average of the *n* numbers obtained in (4d) in order to obtain the LOOCV estimate for the test error. Comment on the results.
+
+```{r}
+mean(WeeklyLoocvPredictions$is_error)
+```
+
+
+### 8
+
+#### A
+
+**(A)** Generate a simulated data set as follows. In this data set, what is *n* and what is *p*? Write out the model used to generate the data in equation form.
+
+```{r}
+set.seed(1)
+x <- rnorm(100)
+y <- x- 2*x^2 + rnorm(100)
+
+SimulatedDt <- data.table(x, y)
+```
+
+n: `r nrow(SimulatedDt)` and p: 1.
+
+#### B
+
+**(B)** Create a scatterplot of X against Y. Comment on what you ﬁnd.
+
+The values follows a function of second degree.
+
+```{r}
+
+ggplot(SimulatedDt, aes(x,  y))+
+  geom_point()+
+  geom_smooth(se = FALSE)+
+  theme_light()
+
+```
+
+
+#### C
+
+**(C)** Set a random seed, and then compute the LOOCV errors that result from ﬁtting the following four models using least squares. Note you may ﬁnd it helpful to use the `data.frame()` function to create a single data set containing both X and Y .
+
+1. $Y = \beta_0 + \beta_1 X + \epsilon$
+2. $Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \epsilon$
+3. $Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \epsilon$
+4. $Y = \beta_0 + \beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4 + \epsilon$
+
+we don't need to set a seed when performing LOOCV, as we don't do anything at random.
+
+```{r}
+collect_loo_testing_error <- function(formula,
+                                      loo_split,
+                                      metric_function = rmse,
+                                      ...){
+  # Validations
+  stopifnot("There is no espace between y and ~" = formula %like% "[A-Za-z]+ ")
+  stopifnot("loo_split must be a data.table object" = is.data.table(loo_split))
+  
+  predictor <- sub(pattern = " .+", replacement = "", formula)
+  formula_to_fit <- as.formula(formula)
+  
+  Results <-
+    loo_split[, training(splits[[1L]]), by = "id"
+    ][, .(model = .(lm(formula_to_fit, data = .SD))),
+      by = "id"
+    ][loo_split[, testing(splits[[1L]]), by = "id"],
+      on = "id"
+    ][, .pred := predict(model[[1L]], newdata = .SD),
+      by = "id"
+    ][,  metric_function(.SD, truth = !!predictor, estimate = .pred, ...) ]
+ 
+  setDT(Results)
+  
+  
+  if(formula %like% "degree"){
+    
+    degree <- gsub(pattern = "[ A-Za-z,=\\~()]", replacement = "", formula)
+    
+    Results <- 
+      Results[,.(degree = degree, 
+                .metric, 
+                .estimator, 
+                .estimate)]
+    
+  }
+  
+  return(Results)
+    
+}
+
+
+# Creating the rplit object
+SimulatedDtSplit <- loo_cv(SimulatedDt)
+
+# Transforming to data.table
+setDT(SimulatedDtSplit)
+
+paste0("y ~ poly(x, degree=", 1:4, ")") |>
+  lapply(collect_loo_testing_error,
+         loo_split = SimulatedDtSplit) |>
+  rbindlist()
+```
+
+
+#### D
+
+**(D)** Repeat (c) using another random seed, and report your results. Are your results the same as what you got in (c)? Why?
+
+The results will be the same as LOOCV don't perform any random process.
+
+#### E
+
+**(E)** Which of the models in (c) had the smallest LOOCV error? Is this what you expected? Explain your answer.
+
+The model with the lowest test error is the model using as a base the second grade evacuation. It's what we were expecting, as we know the true form of the original function it's a second degree one and adding more flexibility to the model just over-fit it.
+
+#### F
+
+**(F)** Comment on the statistical signiﬁcance of the coeﬃcient estimates that results from ﬁtting each of the models in (c) using least squares. Do these results agree with the conclusions drawn based on the cross-validation results?
+
+For the first model the predictor it's significant.
+```{r}
+lm(y ~ poly(x, degree= 1), data = SimulatedDt) |>
+    summary()
+```
+
+For the second model the predictors are very significant.
+```{r}
+lm(y ~ poly(x, degree= 2), data = SimulatedDt) |>
+    summary()
+```
+
+The additional element of the function is not significant. 
+```{r}
+lm(y ~ poly(x, degree= 3), data = SimulatedDt) |>
+    summary()
+```
+
+The additional element of the function is not significant. 
+```{r}
+lm(y ~ poly(x, degree= 4), data = SimulatedDt) |>
+    summary()
+```
+
+### 9
+
+**9.** We will now consider the Boston housing data set, from the `ISLR2` library.
+
+#### A
+
+**(A)** Based on this data set, provide an estimate for the population mean of `medv`. Call this estimate $\hat{\mu}$.
+
+```{r}
+BostonMedvMean <- mean(ISLR2::Boston$medv)
+
+BostonMedvMean
+```
+
+
+#### B
+
+**(B)** Provide an estimate of the standard error of $\hat{\mu}$. Interpret this result. *Hint: We can compute the standard error of the sample mean by dividing the sample standard deviation by the square root of the number of observations.*
+
+```{r}
+BostonMedvSeEstimation <- sd(ISLR2::Boston$medv)/sqrt(nrow(ISLR2::Boston))
+```
+
+
+#### C
+
+**(C)** Now estimate the standard error of $\hat{\mu}$. using the bootstrap. How does this compare to your answer from (b)?
+
+Both estimations are really close.
+
+```{r}
+# Using the infer package as just need to estimate
+# a single number
+
+set.seed(123)
+
+BostonMedvBootstrap <-
+  ISLR2::Boston |>
+  specify(medv ~ NULL) |>
+  generate(reps = 5000, type = "bootstrap") |>
+  calculate(stat = "mean") 
+
+BostonMedvBootstrap |>
+  summarize(Se_bootstrap = sd(stat)) |>
+  mutate(Se_estimation = BostonMedvSeEstimation,
+         diff = Se_bootstrap - Se_estimation)
+
+```
+
+
+#### D
+
+**(D)** Based on your bootstrap estimate from (c), provide a 95 % conﬁdence interval for the mean of `medv`. Compare it to the results obtained using `t.test(Boston$medv)`. *Hint: You can approximate a 95 % conﬁdence interval using the formula* [$\hat{\mu} - 2\text{SE}(\hat{\mu}), \hat{\mu} + 2\text{SE}(\hat{\mu})$ *.*
+
+```{r}
+get_ci(BostonMedvBootstrap, 
+       point_estimate = BostonMedvMean,
+       level = 0.95,
+       type = "se")
+```
+
+
+#### E
+
+**(E)** Based on this data set, provide an estimate, $\hat{\mu}_{med}$, for the median value of `medv` in the population.
+
+```{r}
+median(ISLR2::Boston$medv)
+```
+
+
+#### F
+
+**(F)** We now would like to estimate the standard error of $\hat{\mu}_{med}$. Unfortunately, there is no simple formula for computing the standard error of the median. Instead, estimate the standard error of the median using the bootstrap. Comment on your ﬁndings.
+
+The intervals for the median seams to be a little bit lower than the ones for the average. It seems the distributions of `medv` is right skewed.
+
+```{r}
+set.seed(77)
+
+ISLR2::Boston |>
+  specify(medv ~ NULL) |>
+  generate(reps = 5000, type = "bootstrap") |>
+  calculate(stat = "median") |>
+  get_ci(level = 0.95,
+         type = "percentile")
+
+```
+
+Right skewed has been confirmed.
+
+```{r}
+ggplot(ISLR2::Boston, aes(medv))+
+  geom_histogram(fill = "dodgerblue3", 
+                 alpha = 0.9, bins = 15)+
+  theme_light()+
+  theme(panel.grid = element_blank())
+```
+
+#### G
+
+**(G)** Based on this data set, provide an estimate for the tenth percentile of `medv` in Boston census tracts. Call this quantity $\hat{\mu}_{0.1}$. (You can use the `quantile()` function.)
+
+```{r}
+quantile(ISLR2::Boston$medv, probs = 0.1)
+```
+
+
+#### H
+
+**(H)** Use the bootstrap to estimate the standard error of $\hat{\mu}_{0.1}$. Comment on your ﬁndings.
+
+The standard error is slightly larger relative to $\hat{\mu}_{0.1}$, but it is still small.
+
+```{r}
+set.seed(77)
+
+ISLR2::Boston |>
+  specify(medv ~ NULL) |>
+  generate(reps = 5000, type = "bootstrap") |>
+  group_by(replicate) |>
+  summarize(medv_tenth_percentile = quantile(medv, probs = 0.1)) |>
+  summarize(se_medv_tenth_percentile = sd(medv_tenth_percentile))
+```
+
 
 
