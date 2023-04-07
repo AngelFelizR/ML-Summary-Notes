@@ -1,3 +1,9 @@
+---
+format:
+  html:
+    css: summary-format.css
+---
+
 # Generalized linear models (GLM) {.unnumbered}
 
 ## Linear regresion
@@ -428,7 +434,52 @@ This method is really computational expensive as it needs to fit $2^p$ models. J
 
 It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit $1+p(p+1)/2$ models.
 
-- **Algorithm 6.1**
+- **Algorithm 6.2**
+  1. Let $\mathcal{M}_0$ denote the null model, which represent the sample mean for each observation. 
+  2. For $k = 0, \dots, p-1$:
+    - Consider all $p-k$ models that augment the predictors in $\mathcal{M}_k$ with one additional predictor.
+    - Choose the best among these $p-k$ models, and call it $\mathcal{M}_{k+1}$. Here best is deﬁned as having smallest RSS.
+  3. Select a single best model from among $\mathcal{M}_k, \dots, \mathcal{M}_p$ using cross-
+validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
+
+Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all $2^p$ models containing subsets of the *p* predictors, but can be used even if $n < p$.
+
+
+#### Stepwise Selection: Backward Stepwise Selection
+
+It begins with the full least squares model containing all *p* predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit $1+p(p+1)/2$ models
+
+- **Algorithm 6.3**
+  1. Let $\mathcal{M}_p$ denote the full model, which contains all *p* predictors.
+  2. For $k = p, p -1, \dots , 1$:
+    - Consider all *k* models that contain all but one of the predictors in $\mathcal{M}_k$, for a total of $k-1$ predictors.
+    - Choose the best among these *k* models, and call it $\mathcal{M}_{k-1}$. Here best is deﬁned as having smallest RSS.
+  3. Select a single best model from among $\mathcal{M}_0, \dots, \mathcal{M}_p$ using cross-
+validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
+
+This method don't guarantee to yield the best model containing a subset of the *p* predictors and we need to cofirm that $n \geq p$.
+
+#### Stepwise Selection: Hybrid Approaches
+
+In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic *Best Subset Selection* while retaining the computational advantages of *forward* and *backward stepwise selection*.
+
+#### Choosing the Optimal Model
+
+As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:
+
+- Making an adjustment to the training error to account for the bias due to overﬁtting. 
+- Using either a validation set approach or a cross-validation approach.
+
+Let's see the methods that relay on correcting the training error:
+
+|Method|Formula|Description|Interpretation
+|:----:|:-----:|:----------|:----------|
+|$C_p$|$C_p = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)$|Where: <br> - *d*: Number of predictors <br> - $\hat{\sigma}^2$: Estimate of the variance of the error $\epsilon$ associated with each response|$2d\hat{\sigma}^2$ represent the penalty of adding new predictors. This method is valid one if our $\hat{\sigma}^2$ is an unbiased estimate of $\sigma^2$|
+|Akaike information criterion|:-----:|:----------|:----------|
+|Bayesian information criterion|:-----:|:----------|:----------|
+|Adjusted $R^2$|:-----:|:----------|:----------|
+
+
 
 ### Shrinkage
 
@@ -436,7 +487,7 @@ This approach involves ﬁtting a model involving all *p* predictors and shrinks
 
 ### Dimension Reduction
 
-It projects the *p* predictors into an *M*-dimensional subspace, where $M < p$. Then the *M* projections are used as predictors to ﬁt a linear regression model by least squares. 
+It projects the *p* predictors into an *M*-dimensional subspace, where $M < p$. Then the *M* projections are used as predictors to ﬁt a linear regression model by least squares
 
 
 

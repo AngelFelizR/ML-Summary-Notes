@@ -1,3 +1,9 @@
+---
+format:
+  html:
+    css: summary-format.css
+---
+
 # Understanding model performance {.unnumbered}
 
 ## Reducible and irreducible error

@@ -1,3 +1,8 @@
+---
+format:
+  html:
+    css: summary-format.css
+---
 # Resampling methods {.unnumbered}
 
 ## Introduction
