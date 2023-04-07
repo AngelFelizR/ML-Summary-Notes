@@ -226,6 +226,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
   <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios">Model limitatios</a></li>
   </ul></li>
+  <li><a href="#replacing-plain-least-squares-ﬁtting" id="toc-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</a>
+  <ul>
+  <li><a href="#benefits" id="toc-benefits" class="nav-link" data-scroll-target="#benefits">Benefits</a></li>
+  <li><a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection">Subset Selection</a>
+  <ul class="collapse">
+  <li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
+  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</a></li>
+  </ul></li>
+  <li><a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a></li>
+  <li><a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -715,6 +726,54 @@ Pr(Y = K|X= x) = \frac{1}
 <li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
 <li>When the decision boundary is not lineal.</li>
 </ul>
+</section>
+</section>
+<section id="replacing-plain-least-squares-ﬁtting" class="level2">
+<h2 class="anchored" data-anchor-id="replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</h2>
+<section id="benefits" class="level3">
+<h3 class="anchored" data-anchor-id="benefits">Benefits</h3>
+<ul>
+<li><p><strong>Prediction Accuracy:</strong> If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p &gt;n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (<em>constraining</em> and <em>shrinking</em>).</p></li>
+<li><p><strong>Model Interpretability:</strong>There are some methods that can exclude irrelevant variables from a multiple regression model (<em>feature selection</em> or <em>variable selection</em>).</p></li>
+</ul>
+</section>
+<section id="subset-selection" class="level3">
+<h3 class="anchored" data-anchor-id="subset-selection">Subset Selection</h3>
+<p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
+<section id="best-subset-selection" class="level4">
+<h4 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h4>
+<p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
+<ul>
+<li><strong>Algorithm 6.1</strong>
+<ol type="1">
+<li>Let <span class="math inline">\(\mathcal{M}_0\)</span> denote the null model, which represent the sample mean for each observation.</li>
+<li>For <span class="math inline">\(k = 1, 2, \dots, p\)</span>:</li>
+</ol>
+<ul>
+<li>Fit all <span class="math inline">\(\left( \begin{array}{c} p \\ k \end{array} \right)\)</span> models that contain exactly k predictors.</li>
+<li>Pick the best among these <span class="math inline">\(\left( \begin{array}{c} p \\ k \end{array} \right)\)</span> models using the smallest RSS or the <em>deviance</em> for classification (negative two times the maximized log-likelihood), and call it <span class="math inline">\(\mathcal{M}_k\)</span></li>
+</ul>
+<ol start="3" type="1">
+<li>Select a single best model from among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
+</ol></li>
+</ul>
+<p>This method is really computational expensive as it needs to fit <span class="math inline">\(2^p\)</span> models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to <strong>overﬁtting</strong> and <strong>high variance of the coeﬃcient estimates</strong>.</p>
+</section>
+<section id="stepwise-selection-forward-stepwise-selection" class="level4">
+<h4 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h4>
+<p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
+<ul>
+<li><strong>Algorithm 6.1</strong></li>
+</ul>
+</section>
+</section>
+<section id="shrinkage" class="level3">
+<h3 class="anchored" data-anchor-id="shrinkage">Shrinkage</h3>
+<p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
+</section>
+<section id="dimension-reduction" class="level3">
+<h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
+<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace, where <span class="math inline">\(M &lt; p\)</span>. Then the <em>M</em> projections are used as predictors to ﬁt a linear regression model by least squares.</p>
 
 
 </section>

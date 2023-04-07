@@ -277,8 +277,8 @@ There are better model to achieve that kind of situation. For example, he linear
 
   - A regression method cannot accommodate a qualitative response with more than two classes.
   - A regression method will not provide meaningful estimates of $Pr(Y|X)$ as some of our estimates might be outside the [0, 1] interval.
-  
-  
+
+
 ## Poisson Regression 
 
 If $Y \in \{ 0, 1, 2, 3, \dots \}$ that could be the result after **counting** a particular event the *linear regression* might not meet our needs as it could bring negative numbers. The **Poisson Distribution** follow the next function:
@@ -394,6 +394,50 @@ There are models that could make better classifications when:
 - There is a substantial separation between the $Y$ classes.
 - The predictors $X$ are approximately normal in each class and the sample size is small.
 - When the decision boundary is not lineal.
+
+
+## Replacing plain least squares ﬁtting
+
+### Benefits
+
+- **Prediction Accuracy:** If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p >n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (*constraining* and *shrinking*).
+
+- **Model Interpretability:**There are some methods that can exclude irrelevant variables from a multiple regression model (*feature selection* or *variable selection*).
+
+ 
+### Subset Selection
+
+This approach involves identifying a subset of the *p* predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.
+
+#### Best Subset Selection
+
+It ﬁts all *p* models that contain exactly one predictor, all $\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2$ models that contain exactly two predictors, and so forth. Then it selects the *best* model based on smallest RSS or the largest $R^2$.
+
+- **Algorithm 6.1**
+  1. Let $\mathcal{M}_0$ denote the null model, which represent the sample mean for each observation. 
+  2. For $k = 1, 2, \dots, p$:
+    - Fit all $\left( \begin{array}{c} p \\ k \end{array} \right)$ models that contain exactly k predictors.
+    - Pick the best among these $\left( \begin{array}{c} p \\ k \end{array} \right)$ models using the smallest RSS or the *deviance* for classification (negative two times the maximized log-likelihood), and call it $\mathcal{M}_k$
+  3. Select a single best model from among $\mathcal{M}_0, \dots, \mathcal{M}_p$ using cross-
+validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
+
+This method is really computational expensive as it needs to fit $2^p$ models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to **overﬁtting** and **high variance of the coeﬃcient estimates**.
+
+
+#### Stepwise Selection: Forward Stepwise Selection
+
+It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit $1+p(p+1)/2$ models.
+
+- **Algorithm 6.1**
+
+### Shrinkage
+
+This approach involves ﬁtting a model involving all *p* predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.
+
+### Dimension Reduction
+
+It projects the *p* predictors into an *M*-dimensional subspace, where $M < p$. Then the *M* projections are used as predictors to ﬁt a linear regression model by least squares. 
+
 
 
 
