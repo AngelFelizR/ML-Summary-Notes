@@ -64,6 +64,7 @@ ul.task-list li input[type="checkbox"] {
 
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<link rel="stylesheet" href="summary-format.css">
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
@@ -233,8 +234,14 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
   <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</a></li>
+  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model">Choosing the Optimal Model</a></li>
   </ul></li>
-  <li><a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a></li>
+  <li><a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a>
+  <ul class="collapse">
+  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
+  </ul></li>
   <li><a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a></li>
   </ul></li>
   </ul>
@@ -763,17 +770,132 @@ Pr(Y = K|X= x) = \frac{1}
 <h4 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h4>
 <p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
 <ul>
-<li><strong>Algorithm 6.1</strong></li>
+<li><strong>Algorithm 6.2</strong>
+<ol type="1">
+<li>Let <span class="math inline">\(\mathcal{M}_0\)</span> denote the null model, which represent the sample mean for each observation.</li>
+<li>For <span class="math inline">\(k = 0, \dots, p-1\)</span>:</li>
+</ol>
+<ul>
+<li>Consider all <span class="math inline">\(p-k\)</span> models that augment the predictors in <span class="math inline">\(\mathcal{M}_k\)</span> with one additional predictor.</li>
+<li>Choose the best among these <span class="math inline">\(p-k\)</span> models, and call it <span class="math inline">\(\mathcal{M}_{k+1}\)</span>. Here best is deﬁned as having smallest RSS.</li>
 </ul>
+<ol start="3" type="1">
+<li>Select a single best model from among <span class="math inline">\(\mathcal{M}_k, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
+</ol></li>
+</ul>
+<p>Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the <em>p</em> predictors, but can be used even if <span class="math inline">\(n &lt; p\)</span>.</p>
+</section>
+<section id="stepwise-selection-backward-stepwise-selection" class="level4">
+<h4 class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</h4>
+<p>It begins with the full least squares model containing all <em>p</em> predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models</p>
+<ul>
+<li><strong>Algorithm 6.3</strong>
+<ol type="1">
+<li>Let <span class="math inline">\(\mathcal{M}_p\)</span> denote the full model, which contains all <em>p</em> predictors.</li>
+<li>For <span class="math inline">\(k = p, p -1, \dots , 1\)</span>:</li>
+</ol>
+<ul>
+<li>Consider all <em>k</em> models that contain all but one of the predictors in <span class="math inline">\(\mathcal{M}_k\)</span>, for a total of <span class="math inline">\(k-1\)</span> predictors.</li>
+<li>Choose the best among these <em>k</em> models, and call it <span class="math inline">\(\mathcal{M}_{k-1}\)</span>. Here best is deﬁned as having smallest RSS.</li>
+</ul>
+<ol start="3" type="1">
+<li>Select a single best model from among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
+</ol></li>
+</ul>
+<p>This method don’t guarantee to yield the best model containing a subset of the <em>p</em> predictors and we need to cofirm that <span class="math inline">\(n \geq p\)</span>.</p>
+</section>
+<section id="stepwise-selection-hybrid-approaches" class="level4">
+<h4 class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</h4>
+<p>In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic <em>Best Subset Selection</em> while retaining the computational advantages of <em>forward</em> and <em>backward stepwise selection</em>.</p>
+</section>
+<section id="choosing-the-optimal-model" class="level4">
+<h4 class="anchored" data-anchor-id="choosing-the-optimal-model">Choosing the Optimal Model</h4>
+<p>As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:</p>
+<ul>
+<li>Making an adjustment to the training error to account for the bias due to overﬁtting.</li>
+<li>Using either a validation set approach or a cross-validation approach.</li>
+</ul>
+<p>Let’s see the methods that relay on correcting the training error:</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 29%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Method</th>
+<th style="text-align: center;">Formula</th>
+<th style="text-align: left;">Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(C_p\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(C_p = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(2d\hat{\sigma}^2\)</span> represent the penalty of adding new predictors. This method is a good estimation of <strong>test MSE</strong> if the <span class="math inline">\(\hat{\sigma}^2\)</span> is an unbiased estimate of the <span class="math inline">\(\sigma^2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Akaike information criterion</td>
+<td style="text-align: center;"><span class="math inline">\(\text{AIC} = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)\)</span></td>
+<td style="text-align: left;">The book omits irrelevant constants to show that <span class="math inline">\(C_p\)</span> and <span class="math inline">\(\text{AIC}\)</span> are proportional to each other</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Bayesian information criterion</td>
+<td style="text-align: center;"><span class="math inline">\(\text{BIC} = \frac{1}{n}(\text{RSS} +\log(n) d \hat{\sigma}^2)\)</span></td>
+<td style="text-align: left;">After omitting irrelevant constants, we can see that <span class="math inline">\(\log n &gt; 2\)</span> for any <span class="math inline">\(n &gt; 7\)</span>, as consequence, the metric trends to add a heavier penalty on models with many variables than the <span class="math inline">\(C_p\)</span> and tent to select models with fewer predictors</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Adjusted <span class="math inline">\(R^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\text{Adjusted} \; R^2 = 1 - \frac{\text{RSS}/(n - d -1)}{\text{TSS}/(n-1)}\)</span></td>
+<td style="text-align: left;">A large value of adjusted <span class="math inline">\(R^2\)</span> indicates a model with a small test error, even though the metric doesn’t rely on rigorous theoretical justiﬁcations.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(n\)</span>: Number of observations</li>
+<li><span class="math inline">\(d\)</span>: Number of predictors</li>
+<li><span class="math inline">\(\hat{\sigma}^2\)</span>: Estimate of the variance of the error <span class="math inline">\(\epsilon\)</span> associated with each response</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/25-cp-bic-adj-r2-example.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
 </section>
 </section>
 <section id="shrinkage" class="level3">
 <h3 class="anchored" data-anchor-id="shrinkage">Shrinkage</h3>
 <p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
+<section id="ridge-regression" class="level4">
+<h4 class="anchored" data-anchor-id="ridge-regression">Ridge Regression</h4>
+<p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is closed to 0:</p>
+<p><span class="math display">\[
+RSS + \lambda \sum_{j=1}^p \beta_j^2
+\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li><span class="math inline">\(\lambda\)</span>: It’s a tuning parameter <span class="math inline">\(\geq 0\)</span> that can be calculated using cross-validation.</li>
+<li><span class="math inline">\(\text{RSS}\)</span>: Present the residual standard error.</li>
+</ul>
+<p>We can think of the x-axis in the right-hand panel of the next figure as the amount that the ridge regression coeﬃcient estimates have been shrunken towards zero; a small value indicates that they have been shrunken very close to zero.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/26-ridge-regression-change.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>As the <span class="math inline">\(\lambda\)</span> to select is sensible to the predictors escaling, it’s a good practice scaling the predictors using the next formula, to make all the predictors to have an standard deviation of 1:</p>
+<p><span class="math display">\[
+\tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} =
+\frac{x_{ij}}{\sigma_j}
+\]</span></p>
+<p>In general, in situations where the relationship between the response and the predictors is close to linear, the least squares estimates will have low bias but may have high variance. This means that a small change in the training data can cause a large change in the least squares coeﬃcient estimates. In particular, when the number of variables p is almost as large as the number of observations n, as in the example in Figure 6.5, the least squares estimates will be extremely variable.</p>
+</section>
 </section>
 <section id="dimension-reduction" class="level3">
 <h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
-<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace, where <span class="math inline">\(M &lt; p\)</span>. Then the <em>M</em> projections are used as predictors to ﬁt a linear regression model by least squares.</p>
+<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace, where <span class="math inline">\(M &lt; p\)</span>. Then the <em>M</em> projections are used as predictors to ﬁt a linear regression model by least squares</p>
 
 
 </section>

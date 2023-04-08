@@ -472,18 +472,51 @@ As the model which contains all of the predictors will always have the smallest 
 
 Let's see the methods that relay on correcting the training error:
 
-|Method|Formula|Description|Interpretation
-|:----:|:-----:|:----------|:----------|
-|$C_p$|$C_p = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)$|Where: <br> - *d*: Number of predictors <br> - $\hat{\sigma}^2$: Estimate of the variance of the error $\epsilon$ associated with each response|$2d\hat{\sigma}^2$ represent the penalty of adding new predictors. This method is valid one if our $\hat{\sigma}^2$ is an unbiased estimate of $\sigma^2$|
-|Akaike information criterion|:-----:|:----------|:----------|
-|Bayesian information criterion|:-----:|:----------|:----------|
-|Adjusted $R^2$|:-----:|:----------|:----------|
+|Method|Formula|Interpretation|
+|:----:|:-----:|:----------|
+|$C_p$|$C_p = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)$|$2d\hat{\sigma}^2$ represent the penalty of adding new predictors. This method is a good estimation of **test MSE** if the $\hat{\sigma}^2$ is an unbiased estimate of the $\sigma^2$|
+|Akaike information criterion|$\text{AIC} = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)$|The book omits irrelevant constants to show that $C_p$ and $\text{AIC}$ are proportional to each other|
+|Bayesian information criterion|$\text{BIC} = \frac{1}{n}(\text{RSS} +\log(n) d \hat{\sigma}^2)$|After omitting irrelevant constants, we can see that $\log n > 2$ for any $n > 7$, as consequence, the metric trends to add a heavier penalty on models with many variables than the $C_p$ and tent to select models with fewer predictors|
+|Adjusted $R^2$|$\text{Adjusted} \; R^2 = 1 - \frac{\text{RSS}/(n - d -1)}{\text{TSS}/(n-1)}$|A large value of adjusted $R^2$ indicates a model with a small test error, even though the metric doesn't rely on rigorous theoretical justiﬁcations.|
 
+*Where:*
 
+- $n$: Number of observations 
+- $d$: Number of predictors
+- $\hat{\sigma}^2$: Estimate of the variance of the error $\epsilon$ associated with each response
+
+![](img/25-cp-bic-adj-r2-example.png){fig-align="center" width=60% height=60%}
 
 ### Shrinkage
 
 This approach involves ﬁtting a model involving all *p* predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.
+
+#### Ridge Regression
+
+The method rather than using RSS as the metric to minimize with the regression coefficient $\beta_0, \beta_1, \dots, \beta_p$, it is modified by adding a **shrinkage penalty** that the effect of estimating $\beta_j$ towards zero when the coefficient is closed to 0:
+
+
+$$
+RSS + \lambda \sum_{j=1}^p \beta_j^2
+$$
+
+*Where:*
+
+- $\lambda$: It's a tuning parameter $\geq 0$ that can be calculated using cross-validation.
+- $\text{RSS}$: Present the residual standard error.
+
+We can think of the x-axis in the right-hand panel of the next figure as the amount that the ridge regression coeﬃcient estimates have been shrunken towards zero; a small value indicates that they have been shrunken very close to zero.
+
+![](img/26-ridge-regression-change.png){fig-align="center" width=60% height=60%}
+
+As the $\lambda$ to select is sensible to the predictors escaling, it's a good practice scaling the predictors using the next formula, to make all the predictors to have an standard deviation of 1:
+
+$$
+\tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} = 
+\frac{x_{ij}}{\sigma_j}
+$$
+
+In general, in situations where the relationship between the response and the predictors is close to linear, the least squares estimates will have low bias but may have high variance. This means that a small change in the training data can cause a large change in the least squares coeﬃcient estimates. In particular, when the number of variables p is almost as large as the number of observations n, as in the example in Figure 6.5, the least squares estimates will be extremely variable. 
 
 ### Dimension Reduction
 
