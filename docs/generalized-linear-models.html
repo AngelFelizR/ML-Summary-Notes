@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.1.251">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Angel Feliz">
-
 <title>An Introduction to Statistical Learning (Non Official Solution Book) - Generalized linear models (GLM)</title>
 <style>
 code{white-space: pre-wrap;}
@@ -22,7 +19,6 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -41,8 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -60,19 +55,12 @@ ul.task-list li input[type="checkbox"] {
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="summary-format.css">
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="summary-format.css">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
@@ -87,28 +75,22 @@ ul.task-list li input[type="checkbox"] {
           </div>
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
+    </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">Generalized linear models (GLM)</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-      <div class="mt-2 flex-shrink-0 align-items-center">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
@@ -120,8 +102,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model-performance.html" class="sidebar-item-text sidebar-link">Understanding model performance</a>
   </div>
@@ -147,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercise Solutions</a>
@@ -155,8 +137,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-execises.html" class="sidebar-item-text sidebar-link">02 - Statistical Learning</a>
   </div>
@@ -177,81 +159,98 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#linear-regresion" id="toc-linear-regresion" class="nav-link active" data-scroll-target="#linear-regresion">Linear regresion</a>
+<li>
+<a href="#linear-regresion" id="toc-linear-regresion" class="nav-link active" data-scroll-target="#linear-regresion">Linear regresion</a>
   <ul>
-  <li><a href="#getting-the-least-squares-line-of-a-sample" id="toc-getting-the-least-squares-line-of-a-sample" class="nav-link" data-scroll-target="#getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</a></li>
+<li><a href="#getting-the-least-squares-line-of-a-sample" id="toc-getting-the-least-squares-line-of-a-sample" class="nav-link" data-scroll-target="#getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</a></li>
   <li><a href="#getting-confident-intervarls-of-coeffients" id="toc-getting-confident-intervarls-of-coeffients" class="nav-link" data-scroll-target="#getting-confident-intervarls-of-coeffients">Getting confident intervarls of coeffients</a></li>
-  <li><a href="#insights-to-extract" id="toc-insights-to-extract" class="nav-link" data-scroll-target="#insights-to-extract">Insights to extract</a>
+  <li>
+<a href="#insights-to-extract" id="toc-insights-to-extract" class="nav-link" data-scroll-target="#insights-to-extract">Insights to extract</a>
   <ul class="collapse">
-  <li><a href="#confirm-the-relationship-between-the-response-and-predictors" id="toc-confirm-the-relationship-between-the-response-and-predictors" class="nav-link" data-scroll-target="#confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</a></li>
+<li><a href="#confirm-the-relationship-between-the-response-and-predictors" id="toc-confirm-the-relationship-between-the-response-and-predictors" class="nav-link" data-scroll-target="#confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</a></li>
   <li><a href="#accuracy-of-the-model-relationship-strength" id="toc-accuracy-of-the-model-relationship-strength" class="nav-link" data-scroll-target="#accuracy-of-the-model-relationship-strength">Accuracy of the model (relationship strength)</a></li>
   <li><a href="#confirm-the-relationship-between-the-response-and-each-predictor" id="toc-confirm-the-relationship-between-the-response-and-each-predictor" class="nav-link" data-scroll-target="#confirm-the-relationship-between-the-response-and-each-predictor">Confirm the relationship between the Response and each predictor</a></li>
   <li><a href="#size-of-association-between-each-predictor-and-the-response." id="toc-size-of-association-between-each-predictor-and-the-response." class="nav-link" data-scroll-target="#size-of-association-between-each-predictor-and-the-response.">Size of association between each predictor and the response.</a></li>
   <li><a href="#predicting-future-values" id="toc-predicting-future-values" class="nav-link" data-scroll-target="#predicting-future-values">Predicting future values</a></li>
-  </ul></li>
-  <li><a href="#standard-linear-regression-model-assumptions" id="toc-standard-linear-regression-model-assumptions" class="nav-link" data-scroll-target="#standard-linear-regression-model-assumptions">Standard linear regression model assumptions</a>
+  </ul>
+</li>
+  <li>
+<a href="#standard-linear-regression-model-assumptions" id="toc-standard-linear-regression-model-assumptions" class="nav-link" data-scroll-target="#standard-linear-regression-model-assumptions">Standard linear regression model assumptions</a>
   <ul class="collapse">
-  <li><a href="#including-an-interaction-term" id="toc-including-an-interaction-term" class="nav-link" data-scroll-target="#including-an-interaction-term">Including an interaction term</a></li>
+<li><a href="#including-an-interaction-term" id="toc-including-an-interaction-term" class="nav-link" data-scroll-target="#including-an-interaction-term">Including an interaction term</a></li>
   <li><a href="#polynomial-regression" id="toc-polynomial-regression" class="nav-link" data-scroll-target="#polynomial-regression">Polynomial regression</a></li>
-  </ul></li>
-  <li><a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems">Possible problems</a>
+  </ul>
+</li>
+  <li>
+<a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems">Possible problems</a>
   <ul class="collapse">
-  <li><a href="#non-linearity-of-the-response-predictor-relationships" id="toc-non-linearity-of-the-response-predictor-relationships" class="nav-link" data-scroll-target="#non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</a></li>
+<li><a href="#non-linearity-of-the-response-predictor-relationships" id="toc-non-linearity-of-the-response-predictor-relationships" class="nav-link" data-scroll-target="#non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</a></li>
   <li><a href="#correlation-of-error-terms" id="toc-correlation-of-error-terms" class="nav-link" data-scroll-target="#correlation-of-error-terms">Correlation of error terms</a></li>
   <li><a href="#non-constant-variance-heteroscedasticity-of-error-terms" id="toc-non-constant-variance-heteroscedasticity-of-error-terms" class="nav-link" data-scroll-target="#non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</a></li>
   <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">Outliers</a></li>
   <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points">High-leverage points</a></li>
   <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity">Collinearity</a></li>
-  </ul></li>
+  </ul>
+</li>
   <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems">Avoid using for classification problems</a></li>
-  </ul></li>
+  </ul>
+</li>
   <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson Regression</a></li>
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
+  <li>
+<a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
   <ul>
-  <li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients">Estimating coefficients</a></li>
+<li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients">Estimating coefficients</a></li>
   <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression">Multiple regression</a></li>
-  <li><a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model">Interpreting the model</a>
+  <li>
+<a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model">Interpreting the model</a>
   <ul class="collapse">
-  <li><a href="#understanding-a-confounding-paradox" id="toc-understanding-a-confounding-paradox" class="nav-link" data-scroll-target="#understanding-a-confounding-paradox">Understanding a confounding paradox</a></li>
-  </ul></li>
+<li><a href="#understanding-a-confounding-paradox" id="toc-understanding-a-confounding-paradox" class="nav-link" data-scroll-target="#understanding-a-confounding-paradox">Understanding a confounding paradox</a></li>
+  </ul>
+</li>
   <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
   <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios">Model limitatios</a></li>
-  </ul></li>
-  <li><a href="#replacing-plain-least-squares-ﬁtting" id="toc-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</a>
+  </ul>
+</li>
+  <li>
+<a href="#replacing-plain-least-squares-%EF%AC%81tting" id="toc-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#replacing-plain-least-squares-%EF%AC%81tting">Replacing plain least squares ﬁtting</a>
   <ul>
-  <li><a href="#benefits" id="toc-benefits" class="nav-link" data-scroll-target="#benefits">Benefits</a></li>
-  <li><a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection">Subset Selection</a>
+<li><a href="#benefits" id="toc-benefits" class="nav-link" data-scroll-target="#benefits">Benefits</a></li>
+  <li>
+<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection">Subset Selection</a>
   <ul class="collapse">
-  <li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
+<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
   <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</a></li>
   <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</a></li>
   <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</a></li>
   <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model">Choosing the Optimal Model</a></li>
-  </ul></li>
-  <li><a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a>
-  <ul class="collapse">
-  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
-  </ul></li>
-  <li><a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a></li>
-  </ul></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a>
+  <ul class="collapse">
+<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
+  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression">Lasso Regression</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a>
+  <ul class="collapse">
+<li><a href="#principal-components-regression" id="toc-principal-components-regression" class="nav-link" data-scroll-target="#principal-components-regression">Principal Components Regression</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title d-none d-lg-block">Generalized linear models (GLM)</h1>
 </div>
 
@@ -264,12 +263,8 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
-
-<section id="linear-regresion" class="level2">
-<h2 class="anchored" data-anchor-id="linear-regresion">Linear regresion</h2>
-<section id="getting-the-least-squares-line-of-a-sample" class="level3">
-<h3 class="anchored" data-anchor-id="getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</h3>
+</header><section id="linear-regresion" class="level2"><h2 class="anchored" data-anchor-id="linear-regresion">Linear regresion</h2>
+<section id="getting-the-least-squares-line-of-a-sample" class="level3"><h3 class="anchored" data-anchor-id="getting-the-least-squares-line-of-a-sample">Getting the Least Squares Line of a sample</h3>
 <p>As the <em>population regression line</em> is unobserved the <em>least squares line</em> of a sample is a good estimation. To get it we need to follow the next steps:</p>
 <ol type="1">
 <li>Define the function to fit.</li>
@@ -298,9 +293,7 @@ RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
 , \quad
 \hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
 \]</span></p>
-</section>
-<section id="getting-confident-intervarls-of-coeffients" class="level3">
-<h3 class="anchored" data-anchor-id="getting-confident-intervarls-of-coeffients">Getting confident intervarls of coeffients</h3>
+</section><section id="getting-confident-intervarls-of-coeffients" class="level3"><h3 class="anchored" data-anchor-id="getting-confident-intervarls-of-coeffients">Getting confident intervarls of coeffients</h3>
 <p>To estimate the <strong>population regression line</strong> we can calculate <strong>conﬁdence intervals</strong> for sample coefficients, to define a range where we can find the population values with a defined <strong>confidence level</strong>.</p>
 <blockquote class="blockquote">
 <p>If we want to use 95% of confidence we need to know that after taking many samples only 95% of the intervals produced with this <strong>confident level</strong> would have the true value (parameter).</p>
@@ -333,11 +326,8 @@ SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
 <p><span class="math display">\[  
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 \]</span></p>
-</section>
-<section id="insights-to-extract" class="level3">
-<h3 class="anchored" data-anchor-id="insights-to-extract">Insights to extract</h3>
-<section id="confirm-the-relationship-between-the-response-and-predictors" class="level4">
-<h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</h4>
+</section><section id="insights-to-extract" class="level3"><h3 class="anchored" data-anchor-id="insights-to-extract">Insights to extract</h3>
+<section id="confirm-the-relationship-between-the-response-and-predictors" class="level4"><h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</h4>
 <p>Use the regression <strong>overall P-value</strong> (based on the F-statistic) to confirm that at <strong>least one predictor</strong> is related with the Response and avoid interpretative problems associated with the number of observations (<em>n</em>) or predictors (<em>p</em>).</p>
 <p><span class="math display">\[
 H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
@@ -345,9 +335,7 @@ H_{0}: \beta_{1} = \beta_{2} = \dots = \beta_{p} = 0
 <p><span class="math display">\[
 H_{a}: \text{at least one } \beta_{j} \text{ is non-zero}
 \]</span></p>
-</section>
-<section id="accuracy-of-the-model-relationship-strength" class="level4">
-<h4 class="anchored" data-anchor-id="accuracy-of-the-model-relationship-strength">Accuracy of the model (relationship strength)</h4>
+</section><section id="accuracy-of-the-model-relationship-strength" class="level4"><h4 class="anchored" data-anchor-id="accuracy-of-the-model-relationship-strength">Accuracy of the model (relationship strength)</h4>
 <p>If we want to know how well the model fits to the data we have two options:</p>
 <ul>
 <li><p><strong>Residual standard error (RSE)</strong>: Even if the model were correct, the actual values of <span class="math inline">\(\hat{y}\)</span> would differ from the true regression line by approximately <em>this units</em>, on average. To get the percentage error we can calculate <span class="math inline">\(RSE/\overline{x}\)</span></p></li>
@@ -366,9 +354,7 @@ R^2 =
     Cor(Y,\hat{Y})^2 &amp; \text{Multipline Lineal Regresion}
 \end{cases}
 \]</span></p>
-</section>
-<section id="confirm-the-relationship-between-the-response-and-each-predictor" class="level4">
-<h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-each-predictor">Confirm the relationship between the Response and each predictor</h4>
+</section><section id="confirm-the-relationship-between-the-response-and-each-predictor" class="level4"><h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-each-predictor">Confirm the relationship between the Response and each predictor</h4>
 <p>To answer that we can test if a particular subset of q of the coefficients are zero.</p>
 <p><span class="math display">\[
 H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
@@ -383,25 +369,16 @@ H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
 <li>Forward selection</li>
 <li>Backward selection (cannot be used if p &gt;n)</li>
 <li>Mixed selection</li>
-</ul>
-</section>
-<section id="size-of-association-between-each-predictor-and-the-response." class="level4">
-<h4 class="anchored" data-anchor-id="size-of-association-between-each-predictor-and-the-response.">Size of association between each predictor and the response.</h4>
+</ul></section><section id="size-of-association-between-each-predictor-and-the-response." class="level4"><h4 class="anchored" data-anchor-id="size-of-association-between-each-predictor-and-the-response.">Size of association between each predictor and the response.</h4>
 <p>To check that we need to see the <span class="math inline">\(\hat{\beta}_{j}\)</span> <em>confident intervals</em> as the real <span class="math inline">\(\beta_{j}\)</span> is in that range.</p>
-</section>
-<section id="predicting-future-values" class="level4">
-<h4 class="anchored" data-anchor-id="predicting-future-values">Predicting future values</h4>
+</section><section id="predicting-future-values" class="level4"><h4 class="anchored" data-anchor-id="predicting-future-values">Predicting future values</h4>
 <p>If we want to predict the average response <span class="math inline">\(f(X)\)</span> we can use the confident intervals, but if we want to predict an individual response <span class="math inline">\(Y = f(X) + \epsilon\)</span> we need to use prediction intervals as they account for the uncertainty associated with <span class="math inline">\(\epsilon\)</span>, the irreducible error.</p>
-</section>
-</section>
-<section id="standard-linear-regression-model-assumptions" class="level3">
-<h3 class="anchored" data-anchor-id="standard-linear-regression-model-assumptions">Standard linear regression model assumptions</h3>
+</section></section><section id="standard-linear-regression-model-assumptions" class="level3"><h3 class="anchored" data-anchor-id="standard-linear-regression-model-assumptions">Standard linear regression model assumptions</h3>
 <ul>
 <li><p>The <strong>additivity assumption</strong> means that the association between a predictor <span class="math inline">\(X_{j}\)</span> and the response <span class="math inline">\(Y\)</span> does not depend on the values of the other predictors, as it happens when there is a <em>interaction (synergy) effect</em></p></li>
 <li><p>The <strong>linearity assumption</strong> states that the change in the response Y associated with a one-unit change in <span class="math inline">\(X_{j}\)</span> is constant, regardless of the value of <span class="math inline">\(X_{j}\)</span>.</p></li>
 </ul>
-<section id="including-an-interaction-term" class="level4">
-<h4 class="anchored" data-anchor-id="including-an-interaction-term">Including an interaction term</h4>
+<section id="including-an-interaction-term" class="level4"><h4 class="anchored" data-anchor-id="including-an-interaction-term">Including an interaction term</h4>
 <p>This approach relax the <em>additivity assumption</em> that models usually have.</p>
 <ul>
 <li><strong>2 quantitative variables</strong></li>
@@ -429,13 +406,10 @@ Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} + \beta_{3} X_{1} X_{2} 
 \]</span></p>
 <p>Adding the <span class="math inline">\(\beta_{3}\)</span> interaction allow the line to change the line slope based on <span class="math inline">\(X_{2}\)</span> and not just a different intercept.</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/03-factor-interaction.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/03-factor-interaction.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section>
-<section id="polynomial-regression" class="level4">
-<h4 class="anchored" data-anchor-id="polynomial-regression">Polynomial regression</h4>
+</section><section id="polynomial-regression" class="level4"><h4 class="anchored" data-anchor-id="polynomial-regression">Polynomial regression</h4>
 <p>This approach relax the <em>linearity assumption</em> that models usually have. It consist in including transformed versions of the predictors.</p>
 <p><span class="math display">\[
 \begin{split}
@@ -443,130 +417,96 @@ Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
   &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{1}^2
 \end{split}
 \]</span></p>
-</section>
-</section>
-<section id="possible-problems" class="level3">
-<h3 class="anchored" data-anchor-id="possible-problems">Possible problems</h3>
-<section id="non-linearity-of-the-response-predictor-relationships" class="level4">
-<h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
+</section></section><section id="possible-problems" class="level3"><h3 class="anchored" data-anchor-id="possible-problems">Possible problems</h3>
+<section id="non-linearity-of-the-response-predictor-relationships" class="level4"><h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+</tr></thead>
+<tbody><tr class="odd">
 <td style="text-align: left;">Plot the <strong>residuals versus predicted values</strong> <span class="math inline">\(\hat{y}_{i}\)</span>. Ideally, the residual plot will show no discernible pattern. The presence of a pattern may indicate a problem with some aspect of the linear model.</td>
 <td style="text-align: left;">A simple approach is to use non-linear transformations of the predictors, such as <span class="math inline">\(\log{X}\)</span>, <span class="math inline">\(\sqrt{X}\)</span>, and <span class="math inline">\(X^2\)</span>, in the regression model</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/04-residuals-predicted-values.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/04-residuals-predicted-values.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section>
-<section id="correlation-of-error-terms" class="level4">
-<h4 class="anchored" data-anchor-id="correlation-of-error-terms">Correlation of error terms</h4>
+</section><section id="correlation-of-error-terms" class="level4"><h4 class="anchored" data-anchor-id="correlation-of-error-terms">Correlation of error terms</h4>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. <br> <br> 2. Check if some observation have been exposed to the same environmental factors</td>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern.   2. Check if some observation have been exposed to the same environmental factors</td>
 <td style="text-align: left;">Good experimental design is crucial in order to mitigate these problems</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="non-constant-variance-heteroscedasticity-of-error-terms" class="level4">
-<h4 class="anchored" data-anchor-id="non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</h4>
+</tr></tbody>
+</table></section><section id="non-constant-variance-heteroscedasticity-of-error-terms" class="level4"><h4 class="anchored" data-anchor-id="non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</h4>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+</tr></thead>
+<tbody><tr class="odd">
 <td style="text-align: left;">Plot the residual plot en check if you can see a funnel shape</td>
-<td style="text-align: left;">We can transform the response using a concave function such as <span class="math inline">\(\log{Y}\)</span> or <span class="math inline">\(\sqrt{Y}\)</span></td>
-</tr>
-</tbody>
+<td style="text-align: left;">We can transform the response using a concave function such as <span class="math inline">\(\log{Y}\)</span> or <span class="math inline">\(\sqrt{Y}\)</span>
+</td>
+</tr></tbody>
 </table>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/05-non-constance-variance.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/05-non-constance-variance.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section>
-<section id="outliers" class="level4">
-<h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
+</section><section id="outliers" class="level4"><h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
 <p>An outlier is a point for which <span class="math inline">\(y_{i}\)</span> is far from the value predicted by the model. Sometimes, they have little effect on the least squares line, but <em>over estimate the RSE</em> making bigger p-values of the model and <em>under estimate the</em> <span class="math inline">\(R^2\)</span>.</p>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+</tr></thead>
+<tbody><tr class="odd">
 <td style="text-align: left;">Plot the <strong>studentized residuals</strong>, computed by dividing each residual <span class="math inline">\(e_{i}\)</span> by its estimated standard error. Then search for points which absolute value is greater than 3</td>
 <td style="text-align: left;">They can be removed if it has occurred due to an error in data collection. Otherwise, they may indicate a deficiency with the model, such as a missing predictor.</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/06-studentized-residuals-plot.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/06-studentized-residuals-plot.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section>
-<section id="high-leverage-points" class="level4">
-<h4 class="anchored" data-anchor-id="high-leverage-points">High-leverage points</h4>
+</section><section id="high-leverage-points" class="level4"><h4 class="anchored" data-anchor-id="high-leverage-points">High-leverage points</h4>
 <p>Observations with <strong>high leverage</strong> have an unusual value for <span class="math inline">\(x_{i}\)</span>. High leverage observations tend to have a sizable impact on the estimated regression line and any problems with these points may invalidate the entire fit.</p>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Compute the leverage statistic. Find an observation with higher value than mean, represented by <span class="math inline">\((p + 1)/n\)</span>. Leverage values are always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span></td>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">Compute the leverage statistic. Find an observation with higher value than mean, represented by <span class="math inline">\((p + 1)/n\)</span>. Leverage values are always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span>
+</td>
 <td style="text-align: left;">Make sure that the value is correct and not a data collection problem</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 <p><span class="math display">\[
 h_{i} = \frac{1}{n} +
@@ -575,13 +515,10 @@ h_{i} = \frac{1}{n} +
 \]</span></p>
 <p>In a <em>multiple linear regression</em>, it is possible to have an observation that is well within the range of each individual predictor’s values, but that is unusual in terms of the full set of predictors.</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/07-studentized-residuals-leverage-plot.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/07-studentized-residuals-leverage-plot.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section>
-<section id="collinearity" class="level4">
-<h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
+</section><section id="collinearity" class="level4"><h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
 <p><strong>Collinearity</strong> refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for <span class="math inline">\(\hat{\beta}_{j}\)</span> to grow. That reduce the <strong>power of the hypothesis test</strong>,that is, the probability of correctly detecting a non-zero coeﬃcient.</p>
 <p>Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (<strong>multicollinearity</strong>).</p>
 <table class="table">
@@ -589,37 +526,26 @@ h_{i} = \frac{1}{n} +
 <col style="width: 64%">
 <col style="width: 36%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Detection method</th>
 <th style="text-align: left;">Solutions</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
+</tr></thead>
+<tbody><tr class="odd">
 <td style="text-align: left;">The best way to assess multicollinearity is to compute the <strong>variance inﬂation factor (VIF)</strong>, which is the ratio of the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> when ﬁtting the full model divided by the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity</td>
-<td style="text-align: left;">1. Drop one of the problematic variables from the regression. <br> <br> 2. Combine the collinear variables together into a single predictor</td>
-</tr>
-</tbody>
+<td style="text-align: left;">1. Drop one of the problematic variables from the regression.   2. Combine the collinear variables together into a single predictor</td>
+</tr></tbody>
 </table>
 <p><span class="math display">\[
 \text{VIF}(\hat{\beta}_{j}) = \frac{1}
                                    {1 - R_{X_{j}|X_{-j}}^2}
 \]</span></p>
 <p>Where <span class="math inline">\(R_{X_{j}|X_{-j}}^2\)</span> is the <span class="math inline">\(R^2\)</span> from a regression of <span class="math inline">\(X_{j}\)</span> onto all of the other predictors.</p>
-</section>
-</section>
-<section id="avoid-using-for-classification-problems" class="level3">
-<h3 class="anchored" data-anchor-id="avoid-using-for-classification-problems">Avoid using for classification problems</h3>
+</section></section><section id="avoid-using-for-classification-problems" class="level3"><h3 class="anchored" data-anchor-id="avoid-using-for-classification-problems">Avoid using for classification problems</h3>
 <p>There are better model to achieve that kind of situation. For example, he linear <strong>discriminant analysis (LDA)</strong> procedure the same response of a linear regression for a binary problem. Other reasons are:</p>
 <ul>
 <li>A regression method cannot accommodate a qualitative response with more than two classes.</li>
 <li>A regression method will not provide meaningful estimates of <span class="math inline">\(Pr(Y|X)\)</span> as some of our estimates might be outside the [0, 1] interval.</li>
-</ul>
-</section>
-</section>
-<section id="poisson-regression" class="level2">
-<h2 class="anchored" data-anchor-id="poisson-regression">Poisson Regression</h2>
+</ul></section></section><section id="poisson-regression" class="level2"><h2 class="anchored" data-anchor-id="poisson-regression">Poisson Regression</h2>
 <p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
 <p><span class="math display">\[
 Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
@@ -631,37 +557,29 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 \log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 \]</span></p>
 <p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
-</section>
-<section id="logistic-regression" class="level2">
-<h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+</section><section id="logistic-regression" class="level2"><h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
 <p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
             {1+e^{\beta_{0}+\beta_{1}X}}
 \]</span></p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/09-logistic-function-example.png" class="img-fluid figure-img"></p>
+<figure class="figure"><p><img src="img/09-logistic-function-example.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 <p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
-<section id="estimating-coefficients" class="level3">
-<h3 class="anchored" data-anchor-id="estimating-coefficients">Estimating coefficients</h3>
+<section id="estimating-coefficients" class="level3"><h3 class="anchored" data-anchor-id="estimating-coefficients">Estimating coefficients</h3>
 <p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
 <p><span class="math display">\[
 \ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
 \]</span></p>
-</section>
-<section id="multiple-regression" class="level3">
-<h3 class="anchored" data-anchor-id="multiple-regression">Multiple regression</h3>
+</section><section id="multiple-regression" class="level3"><h3 class="anchored" data-anchor-id="multiple-regression">Multiple regression</h3>
 <p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
             {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 \]</span></p>
-</section>
-<section id="interpreting-the-model" class="level3">
-<h3 class="anchored" data-anchor-id="interpreting-the-model">Interpreting the model</h3>
+</section><section id="interpreting-the-model" class="level3"><h3 class="anchored" data-anchor-id="interpreting-the-model">Interpreting the model</h3>
 <p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
 <p><span class="math display">\[
 \underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
@@ -670,19 +588,16 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 <p>An <strong>odds ratio</strong> of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won’t occur. It can take any value between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span>, where low probabilities are close to <span class="math inline">\(0\)</span>, higher to <span class="math inline">\(\infty\)</span> and equivalents ones are equals to 1. For example, if we have an <span class="math inline">\(\text{odds ratio} = 2\)</span>, we can say that it’s 2 times more likely that the event happens rather than not.</p>
 <p>Applying <span class="math inline">\(\log{(\text{odds ratio})}\)</span> makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it’s hard to see at first hand, but if we apply the <span class="math inline">\(\log\)</span> to each value we can see that <span class="math inline">\(\log{(2)} = 0.69\)</span> and <span class="math inline">\(\log{(0.5)} = -0.69\)</span>.</p>
 <p>At end, <span class="math inline">\(p(X)\)</span> will increase as <span class="math inline">\(X\)</span> increases if <span class="math inline">\(\beta_{1}\)</span> is positive despite the relationship between each other isn’t a linear one.</p>
-<section id="understanding-a-confounding-paradox" class="level4">
-<h4 class="anchored" data-anchor-id="understanding-a-confounding-paradox">Understanding a confounding paradox</h4>
+<section id="understanding-a-confounding-paradox" class="level4"><h4 class="anchored" data-anchor-id="understanding-a-confounding-paradox">Understanding a confounding paradox</h4>
 <table class="table">
 <colgroup>
 <col style="width: 44%">
 <col style="width: 55%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: left;">Simple Regression</th>
 <th style="text-align: left;">Multiple Regression</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><img src="img/10-Default-table-4_2.png" class="img-fluid" data-fig-align="center"></td>
@@ -695,20 +610,15 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 </tbody>
 </table>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/12-Default-multiple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+<figure class="figure"><p><img src="img/12-Default-multiple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
 </figure>
 </div>
 <p>The problem relays on the fact that <em>student</em> and <em>balance</em> are <strong>correlated</strong>. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the <em>same credit card balance</em>!</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/13-Default-simple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+<figure class="figure"><p><img src="img/13-Default-simple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
 </figure>
 </div>
-</section>
-</section>
-<section id="multinomial-logistic-regression" class="level3">
-<h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic Regression</h3>
+</section></section><section id="multinomial-logistic-regression" class="level3"><h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic Regression</h3>
 <p>We also can generalize the <em>logistic function</em> to support more than 2 categories (<span class="math inline">\(K &gt; 2\)</span>) by defining by convention the last category <span class="math inline">\(K\)</span> as a <strong>baseline</strong>.</p>
 <p>For <span class="math inline">\(k = 1, \dotsc,K-1\)</span> we use function.</p>
 <p><span class="math display">\[
@@ -724,53 +634,44 @@ Pr(Y = K|X= x) = \frac{1}
 \log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
 \]</span></p>
 <p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
-</section>
-<section id="model-limitatios" class="level3">
-<h3 class="anchored" data-anchor-id="model-limitatios">Model limitatios</h3>
+</section><section id="model-limitatios" class="level3"><h3 class="anchored" data-anchor-id="model-limitatios">Model limitatios</h3>
 <p>There are models that could make better classifications when:</p>
 <ul>
 <li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
 <li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
 <li>When the decision boundary is not lineal.</li>
-</ul>
-</section>
-</section>
-<section id="replacing-plain-least-squares-ﬁtting" class="level2">
-<h2 class="anchored" data-anchor-id="replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</h2>
-<section id="benefits" class="level3">
-<h3 class="anchored" data-anchor-id="benefits">Benefits</h3>
+</ul></section></section><section id="replacing-plain-least-squares-ﬁtting" class="level2"><h2 class="anchored" data-anchor-id="replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</h2>
+<section id="benefits" class="level3"><h3 class="anchored" data-anchor-id="benefits">Benefits</h3>
 <ul>
 <li><p><strong>Prediction Accuracy:</strong> If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p &gt;n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (<em>constraining</em> and <em>shrinking</em>).</p></li>
 <li><p><strong>Model Interpretability:</strong>There are some methods that can exclude irrelevant variables from a multiple regression model (<em>feature selection</em> or <em>variable selection</em>).</p></li>
-</ul>
-</section>
-<section id="subset-selection" class="level3">
-<h3 class="anchored" data-anchor-id="subset-selection">Subset Selection</h3>
+</ul></section><section id="subset-selection" class="level3"><h3 class="anchored" data-anchor-id="subset-selection">Subset Selection</h3>
 <p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
-<section id="best-subset-selection" class="level4">
-<h4 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h4>
+<section id="best-subset-selection" class="level4"><h4 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h4>
 <p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
 <ul>
-<li><strong>Algorithm 6.1</strong>
+<li>
+<strong>Algorithm 6.1</strong>
 <ol type="1">
 <li>Let <span class="math inline">\(\mathcal{M}_0\)</span> denote the null model, which represent the sample mean for each observation.</li>
 <li>For <span class="math inline">\(k = 1, 2, \dots, p\)</span>:</li>
 </ol>
 <ul>
 <li>Fit all <span class="math inline">\(\left( \begin{array}{c} p \\ k \end{array} \right)\)</span> models that contain exactly k predictors.</li>
-<li>Pick the best among these <span class="math inline">\(\left( \begin{array}{c} p \\ k \end{array} \right)\)</span> models using the smallest RSS or the <em>deviance</em> for classification (negative two times the maximized log-likelihood), and call it <span class="math inline">\(\mathcal{M}_k\)</span></li>
+<li>Pick the best among these <span class="math inline">\(\left( \begin{array}{c} p \\ k \end{array} \right)\)</span> models using the smallest RSS or the <em>deviance</em> for classification (negative two times the maximized log-likelihood), and call it <span class="math inline">\(\mathcal{M}_k\)</span>
+</li>
 </ul>
 <ol start="3" type="1">
 <li>Select a single best model from among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
-</ol></li>
+</ol>
+</li>
 </ul>
 <p>This method is really computational expensive as it needs to fit <span class="math inline">\(2^p\)</span> models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to <strong>overﬁtting</strong> and <strong>high variance of the coeﬃcient estimates</strong>.</p>
-</section>
-<section id="stepwise-selection-forward-stepwise-selection" class="level4">
-<h4 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h4>
+</section><section id="stepwise-selection-forward-stepwise-selection" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h4>
 <p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
 <ul>
-<li><strong>Algorithm 6.2</strong>
+<li>
+<strong>Algorithm 6.2</strong>
 <ol type="1">
 <li>Let <span class="math inline">\(\mathcal{M}_0\)</span> denote the null model, which represent the sample mean for each observation.</li>
 <li>For <span class="math inline">\(k = 0, \dots, p-1\)</span>:</li>
@@ -781,15 +682,15 @@ Pr(Y = K|X= x) = \frac{1}
 </ul>
 <ol start="3" type="1">
 <li>Select a single best model from among <span class="math inline">\(\mathcal{M}_k, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
-</ol></li>
+</ol>
+</li>
 </ul>
 <p>Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the <em>p</em> predictors, but can be used even if <span class="math inline">\(n &lt; p\)</span>.</p>
-</section>
-<section id="stepwise-selection-backward-stepwise-selection" class="level4">
-<h4 class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</h4>
+</section><section id="stepwise-selection-backward-stepwise-selection" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</h4>
 <p>It begins with the full least squares model containing all <em>p</em> predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models</p>
 <ul>
-<li><strong>Algorithm 6.3</strong>
+<li>
+<strong>Algorithm 6.3</strong>
 <ol type="1">
 <li>Let <span class="math inline">\(\mathcal{M}_p\)</span> denote the full model, which contains all <em>p</em> predictors.</li>
 <li>For <span class="math inline">\(k = p, p -1, \dots , 1\)</span>:</li>
@@ -800,16 +701,13 @@ Pr(Y = K|X= x) = \frac{1}
 </ul>
 <ol start="3" type="1">
 <li>Select a single best model from among <span class="math inline">\(\mathcal{M}_0, \dots, \mathcal{M}_p\)</span> using cross- validated prediction error, <span class="math inline">\(C_p\)</span> (AIC), BIC or adjusted <span class="math inline">\(R^2\)</span>.</li>
-</ol></li>
+</ol>
+</li>
 </ul>
 <p>This method don’t guarantee to yield the best model containing a subset of the <em>p</em> predictors and we need to cofirm that <span class="math inline">\(n \geq p\)</span>.</p>
-</section>
-<section id="stepwise-selection-hybrid-approaches" class="level4">
-<h4 class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</h4>
+</section><section id="stepwise-selection-hybrid-approaches" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</h4>
 <p>In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic <em>Best Subset Selection</em> while retaining the computational advantages of <em>forward</em> and <em>backward stepwise selection</em>.</p>
-</section>
-<section id="choosing-the-optimal-model" class="level4">
-<h4 class="anchored" data-anchor-id="choosing-the-optimal-model">Choosing the Optimal Model</h4>
+</section><section id="choosing-the-optimal-model" class="level4"><h4 class="anchored" data-anchor-id="choosing-the-optimal-model">Choosing the Optimal Model</h4>
 <p>As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:</p>
 <ul>
 <li>Making an adjustment to the training error to account for the bias due to overﬁtting.</li>
@@ -822,18 +720,18 @@ Pr(Y = K|X= x) = \frac{1}
 <col style="width: 29%">
 <col style="width: 45%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th style="text-align: center;">Method</th>
 <th style="text-align: center;">Formula</th>
 <th style="text-align: left;">Interpretation</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;"><span class="math inline">\(C_p\)</span></td>
 <td style="text-align: center;"><span class="math inline">\(C_p = \frac{1}{n} (\text{RSS} + 2d\hat{\sigma}^2)\)</span></td>
-<td style="text-align: left;"><span class="math inline">\(2d\hat{\sigma}^2\)</span> represent the penalty of adding new predictors. This method is a good estimation of <strong>test MSE</strong> if the <span class="math inline">\(\hat{\sigma}^2\)</span> is an unbiased estimate of the <span class="math inline">\(\sigma^2\)</span></td>
+<td style="text-align: left;">
+<span class="math inline">\(2d\hat{\sigma}^2\)</span> represent the penalty of adding new predictors. This method is a good estimation of <strong>test MSE</strong> if the <span class="math inline">\(\hat{\sigma}^2\)</span> is an unbiased estimate of the <span class="math inline">\(\sigma^2\)</span>
+</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Akaike information criterion</td>
@@ -846,7 +744,8 @@ Pr(Y = K|X= x) = \frac{1}
 <td style="text-align: left;">After omitting irrelevant constants, we can see that <span class="math inline">\(\log n &gt; 2\)</span> for any <span class="math inline">\(n &gt; 7\)</span>, as consequence, the metric trends to add a heavier penalty on models with many variables than the <span class="math inline">\(C_p\)</span> and tent to select models with fewer predictors</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">Adjusted <span class="math inline">\(R^2\)</span></td>
+<td style="text-align: center;">Adjusted <span class="math inline">\(R^2\)</span>
+</td>
 <td style="text-align: center;"><span class="math inline">\(\text{Adjusted} \; R^2 = 1 - \frac{\text{RSS}/(n - d -1)}{\text{TSS}/(n-1)}\)</span></td>
 <td style="text-align: left;">A large value of adjusted <span class="math inline">\(R^2\)</span> indicates a model with a small test error, even though the metric doesn’t rely on rigorous theoretical justiﬁcations.</td>
 </tr>
@@ -854,55 +753,115 @@ Pr(Y = K|X= x) = \frac{1}
 </table>
 <p><em>Where:</em></p>
 <ul>
-<li><span class="math inline">\(n\)</span>: Number of observations</li>
-<li><span class="math inline">\(d\)</span>: Number of predictors</li>
-<li><span class="math inline">\(\hat{\sigma}^2\)</span>: Estimate of the variance of the error <span class="math inline">\(\epsilon\)</span> associated with each response</li>
+<li>
+<span class="math inline">\(n\)</span>: Number of observations</li>
+<li>
+<span class="math inline">\(d\)</span>: Number of predictors</li>
+<li>
+<span class="math inline">\(\hat{\sigma}^2\)</span>: Estimate of the variance of the error <span class="math inline">\(\epsilon\)</span> associated with each response</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/25-cp-bic-adj-r2-example.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+<figure class="figure"><p><img src="img/25-cp-bic-adj-r2-example.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section>
-</section>
-<section id="shrinkage" class="level3">
-<h3 class="anchored" data-anchor-id="shrinkage">Shrinkage</h3>
+</section></section><section id="shrinkage" class="level3"><h3 class="anchored" data-anchor-id="shrinkage">Shrinkage</h3>
 <p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
-<section id="ridge-regression" class="level4">
-<h4 class="anchored" data-anchor-id="ridge-regression">Ridge Regression</h4>
-<p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is closed to 0:</p>
+<section id="ridge-regression" class="level4"><h4 class="anchored" data-anchor-id="ridge-regression">Ridge Regression</h4>
+<p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is close to 0:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p \beta_j^2
 \]</span></p>
 <p><em>Where:</em></p>
 <ul>
-<li><span class="math inline">\(\lambda\)</span>: It’s a tuning parameter <span class="math inline">\(\geq 0\)</span> that can be calculated using cross-validation.</li>
-<li><span class="math inline">\(\text{RSS}\)</span>: Present the residual standard error.</li>
+<li>
+<span class="math inline">\(\lambda\)</span>: It’s a tuning parameter <span class="math inline">\(\geq 0\)</span> that can be calculated using cross-validation.</li>
+<li>
+<span class="math inline">\(\text{RSS}\)</span>: Present the residual standard error.</li>
 </ul>
-<p>We can think of the x-axis in the right-hand panel of the next figure as the amount that the ridge regression coeﬃcient estimates have been shrunken towards zero; a small value indicates that they have been shrunken very close to zero.</p>
+<p>As result, the ridge regression will produce a diﬀerent set of coeﬃcient estimates for each <span class="math inline">\(\lambda\)</span> value, <span class="math inline">\(\hat{\beta}_\lambda^R\)</span>. By plotting the new coefficients against the <em>penalty</em> used we can see how the coefficients move towards zero without reaching the absolute 0, but may also be useful to plot the <span class="math inline">\(\ell_2 \; \mathcal{norm}\)</span> (<span class="math inline">\(\| \beta \|_2 = \sqrt{\sum_{j=1}^p \beta^2}\)</span>) proportion of the <em>ridge</em> vs <em>least squares</em> coefficients, to compute the <em>proportion</em> in which the ridge regression coeﬃcient estimate have been shrunken towards zero.</p>
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/26-ridge-regression-change.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+<figure class="figure"><p><img src="img/26-ridge-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-<p>As the <span class="math inline">\(\lambda\)</span> to select is sensible to the predictors escaling, it’s a good practice scaling the predictors using the next formula, to make all the predictors to have an standard deviation of 1:</p>
+<p>As the <span class="math inline">\(\lambda\)</span> to select is sensible to the predictors scaling, it’s a good practice scaling the predictors using the next formula, to make all the predictors to have an standard deviation of 1:</p>
 <p><span class="math display">\[
-\tilde{x}_{ij} = \frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} =
+\tilde{x}_{ij} =
+\frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} =
 \frac{x_{ij}}{\sigma_j}
 \]</span></p>
-<p>In general, in situations where the relationship between the response and the predictors is close to linear, the least squares estimates will have low bias but may have high variance. This means that a small change in the training data can cause a large change in the least squares coeﬃcient estimates. In particular, when the number of variables p is almost as large as the number of observations n, as in the example in Figure 6.5, the least squares estimates will be extremely variable.</p>
-</section>
-</section>
-<section id="dimension-reduction" class="level3">
-<h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
-<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace, where <span class="math inline">\(M &lt; p\)</span>. Then the <em>M</em> projections are used as predictors to ﬁt a linear regression model by least squares</p>
+<p>When the number of variables <em>p</em> is almost as large as the number of observations <em>n</em> the least squares estimates will be extremely variable and this method <strong>increase the bias</strong> by reducing the <em>flexibility</em> through <span class="math inline">\(\lambda\)</span> to <strong>reduce the variance</strong> and find the lower error rate, without making many computations as happens the <em>best subset selection</em> method.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/27-ridge-regression-bias-variance-trade-off.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+</section><section id="lasso-regression" class="level4"><h4 class="anchored" data-anchor-id="lasso-regression">Lasso Regression</h4>
+<p><em>Ridge Regression</em> don’t set the coefficient exactly to zero (unless <span class="math inline">\(\lambda = \infty\)</span>). That doesn’t affect the model accuracy but doesn’t provide any help when we have to interpret a model with many predicts. To over come that problem, the <em>Lasso Regression</em> performs <strong><em>variable selection</em></strong> based on minimization of the next function:</p>
+<p><span class="math display">\[
+RSS + \lambda \sum_{j=1}^p |\beta_j|
+\]</span></p>
+<p><em>Where:</em></p>
+<ul>
+<li>
+<span class="math inline">\(\lambda\)</span>: It’s a tuning parameter <span class="math inline">\(\geq 0\)</span> that can be calculated using cross-validation.</li>
+<li>
+<span class="math inline">\(\text{RSS}\)</span>: Present the residual standard error.</li>
+</ul>
+<p>As consequence, the method uses the <span class="math inline">\(\ell_1\)</span> penalty (<span class="math inline">\(\| \beta \|_1 = \sum_{j=1}^p |\beta|\)</span>), instead of the <span class="math inline">\(\ell_2\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/28-lasso-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+</section></section><section id="dimension-reduction" class="level3"><h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
+<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace used to ﬁt a linear regression model by least squares.</p>
+<p>Let <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent a <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of our original predictors based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span> that could lead to improve the fitting against the original model</p>
+<p><span class="math display">\[
+y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
+\qquad i=1, \dots, n.
+\]</span></p>
+<p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different approachs:</p>
+<section id="principal-components-regression" class="level4"><h4 class="anchored" data-anchor-id="principal-components-regression">Principal Components Regression</h4>
+<p>This is not a feature selection method as each of the <em>M</em> principal components used in the regression is a linear combination of all <em>p</em> of the original features.In this sense, PCR is more closely related to <em>ridge regression</em> than to the <em>lasso</em>.</p>
+<p>To perform a <em>principal components analysis</em> (PCA):</p>
+<ol type="1">
+<li>Standardize each predictor</li>
+</ol>
+<p><span class="math display">\[
+\tilde{x}_{ij} =
+\frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} =
+\frac{x_{ij}}{\sigma_j}
+\]</span></p>
+<ol start="2" type="1">
+<li>Select as the <em>ﬁrst principal component</em> the variable where the data <em>vary the most</em>.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/29-pca-data-example.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+<ol start="3" type="1">
+<li>Project the observations on the first component, to get the largest possible variance</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/30-pca-projection.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+<ol start="4" type="1">
+<li><p>Then maximize the <span class="math inline">\(\text{Var}(\phi_{11} \times (x_1-\overline{x_1}) + \phi_{21} \times (x_2-\overline{x_2}))\)</span> where <span class="math inline">\(\phi_{11}^2 + \phi_{21}^2 = 1\)</span> to the get <strong>the principal component loadings</strong>. As result <span class="math inline">\(Z_1\)</span> it’s a weighted average of the to variables.</p></li>
+<li><p>Repeat the process until having <em>p</em> distinct principal components <em>perpendicular</em> to the previews one.</p></li>
+</ol>
+<p>By using PCA to perform our analysis we are assuming that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_p\)</span> <em>show the most variation are the directions the most variation are the directions</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_2\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/31-pca-test-error.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>In general, this method performs better when we just need to use few principal components.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/32-pca-test-error-less-components.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>In PCR, the number of principal components, M, is typically chosen by cross-validation.</p>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -999,9 +958,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     });
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./model-performance.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Understanding model performance</span>
       </a>          
@@ -1013,13 +970,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
-
 
 
 </body></html>
