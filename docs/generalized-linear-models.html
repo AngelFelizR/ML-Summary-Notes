@@ -242,7 +242,8 @@ ul.task-list li input[type="checkbox"] {
   <li>
 <a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a>
   <ul class="collapse">
-<li><a href="#principal-components-regression" id="toc-principal-components-regression" class="nav-link" data-scroll-target="#principal-components-regression">Principal Components Regression</a></li>
+<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr">Principal Components Regression (PCR)</a></li>
+  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls">Partial Least Squares (PLS)</a></li>
   </ul>
 </li>
   </ul>
@@ -812,18 +813,18 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 </figure>
 </div>
 </section></section><section id="dimension-reduction" class="level3"><h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
-<p>It projects the <em>p</em> predictors into an <em>M</em>-dimensional subspace used to ﬁt a linear regression model by least squares.</p>
-<p>Let <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent a <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of our original predictors based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span> that could lead to improve the fitting against the original model</p>
+<p>This method projects the <span class="math inline">\(p\)</span> predictors into an <span class="math inline">\(M\)</span>-dimensional subspace. If <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of <strong>ALL our original predictors</strong> based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span>, then we can use the new variables to fit a linear regression model by least squares.</p>
 <p><span class="math display">\[
 y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 \qquad i=1, \dots, n.
 \]</span></p>
-<p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different approachs:</p>
-<section id="principal-components-regression" class="level4"><h4 class="anchored" data-anchor-id="principal-components-regression">Principal Components Regression</h4>
 <p>This is not a feature selection method as each of the <em>M</em> principal components used in the regression is a linear combination of all <em>p</em> of the original features.In this sense, PCR is more closely related to <em>ridge regression</em> than to the <em>lasso</em>.</p>
+<p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different ways:</p>
+<section id="principal-components-regression-pcr" class="level4"><h4 class="anchored" data-anchor-id="principal-components-regression-pcr">Principal Components Regression (PCR)</h4>
+<p>The PCR assumes that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_M\)</span> <em>show the most variation are the directions that are associated with</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_m\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
 <p>To perform a <em>principal components analysis</em> (PCA):</p>
 <ol type="1">
-<li>Standardize each predictor</li>
+<li>It’s recommended to standardize each predictor</li>
 </ol>
 <p><span class="math display">\[
 \tilde{x}_{ij} =
@@ -848,17 +849,46 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 <li><p>Then maximize the <span class="math inline">\(\text{Var}(\phi_{11} \times (x_1-\overline{x_1}) + \phi_{21} \times (x_2-\overline{x_2}))\)</span> where <span class="math inline">\(\phi_{11}^2 + \phi_{21}^2 = 1\)</span> to the get <strong>the principal component loadings</strong>. As result <span class="math inline">\(Z_1\)</span> it’s a weighted average of the to variables.</p></li>
 <li><p>Repeat the process until having <em>p</em> distinct principal components <em>perpendicular</em> to the previews one.</p></li>
 </ol>
-<p>By using PCA to perform our analysis we are assuming that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_p\)</span> <em>show the most variation are the directions the most variation are the directions</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_2\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
+<p>In general, this method performs better when we just need to use <strong>few principal components</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/31-pca-test-error.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-<p>In general, this method performs better when we just need to use few principal components.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/32-pca-test-error-less-components.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-<p>In PCR, the number of principal components, M, is typically chosen by cross-validation.</p>
+<p>The <strong>number of principal components</strong>, M, is typically chosen by <strong>cross-validation</strong>.</p>
+</section><section id="partial-least-squares-pls" class="level4"><h4 class="anchored" data-anchor-id="partial-least-squares-pls">Partial Least Squares (PLS)</h4>
+<p>The PLS approach attempts to ﬁnd directions that help explain both the response and the predictors by placing the <strong>highest weight</strong> on the variables that are most <strong>strongly related to the response</strong>.</p>
+<ol type="1">
+<li>Standardize the predictors and <strong>response</strong>.</li>
+</ol>
+<p><span class="math display">\[
+\tilde{x}_{ij} =
+\frac{x_{ij}}{\sqrt{\frac{1}{n}\sum_{i=1}^n(x_{ij}-\bar{x}_j)^2}} =
+\frac{x_{ij}}{\sigma_j}
+\]</span></p>
+<ol start="2" type="1">
+<li><p>Compute the ﬁrst direction <span class="math inline">\(Z_1\)</span> by setting each <span class="math inline">\(\phi_{j1}\)</span> equal to the coeﬃcient from the simple linear regression of <span class="math inline">\(Y \sim X_j\)</span>, which it’s also proportional to the correlation.</p></li>
+<li><p>Adjust each of the variables for <span class="math inline">\(Z_1\)</span>, by regressing each variable on <span class="math inline">\(Z_1\)</span> and taking residuals.</p></li>
+<li><p>Compute <span class="math inline">\(Z_2\)</span> using this <em>orthogonalized data</em> (residuals) in exactly the same fashion as <span class="math inline">\(Z_1\)</span> was computed based on the original data and repete the process <span class="math inline">\(M\)</span> times.</p></li>
+<li><p>Use least squares to ﬁt a linear model to predict <span class="math inline">\(Y\)</span> using <span class="math inline">\(Z_1, \dots, Z_M\)</span></p></li>
+</ol>
+<p>To select the number <span class="math inline">\(M\)</span> we can use <strong>cross-validation</strong>.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Performance Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
+</div>
+</div>
 
 
 </section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
