@@ -263,6 +263,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems">Avoid using for classification problems</a></li>
+  <li><a href="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting" id="toc-benefits-of-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting">Benefits of Replacing plain least squares ﬁtting</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection">Subset Selection</a>
+  <ul>
+<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
+  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</a></li>
+  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model">Choosing the Optimal Model</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a>
+  <ul>
+<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
+  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression">Lasso Regression</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a>
+  <ul>
+<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr">Principal Components Regression (PCR)</a></li>
+  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls">Partial Least Squares (PLS)</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
   </ul>
 </li>
   <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson Regression</a></li>
@@ -275,42 +302,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model">Interpreting the model</a>
   <ul class="collapse">
 <li><a href="#understanding-a-confounding-paradox" id="toc-understanding-a-confounding-paradox" class="nav-link" data-scroll-target="#understanding-a-confounding-paradox">Understanding a confounding paradox</a></li>
-  </ul>
-</li>
   <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
+  </ul>
+</li>
   <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios">Model limitatios</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#replacing-plain-least-squares-%EF%AC%81tting" id="toc-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#replacing-plain-least-squares-%EF%AC%81tting">Replacing plain least squares ﬁtting</a>
-  <ul>
-<li><a href="#benefits" id="toc-benefits" class="nav-link" data-scroll-target="#benefits">Benefits</a></li>
-  <li>
-<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection">Subset Selection</a>
-  <ul class="collapse">
-<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection">Best Subset Selection</a></li>
-  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</a></li>
-  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model">Choosing the Optimal Model</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage">Shrinkage</a>
-  <ul class="collapse">
-<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
-  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression">Lasso Regression</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction">Dimension Reduction</a>
-  <ul class="collapse">
-<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr">Principal Components Regression (PCR)</a></li>
-  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls">Partial Least Squares (PLS)</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
-  </ul>
-</li>
   </ul>
 </li>
   </ul></nav>
@@ -611,109 +606,13 @@ h_{i} = \frac{1}{n} +
 <ul>
 <li>A regression method cannot accommodate a qualitative response with more than two classes.</li>
 <li>A regression method will not provide meaningful estimates of <span class="math inline">\(Pr(Y|X)\)</span> as some of our estimates might be outside the [0, 1] interval.</li>
-</ul></section></section><section id="poisson-regression" class="level2"><h2 class="anchored" data-anchor-id="poisson-regression">Poisson Regression</h2>
-<p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
-<p><span class="math display">\[
-Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
-                 {k!}
-\]</span></p>
-<p>Where: - <span class="math inline">\(\lambda\)</span> must be greater than 0. It represents the expected number of events <span class="math inline">\(E(Y)\)</span> and variance related <span class="math inline">\(Var(Y)\)</span> - <span class="math inline">\(k\)</span> represent the number of events that we want to evaluate base of <span class="math inline">\(\lambda\)</span>. Its numbers should be greater or equal to 0.</p>
-<p>So, it makes sense that the value that we want to predict with our regression would be <span class="math inline">\(\lambda\)</span>, by using next structure:</p>
-<p><span class="math display">\[
-\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
-\]</span></p>
-<p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
-</section><section id="logistic-regression" class="level2"><h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
-<p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
-<p><span class="math display">\[
-p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
-            {1+e^{\beta_{0}+\beta_{1}X}}
-\]</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="img/09-logistic-function-example.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-<p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
-<section id="estimating-coefficients" class="level3"><h3 class="anchored" data-anchor-id="estimating-coefficients">Estimating coefficients</h3>
-<p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
-<p><span class="math display">\[
-\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
-\]</span></p>
-</section><section id="multiple-regression" class="level3"><h3 class="anchored" data-anchor-id="multiple-regression">Multiple regression</h3>
-<p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
-<p><span class="math display">\[
-p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
-            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
-\]</span></p>
-</section><section id="interpreting-the-model" class="level3"><h3 class="anchored" data-anchor-id="interpreting-the-model">Interpreting the model</h3>
-<p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
-<p><span class="math display">\[
-\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
-\]</span></p>
-<p>As we can see, the result of the linear combination is the <span class="math inline">\(\log\)</span> of the <em>odds ratio</em>, known as <strong>log odd</strong> or <strong>logit</strong>.</p>
-<p>An <strong>odds ratio</strong> of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won’t occur. It can take any value between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span>, where low probabilities are close to <span class="math inline">\(0\)</span>, higher to <span class="math inline">\(\infty\)</span> and equivalents ones are equals to 1. For example, if we have an <span class="math inline">\(\text{odds ratio} = 2\)</span>, we can say that it’s 2 times more likely that the event happens rather than not.</p>
-<p>Applying <span class="math inline">\(\log{(\text{odds ratio})}\)</span> makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it’s hard to see at first hand, but if we apply the <span class="math inline">\(\log\)</span> to each value we can see that <span class="math inline">\(\log{(2)} = 0.69\)</span> and <span class="math inline">\(\log{(0.5)} = -0.69\)</span>.</p>
-<p>At end, <span class="math inline">\(p(X)\)</span> will increase as <span class="math inline">\(X\)</span> increases if <span class="math inline">\(\beta_{1}\)</span> is positive despite the relationship between each other isn’t a linear one.</p>
-<section id="understanding-a-confounding-paradox" class="level4"><h4 class="anchored" data-anchor-id="understanding-a-confounding-paradox">Understanding a confounding paradox</h4>
-<table class="table">
-<colgroup>
-<col style="width: 44%">
-<col style="width: 55%">
-</colgroup>
-<thead><tr class="header">
-<th style="text-align: left;">Simple Regression</th>
-<th style="text-align: left;">Multiple Regression</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><img src="img/10-Default-table-4_2.png" class="img-fluid" data-fig-align="center"></td>
-<td style="text-align: left;"><img src="img/11-Default-table-4_3.png" class="img-fluid" data-fig-align="center"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">The positive coeﬃcient for student indicates that for <strong>over all values of balance and income</strong>, a student is <em>more</em> likely to default than a non-student.</td>
-<td style="text-align: left;">The negative coeﬃcient for student indicates that for a <strong>ﬁxed value of balance and income</strong>, a student is less likely to default than a non-student.</td>
-</tr>
-</tbody>
-</table>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="img/12-Default-multiple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
-</figure>
-</div>
-<p>The problem relays on the fact that <em>student</em> and <em>balance</em> are <strong>correlated</strong>. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the <em>same credit card balance</em>!</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="img/13-Default-simple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
-</figure>
-</div>
-</section></section><section id="multinomial-logistic-regression" class="level3"><h3 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic Regression</h3>
-<p>We also can generalize the <em>logistic function</em> to support more than 2 categories (<span class="math inline">\(K &gt; 2\)</span>) by defining by convention the last category <span class="math inline">\(K\)</span> as a <strong>baseline</strong>.</p>
-<p>For <span class="math inline">\(k = 1, \dotsc,K-1\)</span> we use function.</p>
-<p><span class="math display">\[
-Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
-                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
-\]</span></p>
-<p>For <span class="math inline">\(k=K\)</span>, we use the function.</p>
-<p><span class="math display">\[
-Pr(Y = K|X= x) = \frac{1}
-                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
-\]</span> And after some manipulations we can show that <span class="math inline">\(\log\)</span> of the probability of getting <span class="math inline">\(k\)</span> divided by the probability of the <em>baseline</em> is equivalent to a linear combinations of the functions parameters.</p>
-<p><span class="math display">\[
-\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
-\]</span></p>
-<p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
-</section><section id="model-limitatios" class="level3"><h3 class="anchored" data-anchor-id="model-limitatios">Model limitatios</h3>
-<p>There are models that could make better classifications when:</p>
-<ul>
-<li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
-<li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
-<li>When the decision boundary is not lineal.</li>
-</ul></section></section><section id="replacing-plain-least-squares-ﬁtting" class="level2"><h2 class="anchored" data-anchor-id="replacing-plain-least-squares-ﬁtting">Replacing plain least squares ﬁtting</h2>
-<section id="benefits" class="level3"><h3 class="anchored" data-anchor-id="benefits">Benefits</h3>
+</ul></section><section id="benefits-of-replacing-plain-least-squares-ﬁtting" class="level3"><h3 class="anchored" data-anchor-id="benefits-of-replacing-plain-least-squares-ﬁtting">Benefits of Replacing plain least squares ﬁtting</h3>
 <ul>
 <li><p><strong>Prediction Accuracy:</strong> If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p &gt;n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (<em>constraining</em> and <em>shrinking</em>).</p></li>
 <li><p><strong>Model Interpretability:</strong>There are some methods that can exclude irrelevant variables from a multiple regression model (<em>feature selection</em> or <em>variable selection</em>).</p></li>
-</ul></section><section id="subset-selection" class="level3"><h3 class="anchored" data-anchor-id="subset-selection">Subset Selection</h3>
+</ul></section></section><section id="subset-selection" class="level2"><h2 class="anchored" data-anchor-id="subset-selection">Subset Selection</h2>
 <p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
-<section id="best-subset-selection" class="level4"><h4 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h4>
+<section id="best-subset-selection" class="level3"><h3 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h3>
 <p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
 <ul>
 <li>
@@ -733,7 +632,7 @@ Pr(Y = K|X= x) = \frac{1}
 </li>
 </ul>
 <p>This method is really computational expensive as it needs to fit <span class="math inline">\(2^p\)</span> models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to <strong>overﬁtting</strong> and <strong>high variance of the coeﬃcient estimates</strong>.</p>
-</section><section id="stepwise-selection-forward-stepwise-selection" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h4>
+</section><section id="stepwise-selection-forward-stepwise-selection" class="level3"><h3 class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">Stepwise Selection: Forward Stepwise Selection</h3>
 <p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
 <ul>
 <li>
@@ -752,7 +651,7 @@ Pr(Y = K|X= x) = \frac{1}
 </li>
 </ul>
 <p>Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the <em>p</em> predictors, but can be used even if <span class="math inline">\(n &lt; p\)</span>.</p>
-</section><section id="stepwise-selection-backward-stepwise-selection" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</h4>
+</section><section id="stepwise-selection-backward-stepwise-selection" class="level3"><h3 class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">Stepwise Selection: Backward Stepwise Selection</h3>
 <p>It begins with the full least squares model containing all <em>p</em> predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models</p>
 <ul>
 <li>
@@ -771,9 +670,9 @@ Pr(Y = K|X= x) = \frac{1}
 </li>
 </ul>
 <p>This method don’t guarantee to yield the best model containing a subset of the <em>p</em> predictors and we need to cofirm that <span class="math inline">\(n \geq p\)</span>.</p>
-</section><section id="stepwise-selection-hybrid-approaches" class="level4"><h4 class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</h4>
+</section><section id="stepwise-selection-hybrid-approaches" class="level3"><h3 class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">Stepwise Selection: Hybrid Approaches</h3>
 <p>In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic <em>Best Subset Selection</em> while retaining the computational advantages of <em>forward</em> and <em>backward stepwise selection</em>.</p>
-</section><section id="choosing-the-optimal-model" class="level4"><h4 class="anchored" data-anchor-id="choosing-the-optimal-model">Choosing the Optimal Model</h4>
+</section><section id="choosing-the-optimal-model" class="level3"><h3 class="anchored" data-anchor-id="choosing-the-optimal-model">Choosing the Optimal Model</h3>
 <p>As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:</p>
 <ul>
 <li>Making an adjustment to the training error to account for the bias due to overﬁtting.</li>
@@ -830,9 +729,9 @@ Pr(Y = K|X= x) = \frac{1}
 <figure class="figure"><p><img src="img/25-cp-bic-adj-r2-example.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section></section><section id="shrinkage" class="level3"><h3 class="anchored" data-anchor-id="shrinkage">Shrinkage</h3>
+</section></section><section id="shrinkage" class="level2"><h2 class="anchored" data-anchor-id="shrinkage">Shrinkage</h2>
 <p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
-<section id="ridge-regression" class="level4"><h4 class="anchored" data-anchor-id="ridge-regression">Ridge Regression</h4>
+<section id="ridge-regression" class="level3"><h3 class="anchored" data-anchor-id="ridge-regression">Ridge Regression</h3>
 <p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is close to 0:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p \beta_j^2
@@ -860,7 +759,7 @@ RSS + \lambda \sum_{j=1}^p \beta_j^2
 <figure class="figure"><p><img src="img/27-ridge-regression-bias-variance-trade-off.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="lasso-regression" class="level4"><h4 class="anchored" data-anchor-id="lasso-regression">Lasso Regression</h4>
+</section><section id="lasso-regression" class="level3"><h3 class="anchored" data-anchor-id="lasso-regression">Lasso Regression</h3>
 <p><em>Ridge Regression</em> don’t set the coefficient exactly to zero (unless <span class="math inline">\(\lambda = \infty\)</span>). That doesn’t affect the model accuracy but doesn’t provide any help when we have to interpret a model with many predicts. To over come that problem, the <em>Lasso Regression</em> performs <strong><em>variable selection</em></strong> based on minimization of the next function:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p |\beta_j|
@@ -877,7 +776,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <figure class="figure"><p><img src="img/28-lasso-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="coding-example" class="level4"><h4 class="anchored" data-anchor-id="coding-example">Coding example</h4>
+</section><section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
@@ -957,7 +856,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
  8  453.
  9  620.
 10  615.
-# … with 253 more rows</code></pre>
+# ℹ 253 more rows</code></pre>
 </div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ridge_fit</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
@@ -1047,7 +946,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
  8   5964. rsq     standard   0.449    10  0.0642 Preprocessor1_Model44
  9   9541. rsq     standard   0.448    10  0.0641 Preprocessor1_Model45
 10    139. rsq     standard   0.448    10  0.0634 Preprocessor1_Model36
-# … with 40 more rows</code></pre>
+# ℹ 40 more rows</code></pre>
 </div>
 </div>
 <ol start="7" type="1">
@@ -1128,7 +1027,7 @@ Computational engine: glmnet </code></pre>
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="dimension-reduction" class="level3"><h3 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h3>
+</section></section><section id="dimension-reduction" class="level2"><h2 class="anchored" data-anchor-id="dimension-reduction">Dimension Reduction</h2>
 <p>This method projects the <span class="math inline">\(p\)</span> predictors into an <span class="math inline">\(M\)</span>-dimensional subspace. If <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of <strong>ALL our original predictors</strong> based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span>, then we can use the new variables to fit a linear regression model by least squares.</p>
 <p><span class="math display">\[
 y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
@@ -1136,7 +1035,7 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 \]</span></p>
 <p>This is not a feature selection method as each of the <em>M</em> principal components used in the regression is a linear combination of all <em>p</em> of the original features.In this sense, PCR is more closely related to <em>ridge regression</em> than to the <em>lasso</em>.</p>
 <p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different ways:</p>
-<section id="principal-components-regression-pcr" class="level4"><h4 class="anchored" data-anchor-id="principal-components-regression-pcr">Principal Components Regression (PCR)</h4>
+<section id="principal-components-regression-pcr" class="level3"><h3 class="anchored" data-anchor-id="principal-components-regression-pcr">Principal Components Regression (PCR)</h3>
 <p>The PCR assumes that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_M\)</span> <em>show the most variation are the directions that are associated with</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_m\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
 <p>To perform a <em>principal components analysis</em> (PCA):</p>
 <ol type="1">
@@ -1175,7 +1074,7 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 </figure>
 </div>
 <p>The <strong>number of principal components</strong>, M, is typically chosen by <strong>cross-validation</strong>.</p>
-</section><section id="partial-least-squares-pls" class="level4"><h4 class="anchored" data-anchor-id="partial-least-squares-pls">Partial Least Squares (PLS)</h4>
+</section><section id="partial-least-squares-pls" class="level3"><h3 class="anchored" data-anchor-id="partial-least-squares-pls">Partial Least Squares (PLS)</h3>
 <p>The PLS approach attempts to ﬁnd directions that help explain both the response and the predictors by placing the <strong>highest weight</strong> on the variables that are most <strong>strongly related to the response</strong>.</p>
 <ol type="1">
 <li>Standardize the predictors and <strong>response</strong>.</li>
@@ -1205,7 +1104,7 @@ Performance Note
 <p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
 </div>
 </div>
-</section><section id="coding-example-1" class="level4"><h4 class="anchored" data-anchor-id="coding-example-1">Coding example</h4>
+</section><section id="coding-example-1" class="level3"><h3 class="anchored" data-anchor-id="coding-example-1">Coding example</h3>
 <p>To run a <strong>PCR</strong> or a <strong>PLS</strong> we just need to set a lineal model.</p>
 <div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
@@ -1267,9 +1166,105 @@ Performance Note
 1 rmse    standard        402.</code></pre>
 </div>
 </div>
+</section></section><section id="poisson-regression" class="level2"><h2 class="anchored" data-anchor-id="poisson-regression">Poisson Regression</h2>
+<p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
+<p><span class="math display">\[
+Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
+                 {k!}
+\]</span></p>
+<p>Where: - <span class="math inline">\(\lambda\)</span> must be greater than 0. It represents the expected number of events <span class="math inline">\(E(Y)\)</span> and variance related <span class="math inline">\(Var(Y)\)</span> - <span class="math inline">\(k\)</span> represent the number of events that we want to evaluate base of <span class="math inline">\(\lambda\)</span>. Its numbers should be greater or equal to 0.</p>
+<p>So, it makes sense that the value that we want to predict with our regression would be <span class="math inline">\(\lambda\)</span>, by using next structure:</p>
+<p><span class="math display">\[
+\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
+\]</span></p>
+<p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
+</section><section id="logistic-regression" class="level2"><h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
+<p><span class="math display">\[
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
+            {1+e^{\beta_{0}+\beta_{1}X}}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/09-logistic-function-example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
+<section id="estimating-coefficients" class="level3"><h3 class="anchored" data-anchor-id="estimating-coefficients">Estimating coefficients</h3>
+<p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
+<p><span class="math display">\[
+\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
+\]</span></p>
+</section><section id="multiple-regression" class="level3"><h3 class="anchored" data-anchor-id="multiple-regression">Multiple regression</h3>
+<p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
+<p><span class="math display">\[
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+\]</span></p>
+</section><section id="interpreting-the-model" class="level3"><h3 class="anchored" data-anchor-id="interpreting-the-model">Interpreting the model</h3>
+<p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
+<p><span class="math display">\[
+\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
+\]</span></p>
+<p>As we can see, the result of the linear combination is the <span class="math inline">\(\log\)</span> of the <em>odds ratio</em>, known as <strong>log odd</strong> or <strong>logit</strong>.</p>
+<p>An <strong>odds ratio</strong> of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won’t occur. It can take any value between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span>, where low probabilities are close to <span class="math inline">\(0\)</span>, higher to <span class="math inline">\(\infty\)</span> and equivalents ones are equals to 1. For example, if we have an <span class="math inline">\(\text{odds ratio} = 2\)</span>, we can say that it’s 2 times more likely that the event happens rather than not.</p>
+<p>Applying <span class="math inline">\(\log{(\text{odds ratio})}\)</span> makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it’s hard to see at first hand, but if we apply the <span class="math inline">\(\log\)</span> to each value we can see that <span class="math inline">\(\log{(2)} = 0.69\)</span> and <span class="math inline">\(\log{(0.5)} = -0.69\)</span>.</p>
+<p>At end, <span class="math inline">\(p(X)\)</span> will increase as <span class="math inline">\(X\)</span> increases if <span class="math inline">\(\beta_{1}\)</span> is positive despite the relationship between each other isn’t a linear one.</p>
+<section id="understanding-a-confounding-paradox" class="level4"><h4 class="anchored" data-anchor-id="understanding-a-confounding-paradox">Understanding a confounding paradox</h4>
+<table class="table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 55%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Simple Regression</th>
+<th style="text-align: left;">Multiple Regression</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><img src="img/10-Default-table-4_2.png" class="img-fluid" data-fig-align="center"></td>
+<td style="text-align: left;"><img src="img/11-Default-table-4_3.png" class="img-fluid" data-fig-align="center"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The positive coeﬃcient for student indicates that for <strong>over all values of balance and income</strong>, a student is <em>more</em> likely to default than a non-student.</td>
+<td style="text-align: left;">The negative coeﬃcient for student indicates that for a <strong>ﬁxed value of balance and income</strong>, a student is less likely to default than a non-student.</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/12-Default-multiple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>The problem relays on the fact that <em>student</em> and <em>balance</em> are <strong>correlated</strong>. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the <em>same credit card balance</em>!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/13-Default-simple-plot-4_3.png" style="width:60.0%;height:60.0%" class="figure-img"></p>
+</figure>
+</div>
+</section><section id="multinomial-logistic-regression" class="level4"><h4 class="anchored" data-anchor-id="multinomial-logistic-regression">Multinomial Logistic Regression</h4>
+<p>We also can generalize the <em>logistic function</em> to support more than 2 categories (<span class="math inline">\(K &gt; 2\)</span>) by defining by convention the last category <span class="math inline">\(K\)</span> as a <strong>baseline</strong>.</p>
+<p>For <span class="math inline">\(k = 1, \dotsc,K-1\)</span> we use function.</p>
+<p><span class="math display">\[
+Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+\]</span></p>
+<p>For <span class="math inline">\(k=K\)</span>, we use the function.</p>
+<p><span class="math display">\[
+Pr(Y = K|X= x) = \frac{1}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+\]</span> And after some manipulations we can show that <span class="math inline">\(\log\)</span> of the probability of getting <span class="math inline">\(k\)</span> divided by the probability of the <em>baseline</em> is equivalent to a linear combinations of the functions parameters.</p>
+<p><span class="math display">\[
+\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
+\]</span></p>
+<p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
+</section></section><section id="model-limitatios" class="level3"><h3 class="anchored" data-anchor-id="model-limitatios">Model limitatios</h3>
+<p>There are models that could make better classifications when:</p>
+<ul>
+<li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
+<li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
+<li>When the decision boundary is not lineal.</li>
+</ul>
 
 
-</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

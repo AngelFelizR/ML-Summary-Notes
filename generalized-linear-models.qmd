@@ -284,138 +284,18 @@ There are better model to achieve that kind of situation. For example, he linear
   - A regression method cannot accommodate a qualitative response with more than two classes.
   - A regression method will not provide meaningful estimates of $Pr(Y|X)$ as some of our estimates might be outside the [0, 1] interval.
 
-
-## Poisson Regression 
-
-If $Y \in \{ 0, 1, 2, 3, \dots \}$ that could be the result after **counting** a particular event the *linear regression* might not meet our needs as it could bring negative numbers. The **Poisson Distribution** follow the next function:
-
-$$
-Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
-                 {k!}
-$$
-
-Where:
-  - $\lambda$ must be greater than 0. It represents the expected number of events $E(Y)$ and variance related $Var(Y)$
-  - $k$ represent the number of events that we want to evaluate base of $\lambda$. Its numbers should be greater or equal to 0.
   
-So, it makes sense that the value that we want to predict with our regression would be $\lambda$, by using next structure:
-
-$$
-\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
-$$
-
-If select this model we need to be aware how to interpret the coefficients. For example, if $\beta_1 = -0.08$ for a categorical variable, we can conclude by calculating $e^{-0.08}$ that ___`r round(exp(-0.08) * 100, 2) |> paste0("%")`___ of events of the base line related to $\beta_0$ would happen.
-
-## Logistic Regression
-
-It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a particular category given some predictors by assuming that $Y$ follows a **Bernoulli Distribution**. This model calculates the probability using the ***logistic function*** which produce a S form between 0 and 1:
-
-$$
-p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
-            {1+e^{\beta_{0}+\beta_{1}X}}
-$$
-
-![](img/09-logistic-function-example.png){fig-align="center"}
-
-As the functions returns probabilities is responsibility of the analyst to define a **threshold** to make classifications.
-
-### Estimating coefficients
-
-To estimate $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ the method used is called as *maximum likelihood* which consists in maximizing the **likelihood function**. It is important to clarify that the *least squares approach* is in fact a special case of maximum likelihood. 
-
-$$
-\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
-$$
-
-
-### Multiple regression
-
-We also can generalize the *logistic function* as you can see bellow.
-
-$$
-p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
-            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
-$$
-
-
-### Interpreting the model
-
-To understand how each variable influence the probability $p(X)$, we need to manipulate the *logistic function* until having a lineal combination on the right site. 
-
-$$
-\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X 
-$$
-
-As we can see, the result of the linear combination is the $\log$ of the *odds ratio*, known as **log odd** or **logit**. 
-
-An **odds ratio** of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won't occur. It can take any value between $0$ and $\infty$, where low probabilities are close to $0$, higher to $\infty$ and equivalents ones are equals to 1. For example, if we have an $\text{odds ratio} = 2$, we can say that it's 2 times more likely that the event happens rather than not.
-
-Applying $\log{(\text{odds ratio})}$ makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it's hard to see at first hand, but if we apply the $\log$ to each value we can see that $\log{(2)} = 0.69$ and $\log{(0.5)} = -0.69$.
-
-At end, $p(X)$ will increase as $X$ increases if $\beta_{1}$ is positive despite the relationship between each other isn't a linear one.
-
-#### Understanding a confounding paradox
-
-|Simple Regression|Multiple Regression|
-|:---------------|:-------------------|
-|![](img/10-Default-table-4_2.png){fig-align="center"}|![](img/11-Default-table-4_3.png){fig-align="center"}|
-|The positive coeﬃcient for student indicates that for **over all values of balance and income**, a student is *more* likely to default than a non-student.|The negative coeﬃcient for student indicates that for a **ﬁxed value of balance and income**, a student is less likely to default than a non-student.|
-
-![](img/12-Default-multiple-plot-4_3.png){fig-align="center" width=60% height=60%}
-
-The problem relays on the fact that *student* and *balance* are **correlated**. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the *same credit card balance*!
-
-![](img/13-Default-simple-plot-4_3.png){fig-align="center" width=60% height=60%}
-
-
-### Multinomial Logistic Regression
-
-We also can generalize the *logistic function* to support more than 2 categories ($K > 2$) by defining by convention the last category $K$ as a **baseline**.
-
-For $k = 1, \dotsc,K-1$ we use function.
-
-$$
-Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
-                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
-$$
-
-For $k=K$, we use the function.
-
-$$
-Pr(Y = K|X= x) = \frac{1}
-                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
-$$
-And after some manipulations we can show that $\log$ of the probability of getting $k$ divided by the probability of the *baseline* is equivalent to a linear combinations of the functions parameters.
-
-$$
-\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
-$$
-
-In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.  
-
-### Model limitatios
-
-There are models that could make better classifications when:
-
-- There is a substantial separation between the $Y$ classes.
-- The predictors $X$ are approximately normal in each class and the sample size is small.
-- When the decision boundary is not lineal.
-
-
-## Replacing plain least squares ﬁtting
-
-### Benefits
+### Benefits of Replacing plain least squares ﬁtting
 
 - **Prediction Accuracy:** If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p >n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (*constraining* and *shrinking*).
 
 - **Model Interpretability:**There are some methods that can exclude irrelevant variables from a multiple regression model (*feature selection* or *variable selection*).
 
- 
-### Subset Selection
+## Subset Selection
 
 This approach involves identifying a subset of the *p* predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.
 
-#### Best Subset Selection
+### Best Subset Selection
 
 It ﬁts all *p* models that contain exactly one predictor, all $\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2$ models that contain exactly two predictors, and so forth. Then it selects the *best* model based on smallest RSS or the largest $R^2$.
 
@@ -430,7 +310,7 @@ validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
 This method is really computational expensive as it needs to fit $2^p$ models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to **overﬁtting** and **high variance of the coeﬃcient estimates**.
 
 
-#### Stepwise Selection: Forward Stepwise Selection
+### Stepwise Selection: Forward Stepwise Selection
 
 It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit $1+p(p+1)/2$ models.
 
@@ -445,7 +325,7 @@ validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
 Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all $2^p$ models containing subsets of the *p* predictors, but can be used even if $n < p$.
 
 
-#### Stepwise Selection: Backward Stepwise Selection
+### Stepwise Selection: Backward Stepwise Selection
 
 It begins with the full least squares model containing all *p* predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit $1+p(p+1)/2$ models
 
@@ -459,11 +339,11 @@ validated prediction error, $C_p$ (AIC), BIC or adjusted $R^2$.
 
 This method don't guarantee to yield the best model containing a subset of the *p* predictors and we need to cofirm that $n \geq p$.
 
-#### Stepwise Selection: Hybrid Approaches
+### Stepwise Selection: Hybrid Approaches
 
 In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic *Best Subset Selection* while retaining the computational advantages of *forward* and *backward stepwise selection*.
 
-#### Choosing the Optimal Model
+### Choosing the Optimal Model
 
 As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:
 
@@ -487,11 +367,11 @@ Let's see the methods that relay on correcting the training error:
 
 ![](img/25-cp-bic-adj-r2-example.png){fig-align="center" width=90% height=90%}
 
-### Shrinkage
+## Shrinkage
 
 This approach involves ﬁtting a model involving all *p* predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.
 
-#### Ridge Regression
+### Ridge Regression
 
 The method rather than using RSS as the metric to minimize with the regression coefficient $\beta_0, \beta_1, \dots, \beta_p$, it is modified by adding a **shrinkage penalty** that the effect of estimating $\beta_j$ towards zero when the coefficient is close to 0:
 
@@ -522,7 +402,7 @@ When the number of variables *p* is almost as large as the number of observation
 
 ![](img/27-ridge-regression-bias-variance-trade-off.png){fig-align="center" width=90% height=90%}
 
-#### Lasso Regression
+### Lasso Regression
 
 *Ridge Regression* don't set the coefficient exactly to zero (unless $\lambda = \infty$). That doesn't affect the model accuracy but doesn't provide any help when we have to interpret a model with many predicts. To over come that problem, the *Lasso Regression* performs ***variable selection*** based on minimization of the next function:
 
@@ -541,7 +421,7 @@ As consequence, the method uses the $\ell_1$ penalty ($\| \beta \|_1 = \sum_{j=1
 ![](img/28-lasso-regression-change.png){fig-align="center" width=90% height=90%}
 
 
-#### Coding example
+### Coding example
 
 ```{r}
 library(ISLR2)
@@ -696,9 +576,7 @@ autoplot(lasso_tune_res)+
   theme_light()
 ```
 
-
-
-### Dimension Reduction
+## Dimension Reduction
 
 This method projects the $p$ predictors into an $M$-dimensional subspace. If $Z_1, Z_2, \dots, Z_M$ represent $M < p$ lineal combinations $Z_m = \sum_{j=1}^p \phi_{jm}X_j$ of **ALL our original predictors** based on some constants $\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}$, then we can use the new variables to fit a linear regression model by least squares.
 
@@ -712,7 +590,7 @@ This is not a feature selection method as each of the *M* principal components u
 
 To select the $\phi_{jm}$'s we will discuss two different ways:
 
-#### Principal Components Regression (PCR)
+### Principal Components Regression (PCR)
 
 The PCR assumes that *the directions in which* $X_1, \dots, X_M$ *show the most variation are the directions that are associated with* $Y$. If it's that is true then fitting the model to $Z_1, \dots, Z_m$ will lead better results than using the original variables $X_1, \dots, X_p$
 
@@ -747,7 +625,7 @@ In general, this method performs better when we just need to use **few principal
 The **number of principal components**, M, is typically chosen by **cross-validation**. 
 
 
-#### Partial Least Squares (PLS)
+### Partial Least Squares (PLS)
 
 The PLS approach attempts to ﬁnd directions that help explain both the response and the predictors by placing the **highest weight** on the variables that are most **strongly related to the response**.
 
@@ -770,11 +648,11 @@ $$
 To select the number $M$ we can use **cross-validation**.
 
 ::: {.callout-note appearance="default"}
-## Performance Note
+### Performance Note
 In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to **increase variance**, so that the overall beneﬁt of PLS relative to PCR **is a wash**.
 :::
 
-#### Coding example
+### Coding example
 
 To run a **PCR** or a **PLS** we just need to set a lineal model.
 
@@ -831,4 +709,121 @@ finalize_workflow(pca_workflow, best_threshold) |>
   rmse(truth = Salary, estimate = .pred)
 ```
 
+## Poisson Regression 
+
+If $Y \in \{ 0, 1, 2, 3, \dots \}$ that could be the result after **counting** a particular event the *linear regression* might not meet our needs as it could bring negative numbers. The **Poisson Distribution** follow the next function:
+
+$$
+Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
+                 {k!}
+$$
+
+Where:
+  - $\lambda$ must be greater than 0. It represents the expected number of events $E(Y)$ and variance related $Var(Y)$
+  - $k$ represent the number of events that we want to evaluate base of $\lambda$. Its numbers should be greater or equal to 0.
+  
+So, it makes sense that the value that we want to predict with our regression would be $\lambda$, by using next structure:
+
+$$
+\log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
+$$
+
+If select this model we need to be aware how to interpret the coefficients. For example, if $\beta_1 = -0.08$ for a categorical variable, we can conclude by calculating $e^{-0.08}$ that ___`r round(exp(-0.08) * 100, 2) |> paste0("%")`___ of events of the base line related to $\beta_0$ would happen.
+
+## Logistic Regression
+
+It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a particular category given some predictors by assuming that $Y$ follows a **Bernoulli Distribution**. This model calculates the probability using the ***logistic function*** which produce a S form between 0 and 1:
+
+$$
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
+            {1+e^{\beta_{0}+\beta_{1}X}}
+$$
+
+![](img/09-logistic-function-example.png){fig-align="center"}
+
+As the functions returns probabilities is responsibility of the analyst to define a **threshold** to make classifications.
+
+### Estimating coefficients
+
+To estimate $\hat{\beta}_{0}$ and $\hat{\beta}_{1}$ the method used is called as *maximum likelihood* which consists in maximizing the **likelihood function**. It is important to clarify that the *least squares approach* is in fact a special case of maximum likelihood. 
+
+$$
+\ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
+$$
+
+
+### Multiple regression
+
+We also can generalize the *logistic function* as you can see bellow.
+
+$$
+p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+            {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
+$$
+
+
+### Interpreting the model
+
+To understand how each variable influence the probability $p(X)$, we need to manipulate the *logistic function* until having a lineal combination on the right site. 
+
+$$
+\underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X 
+$$
+
+As we can see, the result of the linear combination is the $\log$ of the *odds ratio*, known as **log odd** or **logit**. 
+
+An **odds ratio** of an event presents the likelihood that the event will occur as a proportion of the likelihood that the event won't occur. It can take any value between $0$ and $\infty$, where low probabilities are close to $0$, higher to $\infty$ and equivalents ones are equals to 1. For example, if we have an $\text{odds ratio} = 2$, we can say that it's 2 times more likely that the event happens rather than not.
+
+Applying $\log{(\text{odds ratio})}$ makes easier to compare the effect of variables as values below 1 become negative numbers of the scale of possible numbers and 1 becomes 0 for non-significant ones. To have an idea, an odds ratio of 2 has the same effect as 0.5, which it's hard to see at first hand, but if we apply the $\log$ to each value we can see that $\log{(2)} = 0.69$ and $\log{(0.5)} = -0.69$.
+
+At end, $p(X)$ will increase as $X$ increases if $\beta_{1}$ is positive despite the relationship between each other isn't a linear one.
+
+#### Understanding a confounding paradox
+
+|Simple Regression|Multiple Regression|
+|:---------------|:-------------------|
+|![](img/10-Default-table-4_2.png){fig-align="center"}|![](img/11-Default-table-4_3.png){fig-align="center"}|
+|The positive coeﬃcient for student indicates that for **over all values of balance and income**, a student is *more* likely to default than a non-student.|The negative coeﬃcient for student indicates that for a **ﬁxed value of balance and income**, a student is less likely to default than a non-student.|
+
+![](img/12-Default-multiple-plot-4_3.png){fig-align="center" width=60% height=60%}
+
+The problem relays on the fact that *student* and *balance* are **correlated**. In consequence, a student is riskier than a non-student if no information about the student’s credit card balance is available. However, that student is less risky than a non-student with the *same credit card balance*!
+
+![](img/13-Default-simple-plot-4_3.png){fig-align="center" width=60% height=60%}
+
+
+#### Multinomial Logistic Regression
+
+We also can generalize the *logistic function* to support more than 2 categories ($K > 2$) by defining by convention the last category $K$ as a **baseline**.
+
+For $k = 1, \dotsc,K-1$ we use function.
+
+$$
+Pr(Y = k|X= x) = \frac{e^{\beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}}}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+$$
+
+For $k=K$, we use the function.
+
+$$
+Pr(Y = K|X= x) = \frac{1}
+                      {1+\sum_{l=1}^{K-1}e^{\beta_{l0}+\beta_{l1}x_{1}+\dots+\beta_{lp}x_{p}}}
+$$
+And after some manipulations we can show that $\log$ of the probability of getting $k$ divided by the probability of the *baseline* is equivalent to a linear combinations of the functions parameters.
+
+$$
+\log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
+$$
+
+In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.  
+
+### Model limitatios
+
+There are models that could make better classifications when:
+
+- There is a substantial separation between the $Y$ classes.
+- The predictors $X$ are approximately normal in each class and the sample size is small.
+- When the decision boundary is not lineal.
+
+ 
 
