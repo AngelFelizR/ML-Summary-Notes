@@ -541,6 +541,163 @@ As consequence, the method uses the $\ell_1$ penalty ($\| \beta \|_1 = \sum_{j=1
 ![](img/28-lasso-regression-change.png){fig-align="center" width=90% height=90%}
 
 
+#### Coding example
+
+```{r}
+library(ISLR2)
+library(tidymodels)
+
+Hitters <- 
+  as_tibble(Hitters) %>%
+  filter(!is.na(Salary))
+
+```
+
+
+To perform a **Ridge** or **Lasso** regression we need to use the function `linear_reg` and define the `mixture` argument depending on the regression we want to perform.
+
+|Model|Mixture|
+|:----|:------|
+|Ridge Regression|mixture = **0**|
+|Lasso Regression|mixture = **1**|
+
+As both regression depend on the `penalty` parameter we need to use cross-validation to estimate the best one. But, if you want to explore the parameter by yourself you has the next options.
+
+- Fit a model and explore different penalties using `tidy`, `augment`, `predict` or `autoplot` functions.
+
+```{r}
+ridge_fit <- 
+  linear_reg(mixture = 0, penalty = 0) %>%
+  set_mode("regression") %>%
+  set_engine("glmnet") %>%
+  fit(Salary ~ ., data = Hitters)
+
+tidy(ridge_fit, penalty = 11498)
+
+predict(ridge_fit, new_data = Hitters, penalty = 11498)
+
+autoplot(ridge_fit)+
+  scale_x_log10(labels = scales::comma_format(accuracy = 1))+
+  theme_light()
+```
+
+
+Let's have a example using the tidymodels approach. By following the next steps:
+
+1. Splitting the data in testing and training data.
+
+```{r}
+set.seed(18)
+Hitters_split <- initial_split(Hitters, strata = "Salary")
+
+Hitters_train <- training(Hitters_split)
+Hitters_test <- testing(Hitters_split)
+```
+
+2. Define the workflow to use.
+
+```{r}
+ridge_recipe <- 
+  recipe(formula = Salary ~ ., data = Hitters_train) %>% 
+  step_novel(all_nominal_predictors()) %>% 
+  step_dummy(all_nominal_predictors()) %>% 
+  step_zv(all_predictors()) %>% 
+  step_normalize(all_predictors())
+
+ridge_spec <- 
+  linear_reg(penalty = tune(), mixture = 0) %>% 
+  set_mode("regression") %>% 
+  set_engine("glmnet")
+
+ridge_workflow <- 
+  workflow() %>% 
+  add_recipe(ridge_recipe) %>% 
+  add_model(ridge_spec)
+
+```
+
+3. Use cross-validation to estimate the testing error and tune the penalty.
+
+```{r}
+set.seed(40)
+Hitters_fold <- vfold_cv(Hitters_train, v = 10)
+```
+
+
+4. Define the penalties to check. Where the range indicates the limit of $x$ in the function $10^x$ and the level the number of step to complete the range.
+
+```{r}
+penalty_grid <- grid_regular(penalty(range = c(-5, 5)), levels = 50)
+```
+
+5. Let's fit our models.
+
+```{r}
+tune_res <- 
+  tune_grid(ridge_workflow,
+            resamples = Hitters_fold, 
+            grid = penalty_grid)
+```
+
+6. Check the test error change in a plot or just export a table.
+
+```{r}
+autoplot(tune_res)+
+  scale_x_log10(labels = scales::comma_format(accuracy = 1))+
+  theme_light()
+
+collect_metrics(tune_res) %>%
+  filter(.metric == "rsq") %>%
+  arrange(desc(mean))
+```
+
+7. Select the best model configuration and update the workflow to use that parameter.
+
+```{r}
+best_penalty <- select_best(tune_res, metric = "rsq")
+best_penalty
+
+ridge_final <- finalize_workflow(ridge_workflow, best_penalty)
+ridge_final
+```
+
+8. Fit the final model and validate the performance.
+
+```{r}
+ridge_final_fit <- fit(ridge_final, data = Hitters_train)
+
+augment(ridge_final_fit, new_data = Hitters_test) %>%
+  rsq(truth = Salary, estimate = .pred)
+```
+
+
+To perform a Lasso regression we don't need to repeat all the code.
+
+```{r}
+lasso_spec <- 
+  linear_reg(penalty = tune(), mixture = 1) %>% 
+  set_mode("regression") %>% 
+  set_engine("glmnet")
+
+lasso_workflow <- 
+  workflow() %>% 
+  add_recipe(ridge_recipe) %>% 
+  add_model(lasso_spec)
+
+lasso_penalty_grid <- grid_regular(penalty(range = c(-3, 2)), levels = 50)
+
+lasso_tune_res <- 
+  tune_grid(lasso_workflow,
+            resamples = Hitters_fold, 
+            grid = lasso_penalty_grid)
+
+autoplot(lasso_tune_res)+
+  scale_x_log10(labels = scales::comma_format(accuracy = 1))+
+  theme_light()
+```
+
+
+
 ### Dimension Reduction
 
 This method projects the $p$ predictors into an $M$-dimensional subspace. If $Z_1, Z_2, \dots, Z_M$ represent $M < p$ lineal combinations $Z_m = \sum_{j=1}^p \phi_{jm}X_j$ of **ALL our original predictors** based on some constants $\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}$, then we can use the new variables to fit a linear regression model by least squares.
@@ -616,3 +773,62 @@ To select the number $M$ we can use **cross-validation**.
 ## Performance Note
 In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to **increase variance**, so that the overall beneﬁt of PLS relative to PCR **is a wash**.
 :::
+
+#### Coding example
+
+To run a **PCR** or a **PLS** we just need to set a lineal model.
+
+```{r}
+lm_spec <- 
+  linear_reg() %>% 
+  set_mode("regression") %>% 
+  set_engine("lm")
+```
+
+And tune our recipe to determinate the `threshold` and the number of components to use `num_comp`.
+
+```{r}
+pca_recipe <- 
+  recipe(formula = Salary ~ ., data = Hitters_train) %>% 
+  step_novel(all_nominal_predictors()) %>% 
+  step_dummy(all_nominal_predictors()) %>% 
+  step_zv(all_predictors()) %>% 
+  step_normalize(all_predictors()) %>%
+  step_pca(all_predictors(), 
+           threshold = tune(),
+           num_comp = tune())
+
+pca_workflow <- 
+  workflow() %>% 
+  add_recipe(pca_recipe) %>% 
+  add_model(lm_spec)
+
+threshold_grid <- 
+  grid_regular(threshold(), 
+               num_comp(c(1, 20)),
+               levels = 5)
+
+pca_tune_res <- 
+  tune_grid(pca_workflow,
+            resamples = Hitters_fold, 
+            grid = threshold_grid)
+
+```
+
+As we can see below the number of component don't have any effect over the test error.
+
+```{r}
+autoplot(pca_tune_res)+
+  scale_x_log10(labels = scales::comma_format(accuracy = 1))+
+  theme_light()
+
+best_threshold <- select_best(pca_tune_res, metric = "rmse")
+best_threshold
+
+finalize_workflow(pca_workflow, best_threshold) |>
+  fit(data = Hitters_train) |>
+  augment(new_data = Hitters_test) |>
+  rmse(truth = Salary, estimate = .pred)
+```
+
+
