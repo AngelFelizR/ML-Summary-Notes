@@ -264,6 +264,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
   <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems">Avoid using for classification problems</a></li>
   <li><a href="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting" id="toc-benefits-of-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting">Benefits of Replacing plain least squares ﬁtting</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
   </ul>
 </li>
   <li>
@@ -281,7 +282,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
 <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression">Ridge Regression</a></li>
   <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression">Lasso Regression</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
   </ul>
 </li>
   <li>
@@ -289,10 +290,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
 <li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr">Principal Components Regression (PCR)</a></li>
   <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls">Partial Least Squares (PLS)</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
+  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2">Coding example</a></li>
   </ul>
 </li>
-  <li><a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson Regression</a></li>
+  <li>
+<a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression">Poisson Regression</a>
+  <ul>
+<li><a href="#coding-example-3" id="toc-coding-example-3" class="nav-link" data-scroll-target="#coding-example-3">Coding example</a></li>
+  </ul>
+</li>
   <li>
 <a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a>
   <ul>
@@ -306,6 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios">Model limitatios</a></li>
+  <li><a href="#coding-example-4" id="toc-coding-example-4" class="nav-link" data-scroll-target="#coding-example-4">Coding example</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -610,7 +617,38 @@ h_{i} = \frac{1}{n} +
 <ul>
 <li><p><strong>Prediction Accuracy:</strong> If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p &gt;n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (<em>constraining</em> and <em>shrinking</em>).</p></li>
 <li><p><strong>Model Interpretability:</strong>There are some methods that can exclude irrelevant variables from a multiple regression model (<em>feature selection</em> or <em>variable selection</em>).</p></li>
-</ul></section></section><section id="subset-selection" class="level2"><h2 class="anchored" data-anchor-id="subset-selection">Subset Selection</h2>
+</ul></section><section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
+<p>To perform <strong>Linear Regression</strong> we just need to create the model specification by using <strong>lm</strong> engine.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">BikeshareSpit</span> <span class="op">&lt;-</span> <span class="fu">initial_split</span><span class="op">(</span><span class="va">Bikeshare</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lm_spec</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lm_rec_spec</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">bikers</span> <span class="op">~</span> <span class="va">mnth</span> <span class="op">+</span> <span class="va">hr</span> <span class="op">+</span> <span class="va">workingday</span> <span class="op">+</span> <span class="va">temp</span> <span class="op">+</span> <span class="va">weathersit</span>,</span>
+<span>         data <span class="op">=</span> <span class="va">Bikeshare</span> <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">add_model</span><span class="op">(</span><span class="va">lm_spec</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">lm_rec_spec</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">last_fit</span><span class="op">(</span>split <span class="op">=</span> <span class="va">BikeshareSpit</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard      76.1   Preprocessor1_Model1
+2 rsq     standard       0.671 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</section></section><section id="subset-selection" class="level2"><h2 class="anchored" data-anchor-id="subset-selection">Subset Selection</h2>
 <p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
 <section id="best-subset-selection" class="level3"><h3 class="anchored" data-anchor-id="best-subset-selection">Best Subset Selection</h3>
 <p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
@@ -776,15 +814,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <figure class="figure"><p><img src="img/28-lasso-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">Hitters</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">as_tibble</span><span class="op">(</span><span class="va">Hitters</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Salary</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section><section id="coding-example-1" class="level3"><h3 class="anchored" data-anchor-id="coding-example-1">Coding example</h3>
 <p>To perform a <strong>Ridge</strong> or <strong>Lasso</strong> regression we need to use the function <code>linear_reg</code> and define the <code>mixture</code> argument depending on the regression we want to perform.</p>
 <table class="table">
 <thead><tr class="header">
@@ -809,7 +839,11 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Fit a model and explore different penalties using <code>tidy</code>, <code>augment</code>, <code>predict</code> or <code>autoplot</code> functions.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_fit</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Hitters</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">as_tibble</span><span class="op">(</span><span class="va">Hitters</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Salary</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ridge_fit</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span>mixture <span class="op">=</span> <span class="fl">0</span>, penalty <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
@@ -841,7 +875,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 19 Errors       -0.0206    11498
 20 NewLeagueN    0.303     11498</code></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ridge_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters</span>, penalty <span class="op">=</span> <span class="fl">11498</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ridge_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters</span>, penalty <span class="op">=</span> <span class="fl">11498</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 263 × 1
    .pred
@@ -858,7 +892,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 10  615.
 # ℹ 253 more rows</code></pre>
 </div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ridge_fit</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ridge_fit</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -870,7 +904,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Splitting the data in testing and training data.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">Hitters_split</span> <span class="op">&lt;-</span> <span class="fu">initial_split</span><span class="op">(</span><span class="va">Hitters</span>, strata <span class="op">=</span> <span class="st">"Salary"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Hitters_train</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">Hitters_split</span><span class="op">)</span></span>
@@ -880,7 +914,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Define the workflow to use.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_recipe</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">Salary</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_novel</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -901,20 +935,20 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Use cross-validation to estimate the testing error and tune the penalty.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
 <span><span class="va">Hitters_fold</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">Hitters_train</span>, v <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
 <li>Define the penalties to check. Where the range indicates the limit of <span class="math inline">\(x\)</span> in the function <span class="math inline">\(10^x\)</span> and the level the number of step to complete the range.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penalty_grid</span> <span class="op">&lt;-</span> <span class="fu">grid_regular</span><span class="op">(</span><span class="fu">penalty</span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penalty_grid</span> <span class="op">&lt;-</span> <span class="fu">grid_regular</span><span class="op">(</span><span class="fu">penalty</span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
 <li>Let’s fit our models.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tune_res</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tune_res</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">tune_grid</span><span class="op">(</span><span class="va">ridge_workflow</span>,</span>
 <span>            resamples <span class="op">=</span> <span class="va">Hitters_fold</span>, </span>
 <span>            grid <span class="op">=</span> <span class="va">penalty_grid</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -923,13 +957,13 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Check the test error change in a plot or just export a table.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">collect_metrics</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">collect_metrics</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"rsq"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -953,7 +987,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Select the best model configuration and update the workflow to use that parameter.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_penalty</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">tune_res</span>, metric <span class="op">=</span> <span class="st">"rsq"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_penalty</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">tune_res</span>, metric <span class="op">=</span> <span class="st">"rsq"</span><span class="op">)</span></span>
 <span><span class="va">best_penalty</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
@@ -961,7 +995,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
     &lt;dbl&gt; &lt;chr&gt;                
 1    910. Preprocessor1_Model40</code></pre>
 </div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final</span> <span class="op">&lt;-</span> <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">ridge_workflow</span>, <span class="va">best_penalty</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final</span> <span class="op">&lt;-</span> <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">ridge_workflow</span>, <span class="va">best_penalty</span><span class="op">)</span></span>
 <span><span class="va">ridge_final</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
@@ -990,7 +1024,7 @@ Computational engine: glmnet </code></pre>
 <li>Fit the final model and validate the performance.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final_fit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">ridge_final</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final_fit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">ridge_final</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">augment</span><span class="op">(</span><span class="va">ridge_final_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters_test</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">rsq</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Salary</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1003,7 +1037,7 @@ Computational engine: glmnet </code></pre>
 </div>
 <p>To perform a Lasso regression we don’t need to repeat all the code.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lasso_spec</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lasso_spec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span>penalty <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span>, mixture <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span></span>
@@ -1104,17 +1138,17 @@ Performance Note
 <p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
 </div>
 </div>
-</section><section id="coding-example-1" class="level3"><h3 class="anchored" data-anchor-id="coding-example-1">Coding example</h3>
+</section><section id="coding-example-2" class="level3"><h3 class="anchored" data-anchor-id="coding-example-2">Coding example</h3>
 <p>To run a <strong>PCR</strong> or a <strong>PLS</strong> we just need to set a lineal model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And tune our recipe to determinate the <code>threshold</code> and the number of components to use <code>num_comp</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_recipe</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">Salary</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_novel</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -1141,13 +1175,13 @@ Performance Note
 </div>
 <p>As we can see below the number of component don’t have any effect over the test error.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">pca_tune_res</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">pca_tune_res</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_threshold</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">pca_tune_res</span>, metric <span class="op">=</span> <span class="st">"rmse"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_threshold</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">pca_tune_res</span>, metric <span class="op">=</span> <span class="st">"rmse"</span><span class="op">)</span></span>
 <span><span class="va">best_threshold</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
@@ -1155,7 +1189,7 @@ Performance Note
      &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;                
 1        1      0.75 Preprocessor04_Model1</code></pre>
 </div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">augment</span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Hitters_test</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">rmse</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Salary</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1178,7 +1212,31 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 \log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 \]</span></p>
 <p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
-</section><section id="logistic-regression" class="level2"><h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
+<section id="coding-example-3" class="level3"><h3 class="anchored" data-anchor-id="coding-example-3">Coding example</h3>
+<p>To perform <strong>Poisson Regression</strong> we just need to create the model specification by loading the <strong>poissonreg</strong> package and using <strong>glm</strong> engine.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pois_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/poisson_reg.html">poisson_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"glm"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pois_rec_spec</span> <span class="op">&lt;-</span> <span class="va">lm_rec_spec</span></span>
+<span></span>
+<span><span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">add_model</span><span class="op">(</span><span class="va">pois_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">pois_rec_spec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">last_fit</span><span class="op">(</span>split <span class="op">=</span> <span class="va">BikeshareSpit</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  .metric .estimator .estimate .config             
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;               
+1 rmse    standard      69.7   Preprocessor1_Model1
+2 rsq     standard       0.725 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+</section></section><section id="logistic-regression" class="level2"><h2 class="anchored" data-anchor-id="logistic-regression">Logistic Regression</h2>
 <p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
@@ -1261,7 +1319,42 @@ Pr(Y = K|X= x) = \frac{1}
 <li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
 <li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
 <li>When the decision boundary is not lineal.</li>
-</ul>
+</ul></section><section id="coding-example-4" class="level3"><h3 class="anchored" data-anchor-id="coding-example-4">Coding example</h3>
+<p>To perform <strong>Logistic Regression</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">!=</span> <span class="fl">2005</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Smarket_test</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">==</span> <span class="fl">2005</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lr_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/logistic_reg.html">logistic_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"glm"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">SmarketLrPredictions</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">lr_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span>, data <span class="op">=</span> <span class="va">Smarket_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Smarket_test</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="fu">conf_mat</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Down  Up
+      Down   35  35
+      Up     76 106</code></pre>
+</div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.560</code></pre>
+</div>
+</div>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

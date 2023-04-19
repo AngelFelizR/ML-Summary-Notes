@@ -7,11 +7,15 @@ format:
 
 ## K-nearest neighbors (KNN) 
 
-This method performs worst than a parametric as we starting adding *noise* predictors. In fact, we will get in the situation where for a given observation has no *nearby neighbors*, known as **curse of dimensionality** and leading to a very poor prediction of $f(x_{0})$.
+It uses the principle of nearest neighbors to classify unlabeled examples by using the **Euclidean Distance** to calculate distance between the point we want to predict and $k$ closest neighbors on the training data.
+
+$$
+ d\left( a,b\right)   = \sqrt {\sum _{i=1}^{p}  \left( a_{i}-b_{i}\right)^2 }
+$$
 
 KNN unlike parametric models does not tell us which predictors are important, making it hard to make inferences using this model.
 
-It also sensible the scale of the variables. Variables that are on a large scale will have a much larger eﬀect on the distance between the observations, and hence on the KNN classiﬁer, than variables that are on a small scale. To solve that problem we can *standardize* the data so that all variables are given a mean of zero and a standard deviation of one with the function `scale()`.
+This method performs worst than a parametric as we starting adding *noise* predictors. In fact, we will get in the situation where for a given observation has no *nearby neighbors*, known as **curse of dimensionality** and leading to a very poor prediction of $f(x_{0})$.
 
 ### Classiﬁer
 
@@ -32,7 +36,6 @@ Then KNN classiﬁes the test observation $x_{0}$ to the class with the largest 
 
 ![](img/08-knn-classifier.png){fig-align="center"}
 
-
 ### Regression
 
 KNN regression estimates $f(x_{0})$ using the average of all the training responses in $N_{0}$.
@@ -47,6 +50,50 @@ $$
   - $K$ the number of points in the training data that are closest to $x_{0}$ and reduce the model flexibility
   - $N_{0}$ points in the training data that are closest to $x_{0}$
   
+### Pre-processing
 
+To use this method we need to make sure that all our variables are numeric. If one our variables is a factor we need to perform a dummy transformation of that variable with the `recipes::step_dummy` function.
 
+On the other hand, as this model uses distances to make predicts it's important to check that each feature of the input data is measured with **the same range of values** with the `recipes::step_range` function which normalize from 0 to 1 as happens with the dummy function.
+
+$$
+x' = \frac{x - \min(x)}{\max(x) - \min(x)}
+$$
+
+Another normalization alternative is centering the predictors in $\overline{x} = 0$ with $S = 0$ with the function `recipes::step_normalize` or the function `scale()` which apply the [z-score normalization](https://developers.google.com/machine-learning/data-prep/transform/normalization).
+
+$$
+x' = \frac{x - \mu}{\sigma}
+$$
+
+### Coding example
+
+To perform **K-Nearest Neighbors** we just need to create the model specification by using **kknn** engine.
+
+```{r}
+library(tidymodels)
+library(ISLR2)
+
+Smarket_train <- 
+  Smarket %>%
+  filter(Year != 2005)
+
+Smarket_test <- 
+  Smarket %>%
+  filter(Year == 2005)
+
+knn_spec <- nearest_neighbor(neighbors = 3) %>%
+  set_mode("classification") %>%
+  set_engine("kknn")
+
+SmarketKnnPredictions <-
+  knn_spec %>%
+  fit(Direction ~ Lag1 + Lag2, data = Smarket_train) |>
+  augment(new_data = Smarket_test) 
+
+conf_mat(SmarketKnnPredictions, truth = Direction, estimate = .pred_class) 
+
+accuracy(SmarketKnnPredictions, truth = Direction, estimate = .pred_class) 
+
+```
 

@@ -69,6 +69,38 @@ $$
               & \quad + x^{T} \Sigma^{-1} (\mu_{k} - \mu_{K})
 \end{split}
 $$
+### Coding example
+
+To perform **LDA** we just need to create the model specification by loading the **discrim** package and using **MASS** engine.
+
+```{r}
+library(tidymodels)
+library(ISLR) 
+library(discrim)
+
+Smarket_train <- 
+  Smarket %>%
+  filter(Year != 2005)
+
+Smarket_test <- 
+  Smarket %>%
+  filter(Year == 2005)
+
+lda_spec <- discrim_linear() %>%
+  set_mode("classification") %>%
+  set_engine("MASS")
+
+SmarketLdaPredictions <-
+  lda_spec %>%
+  fit(Direction ~ Lag1 + Lag2, data = Smarket_train) |>
+  augment(new_data = Smarket_test) 
+
+
+conf_mat(SmarketLdaPredictions, truth = Direction, estimate = .pred_class) 
+
+accuracy(SmarketLdaPredictions, truth = Direction, estimate = .pred_class) 
+
+```
 
 
 ## Quadratic Discriminant Analysis (QDA) 
@@ -102,6 +134,29 @@ $$
 
 Where $a_k$, $b_{kj}$ and $c_{kjl}$ are functions of $\pi_{k}$, $\pi_{K}$, $\mu_{k}$, $\mu_{K}$, $\Sigma_{k}$ and $\Sigma_{K}$
 
+### Coding example
+
+To perform **QDA** we just need to create the model specification by loading the **discrim** package and using **MASS** engine.
+
+```{r}
+
+qda_spec <- discrim_quad() %>%
+  set_mode("classification") %>%
+  set_engine("MASS")
+
+SmarketQdaPredictions <-
+  qda_spec %>%
+  fit(Direction ~ Lag1 + Lag2, data = Smarket_train) |>
+  augment(new_data = Smarket_test) 
+
+
+conf_mat(SmarketQdaPredictions, truth = Direction, estimate = .pred_class) 
+
+accuracy(SmarketQdaPredictions, truth = Direction, estimate = .pred_class) 
+
+```
+
+
 ## Naive Bayes
 
 To estimate $f_{k}(X)$ this model assumes that *Within the kth class, the p predictors are independent* (correlation = 0) and as consequence:
@@ -110,7 +165,7 @@ $$
 f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
 $$
 
-Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where $n$ is not large enough relative to $p$ for us to eﬀectively estimate the joint distribution of the predictors within each class.
+Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where **_n_ is not large enough relative to _p_** for us to eﬀectively estimate the joint distribution of the predictors within each class. It has been used to classify **text data**, for example, to predict whether an **email is spam or not**.
 
 To estimate the one-dimensional density function $f_{kj}$ using training data we have the following options:
 
@@ -134,4 +189,47 @@ $$
       \right)}
 $$
 
+### The infrequent problem
+
+The method has the problem that if you don't an example for a particular event in your training set it would estimate the probability of that event as 0.
+
+![](img/33-naive-bayes-infrequent-problem.png)
+
+The solution to this problem involves adding a small number, usually '1', to each event and outcome combination to eliminate this veto power. This is called the **Laplace correction** or *Laplace estimator*. After adding this correction, each Venn diagram now has at least a small bit of overlap; there is no longer any joint probability of zero. 
+
+![](img/34-naive-bayes-Laplace-correction.png)
+
+### Pre-processing
+
+This method works better with categories, so if your data has *numeric data* try to **bin** it in categories by:
+
+- Turning an Age variable in the 'child' or 'adult' categories
+- Turning geographic coordinates into geographic regions like 'West' or 'East'
+- Turning test scores into four groups by percentile
+- Turning hour into 'morning', 'afternoon' and 'evening'
+- Turning temperature into 'cold', 'warm' and 'hot'
+
+As this method works really well when we have few examples and many predictors we can transform **text documents** into a *Document Term Matrix (DTM)* using a **bag-of-words model** with package like `tidytext` or `tm`.
+
+### Coding example
+
+To perform **Naive Bayes** we just need to create the model specification by loading the **discrim** package and using **klaR** engine. We can apply *Laplace correction* by setting `Laplace = 1` in the `parsnip::naive_Bayes` function.
+
+```{r}
+
+nb_spec <- naive_Bayes() %>% 
+  set_mode("classification") %>% 
+  set_engine("klaR") %>% 
+  set_args(usekernel = FALSE) 
+
+SmarketNbPredictions <-
+  nb_spec %>%
+  fit(Direction ~ Lag1 + Lag2, data = Smarket_train) |>
+  augment(new_data = Smarket_test) 
+
+conf_mat(SmarketNbPredictions, truth = Direction, estimate = .pred_class) 
+
+accuracy(SmarketNbPredictions, truth = Direction, estimate = .pred_class) 
+
+```
 

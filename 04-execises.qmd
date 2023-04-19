@@ -833,7 +833,7 @@ WeeklyFittedWorkFlow |>
 WeeklyFittedWorkFlow$fit$fit$fit |>
   tidy() |>
   as.data.table() |>
-  DT(order(-abs(estimate))) |>
+  (\(DT) DT[order(-abs(estimate))])() |>
   head(5) |>
   ggplot(aes(estimate, reorder(term,estimate)))+
   geom_col()+

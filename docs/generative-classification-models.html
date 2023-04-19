@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.1.251">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Angel Feliz">
-
 <title>An Introduction to Statistical Learning (Non Official Solution Book) - Generative Models for Classiﬁcation</title>
 <style>
 code{white-space: pre-wrap;}
@@ -21,8 +18,70 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
-
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -41,8 +100,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -60,19 +118,12 @@ ul.task-list li input[type="checkbox"] {
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit"
   }
-}</script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="summary-format.css">
+}</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="summary-format.css">
 </head>
-
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
@@ -87,28 +138,22 @@ ul.task-list li input[type="checkbox"] {
           </div>
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
+    </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">Generative Models for Classiﬁcation</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-      <div class="mt-2 flex-shrink-0 align-items-center">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
       </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
@@ -120,8 +165,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model-performance.html" class="sidebar-item-text sidebar-link">Understanding model performance</a>
   </div>
@@ -147,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Exercise Solutions</a>
@@ -155,8 +200,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-execises.html" class="sidebar-item-text sidebar-link">02 - Statistical Learning</a>
   </div>
@@ -177,27 +222,32 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-</nav>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+</div>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link active" data-scroll-target="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
-  <li><a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a></li>
-  <li><a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes">Naive Bayes</a></li>
+<li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link active" data-scroll-target="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
+  <li>
+<a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a>
+  <ul>
+<li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes">Naive Bayes</a>
+  <ul>
+<li><a href="#the-infrequent-problem" id="toc-the-infrequent-problem" class="nav-link" data-scroll-target="#the-infrequent-problem">The infrequent problem</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title d-none d-lg-block">Generative Models for Classiﬁcation</h1>
 </div>
 
@@ -210,20 +260,19 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
-</header>
-
-<p>These models instead of trying to predict the <strong>posterior probability</strong> ( <span class="math inline">\(Pr(Y=k|X=x)\)</span> ) directly, they try to estimate the distribution of the predictors <span class="math inline">\(X\)</span> separately in each of the response classes <span class="math inline">\(Y\)</span> ( <span class="math inline">\(f_{k}(X) = Pr(X|Y=k)\)</span> ). Then, they use the <strong>Bayes’ Theorem</strong> and the <strong>overall or prior probability</strong> <span class="math inline">\(\pi_{k}\)</span> (probability of a randomly chosen observation comes from the <span class="math inline">\(k\)</span>th class) to flip these around into estimates for <span class="math inline">\(Pr(Y=k|X=x)\)</span> by approximating the <strong><em>Bayes Classifier</em></strong>, which has the lowest <strong><em>total error rate</em></strong>.</p>
+</header><p>These models instead of trying to predict the <strong>posterior probability</strong> ( <span class="math inline">\(Pr(Y=k|X=x)\)</span> ) directly, they try to estimate the distribution of the predictors <span class="math inline">\(X\)</span> separately in each of the response classes <span class="math inline">\(Y\)</span> ( <span class="math inline">\(f_{k}(X) = Pr(X|Y=k)\)</span> ). Then, they use the <strong>Bayes’ Theorem</strong> and the <strong>overall or prior probability</strong> <span class="math inline">\(\pi_{k}\)</span> (probability of a randomly chosen observation comes from the <span class="math inline">\(k\)</span>th class) to flip these around into estimates for <span class="math inline">\(Pr(Y=k|X=x)\)</span> by approximating the <strong><em>Bayes Classifier</em></strong>, which has the lowest <strong><em>total error rate</em></strong>.</p>
 <p><span class="math display">\[
 p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
 \]</span></p>
 <p>Estimating the <em>prior probability</em> can be as easy calculate <span class="math inline">\(\hat{\pi}_{k} = n_{k}/ n\)</span> for each <span class="math inline">\(Y\)</span> class by assuming that the trainning data its representative of the population, but estimating the density function of <span class="math inline">\(X\)</span> for each class <span class="math inline">\(f_{k}\)</span> it’s more challenging, so models need to make more simplifying assumptions to estimate it.</p>
-<section id="linear-discriminant-analysis-lda" class="level2">
-<h2 class="anchored" data-anchor-id="linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</h2>
+<section id="linear-discriminant-analysis-lda" class="level2"><h2 class="anchored" data-anchor-id="linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</h2>
 <p>This model assumes that:</p>
 <ul>
 <li>The density function of <span class="math inline">\(X\)</span> for each <span class="math inline">\(Y\)</span> class <span class="math inline">\(f_{k}\)</span> follows a <strong>Normal (Gaussian) distribution</strong> within each class. Even though, it is often remarkably robust to model violations like Boolean variables.</li>
-<li><span class="math inline">\(X\)</span> has a <strong>different mean</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\mu_{1}^2 \neq \dots \neq \mu_{k}^2\)</span>.</li>
-<li><span class="math inline">\(X\)</span> has a <strong>common variance</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\sigma_{1}^2 = \dots = \sigma_{k}^2\)</span>.</li>
+<li>
+<span class="math inline">\(X\)</span> has a <strong>different mean</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\mu_{1}^2 \neq \dots \neq \mu_{k}^2\)</span>.</li>
+<li>
+<span class="math inline">\(X\)</span> has a <strong>common variance</strong> across all <span class="math inline">\(Y\)</span> classes <span class="math inline">\(\sigma_{1}^2 = \dots = \sigma_{k}^2\)</span>.</li>
 </ul>
 <p>To understand how the model calculates its parameters, let’s see the <strong>discriminant function</strong> when the number of predictors is <span class="math inline">\(p=1\)</span> and the number of <span class="math inline">\(Y\)</span> classes is <span class="math inline">\(K=2\)</span>.</p>
 <p><span class="math display">\[
@@ -248,12 +297,17 @@ p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f
 \end{split}                      
 \]</span></p>
 <ul>
-<li><p>Where:</p>
+<li>
+<p>Where:</p>
 <ul>
-<li><span class="math inline">\(x\)</span> refers to a vector the current value of each <span class="math inline">\(p\)</span> element.</li>
-<li><span class="math inline">\(\mu\)</span> refers to a vector with the mean of each predictor.</li>
-<li><span class="math inline">\(\Sigma\)</span> refers to the covariance matrix <span class="math inline">\(p \times p\)</span> of <span class="math inline">\(\text{Cov}(X)\)</span>.</li>
-</ul></li>
+<li>
+<span class="math inline">\(x\)</span> refers to a vector the current value of each <span class="math inline">\(p\)</span> element.</li>
+<li>
+<span class="math inline">\(\mu\)</span> refers to a vector with the mean of each predictor.</li>
+<li>
+<span class="math inline">\(\Sigma\)</span> refers to the covariance matrix <span class="math inline">\(p \times p\)</span> of <span class="math inline">\(\text{Cov}(X)\)</span>.</li>
+</ul>
+</li>
 </ul>
 <p>The model also can be extended to handle <span class="math inline">\(K &gt; 2\)</span> after defining the <span class="math inline">\(K\)</span> class as the baseline, we can extend the <em>discriminant function</em> to have the next form:</p>
 <p><span class="math display">\[
@@ -266,14 +320,52 @@ p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f
                   - \frac{1}{2} (\mu_{k} + \mu_{K})^T \Sigma^{-1} (\mu_{k} - \mu_{K}) \\
               &amp; \quad + x^{T} \Sigma^{-1} (\mu_{k} - \mu_{K})
 \end{split}
-\]</span></p>
-</section>
-<section id="quadratic-discriminant-analysis-qda" class="level2">
-<h2 class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</h2>
+\]</span> ### Coding example</p>
+<p>To perform <strong>LDA</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR</a></span><span class="op">)</span> </span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/discrim">discrim</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">!=</span> <span class="fl">2005</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Smarket_test</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">==</span> <span class="fl">2005</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">lda_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/discrim_linear.html">discrim_linear</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"MASS"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">SmarketLdaPredictions</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">lda_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span>, data <span class="op">=</span> <span class="va">Smarket_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Smarket_test</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="fu">conf_mat</span><span class="op">(</span><span class="va">SmarketLdaPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Down  Up
+      Down   35  35
+      Up     76 106</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLdaPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.560</code></pre>
+</div>
+</div>
+</section><section id="quadratic-discriminant-analysis-qda" class="level2"><h2 class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</h2>
 <p>Like LDA, the QDA classiﬁer plugs estimates for the parameters into Bayes’ theorem in order to perform prediction results and assumes that:</p>
 <ul>
 <li>The observations from each class are drawn from a Gaussian distribution</li>
-<li>Each class has its own <strong>covariance matrix</strong>, <span class="math inline">\(X \sim N(\mu_{k}, \Sigma_{k})\)</span></li>
+<li>Each class has its own <strong>covariance matrix</strong>, <span class="math inline">\(X \sim N(\mu_{k}, \Sigma_{k})\)</span>
+</li>
 </ul>
 <p>Under this assumption, the Bayes classiﬁer assigns an observation <span class="math inline">\(X = x\)</span> to the class for which <span class="math inline">\(\delta_{k}(x)\)</span> is largest.</p>
 <p><span class="math display">\[
@@ -293,17 +385,44 @@ a_k + \sum_{j=1}^{p}b_{kj}x_{j} +
       \sum_{j=1}^{p} \sum_{l=1}^{p} c_{kjl} x_{j}x_{l}
 \]</span></p>
 <p>Where <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_{kj}\)</span> and <span class="math inline">\(c_{kjl}\)</span> are functions of <span class="math inline">\(\pi_{k}\)</span>, <span class="math inline">\(\pi_{K}\)</span>, <span class="math inline">\(\mu_{k}\)</span>, <span class="math inline">\(\mu_{K}\)</span>, <span class="math inline">\(\Sigma_{k}\)</span> and <span class="math inline">\(\Sigma_{K}\)</span></p>
-</section>
-<section id="naive-bayes" class="level2">
-<h2 class="anchored" data-anchor-id="naive-bayes">Naive Bayes</h2>
+<section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
+<p>To perform <strong>QDA</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">qda_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/discrim_quad.html">discrim_quad</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"MASS"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">SmarketQdaPredictions</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">qda_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span>, data <span class="op">=</span> <span class="va">Smarket_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Smarket_test</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="fu">conf_mat</span><span class="op">(</span><span class="va">SmarketQdaPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Down  Up
+      Down   30  20
+      Up     81 121</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketQdaPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.599</code></pre>
+</div>
+</div>
+</section></section><section id="naive-bayes" class="level2"><h2 class="anchored" data-anchor-id="naive-bayes">Naive Bayes</h2>
 <p>To estimate <span class="math inline">\(f_{k}(X)\)</span> this model assumes that <em>Within the kth class, the p predictors are independent</em> (correlation = 0) and as consequence:</p>
 <p><span class="math display">\[
 f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
 \]</span></p>
-<p>Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where <span class="math inline">\(n\)</span> is not large enough relative to <span class="math inline">\(p\)</span> for us to eﬀectively estimate the joint distribution of the predictors within each class.</p>
+<p>Even thought the assumption might not be true, the model often leads to pretty decent results, especially in settings where <strong><em>n</em> is not large enough relative to <em>p</em></strong> for us to eﬀectively estimate the joint distribution of the predictors within each class. It has been used to classify <strong>text data</strong>, for example, to predict whether an <strong>email is spam or not</strong>.</p>
 <p>To estimate the one-dimensional density function <span class="math inline">\(f_{kj}\)</span> using training data we have the following options:</p>
 <ul>
-<li>We can assume that <span class="math inline">\(X_{j}|Y = k \sim N(\mu_{jk}, \sigma_{jk}^2)\)</span></li>
+<li>We can assume that <span class="math inline">\(X_{j}|Y = k \sim N(\mu_{jk}, \sigma_{jk}^2)\)</span>
+</li>
 <li>We can estimate the distribution by defining bins and creating a histogram</li>
 <li>We can estimate the distribution by use a kernel density estimator</li>
 <li>If <span class="math inline">\(X_{j}\)</span> is <strong>qualitative</strong>, we can count the proportion of training observations for the <span class="math inline">\(j\)</span>th predictor corresponding to each class.</li>
@@ -321,12 +440,52 @@ f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
              {\prod_{j=1}^{p} f_{Kj}(x_{j}) }
       \right)}
 \]</span></p>
+<section id="the-infrequent-problem" class="level3"><h3 class="anchored" data-anchor-id="the-infrequent-problem">The infrequent problem</h3>
+<p>The method has the problem that if you don’t an example for a particular event in your training set it would estimate the probability of that event as 0.</p>
+<p><img src="img/33-naive-bayes-infrequent-problem.png" class="img-fluid"></p>
+<p>The solution to this problem involves adding a small number, usually ‘1’, to each event and outcome combination to eliminate this veto power. This is called the <strong>Laplace correction</strong> or <em>Laplace estimator</em>. After adding this correction, each Venn diagram now has at least a small bit of overlap; there is no longer any joint probability of zero.</p>
+<p><img src="img/34-naive-bayes-Laplace-correction.png" class="img-fluid"></p>
+</section><section id="pre-processing" class="level3"><h3 class="anchored" data-anchor-id="pre-processing">Pre-processing</h3>
+<p>This method works better with categories, so if your data has <em>numeric data</em> try to <strong>bin</strong> it in categories by:</p>
+<ul>
+<li>Turning an Age variable in the ‘child’ or ‘adult’ categories</li>
+<li>Turning geographic coordinates into geographic regions like ‘West’ or ‘East’</li>
+<li>Turning test scores into four groups by percentile</li>
+<li>Turning hour into ‘morning’, ‘afternoon’ and ‘evening’</li>
+<li>Turning temperature into ‘cold’, ‘warm’ and ‘hot’</li>
+</ul>
+<p>As this method works really well when we have few examples and many predictors we can transform <strong>text documents</strong> into a <em>Document Term Matrix (DTM)</em> using a <strong>bag-of-words model</strong> with package like <code>tidytext</code> or <code>tm</code>.</p>
+</section><section id="coding-example-1" class="level3"><h3 class="anchored" data-anchor-id="coding-example-1">Coding example</h3>
+<p>To perform <strong>Naive Bayes</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>klaR</strong> engine. We can apply <em>Laplace correction</em> by setting <code>Laplace = 1</code> in the <code><a href="https://parsnip.tidymodels.org/reference/naive_Bayes.html">parsnip::naive_Bayes</a></code> function.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nb_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/naive_Bayes.html">naive_Bayes</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span><span class="st">"klaR"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_args</a></span><span class="op">(</span>usekernel <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">SmarketNbPredictions</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">nb_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span>, data <span class="op">=</span> <span class="va">Smarket_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Smarket_test</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu">conf_mat</span><span class="op">(</span><span class="va">SmarketNbPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Truth
+Prediction Down  Up
+      Down   28  20
+      Up     83 121</code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketNbPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.591</code></pre>
+</div>
+</div>
 
 
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -423,9 +582,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     });
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./generalized-linear-models.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Generalized linear models (GLM)</span>
       </a>          
@@ -437,13 +594,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
     <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
-
 
 
 </body></html>

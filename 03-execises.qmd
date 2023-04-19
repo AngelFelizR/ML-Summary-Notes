@@ -667,8 +667,8 @@ list(original = SimilatedModel,
                  as.data.table(keep.rownames = "coef")) |>
  add_source(source.name = "model") |>
  rbindlist() |>
- DT(j = model := factor(model, 
-                        levels = c("less_noisy", "original","noisier"))) |>
+ (\(DT) DT[, model := factor(model, 
+                        levels = c("less_noisy", "original","noisier"))] )() |>
  ggplot(aes(model, center, color = model))+
   geom_hline(yintercept = 0, linetype = 2, size = 1)+
   geom_point()+

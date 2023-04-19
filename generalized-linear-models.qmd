@@ -291,6 +291,34 @@ There are better model to achieve that kind of situation. For example, he linear
 
 - **Model Interpretability:**There are some methods that can exclude irrelevant variables from a multiple regression model (*feature selection* or *variable selection*).
 
+### Coding example
+
+To perform **Linear Regression** we just need to create the model specification by using **lm** engine.
+
+```{r}
+library(ISLR2)
+library(tidymodels)
+
+set.seed(123)
+BikeshareSpit <- initial_split(Bikeshare)
+
+lm_spec <- linear_reg() %>% 
+  set_mode("regression") %>% 
+  set_engine("lm")
+
+lm_rec_spec <- 
+  recipe(bikers ~ mnth + hr + workingday + temp + weathersit,
+         data = Bikeshare ) %>% 
+  step_dummy(all_nominal_predictors())
+
+workflow() %>%
+  add_model(lm_spec) %>%
+  add_recipe(lm_rec_spec) %>%
+  last_fit(split = BikeshareSpit) %>%
+  collect_metrics()
+```
+
+
 ## Subset Selection
 
 This approach involves identifying a subset of the *p* predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.
@@ -423,17 +451,6 @@ As consequence, the method uses the $\ell_1$ penalty ($\| \beta \|_1 = \sum_{j=1
 
 ### Coding example
 
-```{r}
-library(ISLR2)
-library(tidymodels)
-
-Hitters <- 
-  as_tibble(Hitters) %>%
-  filter(!is.na(Salary))
-
-```
-
-
 To perform a **Ridge** or **Lasso** regression we need to use the function `linear_reg` and define the `mixture` argument depending on the regression we want to perform.
 
 |Model|Mixture|
@@ -446,6 +463,10 @@ As both regression depend on the `penalty` parameter we need to use cross-valida
 - Fit a model and explore different penalties using `tidy`, `augment`, `predict` or `autoplot` functions.
 
 ```{r}
+Hitters <- 
+  as_tibble(Hitters) %>%
+  filter(!is.na(Salary))
+
 ridge_fit <- 
   linear_reg(mixture = 0, penalty = 0) %>%
   set_mode("regression") %>%
@@ -730,6 +751,27 @@ $$
 
 If select this model we need to be aware how to interpret the coefficients. For example, if $\beta_1 = -0.08$ for a categorical variable, we can conclude by calculating $e^{-0.08}$ that ___`r round(exp(-0.08) * 100, 2) |> paste0("%")`___ of events of the base line related to $\beta_0$ would happen.
 
+### Coding example
+
+To perform **Poisson Regression** we just need to create the model specification by loading the **poissonreg** package and using **glm** engine.
+
+```{r}
+library(poissonreg)
+
+pois_spec <- poisson_reg() %>% 
+  set_mode("regression") %>% 
+  set_engine("glm")
+
+pois_rec_spec <- lm_rec_spec
+
+workflow() %>%
+  add_model(pois_spec) %>%
+  add_recipe(pois_rec_spec) %>%
+  last_fit(split = BikeshareSpit) %>%
+  collect_metrics()
+
+```
+
 ## Logistic Regression
 
 It models the **probability** ($p(X) = Pr(Y=1|X)$) that Y belongs to a particular category given some predictors by assuming that $Y$ follows a **Bernoulli Distribution**. This model calculates the probability using the ***logistic function*** which produce a S form between 0 and 1:
@@ -825,5 +867,35 @@ There are models that could make better classifications when:
 - The predictors $X$ are approximately normal in each class and the sample size is small.
 - When the decision boundary is not lineal.
 
- 
+
+### Coding example
+
+To perform **Logistic Regression** we just need to create the model specification by loading the **discrim** package and using **MASS** engine.
+
+```{r}
+
+Smarket_train <- 
+  Smarket %>%
+  filter(Year != 2005)
+
+Smarket_test <- 
+  Smarket %>%
+  filter(Year == 2005)
+
+lr_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+SmarketLrPredictions <-
+  lr_spec %>%
+  fit(Direction ~ Lag1 + Lag2, data = Smarket_train) |>
+  augment(new_data = Smarket_test) 
+
+
+conf_mat(SmarketLrPredictions, truth = Direction, estimate = .pred_class) 
+
+accuracy(SmarketLrPredictions, truth = Direction, estimate = .pred_class) 
+
+```
+
 
