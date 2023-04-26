@@ -29,6 +29,7 @@ book:
       - model-performance.qmd
       - generalized-linear-models.qmd
       - generative-classification-models.qmd
+      - flexible-regression.qmd
       - non-parametric-models.qmd
       - resampling-methods.qmd
   - part: "Exercise Solutions"
