@@ -183,6 +183,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">Flexible Regression Models</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">Non-parametric Methods</a>
   </div>
 </li>
@@ -243,7 +248,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li>
 <a href="#leave-one-out-cross-validation-loocv" id="toc-leave-one-out-cross-validation-loocv" class="nav-link" data-scroll-target="#leave-one-out-cross-validation-loocv">Leave-One-Out Cross-Validation (LOOCV)</a>
   <ul class="collapse">
-<li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
+<li><a href="#amazing-shortcuts" id="toc-amazing-shortcuts" class="nav-link" data-scroll-target="#amazing-shortcuts">Amazing shortcuts</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
   </ul>
 </li>
   <li>
@@ -437,7 +443,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<section id="coding-example-1" class="level4"><h4 class="anchored" data-anchor-id="coding-example-1">Coding example</h4>
+<section id="amazing-shortcuts" class="level4"><h4 class="anchored" data-anchor-id="amazing-shortcuts">Amazing shortcuts</h4>
+<p>There some cases where we can perform this technique just fitting one model with all the observations. there are listed in the next table.</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 30%">
+<col style="width: 47%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">Formula</th>
+<th style="text-align: left;">Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Lineal or polynomial regression</td>
+<td style="text-align: center;"><span class="math inline">\(\text{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n \left( \frac{y_i - \hat{y}_i}{1-h_i} \right)^2\)</span></td>
+<td style="text-align: left;">- <span class="math inline">\(\hat{y}_i\)</span>: Refers to the <em>i</em>th ﬁtted value from the original least squares ﬁt. <br> - <span class="math inline">\(h_i\)</span> Refers to the <em>leverage</em> of <span class="math inline">\(x_i\)</span> as measure of the rarity of each value.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Smoothing splines</td>
+<td style="text-align: center;"><span class="math inline">\(\text{RSS}_{cv} (\lambda) = \sum_{i = 1}^n \left[ \frac{y_i - \hat{g}_{\lambda} (x_i)} {1 - \{ \mathbf{S_{\lambda}} \}_{ii}} \right]^2\)</span></td>
+<td style="text-align: left;">- <span class="math inline">\(\hat{g}_\lambda\)</span>: Refers the smoothing spline function ﬁtted to all of the training observations.</td>
+</tr>
+</tbody>
+</table></section><section id="coding-example-1" class="level4"><h4 class="anchored" data-anchor-id="coding-example-1">Coding example</h4>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">collect_loo_testing_error</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">formula</span>,</span>
 <span>                                      <span class="va">loo_split</span>,</span>

@@ -119,6 +119,18 @@ $$
 |Proportion of data used to train the models (bias mitigation)|***<span style='color:green;'>High</span>***|
 |Estimation variance|***<span style='color:red;'>High</span>***|
 
+
+#### Amazing shortcuts 
+
+There some cases where we can perform this technique just fitting one model with all the observations. there are listed in the next table.
+
+|Model|Formula|Description|
+|:---:|:-----:|:----------|
+|Lineal or polynomial regression|$\text{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n \left( \frac{y_i - \hat{y}_i}{1-h_i} \right)^2$|- $\hat{y}_i$: Refers to the *i*th ﬁtted value from the original least squares ﬁt. <br> - $h_i$ Refers to the *leverage* of $x_i$ as measure of the rarity of each value.|
+|Smoothing splines|$\text{RSS}_{cv} (\lambda) = \sum_{i = 1}^n \left[ \frac{y_i - \hat{g}_{\lambda} (x_i)} {1 - \{ \mathbf{S_{\lambda}} \}_{ii}} \right]^2$|- $\hat{g}_\lambda$: Refers the smoothing spline function ﬁtted to all of the training observations.|
+
+
+
 #### Coding example
 
 ```{r}

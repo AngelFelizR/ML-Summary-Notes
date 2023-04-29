@@ -306,9 +306,26 @@ y_i =
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>The function <span class="math inline">\(g(x)\)</span> is a <strong>natural cubic spline</strong> with knots at <span class="math inline">\(x_1, \dots ,x_n\)</span></p>
+<p>The function <span class="math inline">\(g(x)\)</span> is a <strong>natural cubic spline</strong> with knots at <span class="math inline">\(x_1, \dots ,x_n\)</span>. As results the <em>effective degrees of freedom</em> (<span class="math inline">\(df_{\lambda} = \sum_{i=1}^n \{ \mathbf{S}_{\lambda} \}_{ii}\)</span>) are between <span class="math inline">\(n\)</span> and <span class="math inline">\(2\)</span> depending on the value of <span class="math inline">\(\mathbf{\lambda}\)</span>.</p>
 </div>
 </div>
+</div>
+<p>We can use <em>cross-validation</em> to find the best value which can minimize the <strong>RSS</strong>. It turns out that the <strong>leave one-out cross-validation</strong> error (LOOCV) can be computed very eﬃciently for smoothing splines, with essentially the same cost as <strong>computing a single ﬁt</strong>, using the following formula:</p>
+<p><span class="math display">\[
+\text{RSS}_{cv} (\lambda) = \sum_{i = 1}^n (y_i - \hat{g}_\lambda^{(-i)} (x_i))^2 =
+                            \sum_{i = 1}^n \left[ \frac{y_i - \hat{g}_{\lambda} (x_i)}
+                                                       {1 - \{ \mathbf{S_{\lambda}} \}_{ii}}
+                                           \right]^2
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\hat{g}_\lambda^{(-i)}\)</span>: Refers to the function fitted without the <em>i</em>th observation <span class="math inline">\((x_i, y_i)\)</span>.</li>
+<li><span class="math inline">\(\hat{g}_\lambda\)</span>: Refers the smoothing spline function ﬁtted to all of the training observations.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/41-smoothing-splines-example.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </section>
 <section id="local-regression" class="level2">

@@ -90,9 +90,25 @@ The second derivative of $g(t)$ measure how **wiggly** is the function near $t$,
 
 
 ::: {.callout-note}
-The function $g(x)$ is a **natural cubic spline** with knots at $x_1, \dots ,x_n$
+The function $g(x)$ is a **natural cubic spline** with knots at $x_1, \dots ,x_n$. As results the *effective degrees of freedom* ($df_{\lambda} = \sum_{i=1}^n \{ \mathbf{S}_{\lambda} \}_{ii}$) are between $n$ and $2$ depending on the value of $\mathbf{\lambda}$.
 :::
 
+We can use *cross-validation* to find the best value which can minimize the **RSS**. It turns out that the **leave one-out cross-validation** error (LOOCV) can be computed very eﬃciently
+for smoothing splines, with essentially the same cost as **computing a single ﬁt**, using the following formula:
+
+$$
+\text{RSS}_{cv} (\lambda) = \sum_{i = 1}^n (y_i - \hat{g}_\lambda^{(-i)} (x_i))^2 = 
+                            \sum_{i = 1}^n \left[ \frac{y_i - \hat{g}_{\lambda} (x_i)}
+                                                       {1 - \{ \mathbf{S_{\lambda}} \}_{ii}} 
+                                           \right]^2
+$$
+
+Where:
+
+- $\hat{g}_\lambda^{(-i)}$: Refers to the function fitted without the *i*th observation $(x_i, y_i)$.
+- $\hat{g}_\lambda$: Refers the smoothing spline function ﬁtted to all of the training observations.
+
+![](img/41-smoothing-splines-example.png){fig-align="center"}
 
 ## Local regression
 
