@@ -112,6 +112,29 @@ Where:
 
 ## Local regression
 
-They arise as a result of minimizing a residual sum of squares criterion subject to a smoothness penalty and the possibility that the regions defined can overlap others.
+Computes the fit at target point $x_0$ using only the nearly training observations by:
+
+1. Gather the $s=k/n$ closest (known as ***span**) fraction of points. This step is very important as it controls the flexibility level can be selected using *cross-validation*.
+2. Assign a weight $K_{i0} = K(x_i, x_0)$ for each selected point based on the distance to $x_0$. As lower is the distance as higher needs to be the weight.
+3. Find the coefficients which minimize the *weighted least squares regression* for the current $x_0$ value.
+
+$$
+\sum_{i=1}^n = K_{i0}(y_i - \beta_0 - \beta_1x_i)^2
+$$
+
+
+4. Calculate the fitted value of $x_0$ using $\hat{f}(x_0) = \hat{\beta}_0 + \hat{\beta}_1x_0$.
+
+In the next illustration we can see how the model works with some simulated data.
+
+![](img/42-local_regression.png){fig-align="center"}
+
+
+::: {.callout-note}
+It performs poorly when we have more than 3 or 4 predictors in our model.
+:::
+
+## Generalized Additive Models
+
 
 

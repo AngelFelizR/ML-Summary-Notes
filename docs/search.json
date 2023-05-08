@@ -228,6 +228,13 @@
     "href": "flexible-regression.html#local-regression",
     "title": "Flexible Regression Models",
     "section": "Local regression",
-    "text": "Local regression\nThey arise as a result of minimizing a residual sum of squares criterion subject to a smoothness penalty and the possibility that the regions defined can overlap others."
+    "text": "Local regression\nComputes the fit at target point \\(x_0\\) using only the nearly training observations by:\n\nGather the \\(s=k/n\\) closest (known as span) fraction of points. This step is very important as it controls the flexibility level can be selected using cross-validation*.\nAssign a weight \\(K_{i0} = K(x_i, x_0)\\) for each selected point based on the distance to \\(x_0\\). As lower is the distance as higher needs to be the weight.\nFind the coefficients which minimize the weighted least squares regression for the current \\(x_0\\) value.\n\n\\[\n\\sum_{i=1}^n = K_{i0}(y_i - \\beta_0 - \\beta_1x_i)^2\n\\]\n\nCalculate the fitted value of \\(x_0\\) using \\(\\hat{f}(x_0) = \\hat{\\beta}_0 + \\hat{\\beta}_1x_0\\).\n\nIn the next illustration we can see how the model works with some simulated data.\n\n\n\n\n\n\n\n\n\n\n\nIt performs poorly when we have more than 3 or 4 predictors in our model."
+  },
+  {
+    "objectID": "flexible-regression.html#generalized-additive-models",
+    "href": "flexible-regression.html#generalized-additive-models",
+    "title": "Flexible Regression Models",
+    "section": "Generalized Additive Models",
+    "text": "Generalized Additive Models"
   }
 ]

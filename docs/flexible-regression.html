@@ -200,6 +200,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#smoothing-splines" id="toc-smoothing-splines" class="nav-link" data-scroll-target="#smoothing-splines">Smoothing splines</a></li>
   <li><a href="#local-regression" id="toc-local-regression" class="nav-link" data-scroll-target="#local-regression">Local regression</a></li>
+  <li><a href="#generalized-additive-models" id="toc-generalized-additive-models" class="nav-link" data-scroll-target="#generalized-additive-models">Generalized Additive Models</a></li>
   </ul>
 </nav>
     </div>
@@ -330,7 +331,37 @@ y_i =
 </section>
 <section id="local-regression" class="level2">
 <h2 class="anchored" data-anchor-id="local-regression">Local regression</h2>
-<p>They arise as a result of minimizing a residual sum of squares criterion subject to a smoothness penalty and the possibility that the regions defined can overlap others.</p>
+<p>Computes the fit at target point <span class="math inline">\(x_0\)</span> using only the nearly training observations by:</p>
+<ol type="1">
+<li>Gather the <span class="math inline">\(s=k/n\)</span> closest (known as <em><strong>span</strong>) fraction of points. This step is very important as it controls the flexibility level can be selected using </em>cross-validation*.</li>
+<li>Assign a weight <span class="math inline">\(K_{i0} = K(x_i, x_0)\)</span> for each selected point based on the distance to <span class="math inline">\(x_0\)</span>. As lower is the distance as higher needs to be the weight.</li>
+<li>Find the coefficients which minimize the <em>weighted least squares regression</em> for the current <span class="math inline">\(x_0\)</span> value.</li>
+</ol>
+<p><span class="math display">\[
+\sum_{i=1}^n = K_{i0}(y_i - \beta_0 - \beta_1x_i)^2
+\]</span></p>
+<ol start="4" type="1">
+<li>Calculate the fitted value of <span class="math inline">\(x_0\)</span> using <span class="math inline">\(\hat{f}(x_0) = \hat{\beta}_0 + \hat{\beta}_1x_0\)</span>.</li>
+</ol>
+<p>In the next illustration we can see how the model works with some simulated data.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/42-local_regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<div class="callout-note callout callout-style-simple">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>It performs poorly when we have more than 3 or 4 predictors in our model.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="generalized-additive-models" class="level2">
+<h2 class="anchored" data-anchor-id="generalized-additive-models">Generalized Additive Models</h2>
 
 
 </section>
