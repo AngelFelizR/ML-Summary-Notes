@@ -53,7 +53,7 @@ $$
 
 ![](img/38-step-function-logistic-regression.png){fig-align="center"}
 
-### Piecewise polynomials regression
+### Piecewise polynomials regression (Natural Spine)
 
 It consist in ﬁtting separate low-degree polynomials over diﬀerent regions of *X*. For example, a **piecewise cubic polynomial** with a single knot at a point *c* takes the form.
 
@@ -134,7 +134,48 @@ In the next illustration we can see how the model works with some simulated data
 It performs poorly when we have more than 3 or 4 predictors in our model.
 :::
 
-## Generalized Additive Models
+## Generalized Additive Models (GAM)
+
+They provide a general framework for extending a standard linear model by allowing non-linear functions of each of the variables, while maintaining additivity.
+
+To transform each predictor we have the next options:
+
+- A constant for each categorical level (step function)
+- Polynomial regression
+- Natural spines (optimized with least squares)
+- Smoothing splines (optimized with backﬁtting)
+- Local regression
+
+::: {.callout-note}
+**Backﬁtting** ﬁts a model involving multiple predictors by repeatedly updating the ﬁt for each predictor in turn, holding the others ﬁxed.
+:::
+
+|Pros|Cons|
+|:---|:---|
+|1. It **finds relationships that a lineal model would miss** without applying many transformations as it can fit a non-linear $f_j$ to each $X_j$ <br> <br> 2. We can **examine the eﬀect of each predictor on $Y$** individually as the model is additive. <br> <br> 3. The *smoothness* of each function $f_j$ can be summarized via **degrees of freedom**.|1. Important **interactions can be missed**, but they can be added manually|
 
 
+### GAM Regression
+
+To predict a numeric variable this method creates a function with the next form:
+
+$$
+y_i = \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip}) + \epsilon_i
+$$
+
+By taking the other predictor as constant we can plot effect of each function for each predictor in the `Wage` example:
+
+![](img/43-gam-regression.png){fig-align="center"}
+
+### GAM Classification
+
+To predict a categorical variable this method creates a function with the next form:
+
+$$
+\log \left( \frac{p(X)}{1-p(X)} \right)= \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip})
+$$
+
+By taking the other predictor as constant we can plot effect of each function for each predictor in the `Wage` example:
+
+![](img/44-gam-classification.png){fig-align="center"}
 

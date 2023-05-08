@@ -196,11 +196,15 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#polynomial-regression" id="toc-polynomial-regression" class="nav-link" data-scroll-target="#polynomial-regression">Polynomial regression</a></li>
   <li><a href="#piecewise-constant-regression" id="toc-piecewise-constant-regression" class="nav-link" data-scroll-target="#piecewise-constant-regression">Piecewise constant regression</a></li>
-  <li><a href="#piecewise-polynomials-regression" id="toc-piecewise-polynomials-regression" class="nav-link" data-scroll-target="#piecewise-polynomials-regression">Piecewise polynomials regression</a></li>
+  <li><a href="#piecewise-polynomials-regression-natural-spine" id="toc-piecewise-polynomials-regression-natural-spine" class="nav-link" data-scroll-target="#piecewise-polynomials-regression-natural-spine">Piecewise polynomials regression (Natural Spine)</a></li>
   </ul></li>
   <li><a href="#smoothing-splines" id="toc-smoothing-splines" class="nav-link" data-scroll-target="#smoothing-splines">Smoothing splines</a></li>
   <li><a href="#local-regression" id="toc-local-regression" class="nav-link" data-scroll-target="#local-regression">Local regression</a></li>
-  <li><a href="#generalized-additive-models" id="toc-generalized-additive-models" class="nav-link" data-scroll-target="#generalized-additive-models">Generalized Additive Models</a></li>
+  <li><a href="#generalized-additive-models-gam" id="toc-generalized-additive-models-gam" class="nav-link" data-scroll-target="#generalized-additive-models-gam">Generalized Additive Models (GAM)</a>
+  <ul>
+  <li><a href="#gam-regression" id="toc-gam-regression" class="nav-link" data-scroll-target="#gam-regression">GAM Regression</a></li>
+  <li><a href="#gam-classification" id="toc-gam-classification" class="nav-link" data-scroll-target="#gam-classification">GAM Classification</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -272,8 +276,8 @@ y_i = \beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i) + 
 </figure>
 </div>
 </section>
-<section id="piecewise-polynomials-regression" class="level3">
-<h3 class="anchored" data-anchor-id="piecewise-polynomials-regression">Piecewise polynomials regression</h3>
+<section id="piecewise-polynomials-regression-natural-spine" class="level3">
+<h3 class="anchored" data-anchor-id="piecewise-polynomials-regression-natural-spine">Piecewise polynomials regression (Natural Spine)</h3>
 <p>It consist in ﬁtting separate low-degree polynomials over diﬀerent regions of <em>X</em>. For example, a <strong>piecewise cubic polynomial</strong> with a single knot at a point <em>c</em> takes the form.</p>
 <p><span class="math display">\[
 y_i =
@@ -360,10 +364,73 @@ y_i =
 </div>
 </div>
 </section>
-<section id="generalized-additive-models" class="level2">
-<h2 class="anchored" data-anchor-id="generalized-additive-models">Generalized Additive Models</h2>
+<section id="generalized-additive-models-gam" class="level2">
+<h2 class="anchored" data-anchor-id="generalized-additive-models-gam">Generalized Additive Models (GAM)</h2>
+<p>They provide a general framework for extending a standard linear model by allowing non-linear functions of each of the variables, while maintaining additivity.</p>
+<p>To transform each predictor we have the next options:</p>
+<ul>
+<li>A constant for each categorical level (step function)</li>
+<li>Polynomial regression</li>
+<li>Natural spines (optimized with least squares)</li>
+<li>Smoothing splines (optimized with backﬁtting)</li>
+<li>Local regression</li>
+</ul>
+<div class="callout-note callout callout-style-simple">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Backﬁtting</strong> ﬁts a model involving multiple predictors by repeatedly updating the ﬁt for each predictor in turn, holding the others ﬁxed.</p>
+</div>
+</div>
+</div>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Pros</th>
+<th style="text-align: left;">Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1. It <strong>finds relationships that a lineal model would miss</strong> without applying many transformations as it can fit a non-linear <span class="math inline">\(f_j\)</span> to each <span class="math inline">\(X_j\)</span> <br> <br> 2. We can <strong>examine the eﬀect of each predictor on <span class="math inline">\(Y\)</span></strong> individually as the model is additive. <br> <br> 3. The <em>smoothness</em> of each function <span class="math inline">\(f_j\)</span> can be summarized via <strong>degrees of freedom</strong>.</td>
+<td style="text-align: left;">1. Important <strong>interactions can be missed</strong>, but they can be added manually</td>
+</tr>
+</tbody>
+</table>
+<section id="gam-regression" class="level3">
+<h3 class="anchored" data-anchor-id="gam-regression">GAM Regression</h3>
+<p>To predict a numeric variable this method creates a function with the next form:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip}) + \epsilon_i
+\]</span></p>
+<p>By taking the other predictor as constant we can plot effect of each function for each predictor in the <code>Wage</code> example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/43-gam-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="gam-classification" class="level3">
+<h3 class="anchored" data-anchor-id="gam-classification">GAM Classification</h3>
+<p>To predict a categorical variable this method creates a function with the next form:</p>
+<p><span class="math display">\[
+\log \left( \frac{p(X)}{1-p(X)} \right)= \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip})
+\]</span></p>
+<p>By taking the other predictor as constant we can plot effect of each function for each predictor in the <code>Wage</code> example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/44-gam-classification.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
