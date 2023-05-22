@@ -26,6 +26,7 @@ book:
   - index.qmd
   - part: "Teorical Summary"
     chapters: 
+      - modeling-process.qmd
       - model-performance.qmd
       - generalized-linear-models.qmd
       - generative-classification-models.qmd

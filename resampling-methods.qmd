@@ -1,9 +1,10 @@
 ---
 format:
   html:
+    number-depth: 3
     css: summary-format.css
 ---
-# Resampling methods {.unnumbered}
+# Resampling methods
 
 ## Introduction
 
@@ -210,6 +211,8 @@ $$
 |Time efficiency|***Regular***|
 |Proportion of data used to train the models (bias mitigation)|***Regular***|
 |Estimation variance|***Regular***|
+
+_According to **Hands-on Machine Learning with R**, as $k$ gets larger, the difference between the estimated performance and the true performance to be seen on the test set will decrease._
 
 **Note**: The book recommends using $k = 5$ or $k = 10$.
 

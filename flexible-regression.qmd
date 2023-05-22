@@ -1,10 +1,11 @@
 ---
 format:
   html:
+    number-depth: 3
     css: summary-format.css
 ---
 
-# Flexible Regression Models {.unnumbered}
+# Flexible Regression Models
 
 In this book the main goal is to provide more tools to explore the relation of our response and a single predictor, that could be useful when we are are performing an **EDA** and the extend that power using **generalized additive models**.
 

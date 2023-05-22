@@ -1,9 +1,10 @@
 ---
 format:
   html:
+    number-depth: 3
     css: summary-format.css
 ---
-# Non-parametric Methods {.unnumbered}
+# Non-parametric Methods
 
 ## K-nearest neighbors (KNN) 
 

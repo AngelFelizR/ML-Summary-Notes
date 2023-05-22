@@ -1,0 +1,113 @@
+---
+format:
+  html:
+    number-depth: 3
+    css: summary-format.css
+---
+
+# Strategy to implement machine learning solutions
+
+In this chapter we will describe the strategy to use in order to use machine learning to increase the **Return On Investment (ROI)** for  any company. Starting for understanding the problem until implementing the solution that solves the problem.
+
+As this process is really complex we will use the **Business Science Problem Framework (BSPF)** as our main reference but we also complement it with more resources.
+
+
+## Business Science Problem Framework (BSPF)
+
+### View Business as a Machine
+
+In this part we need to make sure that we are selecting a repetitive and measurable problem or improvement opportunity.
+
+
+#### Isolate business unit
+
+
+#### Define objetives
+
+#### Define machine in terms of people and processes
+
+#### Collect outcomes in terms of feedback
+
+#### Feedback identiﬁes problems
+
+
+### Understand the Drivers
+
+#### Investigate if objectives are being met
+
+#### Synthesize outcomes
+
+#### Hypothesize drivers
+
+
+### Measure the Drivers
+
+#### Collect data
+
+#### Develop KPIs
+
+
+### Uncover Problems & Opportunities
+
+#### Evaluate performance vs KPIs
+
+#### Highlight potential problem areas
+
+#### Review process and consider what could be missed or needed to answer questions
+
+
+### Encode Algorithms
+
+#### Develop algorithms to predict and explain problem
+
+#### Tie ﬁnancial value of individual decisions to optimize for proﬁt
+
+#### Use recommendation algorithms to improve decisions
+
+
+### Measure Results
+
+#### Capture outcomes after decision making system is implemented
+
+#### Synthesize results in terms of good and bad outcomes identifying what was done and what happened
+
+#### Visualize outcomes over time to determine progress
+
+
+### Report Financial Impact
+
+#### Measure actual results
+
+#### Tie to ﬁnancial beneﬁts
+
+#### Report ﬁnancial beneﬁt of algorithms to key stakeholders
+
+
+## Modeling Process
+
+According to **Hands-on Machine Learning with R**, we need to follow the next process to develop successful models:
+
+1. Apply an intensive EDA to your data using graphics and unsupervised models in other to:
+  - Remove unnecessary variables
+  - Re-coding variable names and values
+  - Handle missing values
+  
+2. Split the data by using **simple random sampling** for regression problems and **stratified sampling** for classification problems or if the response variable deviates strongly from normality in a regression problem. As result be will need to define 2 sets:
+  - **Training set**: To develop feature sets, train our algorithms, tune hyperparameters, compare models, and all of the other activities required to choose our **final model**. The proportion of data used in the set depends the amount of data that we have, if  we have a lot data (*n >100K*) we can 60%, but if we don't have much we can use 80%.
+  - **Test set**: To estimate an unbiased assessment of the model’s performance, which we refer to as the generalization error.
+
+3. Solve **class imbalance problem** by apply one of the next techniques:
+  - **Down-sampling**: If we have many observations, we can keep all samples in the rare class and randomly selecting an equal number of samples in the abundant class.
+  - **Up-sampling**: If we don't have many observations, we can increasing the size of rarer samples by using repetition or bootstrapping.
+  - **SMOTE**: It's a combination of over- and under-sampling is often successful and a common approach is known as *Synthetic Minority Over-Sampling Technique*. We can use this method with the function [step_smote](https://themis.tidymodels.org/reference/step_smote.html) from the [themis](https://themis.tidymodels.org/index.html) recipes extension package.
+  
+4. Use the training set to train the model. In most of the cases you will need to define a function `Y ~ X`, but in some cases you will need variable with the predictors and another with the response or define the in argument with character names the variables to use as predictors and the variable to use a response.
+
+5. Confirm the **performance of the model** using resampling methods like **k-fold cross validation** which average k test errors, providing us with an approximation of the error we might expect on unseen data.
+
+6. Use the estimated test error to perform **hyperparameter tuning** across a *grid search* like
+  - **Full cartesian grid search**: He assesses every hyperparameter value manually defined.
+  - **Random grid searches**: It  explores randomly selected hyperparameter values from a range of possible values, early stopping which allows you to stop a grid search once reduction in the error stops.
+
+
+![General predictive machine learning process](img/45-modeling-process.png)

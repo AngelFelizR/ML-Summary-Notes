@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.1.251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - Non-parametric Methods</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 5&nbsp; Non-parametric Methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,7 +139,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Non-parametric Methods</h1>
+      <h1 class="quarto-secondary-nav-title">
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span>
+</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -168,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">Understanding model performance</a>
+  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Process</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link">Generalized linear models (GLM)</a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -183,17 +190,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">Flexible Regression Models</a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link active">Non-parametric Methods</a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link">Resampling methods</a>
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
       </ul>
@@ -235,19 +242,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
 <li>
-<a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link active" data-scroll-target="#k-nearest-neighbors-knn">K-nearest neighbors (KNN)</a>
+<a href="#k-nearest-neighbors-knn" id="toc-k-nearest-neighbors-knn" class="nav-link active" data-scroll-target="#k-nearest-neighbors-knn"><span class="toc-section-number">5.1</span>  K-nearest neighbors (KNN)</a>
   <ul>
-<li><a href="#classi%EF%AC%81er" id="toc-classiﬁer" class="nav-link" data-scroll-target="#classi%EF%AC%81er">Classiﬁer</a></li>
-  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a></li>
-  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
+<li><a href="#classi%EF%AC%81er" id="toc-classiﬁer" class="nav-link" data-scroll-target="#classi%EF%AC%81er"><span class="toc-section-number">5.1.1</span>  Classiﬁer</a></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression"><span class="toc-section-number">5.1.2</span>  Regression</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="toc-section-number">5.1.3</span>  Pre-processing</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">5.1.4</span>  Coding example</a></li>
   </ul>
 </li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">Non-parametric Methods</h1>
+<h1 class="title d-none d-lg-block">
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span>
+</h1>
 </div>
 
 
@@ -259,14 +268,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><section id="k-nearest-neighbors-knn" class="level2"><h2 class="anchored" data-anchor-id="k-nearest-neighbors-knn">K-nearest neighbors (KNN)</h2>
+</header><section id="k-nearest-neighbors-knn" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="k-nearest-neighbors-knn">
+<span class="header-section-number">5.1</span> K-nearest neighbors (KNN)</h2>
 <p>It uses the principle of nearest neighbors to classify unlabeled examples by using the <strong>Euclidean Distance</strong> to calculate distance between the point we want to predict and <span class="math inline">\(k\)</span> closest neighbors on the training data.</p>
 <p><span class="math display">\[
 d\left( a,b\right)   = \sqrt {\sum _{i=1}^{p}  \left( a_{i}-b_{i}\right)^2 }
 \]</span></p>
 <p>KNN unlike parametric models does not tell us which predictors are important, making it hard to make inferences using this model.</p>
 <p>This method performs worst than a parametric as we starting adding <em>noise</em> predictors. In fact, we will get in the situation where for a given observation has no <em>nearby neighbors</em>, known as <strong>curse of dimensionality</strong> and leading to a very poor prediction of <span class="math inline">\(f(x_{0})\)</span>.</p>
-<section id="classiﬁer" class="level3"><h3 class="anchored" data-anchor-id="classiﬁer">Classiﬁer</h3>
+<section id="classiﬁer" class="level3" data-number="5.1.1"><h3 data-number="5.1.1" class="anchored" data-anchor-id="classiﬁer">
+<span class="header-section-number">5.1.1</span> Classiﬁer</h3>
 <p>The next function estimates the conditional probability for class <span class="math inline">\(j\)</span> as the fraction of points in <span class="math inline">\(N_{0}\)</span> whose response values equal <span class="math inline">\(j\)</span>.</p>
 <p><span class="math display">\[
 \text{Pr}(Y = j|X = x_{0}) = \frac{1}{K}
@@ -292,7 +303,8 @@ d\left( a,b\right)   = \sqrt {\sum _{i=1}^{p}  \left( a_{i}-b_{i}\right)^2 }
 <figure class="figure"><p><img src="img/08-knn-classifier.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="regression" class="level3"><h3 class="anchored" data-anchor-id="regression">Regression</h3>
+</section><section id="regression" class="level3" data-number="5.1.2"><h3 data-number="5.1.2" class="anchored" data-anchor-id="regression">
+<span class="header-section-number">5.1.2</span> Regression</h3>
 <p>KNN regression estimates <span class="math inline">\(f(x_{0})\)</span> using the average of all the training responses in <span class="math inline">\(N_{0}\)</span>.</p>
 <p><span class="math display">\[
 \hat{f}(x_{0}) = \frac{1}{K}
@@ -310,7 +322,8 @@ d\left( a,b\right)   = \sqrt {\sum _{i=1}^{p}  \left( a_{i}-b_{i}\right)^2 }
 </li>
 </ul>
 </li>
-</ul></section><section id="pre-processing" class="level3"><h3 class="anchored" data-anchor-id="pre-processing">Pre-processing</h3>
+</ul></section><section id="pre-processing" class="level3" data-number="5.1.3"><h3 data-number="5.1.3" class="anchored" data-anchor-id="pre-processing">
+<span class="header-section-number">5.1.3</span> Pre-processing</h3>
 <p>To use this method we need to make sure that all our variables are numeric. If one our variables is a factor we need to perform a dummy transformation of that variable with the <code><a href="https://recipes.tidymodels.org/reference/step_dummy.html">recipes::step_dummy</a></code> function.</p>
 <p>On the other hand, as this model uses distances to make predicts it’s important to check that each feature of the input data is measured with <strong>the same range of values</strong> with the <code><a href="https://recipes.tidymodels.org/reference/step_range.html">recipes::step_range</a></code> function which normalize from 0 to 1 as happens with the dummy function.</p>
 <p><span class="math display">\[
@@ -320,7 +333,8 @@ x' = \frac{x - \min(x)}{\max(x) - \min(x)}
 <p><span class="math display">\[
 x' = \frac{x - \mu}{\sigma}
 \]</span></p>
-</section><section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
+</section><section id="coding-example" class="level3" data-number="5.1.4"><h3 data-number="5.1.4" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">5.1.4</span> Coding example</h3>
 <p>To perform <strong>K-Nearest Neighbors</strong> we just need to create the model specification by using <strong>kknn</strong> engine.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
@@ -459,12 +473,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./flexible-regression.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Flexible Regression Models</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./resampling-methods.html" class="pagination-link">
-        <span class="nav-page-text">Resampling methods</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

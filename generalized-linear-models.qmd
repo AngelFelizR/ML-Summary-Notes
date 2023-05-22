@@ -1,10 +1,11 @@
 ---
 format:
   html:
+    number-depth: 3
     css: summary-format.css
 ---
 
-# Generalized linear models (GLM) {.unnumbered}
+# Generalized linear models (GLM)
 
 ## Linear regresion
 
@@ -215,6 +216,7 @@ $$
 |Plot the **residuals versus predicted values** $\hat{y}_{i}$. Ideally, the residual plot will show no discernible pattern. The presence of a pattern may indicate a problem with some aspect of the linear model.|A simple approach is to use non-linear transformations of the predictors, such as $\log{X}$, $\sqrt{X}$, and $X^2$, in the regression model|
 
 ![](img/04-residuals-predicted-values.png){fig-align="center"}
+
 
 #### Correlation of error terms
 

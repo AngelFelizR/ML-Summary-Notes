@@ -1,6 +1,7 @@
 ---
 format:
   html:
+    number-depth: 3
     css: summary-format.css
 ---
 # Generative Models for Classiﬁcation {.unnumbered}
