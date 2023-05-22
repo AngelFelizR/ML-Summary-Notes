@@ -209,6 +209,49 @@ $$
 
 ### Possible problems
 
+#### The target doesn't follow a normal distribution
+
+We have two ways to detect this problem:
+
+1. Plot the target variable with a histogram
+
+![](img/46-ames-sale-price-distribution.png){fig-align="center"}
+
+2. Plotting the residual and checking the plot creates a funnel shape, demonstrating a *non-constant variance (heteroscedasticity) of error terms*.
+  
+![](img/05-non-constance-variance.png){fig-align="center"}
+  
+To solve this problem we can apply transformations to the target variable.
+
+1.  Applying a concave function such as $\log{Y}$ or $\sqrt{Y}$. If the target value has 0s we can define the argument offset as 1.
+
+```r
+ames_recipe <- 
+  recipe(Sale_Price ~ ., data = ames_train) %>%
+  step_log(all_outcomes(), offset = 0)
+```
+
+2. Applying **Box Cox transformation** is more flexible than the log transformation and will find an appropriate transformation from a family of power transforms that will **transform the variable as close as possible to a normal distribution**. Its lambda ($\lambda$) value varies from -5 to 5 and it's selected based on the traning data.
+
+$$
+y(\lambda) = 
+\begin{cases}
+\frac{Y^\lambda - 1}{\lambda}, \text{if } \lambda \neq 0 \\
+\log{(Y)}, \text{if } \lambda = 0
+\end{cases}
+$$
+
+3.  If your data consists of values $y \leq 1$ use the **Yeo-Johnson transformation**, which is very similar to the Box-Cox one.
+
+```r
+ames_recipe <- 
+  recipe(Sale_Price ~ ., data = ames_train) %>%
+  step_YeoJohnson(all_outcomes())
+```
+
+To make correct interpretations of our predictions it's important to remember that we need to **revert this transformation after getting the prediction**.
+
+
 #### Non-linearity of the response-predictor relationships
 
 |Detection method|Solutions|
@@ -223,14 +266,6 @@ $$
 |Detection method|Solutions|
 |:---------------|:--------|
 |1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern. </br> </br> 2. Check if some observation have been exposed to the same environmental factors|Good experimental design is crucial in order to mitigate these problems|
-
-#### Non-constant variance (heteroscedasticity) of error terms
-
-|Detection method|Solutions|
-|:---------------|:--------|
-|Plot the residual plot en check if you can see a funnel shape|We can transform the response using a concave function such as $\log{Y}$ or $\sqrt{Y}$|
-
-![](img/05-non-constance-variance.png){fig-align="center"}
 
 #### Outliers
 

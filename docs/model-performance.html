@@ -8,7 +8,7 @@
 
 <meta name="author" content="Angel Feliz">
 
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 2&nbsp; Understanding model performance</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 3&nbsp; Understanding model performance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./generalized-linear-models.html" rel="next">
-<link href="./modeling-process.html" rel="prev">
+<link href="./missing-values.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -128,32 +128,37 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">Generative Models for Classiﬁcation</a>
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
       </ul>
@@ -197,9 +202,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#reducible-and-irreducible-error" id="toc-reducible-and-irreducible-error" class="nav-link active" data-scroll-target="#reducible-and-irreducible-error"><span class="toc-section-number">2.1</span>  Reducible and irreducible error</a></li>
-  <li><a href="#types-of-models" id="toc-types-of-models" class="nav-link" data-scroll-target="#types-of-models"><span class="toc-section-number">2.2</span>  Types of models</a></li>
-  <li><a href="#evaluating-model-performance" id="toc-evaluating-model-performance" class="nav-link" data-scroll-target="#evaluating-model-performance"><span class="toc-section-number">2.3</span>  Evaluating model performance</a></li>
+  <li><a href="#reducible-and-irreducible-error" id="toc-reducible-and-irreducible-error" class="nav-link active" data-scroll-target="#reducible-and-irreducible-error"><span class="toc-section-number">3.1</span>  Reducible and irreducible error</a></li>
+  <li><a href="#types-of-models" id="toc-types-of-models" class="nav-link" data-scroll-target="#types-of-models"><span class="toc-section-number">3.2</span>  Types of models</a></li>
+  <li><a href="#evaluating-model-performance" id="toc-evaluating-model-performance" class="nav-link" data-scroll-target="#evaluating-model-performance"><span class="toc-section-number">3.3</span>  Evaluating model performance</a></li>
   </ul>
 </nav>
     </div>
@@ -208,7 +213,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
 </div>
 
 
@@ -222,8 +227,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="reducible-and-irreducible-error" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="reducible-and-irreducible-error"><span class="header-section-number">2.1</span> Reducible and irreducible error</h2>
+<section id="reducible-and-irreducible-error" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="reducible-and-irreducible-error"><span class="header-section-number">3.1</span> Reducible and irreducible error</h2>
 <p>The goal when we are analyzing data is to find a function that based on some Predictors and some random noise could explain the Response variable.</p>
 <p><span class="math display">\[
 Y = f(X) + \epsilon
@@ -266,8 +271,8 @@ Var(\epsilon)
 </div>
 </div>
 </section>
-<section id="types-of-models" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="types-of-models"><span class="header-section-number">2.2</span> Types of models</h2>
+<section id="types-of-models" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="types-of-models"><span class="header-section-number">3.2</span> Types of models</h2>
 <ul>
 <li><strong>Parametric methods</strong>
 <ol type="1">
@@ -289,8 +294,8 @@ Var(\epsilon)
 </figure>
 </div>
 </section>
-<section id="evaluating-model-performance" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="evaluating-model-performance"><span class="header-section-number">2.3</span> Evaluating model performance</h2>
+<section id="evaluating-model-performance" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="evaluating-model-performance"><span class="header-section-number">3.3</span> Evaluating model performance</h2>
 <p>To evaluate how good works a models we need to split the available data in two parts.</p>
 <ul>
 <li><strong>Training data</strong>: Used to fit the model.</li>
@@ -498,13 +503,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./modeling-process.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></span>
+      <a href="./missing-values.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./generalized-linear-models.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

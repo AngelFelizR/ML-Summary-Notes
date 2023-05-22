@@ -4,7 +4,7 @@ format:
     number-depth: 3
     css: summary-format.css
 ---
-# Generative Models for Classiﬁcation {.unnumbered}
+# Generative Models for Classiﬁcation
 
 These models instead of trying to predict the **posterior probability** ( $Pr(Y=k|X=x)$ ) directly, they try to estimate the distribution of the predictors $X$ separately in each of the response classes $Y$ ( $f_{k}(X) = Pr(X|Y=k)$ ). Then, they use the **Bayes' Theorem** and the **overall or prior probability** $\pi_{k}$ (probability of a randomly chosen observation comes from the $k$th class) to flip these around into estimates for $Pr(Y=k|X=x)$ by approximating the ***Bayes Classifier***, which has the lowest ***total error rate***.
 

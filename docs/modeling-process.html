@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./model-performance.html" rel="next">
+<link href="./missing-values.html" rel="next">
 <link href="./index.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
@@ -62,7 +62,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="summary-format.css">
 </head>
@@ -128,32 +127,37 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">Generative Models for Classiﬁcation</a>
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
       </ul>
@@ -374,14 +378,25 @@ ul.task-list li input[type="checkbox"] {
 <li>Split the data by using <strong>simple random sampling</strong> for regression problems and <strong>stratified sampling</strong> for classification problems or if the response variable deviates strongly from normality in a regression problem. As result be will need to define 2 sets:</li>
 </ol>
 <ul>
-<li><em>Training set</em>: To develop feature sets, train our algorithms, tune hyperparameters, compare models, and all of the other activities required to choose our <strong>final model</strong>. The proportion of data used in the set depends the amount of data that we have, if we have a lot data (<span class="math inline">\(n &gt;100K\)</span>) we can 60%, but if we don’t have much we can use 80%.</li>
-<li><em>Test set</em>: To estimate an unbiased assessment of the model’s performance, which we refer to as the generalization error.</li>
+<li><strong>Training set</strong>: To develop feature sets, train our algorithms, tune hyperparameters, compare models, and all of the other activities required to choose our <strong>final model</strong>. The proportion of data used in the set depends the amount of data that we have, if we have a lot data (<em>n &gt;100K</em>) we can 60%, but if we don’t have much we can use 80%.</li>
+<li><strong>Test set</strong>: To estimate an unbiased assessment of the model’s performance, which we refer to as the generalization error.</li>
 </ul>
 <ol start="3" type="1">
 <li>Solve <strong>class imbalance problem</strong> by apply one of the next techniques:</li>
 </ol>
 <ul>
-<li><em>down-sampling:</em> If we have a low</li>
+<li><strong>Down-sampling</strong>: If we have many observations, we can keep all samples in the rare class and randomly selecting an equal number of samples in the abundant class.</li>
+<li><strong>Up-sampling</strong>: If we don’t have many observations, we can increasing the size of rarer samples by using repetition or bootstrapping.</li>
+<li><strong>SMOTE</strong>: It’s a combination of over- and under-sampling is often successful and a common approach is known as <em>Synthetic Minority Over-Sampling Technique</em>. We can use this method with the function <a href="https://themis.tidymodels.org/reference/step_smote.html">step_smote</a> from the <a href="https://themis.tidymodels.org/index.html">themis</a> recipes extension package.</li>
+</ul>
+<ol start="4" type="1">
+<li><p>Use the training set to train the model. In most of the cases you will need to define a function <code>Y ~ X</code>, but in some cases you will need variable with the predictors and another with the response or define the in argument with character names the variables to use as predictors and the variable to use a response.</p></li>
+<li><p>Confirm the <strong>performance of the model</strong> using resampling methods like <strong>k-fold cross validation</strong> which average k test errors, providing us with an approximation of the error we might expect on unseen data.</p></li>
+<li><p>Use the estimated test error to perform <strong>hyperparameter tuning</strong> across a <em>grid search</em> like</p></li>
+</ol>
+<ul>
+<li><strong>Full cartesian grid search</strong>: He assesses every hyperparameter value manually defined.</li>
+<li><strong>Random grid searches</strong>: It explores randomly selected hyperparameter values from a range of possible values, early stopping which allows you to stop a grid search once reduction in the error stops.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -499,8 +514,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./model-performance.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./missing-values.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

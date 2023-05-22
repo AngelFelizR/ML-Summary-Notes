@@ -1,0 +1,41 @@
+---
+format:
+  html:
+    number-depth: 3
+    css: summary-format.css
+---
+
+# Dealing with missingness
+
+The category that drives missing values will determine how you handle them. For example, we may give values that are driven by informative missingness their own category (e.g., "None") as their unique value may affect predictive performance. Whereas values that are missing at random may deserve deletion or imputation.
+
+## Visualizing missing values
+
+It is important to understand the **distribution of missing values** in a data set in order to determine the best approach for preprocessing. 
+
+```r
+vis_miss(AmesHousing::ames_raw, cluster = TRUE)
+```
+
+## Imputation
+
+Imputation is the process of replacing a missing value with a substituted, “best guess” value. Imputation should be one of the first feature engineering steps you take as it will affect any downstream preprocessing
+
+### Estimated statistic
+
+An elementary approach to imputing missing values for a feature is to compute descriptive statistics such as the mean, median, or mode (for categorical) and use that value to replace `NA`s and add a column to indicate if a particular value was inputted.
+
+```r
+ames_recipe %>%
+  step_medianimpute(Gr_Liv_Area)
+```
+
+### K-nearest neighbor
+
+K-nearest neighbor (KNN) imputes values by identifying observations with missing values, then identifying other observations that are most similar based on the other available features, and using the values from these nearest neighbor observations to impute missing values. KNN imputation is best used on small to moderate sized data sets as it becomes computationally burdensome with larger data sets.
+
+```r
+ames_recipe %>%
+  step_knnimpute(all_predictors(), neighbors = 6)
+```
+

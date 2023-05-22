@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.1.251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - Generative Models for Classiﬁcation</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 5&nbsp; Generative Models for Classiﬁcation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,7 +139,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Generative Models for Classiﬁcation</h1>
+      <h1 class="quarto-secondary-nav-title">
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span>
+</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -168,37 +170,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Process</span></a>
+  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link active">Generative Models for Classiﬁcation</a>
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
       </ul>
@@ -239,26 +246,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link active" data-scroll-target="#linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</a></li>
+<li><a href="#linear-discriminant-analysis-lda" id="toc-linear-discriminant-analysis-lda" class="nav-link active" data-scroll-target="#linear-discriminant-analysis-lda"><span class="toc-section-number">5.1</span>  Linear Discriminant Analysis (LDA)</a></li>
   <li>
-<a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</a>
+<a href="#quadratic-discriminant-analysis-qda" id="toc-quadratic-discriminant-analysis-qda" class="nav-link" data-scroll-target="#quadratic-discriminant-analysis-qda"><span class="toc-section-number">5.2</span>  Quadratic Discriminant Analysis (QDA)</a>
   <ul>
-<li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
+<li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">5.2.1</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes">Naive Bayes</a>
+<a href="#naive-bayes" id="toc-naive-bayes" class="nav-link" data-scroll-target="#naive-bayes"><span class="toc-section-number">5.3</span>  Naive Bayes</a>
   <ul>
-<li><a href="#the-infrequent-problem" id="toc-the-infrequent-problem" class="nav-link" data-scroll-target="#the-infrequent-problem">The infrequent problem</a></li>
-  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing">Pre-processing</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
+<li><a href="#the-infrequent-problem" id="toc-the-infrequent-problem" class="nav-link" data-scroll-target="#the-infrequent-problem"><span class="toc-section-number">5.3.1</span>  The infrequent problem</a></li>
+  <li><a href="#pre-processing" id="toc-pre-processing" class="nav-link" data-scroll-target="#pre-processing"><span class="toc-section-number">5.3.2</span>  Pre-processing</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">5.3.3</span>  Coding example</a></li>
   </ul>
 </li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">Generative Models for Classiﬁcation</h1>
+<h1 class="title d-none d-lg-block">
+<span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span>
+</h1>
 </div>
 
 
@@ -275,7 +284,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 p_{k}(x) = Pr(Y = k | X = x) = \frac{\pi_{k} f_{k}(x)} {\sum_{l=1}^{K} \pi_{l} f_{l}(x)}
 \]</span></p>
 <p>Estimating the <em>prior probability</em> can be as easy calculate <span class="math inline">\(\hat{\pi}_{k} = n_{k}/ n\)</span> for each <span class="math inline">\(Y\)</span> class by assuming that the trainning data its representative of the population, but estimating the density function of <span class="math inline">\(X\)</span> for each class <span class="math inline">\(f_{k}\)</span> it’s more challenging, so models need to make more simplifying assumptions to estimate it.</p>
-<section id="linear-discriminant-analysis-lda" class="level2"><h2 class="anchored" data-anchor-id="linear-discriminant-analysis-lda">Linear Discriminant Analysis (LDA)</h2>
+<section id="linear-discriminant-analysis-lda" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="linear-discriminant-analysis-lda">
+<span class="header-section-number">5.1</span> Linear Discriminant Analysis (LDA)</h2>
 <p>This model assumes that:</p>
 <ul>
 <li>The density function of <span class="math inline">\(X\)</span> for each <span class="math inline">\(Y\)</span> class <span class="math inline">\(f_{k}\)</span> follows a <strong>Normal (Gaussian) distribution</strong> within each class. Even though, it is often remarkably robust to model violations like Boolean variables.</li>
@@ -370,7 +380,8 @@ Prediction Down  Up
 1 accuracy binary         0.560</code></pre>
 </div>
 </div>
-</section><section id="quadratic-discriminant-analysis-qda" class="level2"><h2 class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda">Quadratic Discriminant Analysis (QDA)</h2>
+</section><section id="quadratic-discriminant-analysis-qda" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="quadratic-discriminant-analysis-qda">
+<span class="header-section-number">5.2</span> Quadratic Discriminant Analysis (QDA)</h2>
 <p>Like LDA, the QDA classiﬁer plugs estimates for the parameters into Bayes’ theorem in order to perform prediction results and assumes that:</p>
 <ul>
 <li>The observations from each class are drawn from a Gaussian distribution</li>
@@ -395,7 +406,8 @@ a_k + \sum_{j=1}^{p}b_{kj}x_{j} +
       \sum_{j=1}^{p} \sum_{l=1}^{p} c_{kjl} x_{j}x_{l}
 \]</span></p>
 <p>Where <span class="math inline">\(a_k\)</span>, <span class="math inline">\(b_{kj}\)</span> and <span class="math inline">\(c_{kjl}\)</span> are functions of <span class="math inline">\(\pi_{k}\)</span>, <span class="math inline">\(\pi_{K}\)</span>, <span class="math inline">\(\mu_{k}\)</span>, <span class="math inline">\(\mu_{K}\)</span>, <span class="math inline">\(\Sigma_{k}\)</span> and <span class="math inline">\(\Sigma_{K}\)</span></p>
-<section id="coding-example" class="level3"><h3 class="anchored" data-anchor-id="coding-example">Coding example</h3>
+<section id="coding-example" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">5.2.1</span> Coding example</h3>
 <p>To perform <strong>QDA</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">qda_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/discrim_quad.html">discrim_quad</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
@@ -423,7 +435,8 @@ Prediction Down  Up
 1 accuracy binary         0.599</code></pre>
 </div>
 </div>
-</section></section><section id="naive-bayes" class="level2"><h2 class="anchored" data-anchor-id="naive-bayes">Naive Bayes</h2>
+</section></section><section id="naive-bayes" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="naive-bayes">
+<span class="header-section-number">5.3</span> Naive Bayes</h2>
 <p>To estimate <span class="math inline">\(f_{k}(X)\)</span> this model assumes that <em>Within the kth class, the p predictors are independent</em> (correlation = 0) and as consequence:</p>
 <p><span class="math display">\[
 f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
@@ -450,12 +463,14 @@ f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
              {\prod_{j=1}^{p} f_{Kj}(x_{j}) }
       \right)}
 \]</span></p>
-<section id="the-infrequent-problem" class="level3"><h3 class="anchored" data-anchor-id="the-infrequent-problem">The infrequent problem</h3>
+<section id="the-infrequent-problem" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="the-infrequent-problem">
+<span class="header-section-number">5.3.1</span> The infrequent problem</h3>
 <p>The method has the problem that if you don’t an example for a particular event in your training set it would estimate the probability of that event as 0.</p>
 <p><img src="img/33-naive-bayes-infrequent-problem.png" class="img-fluid"></p>
 <p>The solution to this problem involves adding a small number, usually ‘1’, to each event and outcome combination to eliminate this veto power. This is called the <strong>Laplace correction</strong> or <em>Laplace estimator</em>. After adding this correction, each Venn diagram now has at least a small bit of overlap; there is no longer any joint probability of zero.</p>
 <p><img src="img/34-naive-bayes-Laplace-correction.png" class="img-fluid"></p>
-</section><section id="pre-processing" class="level3"><h3 class="anchored" data-anchor-id="pre-processing">Pre-processing</h3>
+</section><section id="pre-processing" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="pre-processing">
+<span class="header-section-number">5.3.2</span> Pre-processing</h3>
 <p>This method works better with categories, so if your data has <em>numeric data</em> try to <strong>bin</strong> it in categories by:</p>
 <ul>
 <li>Turning an Age variable in the ‘child’ or ‘adult’ categories</li>
@@ -465,7 +480,8 @@ f_{k}(x) = f_{k1}(x_{1}) \times f_{k2}(x_{2}) \times \dots \times f_{kp}(x_{p})
 <li>Turning temperature into ‘cold’, ‘warm’ and ‘hot’</li>
 </ul>
 <p>As this method works really well when we have few examples and many predictors we can transform <strong>text documents</strong> into a <em>Document Term Matrix (DTM)</em> using a <strong>bag-of-words model</strong> with package like <code>tidytext</code> or <code>tm</code>.</p>
-</section><section id="coding-example-1" class="level3"><h3 class="anchored" data-anchor-id="coding-example-1">Coding example</h3>
+</section><section id="coding-example-1" class="level3" data-number="5.3.3"><h3 data-number="5.3.3" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">5.3.3</span> Coding example</h3>
 <p>To perform <strong>Naive Bayes</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>klaR</strong> engine. We can apply <em>Laplace correction</em> by setting <code>Laplace = 1</code> in the <code><a href="https://parsnip.tidymodels.org/reference/naive_Bayes.html">parsnip::naive_Bayes</a></code> function.</p>
 <div class="cell">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nb_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/naive_Bayes.html">naive_Bayes</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -594,12 +610,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./generalized-linear-models.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./flexible-regression.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

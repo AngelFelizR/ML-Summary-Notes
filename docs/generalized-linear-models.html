@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.1.251">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 3&nbsp; Generalized linear models (GLM)</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 4&nbsp; Generalized linear models (GLM)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -140,7 +140,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       </div> <!-- /container-fluid -->
     </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span>
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span>
 </h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
@@ -170,37 +170,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Modeling Process</span></a>
+  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">Generative Models for Classiﬁcation</a>
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
       </ul>
@@ -242,12 +247,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
 <li>
-<a href="#linear-regresion" id="toc-linear-regresion" class="nav-link active" data-scroll-target="#linear-regresion"><span class="toc-section-number">3.1</span>  Linear regresion</a>
+<a href="#linear-regresion" id="toc-linear-regresion" class="nav-link active" data-scroll-target="#linear-regresion"><span class="toc-section-number">4.1</span>  Linear regresion</a>
   <ul>
-<li><a href="#getting-the-least-squares-line-of-a-sample" id="toc-getting-the-least-squares-line-of-a-sample" class="nav-link" data-scroll-target="#getting-the-least-squares-line-of-a-sample"><span class="toc-section-number">3.1.1</span>  Getting the Least Squares Line of a sample</a></li>
-  <li><a href="#getting-confident-intervarls-of-coeffients" id="toc-getting-confident-intervarls-of-coeffients" class="nav-link" data-scroll-target="#getting-confident-intervarls-of-coeffients"><span class="toc-section-number">3.1.2</span>  Getting confident intervarls of coeffients</a></li>
+<li><a href="#getting-the-least-squares-line-of-a-sample" id="toc-getting-the-least-squares-line-of-a-sample" class="nav-link" data-scroll-target="#getting-the-least-squares-line-of-a-sample"><span class="toc-section-number">4.1.1</span>  Getting the Least Squares Line of a sample</a></li>
+  <li><a href="#getting-confident-intervarls-of-coeffients" id="toc-getting-confident-intervarls-of-coeffients" class="nav-link" data-scroll-target="#getting-confident-intervarls-of-coeffients"><span class="toc-section-number">4.1.2</span>  Getting confident intervarls of coeffients</a></li>
   <li>
-<a href="#insights-to-extract" id="toc-insights-to-extract" class="nav-link" data-scroll-target="#insights-to-extract"><span class="toc-section-number">3.1.3</span>  Insights to extract</a>
+<a href="#insights-to-extract" id="toc-insights-to-extract" class="nav-link" data-scroll-target="#insights-to-extract"><span class="toc-section-number">4.1.3</span>  Insights to extract</a>
   <ul class="collapse">
 <li><a href="#confirm-the-relationship-between-the-response-and-predictors" id="toc-confirm-the-relationship-between-the-response-and-predictors" class="nav-link" data-scroll-target="#confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</a></li>
   <li><a href="#accuracy-of-the-model-relationship-strength" id="toc-accuracy-of-the-model-relationship-strength" class="nav-link" data-scroll-target="#accuracy-of-the-model-relationship-strength">Accuracy of the model (relationship strength)</a></li>
@@ -257,74 +262,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li>
-<a href="#standard-linear-regression-model-assumptions" id="toc-standard-linear-regression-model-assumptions" class="nav-link" data-scroll-target="#standard-linear-regression-model-assumptions"><span class="toc-section-number">3.1.4</span>  Standard linear regression model assumptions</a>
+<a href="#standard-linear-regression-model-assumptions" id="toc-standard-linear-regression-model-assumptions" class="nav-link" data-scroll-target="#standard-linear-regression-model-assumptions"><span class="toc-section-number">4.1.4</span>  Standard linear regression model assumptions</a>
   <ul class="collapse">
 <li><a href="#including-an-interaction-term" id="toc-including-an-interaction-term" class="nav-link" data-scroll-target="#including-an-interaction-term">Including an interaction term</a></li>
   <li><a href="#polynomial-regression" id="toc-polynomial-regression" class="nav-link" data-scroll-target="#polynomial-regression">Polynomial regression</a></li>
   </ul>
 </li>
   <li>
-<a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems"><span class="toc-section-number">3.1.5</span>  Possible problems</a>
+<a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems"><span class="toc-section-number">4.1.5</span>  Possible problems</a>
   <ul class="collapse">
-<li><a href="#non-linearity-of-the-response-predictor-relationships" id="toc-non-linearity-of-the-response-predictor-relationships" class="nav-link" data-scroll-target="#non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</a></li>
+<li><a href="#the-target-doesnt-follow-a-normal-distribution" id="toc-the-target-doesnt-follow-a-normal-distribution" class="nav-link" data-scroll-target="#the-target-doesnt-follow-a-normal-distribution">The target doesn’t follow a normal distribution</a></li>
+  <li><a href="#non-linearity-of-the-response-predictor-relationships" id="toc-non-linearity-of-the-response-predictor-relationships" class="nav-link" data-scroll-target="#non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</a></li>
   <li><a href="#correlation-of-error-terms" id="toc-correlation-of-error-terms" class="nav-link" data-scroll-target="#correlation-of-error-terms">Correlation of error terms</a></li>
-  <li><a href="#non-constant-variance-heteroscedasticity-of-error-terms" id="toc-non-constant-variance-heteroscedasticity-of-error-terms" class="nav-link" data-scroll-target="#non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</a></li>
   <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">Outliers</a></li>
   <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points">High-leverage points</a></li>
   <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity">Collinearity</a></li>
   </ul>
 </li>
-  <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems"><span class="toc-section-number">3.1.6</span>  Avoid using for classification problems</a></li>
-  <li><a href="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting" id="toc-benefits-of-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting"><span class="toc-section-number">3.1.7</span>  Benefits of Replacing plain least squares ﬁtting</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">3.1.8</span>  Coding example</a></li>
+  <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems"><span class="toc-section-number">4.1.6</span>  Avoid using for classification problems</a></li>
+  <li><a href="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting" id="toc-benefits-of-replacing-plain-least-squares-ﬁtting" class="nav-link" data-scroll-target="#benefits-of-replacing-plain-least-squares-%EF%AC%81tting"><span class="toc-section-number">4.1.7</span>  Benefits of Replacing plain least squares ﬁtting</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">4.1.8</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection"><span class="toc-section-number">3.2</span>  Subset Selection</a>
+<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection"><span class="toc-section-number">4.2</span>  Subset Selection</a>
   <ul>
-<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection"><span class="toc-section-number">3.2.1</span>  Best Subset Selection</a></li>
-  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection"><span class="toc-section-number">3.2.2</span>  Stepwise Selection: Forward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection"><span class="toc-section-number">3.2.3</span>  Stepwise Selection: Backward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches"><span class="toc-section-number">3.2.4</span>  Stepwise Selection: Hybrid Approaches</a></li>
-  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model"><span class="toc-section-number">3.2.5</span>  Choosing the Optimal Model</a></li>
+<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection"><span class="toc-section-number">4.2.1</span>  Best Subset Selection</a></li>
+  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection"><span class="toc-section-number">4.2.2</span>  Stepwise Selection: Forward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection"><span class="toc-section-number">4.2.3</span>  Stepwise Selection: Backward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches"><span class="toc-section-number">4.2.4</span>  Stepwise Selection: Hybrid Approaches</a></li>
+  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model"><span class="toc-section-number">4.2.5</span>  Choosing the Optimal Model</a></li>
   </ul>
 </li>
   <li>
-<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage"><span class="toc-section-number">3.3</span>  Shrinkage</a>
+<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage"><span class="toc-section-number">4.3</span>  Shrinkage</a>
   <ul>
-<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="toc-section-number">3.3.1</span>  Ridge Regression</a></li>
-  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression"><span class="toc-section-number">3.3.2</span>  Lasso Regression</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">3.3.3</span>  Coding example</a></li>
+<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="toc-section-number">4.3.1</span>  Ridge Regression</a></li>
+  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression"><span class="toc-section-number">4.3.2</span>  Lasso Regression</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">4.3.3</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="toc-section-number">3.4</span>  Dimension Reduction</a>
+<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="toc-section-number">4.4</span>  Dimension Reduction</a>
   <ul>
-<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr"><span class="toc-section-number">3.4.1</span>  Principal Components Regression (PCR)</a></li>
-  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls"><span class="toc-section-number">3.4.2</span>  Partial Least Squares (PLS)</a></li>
-  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="toc-section-number">3.4.3</span>  Coding example</a></li>
+<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr"><span class="toc-section-number">4.4.1</span>  Principal Components Regression (PCR)</a></li>
+  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls"><span class="toc-section-number">4.4.2</span>  Partial Least Squares (PLS)</a></li>
+  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="toc-section-number">4.4.3</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="toc-section-number">3.5</span>  Poisson Regression</a>
+<a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="toc-section-number">4.5</span>  Poisson Regression</a>
   <ul>
-<li><a href="#coding-example-3" id="toc-coding-example-3" class="nav-link" data-scroll-target="#coding-example-3"><span class="toc-section-number">3.5.1</span>  Coding example</a></li>
+<li><a href="#coding-example-3" id="toc-coding-example-3" class="nav-link" data-scroll-target="#coding-example-3"><span class="toc-section-number">4.5.1</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">3.6</span>  Logistic Regression</a>
+<a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">4.6</span>  Logistic Regression</a>
   <ul>
-<li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients"><span class="toc-section-number">3.6.1</span>  Estimating coefficients</a></li>
-  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression"><span class="toc-section-number">3.6.2</span>  Multiple regression</a></li>
+<li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients"><span class="toc-section-number">4.6.1</span>  Estimating coefficients</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression"><span class="toc-section-number">4.6.2</span>  Multiple regression</a></li>
   <li>
-<a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model"><span class="toc-section-number">3.6.3</span>  Interpreting the model</a>
+<a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model"><span class="toc-section-number">4.6.3</span>  Interpreting the model</a>
   <ul class="collapse">
 <li><a href="#understanding-a-confounding-paradox" id="toc-understanding-a-confounding-paradox" class="nav-link" data-scroll-target="#understanding-a-confounding-paradox">Understanding a confounding paradox</a></li>
   <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
   </ul>
 </li>
-  <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios"><span class="toc-section-number">3.6.4</span>  Model limitatios</a></li>
-  <li><a href="#coding-example-4" id="toc-coding-example-4" class="nav-link" data-scroll-target="#coding-example-4"><span class="toc-section-number">3.6.5</span>  Coding example</a></li>
+  <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios"><span class="toc-section-number">4.6.4</span>  Model limitatios</a></li>
+  <li><a href="#coding-example-4" id="toc-coding-example-4" class="nav-link" data-scroll-target="#coding-example-4"><span class="toc-section-number">4.6.5</span>  Coding example</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -332,7 +337,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title d-none d-lg-block">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span>
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span>
 </h1>
 </div>
 
@@ -345,10 +350,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
-</header><section id="linear-regresion" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="linear-regresion">
-<span class="header-section-number">3.1</span> Linear regresion</h2>
-<section id="getting-the-least-squares-line-of-a-sample" class="level3" data-number="3.1.1"><h3 data-number="3.1.1" class="anchored" data-anchor-id="getting-the-least-squares-line-of-a-sample">
-<span class="header-section-number">3.1.1</span> Getting the Least Squares Line of a sample</h3>
+</header><section id="linear-regresion" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="linear-regresion">
+<span class="header-section-number">4.1</span> Linear regresion</h2>
+<section id="getting-the-least-squares-line-of-a-sample" class="level3" data-number="4.1.1"><h3 data-number="4.1.1" class="anchored" data-anchor-id="getting-the-least-squares-line-of-a-sample">
+<span class="header-section-number">4.1.1</span> Getting the Least Squares Line of a sample</h3>
 <p>As the <em>population regression line</em> is unobserved the <em>least squares line</em> of a sample is a good estimation. To get it we need to follow the next steps:</p>
 <ol type="1">
 <li>Define the function to fit.</li>
@@ -377,8 +382,8 @@ RSS = e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
 , \quad
 \hat{\beta}_{0} = \overline{y} - \hat{\beta}_{1}\overline{x}
 \]</span></p>
-</section><section id="getting-confident-intervarls-of-coeffients" class="level3" data-number="3.1.2"><h3 data-number="3.1.2" class="anchored" data-anchor-id="getting-confident-intervarls-of-coeffients">
-<span class="header-section-number">3.1.2</span> Getting confident intervarls of coeffients</h3>
+</section><section id="getting-confident-intervarls-of-coeffients" class="level3" data-number="4.1.2"><h3 data-number="4.1.2" class="anchored" data-anchor-id="getting-confident-intervarls-of-coeffients">
+<span class="header-section-number">4.1.2</span> Getting confident intervarls of coeffients</h3>
 <p>To estimate the <strong>population regression line</strong> we can calculate <strong>conﬁdence intervals</strong> for sample coefficients, to define a range where we can find the population values with a defined <strong>confidence level</strong>.</p>
 <blockquote class="blockquote">
 <p>If we want to use 95% of confidence we need to know that after taking many samples only 95% of the intervals produced with this <strong>confident level</strong> would have the true value (parameter).</p>
@@ -411,8 +416,8 @@ SE(\hat{\beta_{1}})^2 = \frac{\sigma^2}
 <p><span class="math display">\[  
 \hat{\beta_{1}} \pm 2 \cdot SE(\hat{\beta_{1}}), \quad \hat{\beta_{0}} \pm 2 \cdot SE(\hat{\beta_{0}})
 \]</span></p>
-</section><section id="insights-to-extract" class="level3" data-number="3.1.3"><h3 data-number="3.1.3" class="anchored" data-anchor-id="insights-to-extract">
-<span class="header-section-number">3.1.3</span> Insights to extract</h3>
+</section><section id="insights-to-extract" class="level3" data-number="4.1.3"><h3 data-number="4.1.3" class="anchored" data-anchor-id="insights-to-extract">
+<span class="header-section-number">4.1.3</span> Insights to extract</h3>
 <section id="confirm-the-relationship-between-the-response-and-predictors" class="level4"><h4 class="anchored" data-anchor-id="confirm-the-relationship-between-the-response-and-predictors">Confirm the relationship between the Response and Predictors</h4>
 <p>Use the regression <strong>overall P-value</strong> (based on the F-statistic) to confirm that at <strong>least one predictor</strong> is related with the Response and avoid interpretative problems associated with the number of observations (<em>n</em>) or predictors (<em>p</em>).</p>
 <p><span class="math display">\[
@@ -459,8 +464,8 @@ H_{0}: \beta_{p-q+1} = \beta_{p-q+2} = \dots = \beta_{p} = 0
 <p>To check that we need to see the <span class="math inline">\(\hat{\beta}_{j}\)</span> <em>confident intervals</em> as the real <span class="math inline">\(\beta_{j}\)</span> is in that range.</p>
 </section><section id="predicting-future-values" class="level4"><h4 class="anchored" data-anchor-id="predicting-future-values">Predicting future values</h4>
 <p>If we want to predict the average response <span class="math inline">\(f(X)\)</span> we can use the confident intervals, but if we want to predict an individual response <span class="math inline">\(Y = f(X) + \epsilon\)</span> we need to use prediction intervals as they account for the uncertainty associated with <span class="math inline">\(\epsilon\)</span>, the irreducible error.</p>
-</section></section><section id="standard-linear-regression-model-assumptions" class="level3" data-number="3.1.4"><h3 data-number="3.1.4" class="anchored" data-anchor-id="standard-linear-regression-model-assumptions">
-<span class="header-section-number">3.1.4</span> Standard linear regression model assumptions</h3>
+</section></section><section id="standard-linear-regression-model-assumptions" class="level3" data-number="4.1.4"><h3 data-number="4.1.4" class="anchored" data-anchor-id="standard-linear-regression-model-assumptions">
+<span class="header-section-number">4.1.4</span> Standard linear regression model assumptions</h3>
 <ul>
 <li><p>The <strong>additivity assumption</strong> means that the association between a predictor <span class="math inline">\(X_{j}\)</span> and the response <span class="math inline">\(Y\)</span> does not depend on the values of the other predictors, as it happens when there is a <em>interaction (synergy) effect</em></p></li>
 <li><p>The <strong>linearity assumption</strong> states that the change in the response Y associated with a one-unit change in <span class="math inline">\(X_{j}\)</span> is constant, regardless of the value of <span class="math inline">\(X_{j}\)</span>.</p></li>
@@ -504,9 +509,49 @@ Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
   &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{1}^2
 \end{split}
 \]</span></p>
-</section></section><section id="possible-problems" class="level3" data-number="3.1.5"><h3 data-number="3.1.5" class="anchored" data-anchor-id="possible-problems">
-<span class="header-section-number">3.1.5</span> Possible problems</h3>
-<section id="non-linearity-of-the-response-predictor-relationships" class="level4"><h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
+</section></section><section id="possible-problems" class="level3" data-number="4.1.5"><h3 data-number="4.1.5" class="anchored" data-anchor-id="possible-problems">
+<span class="header-section-number">4.1.5</span> Possible problems</h3>
+<section id="the-target-doesnt-follow-a-normal-distribution" class="level4"><h4 class="anchored" data-anchor-id="the-target-doesnt-follow-a-normal-distribution">The target doesn’t follow a normal distribution</h4>
+<p>We have two ways to detect this problem:</p>
+<ol type="1">
+<li>Plot the target variable with a histogram</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/46-ames-sale-price-distribution.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ol start="2" type="1">
+<li>Plotting the residual and checking the plot creates a funnel shape, demonstrating a <em>non-constant variance (heteroscedasticity) of error terms</em>.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/05-non-constance-variance.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>To solve this problem we can apply transformations to the target variable.</p>
+<ol type="1">
+<li>Applying a concave function such as <span class="math inline">\(\log{Y}\)</span> or <span class="math inline">\(\sqrt{Y}\)</span>. If the target value has 0s we can define the argument offset as 1.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ames_recipe</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Sale_Price</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">ames_train</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">step_log</span><span class="op">(</span><span class="fu">all_outcomes</span><span class="op">(</span><span class="op">)</span>, offset <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Applying <strong>Box Cox transformation</strong> is more flexible than the log transformation and will find an appropriate transformation from a family of power transforms that will <strong>transform the variable as close as possible to a normal distribution</strong>. Its lambda (<span class="math inline">\(\lambda\)</span>) value varies from -5 to 5 and it’s selected based on the traning data.</li>
+</ol>
+<p><span class="math display">\[
+y(\lambda) =
+\begin{cases}
+\frac{Y^\lambda - 1}{\lambda}, \text{if } \lambda \neq 0 \\
+\log{(Y)}, \text{if } \lambda = 0
+\end{cases}
+\]</span></p>
+<ol start="3" type="1">
+<li>If your data consists of values <span class="math inline">\(y \leq 1\)</span> use the <strong>Yeo-Johnson transformation</strong>, which is very similar to the Box-Cox one.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ames_recipe</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Sale_Price</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">ames_train</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">step_YeoJohnson</span><span class="op">(</span><span class="fu">all_outcomes</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To make correct interpretations of our predictions it’s important to remember that we need to <strong>revert this transformation after getting the prediction</strong>.</p>
+</section><section id="non-linearity-of-the-response-predictor-relationships" class="level4"><h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
@@ -539,27 +584,7 @@ Y &amp; = \beta_{0} + \beta_{1} X_{1} + \beta_{2} X_{2} \\
 <td style="text-align: left;">1. Plot the residuals from our model as a function of time or execution order. If the errors are uncorrelated, then there should be no discernible pattern.   2. Check if some observation have been exposed to the same environmental factors</td>
 <td style="text-align: left;">Good experimental design is crucial in order to mitigate these problems</td>
 </tr></tbody>
-</table></section><section id="non-constant-variance-heteroscedasticity-of-error-terms" class="level4"><h4 class="anchored" data-anchor-id="non-constant-variance-heteroscedasticity-of-error-terms">Non-constant variance (heteroscedasticity) of error terms</h4>
-<table class="table">
-<colgroup>
-<col style="width: 64%">
-<col style="width: 36%">
-</colgroup>
-<thead><tr class="header">
-<th style="text-align: left;">Detection method</th>
-<th style="text-align: left;">Solutions</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td style="text-align: left;">Plot the residual plot en check if you can see a funnel shape</td>
-<td style="text-align: left;">We can transform the response using a concave function such as <span class="math inline">\(\log{Y}\)</span> or <span class="math inline">\(\sqrt{Y}\)</span>
-</td>
-</tr></tbody>
-</table>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="img/05-non-constance-variance.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</section><section id="outliers" class="level4"><h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
+</table></section><section id="outliers" class="level4"><h4 class="anchored" data-anchor-id="outliers">Outliers</h4>
 <p>An outlier is a point for which <span class="math inline">\(y_{i}\)</span> is far from the value predicted by the model. Sometimes, they have little effect on the least squares line, but <em>over estimate the RSE</em> making bigger p-values of the model and <em>under estimate the</em> <span class="math inline">\(R^2\)</span>.</p>
 <table class="table">
 <colgroup>
@@ -628,22 +653,22 @@ h_{i} = \frac{1}{n} +
                                    {1 - R_{X_{j}|X_{-j}}^2}
 \]</span></p>
 <p>Where <span class="math inline">\(R_{X_{j}|X_{-j}}^2\)</span> is the <span class="math inline">\(R^2\)</span> from a regression of <span class="math inline">\(X_{j}\)</span> onto all of the other predictors.</p>
-</section></section><section id="avoid-using-for-classification-problems" class="level3" data-number="3.1.6"><h3 data-number="3.1.6" class="anchored" data-anchor-id="avoid-using-for-classification-problems">
-<span class="header-section-number">3.1.6</span> Avoid using for classification problems</h3>
+</section></section><section id="avoid-using-for-classification-problems" class="level3" data-number="4.1.6"><h3 data-number="4.1.6" class="anchored" data-anchor-id="avoid-using-for-classification-problems">
+<span class="header-section-number">4.1.6</span> Avoid using for classification problems</h3>
 <p>There are better model to achieve that kind of situation. For example, he linear <strong>discriminant analysis (LDA)</strong> procedure the same response of a linear regression for a binary problem. Other reasons are:</p>
 <ul>
 <li>A regression method cannot accommodate a qualitative response with more than two classes.</li>
 <li>A regression method will not provide meaningful estimates of <span class="math inline">\(Pr(Y|X)\)</span> as some of our estimates might be outside the [0, 1] interval.</li>
-</ul></section><section id="benefits-of-replacing-plain-least-squares-ﬁtting" class="level3" data-number="3.1.7"><h3 data-number="3.1.7" class="anchored" data-anchor-id="benefits-of-replacing-plain-least-squares-ﬁtting">
-<span class="header-section-number">3.1.7</span> Benefits of Replacing plain least squares ﬁtting</h3>
+</ul></section><section id="benefits-of-replacing-plain-least-squares-ﬁtting" class="level3" data-number="4.1.7"><h3 data-number="4.1.7" class="anchored" data-anchor-id="benefits-of-replacing-plain-least-squares-ﬁtting">
+<span class="header-section-number">4.1.7</span> Benefits of Replacing plain least squares ﬁtting</h3>
 <ul>
 <li><p><strong>Prediction Accuracy:</strong> If n is not much larger than p, then there can be a lot of variability in the least squares ﬁt, resulting in overﬁtting and consequently poor predictions on future observations not used in model training. And if p &gt;n, then there is no longer a unique least squares coeﬃcient estimate: the variance is inﬁnite so the method cannot be used at all. As an alternative, We could reduce the variance by increasing in bias (<em>constraining</em> and <em>shrinking</em>).</p></li>
 <li><p><strong>Model Interpretability:</strong>There are some methods that can exclude irrelevant variables from a multiple regression model (<em>feature selection</em> or <em>variable selection</em>).</p></li>
-</ul></section><section id="coding-example" class="level3" data-number="3.1.8"><h3 data-number="3.1.8" class="anchored" data-anchor-id="coding-example">
-<span class="header-section-number">3.1.8</span> Coding example</h3>
+</ul></section><section id="coding-example" class="level3" data-number="4.1.8"><h3 data-number="4.1.8" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">4.1.8</span> Coding example</h3>
 <p>To perform <strong>Linear Regression</strong> we just need to create the model specification by using <strong>lm</strong> engine.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR2</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -671,11 +696,11 @@ h_{i} = \frac{1}{n} +
 2 rsq     standard       0.671 Preprocessor1_Model1</code></pre>
 </div>
 </div>
-</section></section><section id="subset-selection" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="subset-selection">
-<span class="header-section-number">3.2</span> Subset Selection</h2>
+</section></section><section id="subset-selection" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="subset-selection">
+<span class="header-section-number">4.2</span> Subset Selection</h2>
 <p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
-<section id="best-subset-selection" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="best-subset-selection">
-<span class="header-section-number">3.2.1</span> Best Subset Selection</h3>
+<section id="best-subset-selection" class="level3" data-number="4.2.1"><h3 data-number="4.2.1" class="anchored" data-anchor-id="best-subset-selection">
+<span class="header-section-number">4.2.1</span> Best Subset Selection</h3>
 <p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
 <ul>
 <li>
@@ -695,8 +720,8 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>This method is really computational expensive as it needs to fit <span class="math inline">\(2^p\)</span> models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to <strong>overﬁtting</strong> and <strong>high variance of the coeﬃcient estimates</strong>.</p>
-</section><section id="stepwise-selection-forward-stepwise-selection" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">
-<span class="header-section-number">3.2.2</span> Stepwise Selection: Forward Stepwise Selection</h3>
+</section><section id="stepwise-selection-forward-stepwise-selection" class="level3" data-number="4.2.2"><h3 data-number="4.2.2" class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">
+<span class="header-section-number">4.2.2</span> Stepwise Selection: Forward Stepwise Selection</h3>
 <p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
 <ul>
 <li>
@@ -715,8 +740,8 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the <em>p</em> predictors, but can be used even if <span class="math inline">\(n &lt; p\)</span>.</p>
-</section><section id="stepwise-selection-backward-stepwise-selection" class="level3" data-number="3.2.3"><h3 data-number="3.2.3" class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">
-<span class="header-section-number">3.2.3</span> Stepwise Selection: Backward Stepwise Selection</h3>
+</section><section id="stepwise-selection-backward-stepwise-selection" class="level3" data-number="4.2.3"><h3 data-number="4.2.3" class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">
+<span class="header-section-number">4.2.3</span> Stepwise Selection: Backward Stepwise Selection</h3>
 <p>It begins with the full least squares model containing all <em>p</em> predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models</p>
 <ul>
 <li>
@@ -735,11 +760,11 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>This method don’t guarantee to yield the best model containing a subset of the <em>p</em> predictors and we need to cofirm that <span class="math inline">\(n \geq p\)</span>.</p>
-</section><section id="stepwise-selection-hybrid-approaches" class="level3" data-number="3.2.4"><h3 data-number="3.2.4" class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">
-<span class="header-section-number">3.2.4</span> Stepwise Selection: Hybrid Approaches</h3>
+</section><section id="stepwise-selection-hybrid-approaches" class="level3" data-number="4.2.4"><h3 data-number="4.2.4" class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">
+<span class="header-section-number">4.2.4</span> Stepwise Selection: Hybrid Approaches</h3>
 <p>In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic <em>Best Subset Selection</em> while retaining the computational advantages of <em>forward</em> and <em>backward stepwise selection</em>.</p>
-</section><section id="choosing-the-optimal-model" class="level3" data-number="3.2.5"><h3 data-number="3.2.5" class="anchored" data-anchor-id="choosing-the-optimal-model">
-<span class="header-section-number">3.2.5</span> Choosing the Optimal Model</h3>
+</section><section id="choosing-the-optimal-model" class="level3" data-number="4.2.5"><h3 data-number="4.2.5" class="anchored" data-anchor-id="choosing-the-optimal-model">
+<span class="header-section-number">4.2.5</span> Choosing the Optimal Model</h3>
 <p>As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:</p>
 <ul>
 <li>Making an adjustment to the training error to account for the bias due to overﬁtting.</li>
@@ -796,11 +821,11 @@ h_{i} = \frac{1}{n} +
 <figure class="figure"><p><img src="img/25-cp-bic-adj-r2-example.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section></section><section id="shrinkage" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="shrinkage">
-<span class="header-section-number">3.3</span> Shrinkage</h2>
+</section></section><section id="shrinkage" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="shrinkage">
+<span class="header-section-number">4.3</span> Shrinkage</h2>
 <p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
-<section id="ridge-regression" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="ridge-regression">
-<span class="header-section-number">3.3.1</span> Ridge Regression</h3>
+<section id="ridge-regression" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="ridge-regression">
+<span class="header-section-number">4.3.1</span> Ridge Regression</h3>
 <p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is close to 0:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p \beta_j^2
@@ -828,8 +853,8 @@ RSS + \lambda \sum_{j=1}^p \beta_j^2
 <figure class="figure"><p><img src="img/27-ridge-regression-bias-variance-trade-off.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="lasso-regression" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="lasso-regression">
-<span class="header-section-number">3.3.2</span> Lasso Regression</h3>
+</section><section id="lasso-regression" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="lasso-regression">
+<span class="header-section-number">4.3.2</span> Lasso Regression</h3>
 <p><em>Ridge Regression</em> don’t set the coefficient exactly to zero (unless <span class="math inline">\(\lambda = \infty\)</span>). That doesn’t affect the model accuracy but doesn’t provide any help when we have to interpret a model with many predicts. To over come that problem, the <em>Lasso Regression</em> performs <strong><em>variable selection</em></strong> based on minimization of the next function:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p |\beta_j|
@@ -846,8 +871,8 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <figure class="figure"><p><img src="img/28-lasso-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="coding-example-1" class="level3" data-number="3.3.3"><h3 data-number="3.3.3" class="anchored" data-anchor-id="coding-example-1">
-<span class="header-section-number">3.3.3</span> Coding example</h3>
+</section><section id="coding-example-1" class="level3" data-number="4.3.3"><h3 data-number="4.3.3" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">4.3.3</span> Coding example</h3>
 <p>To perform a <strong>Ridge</strong> or <strong>Lasso</strong> regression we need to use the function <code>linear_reg</code> and define the <code>mixture</code> argument depending on the regression we want to perform.</p>
 <table class="table">
 <thead><tr class="header">
@@ -872,7 +897,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Fit a model and explore different penalties using <code>tidy</code>, <code>augment</code>, <code>predict</code> or <code>autoplot</code> functions.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Hitters</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Hitters</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">as_tibble</span><span class="op">(</span><span class="va">Hitters</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Salary</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -908,7 +933,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 19 Errors       -0.0206    11498
 20 NewLeagueN    0.303     11498</code></pre>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ridge_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters</span>, penalty <span class="op">=</span> <span class="fl">11498</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ridge_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters</span>, penalty <span class="op">=</span> <span class="fl">11498</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 263 × 1
    .pred
@@ -925,7 +950,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 10  615.
 # ℹ 253 more rows</code></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ridge_fit</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">ridge_fit</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -937,7 +962,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Splitting the data in testing and training data.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">18</span><span class="op">)</span></span>
 <span><span class="va">Hitters_split</span> <span class="op">&lt;-</span> <span class="fu">initial_split</span><span class="op">(</span><span class="va">Hitters</span>, strata <span class="op">=</span> <span class="st">"Salary"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">Hitters_train</span> <span class="op">&lt;-</span> <span class="fu">training</span><span class="op">(</span><span class="va">Hitters_split</span><span class="op">)</span></span>
@@ -947,7 +972,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Define the workflow to use.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_recipe</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">Salary</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_novel</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -968,20 +993,20 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Use cross-validation to estimate the testing error and tune the penalty.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">40</span><span class="op">)</span></span>
 <span><span class="va">Hitters_fold</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">Hitters_train</span>, v <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="4" type="1">
 <li>Define the penalties to check. Where the range indicates the limit of <span class="math inline">\(x\)</span> in the function <span class="math inline">\(10^x\)</span> and the level the number of step to complete the range.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penalty_grid</span> <span class="op">&lt;-</span> <span class="fu">grid_regular</span><span class="op">(</span><span class="fu">penalty</span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">penalty_grid</span> <span class="op">&lt;-</span> <span class="fu">grid_regular</span><span class="op">(</span><span class="fu">penalty</span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>, levels <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="5" type="1">
 <li>Let’s fit our models.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tune_res</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">tune_res</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">tune_grid</span><span class="op">(</span><span class="va">ridge_workflow</span>,</span>
 <span>            resamples <span class="op">=</span> <span class="va">Hitters_fold</span>, </span>
 <span>            grid <span class="op">=</span> <span class="va">penalty_grid</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -990,13 +1015,13 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Check the test error change in a plot or just export a table.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">collect_metrics</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">collect_metrics</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"rsq"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">arrange</span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1020,7 +1045,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <li>Select the best model configuration and update the workflow to use that parameter.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_penalty</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">tune_res</span>, metric <span class="op">=</span> <span class="st">"rsq"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_penalty</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">tune_res</span>, metric <span class="op">=</span> <span class="st">"rsq"</span><span class="op">)</span></span>
 <span><span class="va">best_penalty</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
@@ -1028,7 +1053,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
     &lt;dbl&gt; &lt;chr&gt;                
 1    910. Preprocessor1_Model40</code></pre>
 </div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final</span> <span class="op">&lt;-</span> <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">ridge_workflow</span>, <span class="va">best_penalty</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final</span> <span class="op">&lt;-</span> <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">ridge_workflow</span>, <span class="va">best_penalty</span><span class="op">)</span></span>
 <span><span class="va">ridge_final</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>══ Workflow ════════════════════════════════════════════════════════════════════
@@ -1057,7 +1082,7 @@ Computational engine: glmnet </code></pre>
 <li>Fit the final model and validate the performance.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final_fit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">ridge_final</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ridge_final_fit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">ridge_final</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">augment</span><span class="op">(</span><span class="va">ridge_final_fit</span>, new_data <span class="op">=</span> <span class="va">Hitters_test</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">rsq</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Salary</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1070,7 +1095,7 @@ Computational engine: glmnet </code></pre>
 </div>
 <p>To perform a Lasso regression we don’t need to repeat all the code.</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lasso_spec</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lasso_spec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span>penalty <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span>, mixture <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glmnet"</span><span class="op">)</span></span>
@@ -1094,8 +1119,8 @@ Computational engine: glmnet </code></pre>
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="dimension-reduction" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="dimension-reduction">
-<span class="header-section-number">3.4</span> Dimension Reduction</h2>
+</section></section><section id="dimension-reduction" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="dimension-reduction">
+<span class="header-section-number">4.4</span> Dimension Reduction</h2>
 <p>This method projects the <span class="math inline">\(p\)</span> predictors into an <span class="math inline">\(M\)</span>-dimensional subspace. If <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of <strong>ALL our original predictors</strong> based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span>, then we can use the new variables to fit a linear regression model by least squares.</p>
 <p><span class="math display">\[
 y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
@@ -1103,8 +1128,8 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 \]</span></p>
 <p>This is not a feature selection method as each of the <em>M</em> principal components used in the regression is a linear combination of all <em>p</em> of the original features.In this sense, PCR is more closely related to <em>ridge regression</em> than to the <em>lasso</em>.</p>
 <p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different ways:</p>
-<section id="principal-components-regression-pcr" class="level3" data-number="3.4.1"><h3 data-number="3.4.1" class="anchored" data-anchor-id="principal-components-regression-pcr">
-<span class="header-section-number">3.4.1</span> Principal Components Regression (PCR)</h3>
+<section id="principal-components-regression-pcr" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="principal-components-regression-pcr">
+<span class="header-section-number">4.4.1</span> Principal Components Regression (PCR)</h3>
 <p>The PCR assumes that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_M\)</span> <em>show the most variation are the directions that are associated with</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_m\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
 <p>To perform a <em>principal components analysis</em> (PCA):</p>
 <ol type="1">
@@ -1143,8 +1168,8 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 </figure>
 </div>
 <p>The <strong>number of principal components</strong>, M, is typically chosen by <strong>cross-validation</strong>.</p>
-</section><section id="partial-least-squares-pls" class="level3" data-number="3.4.2"><h3 data-number="3.4.2" class="anchored" data-anchor-id="partial-least-squares-pls">
-<span class="header-section-number">3.4.2</span> Partial Least Squares (PLS)</h3>
+</section><section id="partial-least-squares-pls" class="level3" data-number="4.4.2"><h3 data-number="4.4.2" class="anchored" data-anchor-id="partial-least-squares-pls">
+<span class="header-section-number">4.4.2</span> Partial Least Squares (PLS)</h3>
 <p>The PLS approach attempts to ﬁnd directions that help explain both the response and the predictors by placing the <strong>highest weight</strong> on the variables that are most <strong>strongly related to the response</strong>.</p>
 <ol type="1">
 <li>Standardize the predictors and <strong>response</strong>.</li>
@@ -1174,18 +1199,18 @@ Performance Note
 <p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
 </div>
 </div>
-</section><section id="coding-example-2" class="level3" data-number="3.4.3"><h3 data-number="3.4.3" class="anchored" data-anchor-id="coding-example-2">
-<span class="header-section-number">3.4.3</span> Coding example</h3>
+</section><section id="coding-example-2" class="level3" data-number="4.4.3"><h3 data-number="4.4.3" class="anchored" data-anchor-id="coding-example-2">
+<span class="header-section-number">4.4.3</span> Coding example</h3>
 <p>To run a <strong>PCR</strong> or a <strong>PLS</strong> we just need to set a lineal model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">linear_reg</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"lm"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And tune our recipe to determinate the <code>threshold</code> and the number of components to use <code>num_comp</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_recipe</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_recipe</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span>formula <span class="op">=</span> <span class="va">Salary</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_novel</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">step_dummy</span><span class="op">(</span><span class="fu">all_nominal_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
@@ -1212,13 +1237,13 @@ Performance Note
 </div>
 <p>As we can see below the number of component don’t have any effect over the test error.</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">pca_tune_res</span><span class="op">)</span><span class="op">+</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">autoplot</span><span class="op">(</span><span class="va">pca_tune_res</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_threshold</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">pca_tune_res</span>, metric <span class="op">=</span> <span class="st">"rmse"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_threshold</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">pca_tune_res</span>, metric <span class="op">=</span> <span class="st">"rmse"</span><span class="op">)</span></span>
 <span><span class="va">best_threshold</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
@@ -1226,7 +1251,7 @@ Performance Note
      &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;                
 1        1      0.75 Preprocessor04_Model1</code></pre>
 </div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">augment</span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Hitters_test</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">rmse</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Salary</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1237,8 +1262,8 @@ Performance Note
 1 rmse    standard        402.</code></pre>
 </div>
 </div>
-</section></section><section id="poisson-regression" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="poisson-regression">
-<span class="header-section-number">3.5</span> Poisson Regression</h2>
+</section></section><section id="poisson-regression" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="poisson-regression">
+<span class="header-section-number">4.5</span> Poisson Regression</h2>
 <p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
 <p><span class="math display">\[
 Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
@@ -1250,11 +1275,11 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 \log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 \]</span></p>
 <p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
-<section id="coding-example-3" class="level3" data-number="3.5.1"><h3 data-number="3.5.1" class="anchored" data-anchor-id="coding-example-3">
-<span class="header-section-number">3.5.1</span> Coding example</h3>
+<section id="coding-example-3" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="coding-example-3">
+<span class="header-section-number">4.5.1</span> Coding example</h3>
 <p>To perform <strong>Poisson Regression</strong> we just need to create the model specification by loading the <strong>poissonreg</strong> package and using <strong>glm</strong> engine.</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pois_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/poisson_reg.html">poisson_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -1275,8 +1300,8 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 2 rsq     standard       0.725 Preprocessor1_Model1</code></pre>
 </div>
 </div>
-</section></section><section id="logistic-regression" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="logistic-regression">
-<span class="header-section-number">3.6</span> Logistic Regression</h2>
+</section></section><section id="logistic-regression" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="logistic-regression">
+<span class="header-section-number">4.6</span> Logistic Regression</h2>
 <p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
@@ -1287,21 +1312,21 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
 </figure>
 </div>
 <p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
-<section id="estimating-coefficients" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="estimating-coefficients">
-<span class="header-section-number">3.6.1</span> Estimating coefficients</h3>
+<section id="estimating-coefficients" class="level3" data-number="4.6.1"><h3 data-number="4.6.1" class="anchored" data-anchor-id="estimating-coefficients">
+<span class="header-section-number">4.6.1</span> Estimating coefficients</h3>
 <p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
 <p><span class="math display">\[
 \ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
 \]</span></p>
-</section><section id="multiple-regression" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="multiple-regression">
-<span class="header-section-number">3.6.2</span> Multiple regression</h3>
+</section><section id="multiple-regression" class="level3" data-number="4.6.2"><h3 data-number="4.6.2" class="anchored" data-anchor-id="multiple-regression">
+<span class="header-section-number">4.6.2</span> Multiple regression</h3>
 <p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
             {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 \]</span></p>
-</section><section id="interpreting-the-model" class="level3" data-number="3.6.3"><h3 data-number="3.6.3" class="anchored" data-anchor-id="interpreting-the-model">
-<span class="header-section-number">3.6.3</span> Interpreting the model</h3>
+</section><section id="interpreting-the-model" class="level3" data-number="4.6.3"><h3 data-number="4.6.3" class="anchored" data-anchor-id="interpreting-the-model">
+<span class="header-section-number">4.6.3</span> Interpreting the model</h3>
 <p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
 <p><span class="math display">\[
 \underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
@@ -1356,18 +1381,18 @@ Pr(Y = K|X= x) = \frac{1}
 \log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
 \]</span></p>
 <p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
-</section></section><section id="model-limitatios" class="level3" data-number="3.6.4"><h3 data-number="3.6.4" class="anchored" data-anchor-id="model-limitatios">
-<span class="header-section-number">3.6.4</span> Model limitatios</h3>
+</section></section><section id="model-limitatios" class="level3" data-number="4.6.4"><h3 data-number="4.6.4" class="anchored" data-anchor-id="model-limitatios">
+<span class="header-section-number">4.6.4</span> Model limitatios</h3>
 <p>There are models that could make better classifications when:</p>
 <ul>
 <li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
 <li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
 <li>When the decision boundary is not lineal.</li>
-</ul></section><section id="coding-example-4" class="level3" data-number="3.6.5"><h3 data-number="3.6.5" class="anchored" data-anchor-id="coding-example-4">
-<span class="header-section-number">3.6.5</span> Coding example</h3>
+</ul></section><section id="coding-example-4" class="level3" data-number="4.6.5"><h3 data-number="4.6.5" class="anchored" data-anchor-id="coding-example-4">
+<span class="header-section-number">4.6.5</span> Coding example</h3>
 <p>To perform <strong>Logistic Regression</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">!=</span> <span class="fl">2005</span><span class="op">)</span></span>
 <span></span>
@@ -1392,7 +1417,7 @@ Prediction Down  Up
       Down   35  35
       Up     76 106</code></pre>
 </div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate
@@ -1501,12 +1526,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./model-performance.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./generative-classification-models.html" class="pagination-link">
-        <span class="nav-page-text">Generative Models for Classiﬁcation</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
