@@ -21,6 +21,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -62,6 +125,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="summary-format.css">
 </head>
@@ -371,8 +435,8 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <ul>
 <li>Remove unnecessary variables</li>
-<li>Re-coding variable names and values</li>
 <li>Handle missing values</li>
+<li>Re-coding variable names and values</li>
 </ul>
 <ol start="2" type="1">
 <li>Split the data by using <strong>simple random sampling</strong> for regression problems and <strong>stratified sampling</strong> for classification problems or if the response variable deviates strongly from normality in a regression problem. As result be will need to define 2 sets:</li>
@@ -390,12 +454,38 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>SMOTE</strong>: It’s a combination of over- and under-sampling is often successful and a common approach is known as <em>Synthetic Minority Over-Sampling Technique</em>. We can use this method with the function <a href="https://themis.tidymodels.org/reference/step_smote.html">step_smote</a> from the <a href="https://themis.tidymodels.org/index.html">themis</a> recipes extension package.</li>
 </ul>
 <ol start="4" type="1">
-<li><p>Use the training set to train the model. In most of the cases you will need to define a function <code>Y ~ X</code>, but in some cases you will need variable with the predictors and another with the response or define the in argument with character names the variables to use as predictors and the variable to use a response.</p></li>
-<li><p>Confirm the <strong>performance of the model</strong> using resampling methods like <strong>k-fold cross validation</strong> which average k test errors, providing us with an approximation of the error we might expect on unseen data.</p></li>
+<li>Even though that <em>Lasso</em> and <em>tree-based</em> methods are resistant to <strong>non-informative predictors</strong> it better to remove them as with more features often becomes <strong>harder to interpret</strong> and is <strong>costly to compute</strong>. Based on the context we have 2 kind of variables to remove:</li>
+</ol>
+<ul>
+<li><strong>Zero variance variables</strong>: The feature only contains a single unique value, provides no useful information to a model.</li>
+<li><strong>Near-zero variance variables</strong>: The fraction of unique values over the sample size is low (say <span class="math inline">\(\leq 10\)</span>%) and the ratio of the frequency of the most prevalent value to the frequency of the second most prevalent value is large (say <span class="math inline">\(\geq 20\)</span>%)</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ames_train <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_nzv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Solve the problems related to <strong>numeric features</strong> based on the model as they can affect GLMs, regularized regression, KNN, support vector machines and neural networks.</li>
+</ol>
+<ul>
+<li><strong>Skewed</strong>: It can affect GLMs and regularized models. The recomended way it’s to use Box-Cox for positive or <code>step_YeoJohnson</code> if the variable has negative numbers.<br>
+</li>
+<li><strong>Wide range in magnitudes</strong>: What are the largest and smallest values across all features and do they span several orders of magnitude?. It is often a good idea to standardize the features. Standardizing features includes centering and scaling so that numeric variables have zero mean and unit variance, which provides a common comparable unit of measure across all the variables.</li>
+<li><strong>High dimensional problem</strong>: Use <code>step_pca</code>to reduce the dimension of our features with principal components analysis (Chapter 17) and retain the number of components required to explain, say, 95% of the variance and use these components as features in downstream modeling.</li>
+</ul>
+<ol start="6" type="1">
+<li>Transform <strong>categorical features</strong> as most models require that the predictors take numeric form. In this context, we can find:</li>
+</ol>
+<ul>
+<li><strong>Models don’t manage categories</strong>: The most common is referred to as <strong>dummy encoding</strong>, where we transpose our categorical variables so that each level of the feature is represented as a boolean value and them removing the first level column. We can appply this transformation using <code>step_dummy</code>.</li>
+<li><strong>Levels with very few observations</strong>: To solve this we can collapse, or “lumping” these into a lesser number of categories by using the <code>step_other</code> and defining a <code>threshold</code> value to implement. Another alternative could be using a likelihood or effect encoding with the <code>embed::step_lencode_glm</code> function or the <strong>target encoding</strong> process which consists in replacing a categorical value with the mean (regression) or proportion (classification) of the target variable.</li>
+<li><strong>Transform factors</strong>: If you have some ordered categorical features you can transform them using <code>step_ordinalscore()</code> or <code>step_integer</code>.</li>
+</ul>
+<ol start="7" type="1">
+<li><p>Use the training set to <strong>train the model</strong>. In most of the cases you will need to define a function <code>Y ~ X</code>, but in some cases you will need variable with the predictors and another with the response or define the in argument with character names the variables to use as predictors and the variable to use a response.</p></li>
+<li><p>Confirm the <strong>performance of the model</strong> using resampling methods like <strong>k-fold cross validation</strong> which average k test errors, providing us with an approximation of the error we might expect on unseen data. Making sure to don’t fall into the <strong>data leakage</strong> by performing the <em>feature engineering part in isolation</em> of each resampling iteration.</p></li>
 <li><p>Use the estimated test error to perform <strong>hyperparameter tuning</strong> across a <em>grid search</em> like</p></li>
 </ol>
 <ul>
-<li><strong>Full cartesian grid search</strong>: He assesses every hyperparameter value manually defined.</li>
+<li><strong>Full Cartesian grid search</strong>: He assesses every hyperparameter value manually defined.</li>
 <li><strong>Random grid searches</strong>: It explores randomly selected hyperparameter values from a range of possible values, early stopping which allows you to stop a grid search once reduction in the error stops.</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">

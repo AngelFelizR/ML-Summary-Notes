@@ -39,3 +39,12 @@ ames_recipe %>%
   step_knnimpute(all_predictors(), neighbors = 6)
 ```
 
+### K-nearest neighbor
+
+Similar to KNN imputation, observations with missing values are identified and the feature containing the missing value is treated as the target and predicted using bagged decision trees.
+
+```r
+ames_recipe %>%
+  step_bagimpute(all_predictors())
+```
+

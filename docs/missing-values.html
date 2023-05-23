@@ -125,6 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="summary-format.css">
 </head>
@@ -269,6 +270,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#estimated-statistic" id="toc-estimated-statistic" class="nav-link" data-scroll-target="#estimated-statistic"><span class="toc-section-number">2.2.1</span>  Estimated statistic</a></li>
   <li><a href="#k-nearest-neighbor" id="toc-k-nearest-neighbor" class="nav-link" data-scroll-target="#k-nearest-neighbor"><span class="toc-section-number">2.2.2</span>  K-nearest neighbor</a></li>
+  <li><a href="#k-nearest-neighbor-1" id="toc-k-nearest-neighbor-1" class="nav-link" data-scroll-target="#k-nearest-neighbor-1"><span class="toc-section-number">2.2.3</span>  K-nearest neighbor</a></li>
+  </ul></li>
+  <li><a href="#strategy-to-implement-machine-learning-solutions" id="toc-strategy-to-implement-machine-learning-solutions" class="nav-link" data-scroll-target="#strategy-to-implement-machine-learning-solutions"><span class="toc-section-number">3</span>  Strategy to implement machine learning solutions</a>
+  <ul>
+  <li><a href="#business-science-problem-framework-bspf" id="toc-business-science-problem-framework-bspf" class="nav-link" data-scroll-target="#business-science-problem-framework-bspf"><span class="toc-section-number">3.1</span>  Business Science Problem Framework (BSPF)</a>
+  <ul class="collapse">
+  <li><a href="#view-business-as-a-machine" id="toc-view-business-as-a-machine" class="nav-link" data-scroll-target="#view-business-as-a-machine"><span class="toc-section-number">3.1.1</span>  View Business as a Machine</a>
+  <ul class="collapse">
+  <li><a href="#isolate-business-unit" id="toc-isolate-business-unit" class="nav-link" data-scroll-target="#isolate-business-unit">Isolate business unit</a></li>
+  <li><a href="#define-objetives" id="toc-define-objetives" class="nav-link" data-scroll-target="#define-objetives">Define objetives</a></li>
+  <li><a href="#define-machine-in-terms-of-people-and-processes" id="toc-define-machine-in-terms-of-people-and-processes" class="nav-link" data-scroll-target="#define-machine-in-terms-of-people-and-processes">Define machine in terms of people and processes</a></li>
+  <li><a href="#collect-outcomes-in-terms-of-feedback" id="toc-collect-outcomes-in-terms-of-feedback" class="nav-link" data-scroll-target="#collect-outcomes-in-terms-of-feedback">Collect outcomes in terms of feedback</a></li>
+  <li><a href="#feedback-identiﬁes-problems" id="toc-feedback-identiﬁes-problems" class="nav-link" data-scroll-target="#feedback-identiﬁes-problems">Feedback identiﬁes problems</a></li>
+  </ul></li>
+  <li><a href="#understand-the-drivers" id="toc-understand-the-drivers" class="nav-link" data-scroll-target="#understand-the-drivers"><span class="toc-section-number">3.1.2</span>  Understand the Drivers</a>
+  <ul class="collapse">
+  <li><a href="#investigate-if-objectives-are-being-met" id="toc-investigate-if-objectives-are-being-met" class="nav-link" data-scroll-target="#investigate-if-objectives-are-being-met">Investigate if objectives are being met</a></li>
+  <li><a href="#synthesize-outcomes" id="toc-synthesize-outcomes" class="nav-link" data-scroll-target="#synthesize-outcomes">Synthesize outcomes</a></li>
+  <li><a href="#hypothesize-drivers" id="toc-hypothesize-drivers" class="nav-link" data-scroll-target="#hypothesize-drivers">Hypothesize drivers</a></li>
+  </ul></li>
+  <li><a href="#measure-the-drivers" id="toc-measure-the-drivers" class="nav-link" data-scroll-target="#measure-the-drivers"><span class="toc-section-number">3.1.3</span>  Measure the Drivers</a>
+  <ul class="collapse">
+  <li><a href="#collect-data" id="toc-collect-data" class="nav-link" data-scroll-target="#collect-data">Collect data</a></li>
+  <li><a href="#develop-kpis" id="toc-develop-kpis" class="nav-link" data-scroll-target="#develop-kpis">Develop KPIs</a></li>
+  </ul></li>
+  <li><a href="#uncover-problems-opportunities" id="toc-uncover-problems-opportunities" class="nav-link" data-scroll-target="#uncover-problems-opportunities"><span class="toc-section-number">3.1.4</span>  Uncover Problems &amp; Opportunities</a>
+  <ul class="collapse">
+  <li><a href="#evaluate-performance-vs-kpis" id="toc-evaluate-performance-vs-kpis" class="nav-link" data-scroll-target="#evaluate-performance-vs-kpis">Evaluate performance vs KPIs</a></li>
+  <li><a href="#highlight-potential-problem-areas" id="toc-highlight-potential-problem-areas" class="nav-link" data-scroll-target="#highlight-potential-problem-areas">Highlight potential problem areas</a></li>
+  <li><a href="#review-process-and-consider-what-could-be-missed-or-needed-to-answer-questions" id="toc-review-process-and-consider-what-could-be-missed-or-needed-to-answer-questions" class="nav-link" data-scroll-target="#review-process-and-consider-what-could-be-missed-or-needed-to-answer-questions">Review process and consider what could be missed or needed to answer questions</a></li>
+  </ul></li>
+  <li><a href="#encode-algorithms" id="toc-encode-algorithms" class="nav-link" data-scroll-target="#encode-algorithms"><span class="toc-section-number">3.1.5</span>  Encode Algorithms</a>
+  <ul class="collapse">
+  <li><a href="#develop-algorithms-to-predict-and-explain-problem" id="toc-develop-algorithms-to-predict-and-explain-problem" class="nav-link" data-scroll-target="#develop-algorithms-to-predict-and-explain-problem">Develop algorithms to predict and explain problem</a></li>
+  <li><a href="#tie-ﬁnancial-value-of-individual-decisions-to-optimize-for-proﬁt" id="toc-tie-ﬁnancial-value-of-individual-decisions-to-optimize-for-proﬁt" class="nav-link" data-scroll-target="#tie-ﬁnancial-value-of-individual-decisions-to-optimize-for-proﬁt">Tie ﬁnancial value of individual decisions to optimize for proﬁt</a></li>
+  <li><a href="#use-recommendation-algorithms-to-improve-decisions" id="toc-use-recommendation-algorithms-to-improve-decisions" class="nav-link" data-scroll-target="#use-recommendation-algorithms-to-improve-decisions">Use recommendation algorithms to improve decisions</a></li>
+  </ul></li>
+  <li><a href="#measure-results" id="toc-measure-results" class="nav-link" data-scroll-target="#measure-results"><span class="toc-section-number">3.1.6</span>  Measure Results</a>
+  <ul class="collapse">
+  <li><a href="#capture-outcomes-after-decision-making-system-is-implemented" id="toc-capture-outcomes-after-decision-making-system-is-implemented" class="nav-link" data-scroll-target="#capture-outcomes-after-decision-making-system-is-implemented">Capture outcomes after decision making system is implemented</a></li>
+  <li><a href="#synthesize-results-in-terms-of-good-and-bad-outcomes-identifying-what-was-done-and-what-happened" id="toc-synthesize-results-in-terms-of-good-and-bad-outcomes-identifying-what-was-done-and-what-happened" class="nav-link" data-scroll-target="#synthesize-results-in-terms-of-good-and-bad-outcomes-identifying-what-was-done-and-what-happened">Synthesize results in terms of good and bad outcomes identifying what was done and what happened</a></li>
+  <li><a href="#visualize-outcomes-over-time-to-determine-progress" id="toc-visualize-outcomes-over-time-to-determine-progress" class="nav-link" data-scroll-target="#visualize-outcomes-over-time-to-determine-progress">Visualize outcomes over time to determine progress</a></li>
+  </ul></li>
+  <li><a href="#report-financial-impact" id="toc-report-financial-impact" class="nav-link" data-scroll-target="#report-financial-impact"><span class="toc-section-number">3.1.7</span>  Report Financial Impact</a>
+  <ul class="collapse">
+  <li><a href="#measure-actual-results" id="toc-measure-actual-results" class="nav-link" data-scroll-target="#measure-actual-results">Measure actual results</a></li>
+  <li><a href="#tie-to-ﬁnancial-beneﬁts" id="toc-tie-to-ﬁnancial-beneﬁts" class="nav-link" data-scroll-target="#tie-to-ﬁnancial-beneﬁts">Tie to ﬁnancial beneﬁts</a></li>
+  <li><a href="#report-ﬁnancial-beneﬁt-of-algorithms-to-key-stakeholders" id="toc-report-ﬁnancial-beneﬁt-of-algorithms-to-key-stakeholders" class="nav-link" data-scroll-target="#report-ﬁnancial-beneﬁt-of-algorithms-to-key-stakeholders">Report ﬁnancial beneﬁt of algorithms to key stakeholders</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#modeling-process" id="toc-modeling-process" class="nav-link" data-scroll-target="#modeling-process"><span class="toc-section-number">3.2</span>  Modeling Process</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -312,8 +364,178 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>K-nearest neighbor (KNN) imputes values by identifying observations with missing values, then identifying other observations that are most similar based on the other available features, and using the values from these nearest neighbor observations to impute missing values. KNN imputation is best used on small to moderate sized data sets as it becomes computationally burdensome with larger data sets.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ames_recipe <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_knnimpute</span>(<span class="fu">all_predictors</span>(), <span class="at">neighbors =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="k-nearest-neighbor-1" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="k-nearest-neighbor-1"><span class="header-section-number">2.2.3</span> K-nearest neighbor</h3>
+<p>Similar to KNN imputation, observations with missing values are identified and the feature containing the missing value is treated as the target and predicted using bagged decision trees.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ames_recipe <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_bagimpute</span>(<span class="fu">all_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
+<section id="strategy-to-implement-machine-learning-solutions" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Strategy to implement machine learning solutions</h1>
+<p>In this chapter we will describe the strategy to use in order to use machine learning to increase the <strong>Return On Investment (ROI)</strong> for any company. Starting for understanding the problem until implementing the solution that solves the problem.</p>
+<p>As this process is really complex we will use the <strong>Business Science Problem Framework (BSPF)</strong> as our main reference but we also complement it with more resources.</p>
+<section id="business-science-problem-framework-bspf" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="business-science-problem-framework-bspf"><span class="header-section-number">3.1</span> Business Science Problem Framework (BSPF)</h2>
+<section id="view-business-as-a-machine" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="view-business-as-a-machine"><span class="header-section-number">3.1.1</span> View Business as a Machine</h3>
+<p>In this part we need to make sure that we are selecting a repetitive and measurable problem or improvement opportunity.</p>
+<section id="isolate-business-unit" class="level4">
+<h4 class="anchored" data-anchor-id="isolate-business-unit">Isolate business unit</h4>
+</section>
+<section id="define-objetives" class="level4">
+<h4 class="anchored" data-anchor-id="define-objetives">Define objetives</h4>
+</section>
+<section id="define-machine-in-terms-of-people-and-processes" class="level4">
+<h4 class="anchored" data-anchor-id="define-machine-in-terms-of-people-and-processes">Define machine in terms of people and processes</h4>
+</section>
+<section id="collect-outcomes-in-terms-of-feedback" class="level4">
+<h4 class="anchored" data-anchor-id="collect-outcomes-in-terms-of-feedback">Collect outcomes in terms of feedback</h4>
+</section>
+<section id="feedback-identiﬁes-problems" class="level4">
+<h4 class="anchored" data-anchor-id="feedback-identiﬁes-problems">Feedback identiﬁes problems</h4>
+</section>
+</section>
+<section id="understand-the-drivers" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="understand-the-drivers"><span class="header-section-number">3.1.2</span> Understand the Drivers</h3>
+<section id="investigate-if-objectives-are-being-met" class="level4">
+<h4 class="anchored" data-anchor-id="investigate-if-objectives-are-being-met">Investigate if objectives are being met</h4>
+</section>
+<section id="synthesize-outcomes" class="level4">
+<h4 class="anchored" data-anchor-id="synthesize-outcomes">Synthesize outcomes</h4>
+</section>
+<section id="hypothesize-drivers" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesize-drivers">Hypothesize drivers</h4>
+</section>
+</section>
+<section id="measure-the-drivers" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="measure-the-drivers"><span class="header-section-number">3.1.3</span> Measure the Drivers</h3>
+<section id="collect-data" class="level4">
+<h4 class="anchored" data-anchor-id="collect-data">Collect data</h4>
+</section>
+<section id="develop-kpis" class="level4">
+<h4 class="anchored" data-anchor-id="develop-kpis">Develop KPIs</h4>
+</section>
+</section>
+<section id="uncover-problems-opportunities" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="uncover-problems-opportunities"><span class="header-section-number">3.1.4</span> Uncover Problems &amp; Opportunities</h3>
+<section id="evaluate-performance-vs-kpis" class="level4">
+<h4 class="anchored" data-anchor-id="evaluate-performance-vs-kpis">Evaluate performance vs KPIs</h4>
+</section>
+<section id="highlight-potential-problem-areas" class="level4">
+<h4 class="anchored" data-anchor-id="highlight-potential-problem-areas">Highlight potential problem areas</h4>
+</section>
+<section id="review-process-and-consider-what-could-be-missed-or-needed-to-answer-questions" class="level4">
+<h4 class="anchored" data-anchor-id="review-process-and-consider-what-could-be-missed-or-needed-to-answer-questions">Review process and consider what could be missed or needed to answer questions</h4>
+</section>
+</section>
+<section id="encode-algorithms" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="encode-algorithms"><span class="header-section-number">3.1.5</span> Encode Algorithms</h3>
+<section id="develop-algorithms-to-predict-and-explain-problem" class="level4">
+<h4 class="anchored" data-anchor-id="develop-algorithms-to-predict-and-explain-problem">Develop algorithms to predict and explain problem</h4>
+</section>
+<section id="tie-ﬁnancial-value-of-individual-decisions-to-optimize-for-proﬁt" class="level4">
+<h4 class="anchored" data-anchor-id="tie-ﬁnancial-value-of-individual-decisions-to-optimize-for-proﬁt">Tie ﬁnancial value of individual decisions to optimize for proﬁt</h4>
+</section>
+<section id="use-recommendation-algorithms-to-improve-decisions" class="level4">
+<h4 class="anchored" data-anchor-id="use-recommendation-algorithms-to-improve-decisions">Use recommendation algorithms to improve decisions</h4>
+</section>
+</section>
+<section id="measure-results" class="level3" data-number="3.1.6">
+<h3 data-number="3.1.6" class="anchored" data-anchor-id="measure-results"><span class="header-section-number">3.1.6</span> Measure Results</h3>
+<section id="capture-outcomes-after-decision-making-system-is-implemented" class="level4">
+<h4 class="anchored" data-anchor-id="capture-outcomes-after-decision-making-system-is-implemented">Capture outcomes after decision making system is implemented</h4>
+</section>
+<section id="synthesize-results-in-terms-of-good-and-bad-outcomes-identifying-what-was-done-and-what-happened" class="level4">
+<h4 class="anchored" data-anchor-id="synthesize-results-in-terms-of-good-and-bad-outcomes-identifying-what-was-done-and-what-happened">Synthesize results in terms of good and bad outcomes identifying what was done and what happened</h4>
+</section>
+<section id="visualize-outcomes-over-time-to-determine-progress" class="level4">
+<h4 class="anchored" data-anchor-id="visualize-outcomes-over-time-to-determine-progress">Visualize outcomes over time to determine progress</h4>
+</section>
+</section>
+<section id="report-financial-impact" class="level3" data-number="3.1.7">
+<h3 data-number="3.1.7" class="anchored" data-anchor-id="report-financial-impact"><span class="header-section-number">3.1.7</span> Report Financial Impact</h3>
+<section id="measure-actual-results" class="level4">
+<h4 class="anchored" data-anchor-id="measure-actual-results">Measure actual results</h4>
+</section>
+<section id="tie-to-ﬁnancial-beneﬁts" class="level4">
+<h4 class="anchored" data-anchor-id="tie-to-ﬁnancial-beneﬁts">Tie to ﬁnancial beneﬁts</h4>
+</section>
+<section id="report-ﬁnancial-beneﬁt-of-algorithms-to-key-stakeholders" class="level4">
+<h4 class="anchored" data-anchor-id="report-ﬁnancial-beneﬁt-of-algorithms-to-key-stakeholders">Report ﬁnancial beneﬁt of algorithms to key stakeholders</h4>
+</section>
+</section>
+</section>
+<section id="modeling-process" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="modeling-process"><span class="header-section-number">3.2</span> Modeling Process</h2>
+<p>According to <strong>Hands-on Machine Learning with R</strong>, we need to follow the next process to develop successful models:</p>
+<ol type="1">
+<li>Apply an intensive EDA to your data using graphics and unsupervised models in other to:</li>
+</ol>
+<ul>
+<li>Remove unnecessary variables</li>
+<li>Handle missing values</li>
+<li>Re-coding variable names and values</li>
+</ul>
+<ol start="2" type="1">
+<li>Split the data by using <strong>simple random sampling</strong> for regression problems and <strong>stratified sampling</strong> for classification problems or if the response variable deviates strongly from normality in a regression problem. As result be will need to define 2 sets:</li>
+</ol>
+<ul>
+<li><strong>Training set</strong>: To develop feature sets, train our algorithms, tune hyperparameters, compare models, and all of the other activities required to choose our <strong>final model</strong>. The proportion of data used in the set depends the amount of data that we have, if we have a lot data (<em>n &gt;100K</em>) we can 60%, but if we don’t have much we can use 80%.</li>
+<li><strong>Test set</strong>: To estimate an unbiased assessment of the model’s performance, which we refer to as the generalization error.</li>
+</ul>
+<ol start="3" type="1">
+<li>Solve <strong>class imbalance problem</strong> by apply one of the next techniques:</li>
+</ol>
+<ul>
+<li><strong>Down-sampling</strong>: If we have many observations, we can keep all samples in the rare class and randomly selecting an equal number of samples in the abundant class.</li>
+<li><strong>Up-sampling</strong>: If we don’t have many observations, we can increasing the size of rarer samples by using repetition or bootstrapping.</li>
+<li><strong>SMOTE</strong>: It’s a combination of over- and under-sampling is often successful and a common approach is known as <em>Synthetic Minority Over-Sampling Technique</em>. We can use this method with the function <a href="https://themis.tidymodels.org/reference/step_smote.html">step_smote</a> from the <a href="https://themis.tidymodels.org/index.html">themis</a> recipes extension package.</li>
+</ul>
+<ol start="4" type="1">
+<li>Even though that <em>Lasso</em> and <em>tree-based</em> methods are resistant to <strong>non-informative predictors</strong> it better to remove them as with more features often becomes <strong>harder to interpret</strong> and is <strong>costly to compute</strong>. Based on the context we have 2 kind of variables to remove:</li>
+</ol>
+<ul>
+<li><strong>Zero variance variables</strong>: The feature only contains a single unique value, provides no useful information to a model.</li>
+<li><strong>Near-zero variance variables</strong>: The fraction of unique values over the sample size is low (say <span class="math inline">\(\leq 10\)</span>%) and the ratio of the frequency of the most prevalent value to the frequency of the second most prevalent value is large (say <span class="math inline">\(\geq 20\)</span>%)</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ames_train <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_nzv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Solve the problems related to <strong>numeric features</strong> based on the model as they can affect GLMs, regularized regression, KNN, support vector machines and neural networks.</li>
+</ol>
+<ul>
+<li><strong>Skewed</strong>: It can affect GLMs and regularized models. The recomended way it’s to use Box-Cox for positive or <code>step_YeoJohnson</code> if the variable has negative numbers.<br>
+</li>
+<li><strong>Wide range in magnitudes</strong>: What are the largest and smallest values across all features and do they span several orders of magnitude?. It is often a good idea to standardize the features. Standardizing features includes centering and scaling so that numeric variables have zero mean and unit variance, which provides a common comparable unit of measure across all the variables.</li>
+<li><strong>High dimensional problem</strong>: Use <code>step_pca</code>to reduce the dimension of our features with principal components analysis (Chapter 17) and retain the number of components required to explain, say, 95% of the variance and use these components as features in downstream modeling.</li>
+</ul>
+<ol start="6" type="1">
+<li>Transform <strong>categorical features</strong> as most models require that the predictors take numeric form. In this context, we can find:</li>
+</ol>
+<ul>
+<li><strong>Models don’t manage categories</strong>: The most common is referred to as <strong>dummy encoding</strong>, where we transpose our categorical variables so that each level of the feature is represented as a boolean value and them removing the first level column. We can appply this transformation using <code>step_dummy</code>.</li>
+<li><strong>Levels with very few observations</strong>: To solve this we can collapse, or “lumping” these into a lesser number of categories by using the <code>step_other</code> and defining a <code>threshold</code> value to implement. Another alternative could be using a likelihood or effect encoding with the <code>embed::step_lencode_glm</code> function or the <strong>target encoding</strong> process which consists in replacing a categorical value with the mean (regression) or proportion (classification) of the target variable.</li>
+<li><strong>Transform factors</strong>: If you have some ordered categorical features you can transform them using <code>step_ordinalscore()</code> or <code>step_integer</code>.</li>
+</ul>
+<ol start="7" type="1">
+<li><p>Use the training set to <strong>train the model</strong>. In most of the cases you will need to define a function <code>Y ~ X</code>, but in some cases you will need variable with the predictors and another with the response or define the in argument with character names the variables to use as predictors and the variable to use a response.</p></li>
+<li><p>Confirm the <strong>performance of the model</strong> using resampling methods like <strong>k-fold cross validation</strong> which average k test errors, providing us with an approximation of the error we might expect on unseen data. Making sure to don’t fall into the <strong>data leakage</strong> by performing the <em>feature engineering part in isolation</em> of each resampling iteration.</p></li>
+<li><p>Use the estimated test error to perform <strong>hyperparameter tuning</strong> across a <em>grid search</em> like</p></li>
+</ol>
+<ul>
+<li><strong>Full Cartesian grid search</strong>: He assesses every hyperparameter value manually defined.</li>
+<li><strong>Random grid searches</strong>: It explores randomly selected hyperparameter values from a range of possible values, early stopping which allows you to stop a grid search once reduction in the error stops.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/45-modeling-process.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">General predictive machine learning process</figcaption><p></p>
+</figure>
+</div>
 </section>
 </section>
 
