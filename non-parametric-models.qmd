@@ -98,3 +98,24 @@ accuracy(SmarketKnnPredictions, truth = Direction, estimate = .pred_class)
 
 ```
 
+
+## Tree-Based Methods
+
+These methods involve stratifying the **predictor** space into a number of **simple regions**. Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these types of approaches are known as decision tree methods.
+
+![](img/47-Hitters-salary-regression-tree.png){fig-align="center"}
+
+As result of applying described in the above tree we can find that each *leave* has a region related.
+
+![](img/48-Hitters-salary-regression-tree-regions.png){fig-align="center"}
+
+### Regression Trees
+
+To create a decision tree we need to find the regions $R_1, \dots, R_j$ that minimize the RSS where $\hat{y}_{R_j}$ represent the mean response for the training observations within the *j*th box:
+
+$$
+\sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
+$$
+
+As it is computationally *infeasible to consider every possible partition* of the feature space into J boxes, we use the **recursive binary splitting** approach, which begins at the top of the tree (at which point all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree. This method makes the best split at each particular step, rather than looking ahead and picking a split that will lead to a better tree in *some future step*.
+  

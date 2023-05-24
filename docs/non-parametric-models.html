@@ -255,6 +255,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">7.1.4</span>  Coding example</a></li>
   </ul>
 </li>
+  <li>
+<a href="#tree-based-methods" id="toc-tree-based-methods" class="nav-link" data-scroll-target="#tree-based-methods"><span class="toc-section-number">7.2</span>  Tree-Based Methods</a>
+  <ul>
+<li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="toc-section-number">7.2.1</span>  Regression Trees</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -377,6 +383,25 @@ Prediction Down Up
 1 accuracy binary           0.5</code></pre>
 </div>
 </div>
+</section></section><section id="tree-based-methods" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="tree-based-methods">
+<span class="header-section-number">7.2</span> Tree-Based Methods</h2>
+<p>These methods involve stratifying the <strong>predictor</strong> space into a number of <strong>simple regions</strong>. Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these types of approaches are known as decision tree methods.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/47-Hitters-salary-regression-tree.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>As result of applying described in the above tree we can find that each <em>leave</em> has a region related.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/48-Hitters-salary-regression-tree-regions.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<section id="regression-trees" class="level3" data-number="7.2.1"><h3 data-number="7.2.1" class="anchored" data-anchor-id="regression-trees">
+<span class="header-section-number">7.2.1</span> Regression Trees</h3>
+<p>To create a decision tree we need to find the regions <span class="math inline">\(R_1, \dots, R_j\)</span> that minimize the RSS where <span class="math inline">\(\hat{y}_{R_j}\)</span> represent the mean response for the training observations within the <em>j</em>th box:</p>
+<p><span class="math display">\[
+\sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
+\]</span></p>
+<p>As it is computationally <em>infeasible to consider every possible partition</em> of the feature space into J boxes, we use the <strong>recursive binary splitting</strong> approach, which begins at the top of the tree (at which point all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree. This method makes the best split at each particular step, rather than looking ahead and picking a split that will lead to a better tree in <em>some future step</em>.</p>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
