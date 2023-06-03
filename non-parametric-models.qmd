@@ -101,21 +101,76 @@ accuracy(SmarketKnnPredictions, truth = Direction, estimate = .pred_class)
 
 ## Tree-Based Methods
 
-These methods involve stratifying the **predictor** space into a number of **simple regions**. Since the set of splitting rules used to segment the predictor space can be summarized in a tree, these types of approaches are known as decision tree methods.
+These methods involve **stratifying the predictor** space into a number of *simple regions* and then use mean or the mode response value for the training observations in the region to which it belongs.
+
+![](img/48-Hitters-salary-regression-tree-regions.png){fig-align="center"}
+
+As these results can be summarized in a tree, these types of approaches are known as **decision tree** methods, we have some important parts:
+
+- *Terminal nodes* or *leaves* are represented by $R_1$, $R_2$ and $R_3$.
+- *Internal nodes* refers to the points along the tree where the predictor space is split.
+- *Branches* refer to the segments of the trees that connect the nodes.
 
 ![](img/47-Hitters-salary-regression-tree.png){fig-align="center"}
 
-As result of applying described in the above tree we can find that each *leave* has a region related.
+It's important to take in consideration that the order in which is presented each predictors also explain the level of importance of each variable. For example, the number of `Years` has a higher effect over the player's salary than the number of `Hits`.
 
-![](img/48-Hitters-salary-regression-tree-regions.png){fig-align="center"}
 
 ### Regression Trees
 
 To create a decision tree we need to find the regions $R_1, \dots, R_j$ that minimize the RSS where $\hat{y}_{R_j}$ represent the mean response for the training observations within the *j*th box:
 
 $$
-\sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
+RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 $$
 
-As it is computationally *infeasible to consider every possible partition* of the feature space into J boxes, we use the **recursive binary splitting** approach, which begins at the top of the tree (at which point all observations belong to a single region) and then successively splits the predictor space; each split is indicated via two new branches further down on the tree. This method makes the best split at each particular step, rather than looking ahead and picking a split that will lead to a better tree in *some future step*.
-  
+To define the regions we use the **recursive binary splitting**, which consist the predictor $X_j$ and the cutpoint $s$ leads to the greatest possible reduction in RSS. Next, we repeat the process, looking for the best predictor and best cutpoint in order to split the data further so as to minimize the RSS within each of the resulting regions. The process continues until a *stopping criterion is reached* (no region contains more than five observations).
+
+This method is:
+
+- *Top-down*: It begins at the *top of the tree* (where all observations belong to a single region) and then successively splits the predictor space.
+
+- *Greedy*: At each step of the tree-building process, **the best split is made at that particular step**, rather than looking ahead and picking a split that will lead to a better tree in some future step.
+
+As result, we could end with a very complex tree that overfits the data. To solve this, we need **prune** the original tree until getting a **subtree** that leads to the lowest test error rate, but rather than using cross-validation to *consider every possible subtree* we can use the **cost complexity pruning** approach some pruned subtrees based on some values of $\alpha$.
+
+
+$$
+\sum_{m=1}^{|T|} \sum_{i: x_i \in R_m} (y_i - \hat{y}_{R_m}) ^2  + \alpha|T|
+$$
+
+Where:
+
+- $\alpha$: Tunning parameter
+- $|T|$: Number of terminal nodes of the tree $T$.
+- $R_m$: The subset of predictor space corresponding to the $m$th terminal node
+- $\hat{y}_{R_m}$: Predicted response associated with $R_m$
+
+Then we can use K-fold cross-validation to identify the best $\alpha$ and select a *subtree* created with that $\alpha$ value.
+
+![](img/49-tree-best-number-leaves.png){fig-align="center"}
+
+### Classification Trees
+
+For a classification tree, we predict that each observation belongs to the most *commonly occurring class* of training observations in the region to which it belongs.
+
+As we can not use RSS as a criterion for making the binary splits, the **classification error rate** could the fraction of the training observations in that region that do not belong to the most common class ($1 - \max_k(\hat{p}_{mk})$), but it turns out that classification error is not sufficiently sensitive for tree-growing and we use the next metrics as they are more sensitive to node purity:
+
+|Name|Formula|
+|:---|:-----:|
+|**Gini index**| $G = \sum_{k = 1}^K 1 - \hat{p}_{mk}  (1 -\hat{p}_{mk})$|
+|**Entropy**| $G = \sum_{k = 1}^K 1 - \hat{p}_{mk}  \log \hat{p}_{mk}$|
+
+![](img/50-tree-classification-example.png){fig-align="center"}
+
+
+### Advantages and Disadvantages
+
+|Advantages|Disadvantages|
+|:---------|:------------|
+|Simpler to explain than linear regression thanks to its  graphical representation|They aren't so very good predicting results|
+|Mirror very well human decision-making|Small change in the data can cause a large change in the final estimated tree|
+|Handle qualitative predictors without the need to create dummy variables||
+
+
+
