@@ -107,7 +107,7 @@ These methods involve **stratifying the predictor** space into a number of *simp
 
 As these results can be summarized in a tree, these types of approaches are known as **decision tree** methods, we have some important parts:
 
-- *Terminal nodes* or *leaves* are represented by $R_1$, $R_2$ and $R_3$.
+- *Terminal nodes* (*leaves*) are represented by $R_1$, $R_2$ and $R_3$.
 - *Internal nodes* refers to the points along the tree where the predictor space is split.
 - *Branches* refer to the segments of the trees that connect the nodes.
 
@@ -115,8 +115,9 @@ As these results can be summarized in a tree, these types of approaches are know
 
 It's important to take in consideration that the order in which is presented each predictors also explain the level of importance of each variable. For example, the number of `Years` has a higher effect over the player's salary than the number of `Hits`.
 
+### Simple trees
 
-### Regression Trees
+#### Regression
 
 To create a decision tree we need to find the regions $R_1, \dots, R_j$ that minimize the RSS where $\hat{y}_{R_j}$ represent the mean response for the training observations within the *j*th box:
 
@@ -132,7 +133,7 @@ This method is:
 
 - *Greedy*: At each step of the tree-building process, **the best split is made at that particular step**, rather than looking ahead and picking a split that will lead to a better tree in some future step.
 
-As result, we could end with a very complex tree that overfits the data. To solve this, we need **prune** the original tree until getting a **subtree** that leads to the lowest test error rate, but rather than using cross-validation to *consider every possible subtree* we can use the **cost complexity pruning** approach some pruned subtrees based on some values of $\alpha$.
+As result, we could end with a very complex tree that **overfits** the data. To solve this, we need **prune** the original tree until getting a **subtree** that leads to the lowest test error rate by using the **cost complexity pruning** approach which creates differente trees based on $\alpha$.
 
 
 $$
@@ -141,30 +142,29 @@ $$
 
 Where:
 
-- $\alpha$: Tunning parameter
+- $\alpha$: Tunning parameter $[0,\infty]$ selected using *k-cross validation*
 - $|T|$: Number of terminal nodes of the tree $T$.
 - $R_m$: The subset of predictor space corresponding to the $m$th terminal node
 - $\hat{y}_{R_m}$: Predicted response associated with $R_m$
 
-Then we can use K-fold cross-validation to identify the best $\alpha$ and select a *subtree* created with that $\alpha$ value.
 
 ![](img/49-tree-best-number-leaves.png){fig-align="center"}
 
-### Classification Trees
+#### Classification
 
 For a classification tree, we predict that each observation belongs to the most *commonly occurring class* of training observations in the region to which it belongs.
 
-As we can not use RSS as a criterion for making the binary splits, the **classification error rate** could the fraction of the training observations in that region that do not belong to the most common class ($1 - \max_k(\hat{p}_{mk})$), but it turns out that classification error is not sufficiently sensitive for tree-growing and we use the next metrics as they are more sensitive to node purity:
+As we can not use RSS as a criterion for making the binary splits, the **classification error rate** could the fraction of the training observations in that region that do not belong to the most common class ($1 - \max_k(\hat{p}_{mk})$), but it turns out that classification error is not sufficiently sensitive for tree-growing and we use the next metrics as they are more sensitive to **node purity** (*proportion of the main class on each terminal node*):
 
 |Name|Formula|
 |:---|:-----:|
 |**Gini index**| $G = \sum_{k = 1}^K 1 - \hat{p}_{mk}  (1 -\hat{p}_{mk})$|
-|**Entropy**| $G = \sum_{k = 1}^K 1 - \hat{p}_{mk}  \log \hat{p}_{mk}$|
+|**Entropy**| $D = -\sum_{k = 1}^K 1 - \hat{p}_{mk}  \log \hat{p}_{mk}$|
 
 ![](img/50-tree-classification-example.png){fig-align="center"}
 
 
-### Advantages and Disadvantages
+#### Advantages and disadvantages
 
 |Advantages|Disadvantages|
 |:---------|:------------|
@@ -172,5 +172,46 @@ As we can not use RSS as a criterion for making the binary splits, the **classif
 |Mirror very well human decision-making|Small change in the data can cause a large change in the final estimated tree|
 |Handle qualitative predictors without the need to create dummy variables||
 
+
+### Bagging (bootstrap aggregation)
+
+As we said before, simple trees has a *high variance* problem $Var(\hat{f}(x_{0}))$ and **bagging** can help to mitigate this problem.
+
+We know from the *Central Limit Theorem* a natural way to *reduce the variance* and *increase the test set accuracy* is taking many **training sets from the population**, build a separate prediction model using each training set, and average the resulting prediction, as for a given a set of $n$ **independent observations** $Z_1, \dots, Z_n$, each with variance $\sigma^2$, the variance of the mean $\overline{Z}$ of the observations is given by $\sigma^2/n$.
+
+As we generally do not have access to multiple training sets we use **bootstrap** to take repeated samples from the one training data set, train $B$ **not pruned regression trees** and **average** the resulting predictions or select the most commonly occurring class among the $B$ predictions in classification settings.
+
+$$
+\hat{f}_{bag}(x) = \frac{1}{B}\sum_{b=1}^B\hat{f}^{*b}(x)
+$$
+
+The  **number of trees is not a critical** as $B$ will not lead to overfitting. Using $B = 100$ is sufficient to achieve good performance in this example.
+
+#### Out-of-bag error estimation
+
+To estimate the test error as an approximation of the *Leave-one-out cross validation* when $B$ sufficiently large, we can take advantage of the $1/3$ of observation that were **out-of-bag** (OOB) on each re-sample and  predict the response for the $i$th observation using each of the trees in which that observation was OOB. 
+
+This will yield around $B/3$ predictions for each of the $n$ observation that we can *average* or take a *majority* vote to calculate the *test error*.
+
+
+#### Variable importance measures
+
+After using this method, we can’t represent the statistical learning procedure using a single tree, instead we can use the *RSS* (or the *Gini index*) to record the total amount that the RSS is decreased due to splits over a given predictor, averaged(or added) over all $B$ trees where a large value indicates an important predictor.
+
+![](img/51-bagging-variable-importance.png){fig-align="center"}
+
+### Random Forests
+
+Predictions from the bagged trees, has a big problem, there are **highly correlated** and averaging many highly correlated quantities does not lead to as large of a reduction in variance as averaging many **uncorrelated quantities** (*independent*).
+
+To solve this problem **Random Forests**  provide an improvement over bagged trees by **decorrelates the trees**. As in bagging, we build many trees based on bootstrapped training samples. But when building these decision trees *random forest* sample $m \approx \sqrt{p}$ predictors to create $B$ *independent trees, making the average of the resulting trees less variable and hence more reliable..
+
+![](img/52-random-forest-effect-over-bagging.png){fig-align="center"}
+
+### Boosting
+
+
+
+### Bayesian additive regression trees (BART)
 
 

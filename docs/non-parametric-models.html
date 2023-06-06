@@ -274,9 +274,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#tree-based-methods" id="toc-tree-based-methods" class="nav-link" data-scroll-target="#tree-based-methods"><span class="toc-section-number">7.2</span>  Tree-Based Methods</a>
   <ul>
-  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="toc-section-number">7.2.1</span>  Regression Trees</a></li>
-  <li><a href="#classification-trees" id="toc-classification-trees" class="nav-link" data-scroll-target="#classification-trees"><span class="toc-section-number">7.2.2</span>  Classification Trees</a></li>
-  <li><a href="#advantages-and-disadvantages" id="toc-advantages-and-disadvantages" class="nav-link" data-scroll-target="#advantages-and-disadvantages"><span class="toc-section-number">7.2.3</span>  Advantages and Disadvantages</a></li>
+  <li><a href="#simple-trees" id="toc-simple-trees" class="nav-link" data-scroll-target="#simple-trees"><span class="toc-section-number">7.2.1</span>  Simple trees</a>
+  <ul class="collapse">
+  <li><a href="#regression-1" id="toc-regression-1" class="nav-link" data-scroll-target="#regression-1">Regression</a></li>
+  <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
+  <li><a href="#advantages-and-disadvantages" id="toc-advantages-and-disadvantages" class="nav-link" data-scroll-target="#advantages-and-disadvantages">Advantages and disadvantages</a></li>
+  </ul></li>
+  <li><a href="#bagging-bootstrap-aggregation" id="toc-bagging-bootstrap-aggregation" class="nav-link" data-scroll-target="#bagging-bootstrap-aggregation"><span class="toc-section-number">7.2.2</span>  Bagging (bootstrap aggregation)</a>
+  <ul class="collapse">
+  <li><a href="#out-of-bag-error-estimation" id="toc-out-of-bag-error-estimation" class="nav-link" data-scroll-target="#out-of-bag-error-estimation">Out-of-bag error estimation</a></li>
+  <li><a href="#variable-importance-measures" id="toc-variable-importance-measures" class="nav-link" data-scroll-target="#variable-importance-measures">Variable importance measures</a></li>
+  </ul></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="toc-section-number">7.2.3</span>  Random Forests</a></li>
+  <li><a href="#boosting" id="toc-boosting" class="nav-link" data-scroll-target="#boosting"><span class="toc-section-number">7.2.4</span>  Boosting</a></li>
+  <li><a href="#bayesian-additive-regression-trees-bart" id="toc-bayesian-additive-regression-trees-bart" class="nav-link" data-scroll-target="#bayesian-additive-regression-trees-bart"><span class="toc-section-number">7.2.5</span>  Bayesian additive regression trees (BART)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -411,7 +422,7 @@ Prediction Down Up
 </div>
 <p>As these results can be summarized in a tree, these types of approaches are known as <strong>decision tree</strong> methods, we have some important parts:</p>
 <ul>
-<li><em>Terminal nodes</em> or <em>leaves</em> are represented by <span class="math inline">\(R_1\)</span>, <span class="math inline">\(R_2\)</span> and <span class="math inline">\(R_3\)</span>.</li>
+<li><em>Terminal nodes</em> (<em>leaves</em>) are represented by <span class="math inline">\(R_1\)</span>, <span class="math inline">\(R_2\)</span> and <span class="math inline">\(R_3\)</span>.</li>
 <li><em>Internal nodes</em> refers to the points along the tree where the predictor space is split.</li>
 <li><em>Branches</em> refer to the segments of the trees that connect the nodes.</li>
 </ul>
@@ -421,8 +432,10 @@ Prediction Down Up
 </figure>
 </div>
 <p>It’s important to take in consideration that the order in which is presented each predictors also explain the level of importance of each variable. For example, the number of <code>Years</code> has a higher effect over the player’s salary than the number of <code>Hits</code>.</p>
-<section id="regression-trees" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">7.2.1</span> Regression Trees</h3>
+<section id="simple-trees" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="simple-trees"><span class="header-section-number">7.2.1</span> Simple trees</h3>
+<section id="regression-1" class="level4">
+<h4 class="anchored" data-anchor-id="regression-1">Regression</h4>
 <p>To create a decision tree we need to find the regions <span class="math inline">\(R_1, \dots, R_j\)</span> that minimize the RSS where <span class="math inline">\(\hat{y}_{R_j}\)</span> represent the mean response for the training observations within the <em>j</em>th box:</p>
 <p><span class="math display">\[
 RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
@@ -433,28 +446,27 @@ RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 <li><p><em>Top-down</em>: It begins at the <em>top of the tree</em> (where all observations belong to a single region) and then successively splits the predictor space.</p></li>
 <li><p><em>Greedy</em>: At each step of the tree-building process, <strong>the best split is made at that particular step</strong>, rather than looking ahead and picking a split that will lead to a better tree in some future step.</p></li>
 </ul>
-<p>As result, we could end with a very complex tree that overfits the data. To solve this, we need <strong>prune</strong> the original tree until getting a <strong>subtree</strong> that leads to the lowest test error rate, but rather than using cross-validation to <em>consider every possible subtree</em> we can use the <strong>cost complexity pruning</strong> approach some pruned subtrees based on some values of <span class="math inline">\(\alpha\)</span>.</p>
+<p>As result, we could end with a very complex tree that <strong>overfits</strong> the data. To solve this, we need <strong>prune</strong> the original tree until getting a <strong>subtree</strong> that leads to the lowest test error rate by using the <strong>cost complexity pruning</strong> approach which creates differente trees based on <span class="math inline">\(\alpha\)</span>.</p>
 <p><span class="math display">\[
 \sum_{m=1}^{|T|} \sum_{i: x_i \in R_m} (y_i - \hat{y}_{R_m}) ^2  + \alpha|T|
 \]</span></p>
 <p>Where:</p>
 <ul>
-<li><span class="math inline">\(\alpha\)</span>: Tunning parameter</li>
+<li><span class="math inline">\(\alpha\)</span>: Tunning parameter <span class="math inline">\([0,\infty]\)</span> selected using <em>k-cross validation</em></li>
 <li><span class="math inline">\(|T|\)</span>: Number of terminal nodes of the tree <span class="math inline">\(T\)</span>.</li>
 <li><span class="math inline">\(R_m\)</span>: The subset of predictor space corresponding to the <span class="math inline">\(m\)</span>th terminal node</li>
 <li><span class="math inline">\(\hat{y}_{R_m}\)</span>: Predicted response associated with <span class="math inline">\(R_m\)</span></li>
 </ul>
-<p>Then we can use K-fold cross-validation to identify the best <span class="math inline">\(\alpha\)</span> and select a <em>subtree</em> created with that <span class="math inline">\(\alpha\)</span> value.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/49-tree-best-number-leaves.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </section>
-<section id="classification-trees" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="classification-trees"><span class="header-section-number">7.2.2</span> Classification Trees</h3>
+<section id="classification" class="level4">
+<h4 class="anchored" data-anchor-id="classification">Classification</h4>
 <p>For a classification tree, we predict that each observation belongs to the most <em>commonly occurring class</em> of training observations in the region to which it belongs.</p>
-<p>As we can not use RSS as a criterion for making the binary splits, the <strong>classification error rate</strong> could the fraction of the training observations in that region that do not belong to the most common class (<span class="math inline">\(1 - \max_k(\hat{p}_{mk})\)</span>), but it turns out that classification error is not sufficiently sensitive for tree-growing and we use the next metrics as they are more sensitive to node purity:</p>
+<p>As we can not use RSS as a criterion for making the binary splits, the <strong>classification error rate</strong> could the fraction of the training observations in that region that do not belong to the most common class (<span class="math inline">\(1 - \max_k(\hat{p}_{mk})\)</span>), but it turns out that classification error is not sufficiently sensitive for tree-growing and we use the next metrics as they are more sensitive to <strong>node purity</strong> (<em>proportion of the main class on each terminal node</em>):</p>
 <table class="table">
 <colgroup>
 <col style="width: 36%">
@@ -473,7 +485,7 @@ RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Entropy</strong></td>
-<td style="text-align: center;"><span class="math inline">\(G = \sum_{k = 1}^K 1 - \hat{p}_{mk} \log \hat{p}_{mk}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(D = -\sum_{k = 1}^K 1 - \hat{p}_{mk} \log \hat{p}_{mk}\)</span></td>
 </tr>
 </tbody>
 </table>
@@ -483,8 +495,8 @@ RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 </figure>
 </div>
 </section>
-<section id="advantages-and-disadvantages" class="level3" data-number="7.2.3">
-<h3 data-number="7.2.3" class="anchored" data-anchor-id="advantages-and-disadvantages"><span class="header-section-number">7.2.3</span> Advantages and Disadvantages</h3>
+<section id="advantages-and-disadvantages" class="level4">
+<h4 class="anchored" data-anchor-id="advantages-and-disadvantages">Advantages and disadvantages</h4>
 <table class="table">
 <colgroup>
 <col style="width: 43%">
@@ -511,6 +523,47 @@ RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 </tr>
 </tbody>
 </table>
+</section>
+</section>
+<section id="bagging-bootstrap-aggregation" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="bagging-bootstrap-aggregation"><span class="header-section-number">7.2.2</span> Bagging (bootstrap aggregation)</h3>
+<p>As we said before, simple trees has a <em>high variance</em> problem <span class="math inline">\(Var(\hat{f}(x_{0}))\)</span> and <strong>bagging</strong> can help to mitigate this problem.</p>
+<p>We know from the <em>Central Limit Theorem</em> a natural way to <em>reduce the variance</em> and <em>increase the test set accuracy</em> is taking many <strong>training sets from the population</strong>, build a separate prediction model using each training set, and average the resulting prediction, as for a given a set of <span class="math inline">\(n\)</span> <strong>independent observations</strong> <span class="math inline">\(Z_1, \dots, Z_n\)</span>, each with variance <span class="math inline">\(\sigma^2\)</span>, the variance of the mean <span class="math inline">\(\overline{Z}\)</span> of the observations is given by <span class="math inline">\(\sigma^2/n\)</span>.</p>
+<p>As we generally do not have access to multiple training sets we use <strong>bootstrap</strong> to take repeated samples from the one training data set, train <span class="math inline">\(B\)</span> <strong>not pruned regression trees</strong> and <strong>average</strong> the resulting predictions or select the most commonly occurring class among the <span class="math inline">\(B\)</span> predictions in classification settings.</p>
+<p><span class="math display">\[
+\hat{f}_{bag}(x) = \frac{1}{B}\sum_{b=1}^B\hat{f}^{*b}(x)
+\]</span></p>
+<p>The <strong>number of trees is not a critical</strong> as <span class="math inline">\(B\)</span> will not lead to overfitting. Using <span class="math inline">\(B = 100\)</span> is sufficient to achieve good performance in this example.</p>
+<section id="out-of-bag-error-estimation" class="level4">
+<h4 class="anchored" data-anchor-id="out-of-bag-error-estimation">Out-of-bag error estimation</h4>
+<p>To estimate the test error as an approximation of the <em>Leave-one-out cross validation</em> when <span class="math inline">\(B\)</span> sufficiently large, we can take advantage of the <span class="math inline">\(1/3\)</span> of observation that were <strong>out-of-bag</strong> (OOB) on each re-sample and predict the response for the <span class="math inline">\(i\)</span>th observation using each of the trees in which that observation was OOB.</p>
+<p>This will yield around <span class="math inline">\(B/3\)</span> predictions for each of the <span class="math inline">\(n\)</span> observation that we can <em>average</em> or take a <em>majority</em> vote to calculate the <em>test error</em>.</p>
+</section>
+<section id="variable-importance-measures" class="level4">
+<h4 class="anchored" data-anchor-id="variable-importance-measures">Variable importance measures</h4>
+<p>After using this method, we can’t represent the statistical learning procedure using a single tree, instead we can use the <em>RSS</em> (or the <em>Gini index</em>) to record the total amount that the RSS is decreased due to splits over a given predictor, averaged(or added) over all <span class="math inline">\(B\)</span> trees where a large value indicates an important predictor.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/51-bagging-variable-importance.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="random-forests" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="random-forests"><span class="header-section-number">7.2.3</span> Random Forests</h3>
+<p>Predictions from the bagged trees, has a big problem, there are <strong>highly correlated</strong> and averaging many highly correlated quantities does not lead to as large of a reduction in variance as averaging many <strong>uncorrelated quantities</strong> (<em>independent</em>).</p>
+<p>To solve this problem <strong>Random Forests</strong> provide an improvement over bagged trees by <strong>decorrelates the trees</strong>. As in bagging, we build many trees based on bootstrapped training samples. But when building these decision trees <em>random forest</em> sample <span class="math inline">\(m \approx \sqrt{p}\)</span> predictors to create <span class="math inline">\(B\)</span> *independent trees, making the average of the resulting trees less variable and hence more reliable..</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/52-random-forest-effect-over-bagging.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="boosting" class="level3" data-number="7.2.4">
+<h3 data-number="7.2.4" class="anchored" data-anchor-id="boosting"><span class="header-section-number">7.2.4</span> Boosting</h3>
+</section>
+<section id="bayesian-additive-regression-trees-bart" class="level3" data-number="7.2.5">
+<h3 data-number="7.2.5" class="anchored" data-anchor-id="bayesian-additive-regression-trees-bart"><span class="header-section-number">7.2.5</span> Bayesian additive regression trees (BART)</h3>
 
 
 </section>
