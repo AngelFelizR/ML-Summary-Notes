@@ -1,0 +1,30 @@
+---
+format:
+  html:
+    number-depth: 3
+    css: summary-format.css
+---
+# Survival Analysis and Censored Data
+
+In this models the outcome variable is the **time until an event occurs** or any other numeric variable have been **censored** by any limitation during data collection.
+
+- **Survival time** $T$: Represents the time at which the event of interest occurs. For instance, the time at which the *patient dies* or the *customer cancels his or her subscription*.
+- **Censoring, failure or event time** $C$: Represents the time at which censoring occurs. For example, the time at which the patient *drops out of the study* or the *study ends*.
+
+As result our target variable is the result of:
+
+$$
+Y = \min(T, C)
+$$
+
+To know how to interpret the results we will need an indicator:
+
+$$
+\delta = 
+ \begin{cases}
+   1 & \quad \text{if } T \leq C \\
+   0 & \quad \text{if } T > C
+ \end{cases}
+$$
+
+

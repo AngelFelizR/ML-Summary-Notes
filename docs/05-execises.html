@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.269">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
 <title>An Introduction to Statistical Learning (Non Official Solution Book) - 05 - Resampling Methods</title>
@@ -182,27 +182,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Resampling methods</span></a>
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></a>
   </div>
 </li>
       </ul>
@@ -340,6 +345,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
@@ -627,6 +633,7 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="va">DefaultBasedResults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   seed_used test_error_rate
+       &lt;int&gt;           &lt;num&gt;
 1:         8          0.0262
 2:         9          0.0240
 3:        10          0.0282</code></pre>
@@ -664,6 +671,7 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="op">]</span><span class="op">[</span>, <span class="va">diff</span> <span class="op">:=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">(</span><span class="va">test_error_rate_dummy</span> <span class="op">-</span> <span class="va">test_error_rate</span>, accuracy <span class="op">=</span> <span class="fl">0.0001</span><span class="op">)</span><span class="op">]</span><span class="op">[</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   seed_used test_error_rate test_error_rate_dummy    diff
+       &lt;int&gt;           &lt;num&gt;                 &lt;num&gt;  &lt;char&gt;
 1:         8          0.0262                0.0260 -0.0002
 2:         9          0.0240                0.0248  0.0008
 3:        10          0.0282                0.0278 -0.0004</code></pre>
@@ -708,6 +716,7 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="va">DefaultBootstrapsSe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          term           SE
+        &lt;char&gt;        &lt;num&gt;
 1: (Intercept) 4.230130e-01
 2:     balance 2.203893e-04
 3:      income 4.895823e-06</code></pre>
@@ -723,6 +732,7 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span>  <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">SE</span> <span class="op">-</span> <span class="va">std.error</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          term           SE    std.error          diff
+        &lt;char&gt;        &lt;num&gt;        &lt;num&gt;         &lt;num&gt;
 1: (Intercept) 4.230130e-01 4.347564e-01 -1.174338e-02
 2:     balance 2.203893e-04 2.273731e-04 -6.983879e-06
 3:      income 4.895823e-06 4.985167e-06 -8.934457e-08</code></pre>
@@ -910,6 +920,7 @@ Residual Deviance: 1487     AIC: 1493</code></pre>
 <span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbindlist</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   degree .metric .estimator .estimate
+   &lt;char&gt;  &lt;char&gt;     &lt;char&gt;     &lt;num&gt;
 1:      1    rmse   standard 2.6996595
 2:      2    rmse   standard 0.9682064
 3:      3    rmse   standard 0.9780705
@@ -1196,7 +1207,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1232,24 +1260,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">

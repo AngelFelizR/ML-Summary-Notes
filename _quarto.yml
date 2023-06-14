@@ -29,11 +29,12 @@ book:
       - modeling-process.qmd
       - missing-values.qmd
       - model-performance.qmd
+      - resampling-methods.qmd
       - generalized-linear-models.qmd
       - generative-classification-models.qmd
       - flexible-regression.qmd
       - non-parametric-models.qmd
-      - resampling-methods.qmd
+      - survival-analysis.qmd
   - part: "Exercise Solutions"
     chapters:
       - 02-execises.qmd

@@ -204,14 +204,99 @@ After using this method, we can’t represent the statistical learning procedure
 
 Predictions from the bagged trees, has a big problem, there are **highly correlated** and averaging many highly correlated quantities does not lead to as large of a reduction in variance as averaging many **uncorrelated quantities** (*independent*).
 
-To solve this problem **Random Forests**  provide an improvement over bagged trees by **decorrelates the trees**. As in bagging, we build many trees based on bootstrapped training samples. But when building these decision trees *random forest* sample $m \approx \sqrt{p}$ predictors to create $B$ *independent trees, making the average of the resulting trees less variable and hence more reliable..
+To solve this problem **Random Forests**  provide an improvement over bagged trees by **decorrelates the trees**. As in bagging, we build many trees based on bootstrapped training samples. But when building these decision trees *random forest* sample $m \approx \sqrt{p}$ predictors to create $B$ *independent trees, making the average of the resulting trees less variable and hence more reliable.
 
 ![](img/52-random-forest-effect-over-bagging.png){fig-align="center"}
 
 ### Boosting
 
+As well as **bagging**, **boosting** is a general approach that can be be applied to many statistical learning methods for regression or classification. Both methods create many models in order to create a single prediction $\hat{f}^1, \dots, \hat{f}^B$.
 
+To create boosting trees, in general, we need to create then ***sequentially*** by using information from prior models and fit a new model with a modified version of the original data set. To be more specific we need to flow the following steps:
+
+1. Set $\hat{f}(x) = 0$ and $r_i=y_i$ for all $i$ in the training set.
+
+2. For $b = 1, 2, \dots, B$, repeat the next process:
+  - Fit a tree $\hat{f}^b$ with d splits (d + 1 terminal nodes) to the training data ($X,r$). In this step is very import to see that we are fitting the new model based on the residuals.
+  - Update $\hat{f}$ by adding in a shrunken version of the new tree:
+  
+$$
+\hat{f}(x) \leftarrow \hat{f}(x) + \lambda \hat{f}^b(x)
+$$
+
+  - Update the residuals
+
+$$
+r_i \leftarrow r_i - \lambda \hat{f}^b(x_i)
+$$
+
+3. Calculate the output of the boosting model by:
+
+$$
+\hat{f}(x) = \sum_{b=1}^B \lambda \hat{f}^b(x)
+$$
+
+As result, our model *learn slowly* by adding new decision trees into the fitted function in order to update the residuals on each step. As we are going to use many models, each individual model can be small by using a low $d$ parameter. In general, statistical learning approaches that learn slowly tend to
+perform well.
+
+#### Parameters to tune
+
+- **Number of trees** ($B$): Unlike bagging and random forests, boosting can overfit if B is too large.
+
+- **shrinkage** ($\lambda$): Controls the rate at which boosting learns, it should be a positive value its values are $0.01$ or $0.001$. Very small $\lambda$ can require using a very large value of B in order to achieve good performance.
+
+- **Number of splits or interaction depth** ($d$): It controls the complexity of the boosted ensemble. When $d=1$ is known as a **stump tree** as each term involves only *a single variable*. Some times, stump tree works well and are eraser to interpret, but as $d$ increases the *number of variables* used by each model increases, with $d$ as limit.
+
+![](img/53-boosting-vs-random-forest.png){fig-align="center"}
 
 ### Bayesian additive regression trees (BART)
 
+This method constructs trees in a random manner as in bagging and random forests, and each tree tries to capture signal not yet accounted for by the current model, as in boosting.
+
+To understand the method works we need to define some important notation:
+
+- $K$: Number of regression trees. For example $K$ could be $100$
+- $B$: Number of iterations. For example $B$ could be $1000$
+- $\hat{f}_k^b(x)$: The prediction at $x$ for the $k$th regression tree used in the $b$th iteration
+- $\hat{f}^b(x) = \sum_{k=1}^K \hat{f}_k^b(x)$: Summed of the $K$ at the end of each iteration.
+
+To apply this method we need to follow the below steps:
+
+1. In the first iteration all trees are initialized to have a single root node,*the mean of the response values divided by the total number of trees*, in other to predict the mean of $y$ in the first iteration $\hat{f}^1(x)$.
+
+$$
+\hat{f}_k^1(x) = \frac{1}{nK} \sum_{i=1}^n y_i
+$$
+
+2. Compute the predictions of the first iteration.
+
+$$
+\hat{f}^1(x) = \sum_{k=1}^K \hat{f}_k^1(x) = \frac{1}{n} \sum_{i=1}^n y_i
+$$
+
+3. For each of the following iterations $b = 2, \dots, B$.
+
+  - Update each tree $k = 1, 2, \dots, K$ by:
+
+    - Computing a **partial residual** for each tree with all trees but the $k$th tree.
+  
+$$
+r_i = y_i - \sum_{k'<k} \hat{f}_{k'}^b(x_i) - \sum_{k'>k} \hat{f}_{k'}^{b-1}(x_i)
+$$
+
+  -
+    - Based on the *partial residual* BART **randomly choosing a perturbation to the tree** from the previous iteration $\hat{f}_k^{b-1}$ from a set of possible perturbations (adding branches, prunning branches or changing the prediction of terminal nodes) favoring ones that improve the fit to the partial residual. This guards against overfitting since it limits how “hard” we fit the data in each iteration.
+    
+    
+  - Compute $\hat{f}^b(x) = \sum_{k=1}^K \hat{f}_k^b(x)$
+  
+4. Compute the *mean* or a *percentile* after $L$ burn-in iterations that don't provide good results. For example $L$ could be $200$
+
+$$
+\hat{f}(x) = \frac{1}{B-L} \sum_{b=L+1}^B \hat{f}(x)
+$$
+
+This models works really well even without a tuning process and the random process modifications protects the metho to overfit as we increase the number of iterations, as we can see in the next chart.
+
+![](img/54-bart-vs-boosting-trees.png){fig-align="center"}
 

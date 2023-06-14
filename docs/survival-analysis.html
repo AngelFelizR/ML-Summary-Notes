@@ -8,7 +8,7 @@
 
 <meta name="author" content="Angel Feliz">
 
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 3&nbsp; Understanding model performance</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 9&nbsp; Survival Analysis and Censored Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./resampling-methods.html" rel="next">
-<link href="./missing-values.html" rel="prev">
+<link href="./02-execises.html" rel="next">
+<link href="./non-parametric-models.html" rel="prev">
 <link href="./cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -163,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></a>
+  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></a>
   </div>
 </li>
       </ul>
@@ -203,22 +203,14 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#reducible-and-irreducible-error" id="toc-reducible-and-irreducible-error" class="nav-link active" data-scroll-target="#reducible-and-irreducible-error"><span class="toc-section-number">3.1</span>  Reducible and irreducible error</a></li>
-  <li><a href="#types-of-models" id="toc-types-of-models" class="nav-link" data-scroll-target="#types-of-models"><span class="toc-section-number">3.2</span>  Types of models</a></li>
-  <li><a href="#evaluating-model-performance" id="toc-evaluating-model-performance" class="nav-link" data-scroll-target="#evaluating-model-performance"><span class="toc-section-number">3.3</span>  Evaluating model performance</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></h1>
 </div>
 
 
@@ -233,180 +225,25 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="reducible-and-irreducible-error" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="reducible-and-irreducible-error"><span class="header-section-number">3.1</span> Reducible and irreducible error</h2>
-<p>The goal when we are analyzing data is to find a function that based on some Predictors and some random noise could explain the Response variable.</p>
+<p>In this models the outcome variable is the <strong>time until an event occurs</strong> or any other numeric variable have been <strong>censored</strong> by any limitation during data collection.</p>
+<ul>
+<li><strong>Survival time</strong> <span class="math inline">\(T\)</span>: Represents the time at which the event of interest occurs. For instance, the time at which the <em>patient dies</em> or the <em>customer cancels his or her subscription</em>.</li>
+<li><strong>Censoring, failure or event time</strong> <span class="math inline">\(C\)</span>: Represents the time at which censoring occurs. For example, the time at which the patient <em>drops out of the study</em> or the <em>study ends</em>.</li>
+</ul>
+<p>As result our target variable is the result of:</p>
 <p><span class="math display">\[
-Y = f(X) + \epsilon
+Y = \min(T, C)
 \]</span></p>
-<p><strong><span class="math inline">\(\epsilon\)</span></strong> represent the <strong>random error</strong> and correspond to the <strong>irreducible error</strong> as it cannot be predicted using the Predictors in regression models. It would have a mean of 0 unless are missing some relevant Predictors.</p>
-<p>In classification models, the <strong>irreducible error</strong> is represented by the <strong>Bayes Error Rate</strong>.</p>
+<p>To know how to interpret the results we will need an indicator:</p>
 <p><span class="math display">\[
-1 -  E\left(
-     \underset{j}{max}Pr(Y = j|X)
-     \right)
-\]</span></p>
-<p>An error is <strong>reducible</strong> if we can improve the accuracy of <span class="math inline">\(\hat{f}\)</span> by using a most appropriate statistical learning technique to estimate <span class="math inline">\(f\)</span>.</p>
-<p>The challenge to achieve that goal it’s that we don’t at the beginning how much of the error correspond to each type.</p>
-<p><span class="math display">\[
-\begin{split}
-E(Y-\hat{Y})^2 &amp; = E[f(X) + \epsilon - \hat{f}(X)]^2 \\
-               &amp; = \underbrace{[f(X)- \hat{f}(X)]^2}_\text{Reducible} +
-                   \underbrace{Var(\epsilon)}_\text{Irredicible}
-\end{split}
-\]</span></p>
-<p>The reducible error can be also spitted in two parts:</p>
-<ul>
-<li><p><strong>Variance</strong> refers to the amount by which <span class="math inline">\(\hat{f}\)</span> would change if we estimate it using a different <strong>training data set</strong>. If a method has high variance then small changes in the training data can result in large changes of <span class="math inline">\(\hat{f}\)</span>.</p></li>
-<li><p><strong>Squared bias</strong> refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model as for example a linear model.<em>Bias</em> is the difference between the expected (or average) prediction of our model and the correct value which we are trying to predict.</p></li>
-</ul>
-<p><span class="math display">\[
-E(y_{0} - \hat{f}(x_{0}))^2 =
-Var(\hat{f}(x_{0})) +
-[Bias(\hat{f}(x_{0}))]^2 +
-Var(\epsilon)
-\]</span></p>
-<div class="callout-note callout callout-style-simple">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Our challenge lies in ﬁnding a method for which both the variance and the squared bias are low.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="types-of-models" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="types-of-models"><span class="header-section-number">3.2</span> Types of models</h2>
-<ul>
-<li><strong>Parametric methods</strong>
-<ol type="1">
-<li>Make an assumption about the functional form. For example, assuming linearity.</li>
-<li>Estimate a small number parameters based on training data.</li>
-<li>Are easy to interpret.</li>
-<li>Tend to outperform non-parametric approaches when there is a small number of observations per predictor.</li>
-</ol></li>
-<li><strong>Non-parametric methods</strong>
-<ol type="1">
-<li>Don’t make an assumption about the functional form, to accurately ﬁt a wider range of possible shapes for <span class="math inline">\(f\)</span>.</li>
-<li>Need a large number of observations in order to obtain an accurate estimate for <span class="math inline">\(f\)</span>.</li>
-<li>The data analyst must select a level of smoothness (degrees of freedom).</li>
-</ol></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/01-accuracy-vs-interpretability.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</section>
-<section id="evaluating-model-performance" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="evaluating-model-performance"><span class="header-section-number">3.3</span> Evaluating model performance</h2>
-<p>To evaluate how good works a models we need to split the available data in two parts.</p>
-<ul>
-<li><strong>Training data</strong>: Used to fit the model.</li>
-<li><strong>Test data</strong>: Used to confirm how well the model works with new data.</li>
-</ul>
-<p>Some measurements to evaluate our test data in <strong>regression models</strong> are:</p>
-<ul>
-<li><strong>Mean squared error (MSE)</strong>: The squared component results in larger errors having larger penalties. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-MSE = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2
-\]</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/01-Training-vs-Test-Error.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-<ul>
-<li><strong>Test root mean squared error (RMSE)</strong>: It takes the square root of the MSE metric so that your error is in the same units as your response variable.<strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
-\]</span></p>
-<ul>
-<li><strong>Mean absolute error (MAE)</strong>: Similar to MSE but rather than squaring, it just takes the mean absolute difference between the actual and predicted values. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-\text{MAE} = \frac{1}{n} \sum_{i=1}^n (|y_i - \hat{y}_i|)
-\]</span></p>
-<ul>
-<li><strong>Root mean squared logarithmic error (RMSLE)</strong>: When your response variable has a wide range of values, large response values with large errors can dominate the MSE/RMSE metric. RMSLE minimizes this impact so that small response values with large errors can have just as meaningful of an impact as large response values with large errors. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-\text{RMSLE} = \sqrt{\frac{1}{n} \sum_{i=i}^n (\log{(y_i + 1)} - \log{(\hat{y}_i + 1)})^2}
-\]</span></p>
-<ul>
-<li><p><strong>Deviance</strong>: If the response variable distribution is Gaussian, then it will be approximately equal to MSE. When not, it usually gives a more useful estimate of error. It is often used with <em>classification models</em> and compares a saturated model (i.e.&nbsp;fully featured model) to an unsaturated model (i.e.&nbsp;intercept only or average) to provide the degree to which a model explains the variation in a set of data. <strong>Objective: minimize</strong></p></li>
-<li><p><span class="math inline">\(R^2\)</span>: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable(s). But if have too many limitations and You should not place too much emphasis on this metric. <strong>Objective: minimize</strong></p></li>
-</ul>
-<p><br></p>
-<p>Some measurements to evaluate our test data in <strong>classification models</strong> are:</p>
-<ul>
-<li><strong>Error (misclassification) rate</strong>: It represents the overall error. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-I(y_{0} \neq \hat{y}_{0}) =
+\delta =
 \begin{cases}
-    1 &amp; \text{If } y_{0} \neq \hat{y}_{0} \\
-    0 &amp; \text{If } y_{0} = \hat{y}_{0}
+   1 &amp; \quad \text{if } T \leq C \\
+   0 &amp; \quad \text{if } T &gt; C
 \end{cases}
 \]</span></p>
-<p><span class="math display">\[
-\text{Ave}(I(y_{0} \neq \hat{y}_{0}))
-\]</span></p>
-<ul>
-<li><strong>Mean per class error</strong>: This is the average error rate for each class. If your classes are balanced this will be identical to misclassification. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-\begin{split}
-\text{Ave}(&amp; \text{Ave}(I(y_{0} \neq \hat{y}_{0}))_1, \\
-           &amp; \text{Ave}(I(y_{0} \neq \hat{y}_{0}))_2, \\
-           &amp; \dots, \\
-           &amp; \text{Ave}(I(y_{0} \neq \hat{y}_{0}))_\text{n-class})
-\end{split}
-\]</span></p>
-<ul>
-<li><strong>Mean squared error (MSE)</strong>: Computes the distance from 1 to the probability assign by the model to the correct category (<span class="math inline">\(\hat{p}\)</span>). The squared component results in large differences in probabilities for the true class having larger penalties. <strong>Objective: minimize</strong></li>
-</ul>
-<p><span class="math display">\[
-MSE = \frac{1}{n} \sum_{i=1}^n (1 - \hat{p}_i)^2
-\]</span></p>
-<ul>
-<li><p><strong>Cross-entropy (aka Log Loss or Deviance)</strong>: Similar to MSE but it incorporates a log of the predicted probability multiplied by the true class, it disproportionately punishes predictions where we predict a small probability for the true class (<em>having high confidence in the wrong answer is really bad</em>). <strong>Objective: minimize</strong>.</p></li>
-<li><p><strong>Gini index</strong>: Mainly used with tree-based methods and commonly referred to as a <em>measure of purity</em> where a small value indicates that <em>a node contains predominantly observations from a single class</em>. <strong>Objective: minimize</strong></p></li>
-<li><p><strong>Confusion Matrix</strong>: Compares actual categorical levels (or events) to the predicted categorical levels</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/14-confution-matrix.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-<p>Some metrics related with the confusion matrix that need to be <strong>maximized</strong> are:</p>
-<ul>
-<li><ul>
-<li><strong>Accuracy</strong>: Overall, how often is the classifier correct? Opposite of misclassification above. <span class="math inline">\(\frac{\text{TP} + \text{TN}}{N + P}\)</span>.</li>
-<li><strong>Precision</strong>: For the <em>number of predictions</em> that we made, how many were correct? <span class="math inline">\(\frac{\text{TP}}{\text{TP} + \text{FP}}\)</span>.</li>
-<li><strong>Sensitivity (aka recall)</strong>: For the <em>events</em> that occurred, how many did we predict? <span class="math inline">\(\frac{\text{TP}}{\text{TP} + \text{FN}}\)</span>.</li>
-<li><strong>Specificity</strong>: How accurately does the classifier classify actual negative events? <span class="math inline">\(\frac{\text{TN}}{\text{TN} + \text{FP}}\)</span>.</li>
-<li><strong>Area under the curve (AUC)</strong>: A good binary classifier will have high precision and sensitivity.To capture this balance, we often use a <em>ROC (receiver operating characteristics) curve</em> that plots the false positive rate along the x-axis and the true positive rate along the y-axis. A line that is diagonal from the lower left corner to the upper right corner represents a random guess. The higher the line is in the upper left-hand corner, the better. AUC computes the area under this curve.</li>
-</ul></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/15-ROC-curve.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-<p>You can more metrics in the next table.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/14-confution-matrix-metrics.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -544,13 +381,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./missing-values.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span>
+      <a href="./non-parametric-models.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./resampling-methods.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02-execises.html" class="pagination-link">
+        <span class="nav-page-text">02 - Statistical Learning</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
