@@ -27,4 +27,24 @@ $$
  \end{cases}
 $$
 
+As result when $\delta = 1$ we observe the true survival time, and when $\delta = 0$ if we observe the censoring time.In the next example, we just could observe the event for patients 1 and 3 before ending the study.
+
+![](img/55-censored-survival-example.png){fig-align="center"}
+
+## Assumptions
+
+In order to analyze survival data, we need to determine whether the following assumptions are reasonable:
+
+- The **event time** $T$ **is independent of the censoring time** $C$. For example, *patients drop out of the cancer study early because they are very sick*, that would **overestimate** the true average survival time. We can check this assumption by exploring the ***reasons related to dropouts***.
+
+- The **predictors are independent of the censoring event** $\delta = 0$. For example, if in our study *very sick males are more likely to drop out of the study than very sick females*, that would drive the **wrong conclusion** that males survive longer than females.
+
+## Censoring types
+
+1. **Right censoring**: It occurs when $T \geq Y$, i.e. the true event time $T$ is at least as large as the observed time $Y$.
+2. **Left censoring**: It occurs when $T \leq Y$, i.e. the true event time $T$ is less than or equal to the observed time $Y$.
+3. **Interval censoring**: It refers to the setting in which we do not know the exact event time, but we know that it falls in some interval.
+
+*Right censoring will be the main focus of this chapter.*
+
 
