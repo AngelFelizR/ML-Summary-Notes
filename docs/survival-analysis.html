@@ -259,6 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="toc-section-number">9.2</span>  Kaplan-Meier Survival Curve</a></li>
+  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="toc-section-number">9.3</span>  Log-Rank Test</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -392,6 +393,44 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 </figure>
 </div>
 <p><em>Based on this new function we can say that the probability of survival past 20 months is</em> <span class="math inline">\(71\%\)</span>.</p>
+</section><section id="log-rank-test" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="log-rank-test">
+<span class="header-section-number">9.3</span> Log-Rank Test</h2>
+<p>If we want to explore whether the sex is an important factor to impact the <em>survival curve</em> we can create a plot comparing the curve of each sex.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/57-survival-curve-male-female.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Females seem to fare a little better up to about 50 months, but then the two curves both level off to about 50%. To take a better decision we need to confirm if this difference was produced by chance or if it was statistical significant.</p>
+<p>As our target variable <code>time</code> mixes event and censoring times we need to use a particular statistical test known as <strong>log-rank test</strong>, <strong>Mantel-Haenszel test</strong> or <strong>Cochran-Mantel-Haenszel test</strong>. In this test we need to split some the variables used in the Kaplan-Meier survival curve.</p>
+<p><span class="math display">\[
+\begin{split}
+r_{1k} + r_{2k} &amp; = r_k \\
+q_{1k} + q_{2k} &amp; = q_k
+\end{split}
+\]</span></p>
+<p>In order to test <span class="math inline">\(H_0 : \text{E}(X) = 0\)</span> for some random variable <span class="math inline">\(X\)</span>, one approach is to construct a test statistic of the form</p>
+<p><span class="math display">\[
+W = \frac{X - \text{E}(X)}{\sqrt{\text{Var}(X)}}
+\]</span></p>
+<p>Where:</p>
+<p><span class="math display">\[
+\begin{split}
+X &amp; = \sum_{k=1}^K q_{1k} \\
+\text{E}(q_{1k}) &amp; = \frac{r_{1k}}{r_k} q_k \\
+\text{Var}\left( X \right) \approx \sum_{k=1}^K \text{Var} (q_{1k}) &amp; = \sum_{k=1}^K \frac{q_k(r_{1k}/r_k) (1-r_{1k}/r_k) (r_k-q_k)}{r_k-1}
+\end{split}
+\]</span></p>
+<p>As result</p>
+<p><span class="math display">\[
+\begin{split}
+W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
+           {\sqrt{\sum_{k=1}^K \text{Var} (q_{1k})}} \\
+&amp; = \frac{\sum_{k=1}^K(q_{1k}- \frac{r_{1k}}{r_k} q_k)}
+         {\sqrt{\sum_{k=1}^K \frac{q_k(r_{1k}/r_k) (1-r_{1k}/r_k) (r_k-q_k)}{r_k-1}}}
+\end{split}
+\]</span></p>
+<p>When the <strong>sample size is large</strong>, the log-rank test statistic <span class="math inline">\(W\)</span> has approximately a <strong>standard normal distribution</strong> and can be used to compute a <strong>p-value</strong> for the null hypothesis that there is no difference between the survival curves in the two groups.</p>
+<p>For the <code><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">ISLR2::BrainCancer</a></code>the <strong>p-value is 0.2</strong> using the theoretical null distribution. Thus, <strong>we cannot reject the null hypothesis</strong> of no difference in survival curves between females and males.</p>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

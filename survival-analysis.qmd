@@ -104,3 +104,52 @@ As we can see the the example below, the **Kaplan-Meier survival curve** has a s
 ![](img/56-Kaplan-Meier-survival-curve.png){fig-align="center"}
 
 *Based on this new function we can say that the probability of survival past 20 months is* $71\%$.
+
+
+## Log-Rank Test
+
+If we want to explore whether the sex is an important factor to impact the *survival curve* we can create a plot comparing the curve of each sex.
+
+![](img/57-survival-curve-male-female.png){fig-align="center"}
+
+Females seem to fare a little better up to about 50 months, but then the two curves both level off to about 50%. To take a better decision we need to confirm if this difference was produced by chance or if it was statistical significant.
+
+As our target variable `time` mixes event and censoring times we need to use a particular statistical test known as **log-rank test**, **Mantel-Haenszel test** or **Cochran-Mantel-Haenszel test**. In this test we need to split some the variables used in the Kaplan-Meier survival curve.
+
+$$
+\begin{split}
+r_{1k} + r_{2k} & = r_k \\
+q_{1k} + q_{2k} & = q_k
+\end{split}
+$$
+
+In order to test $H_0 : \text{E}(X) = 0$ for some random variable $X$, one approach is to construct a test statistic of the form
+
+$$
+W = \frac{X - \text{E}(X)}{\sqrt{\text{Var}(X)}}
+$$
+
+Where:
+
+$$
+\begin{split}
+X & = \sum_{k=1}^K q_{1k} \\
+\text{E}(q_{1k}) & = \frac{r_{1k}}{r_k} q_k \\
+\text{Var}\left( X \right) \approx \sum_{k=1}^K \text{Var} (q_{1k}) & = \sum_{k=1}^K \frac{q_k(r_{1k}/r_k) (1-r_{1k}/r_k) (r_k-q_k)}{r_k-1}
+\end{split}
+$$
+
+As result
+
+$$
+\begin{split}
+W & = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
+           {\sqrt{\sum_{k=1}^K \text{Var} (q_{1k})}} \\
+& = \frac{\sum_{k=1}^K(q_{1k}- \frac{r_{1k}}{r_k} q_k)}
+         {\sqrt{\sum_{k=1}^K \frac{q_k(r_{1k}/r_k) (1-r_{1k}/r_k) (r_k-q_k)}{r_k-1}}}
+\end{split}
+$$
+
+When the **sample size is large**, the log-rank test statistic $W$ has approximately a **standard normal distribution** and can be used to compute a **p-value** for the null hypothesis that there is no difference between the survival curves in the two groups. 
+
+For the `ISLR2::BrainCancer`the **p-value is 0.2** using the theoretical null distribution. Thus, **we cannot reject the null hypothesis** of no difference in survival curves between females and males.
