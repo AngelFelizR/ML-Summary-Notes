@@ -260,6 +260,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
   <li><a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="toc-section-number">9.2</span>  Kaplan-Meier Survival Curve</a></li>
   <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="toc-section-number">9.3</span>  Log-Rank Test</a></li>
+  <li>
+<a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="toc-section-number">9.4</span>  Regression Models With a Survival Response</a>
+  <ul>
+<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -431,9 +437,87 @@ W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
 \]</span></p>
 <p>When the <strong>sample size is large</strong>, the log-rank test statistic <span class="math inline">\(W\)</span> has approximately a <strong>standard normal distribution</strong> and can be used to compute a <strong>p-value</strong> for the null hypothesis that there is no difference between the survival curves in the two groups.</p>
 <p>For the <code><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">ISLR2::BrainCancer</a></code>the <strong>p-value is 0.2</strong> using the theoretical null distribution. Thus, <strong>we cannot reject the null hypothesis</strong> of no difference in survival curves between females and males.</p>
+</section><section id="regression-models-with-a-survival-response" class="level2" data-number="9.4"><h2 data-number="9.4" class="anchored" data-anchor-id="regression-models-with-a-survival-response">
+<span class="header-section-number">9.4</span> Regression Models With a Survival Response</h2>
+<p>Fitting a linear regression to a censored data can be challenging as we want to predict <span class="math inline">\(T\)</span> rather than <span class="math inline">\(Y\)</span> and to overcome this difficulty need to use <em>a sequential construction</em>.</p>
+<section id="hazard-function" class="level3" data-number="9.4.1"><h3 data-number="9.4.1" class="anchored" data-anchor-id="hazard-function">
+<span class="header-section-number">9.4.1</span> Hazard Function</h3>
+<p>The <strong>hazard function</strong> also known as <em>hazard rate</em> or <em>force of mortality</em> is useful to estimate the <strong>risk of an event</strong> and measures the instantaneous rate (<em>conditional probability/unit of time</em>) at which events occur given that the event has not yet occurred for the subjects under study.</p>
+<p><span class="math display">\[
+h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t| T &gt; t)}{\Delta t}
+\]</span></p>
+<p>Where: - <span class="math inline">\(T\)</span>: It is the (unobserved) survival time. - <span class="math inline">\(\Delta t\)</span>: It’s an extremely tiny number.</p>
+<p>It has a close relational with the <strong>probability density function of</strong> <span class="math inline">\(T\)</span> which shows how <em>common</em> or <em>rare</em> is any particular <span class="math inline">\(T\)</span> value is likely to be:</p>
+<p><span class="math display">\[
+f(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t)}{\Delta t}
+\]</span></p>
+<p>Using the conditional probability definition we can find how the <em>hazard function</em> connect the <em>probability density function</em> and the <em>survival function</em>.</p>
+<p><span class="math display">\[
+\begin{split}
+h(t) &amp; = \lim_{\Delta t \rightarrow 0} \frac{\Pr((t &lt; T \leq t + \Delta t) \cap (T &gt; t)) / \Pr(T &gt; t)}{\Delta t} \\
+h(t) &amp; = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t) / \Delta t }{\Pr(T &gt; t)}  \\
+h(t) &amp; = \frac{f(t)}{S(t)}
+\end{split}
+\]</span></p>
+<p>Let’s see a simulated example:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">3</span><span class="op">:</span><span class="fl">6</span></span>
+<span></span>
+<span><span class="co"># Create a data frame of values around the mean</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">mu</span><span class="op">-</span><span class="fl">4</span><span class="op">*</span><span class="va">sigma</span>, <span class="va">mu</span><span class="op">+</span><span class="fl">4</span><span class="op">*</span><span class="va">sigma</span>, length<span class="op">=</span><span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">Density</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span><span class="op">)</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">x</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define hazard points to estimate</span></span>
+<span><span class="va">annotations</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  <span class="va">t</span>,</span>
+<span>  density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">t</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  survival <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>  hazard <span class="op">=</span> </span>
+<span>    <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">dnorm</a></span><span class="op">(</span><span class="va">t</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span><span class="op">)</span> <span class="op">/</span></span>
+<span>       <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="va">t</span>, mean<span class="op">=</span><span class="va">mu</span>, sd<span class="op">=</span><span class="va">sigma</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">annotations</span><span class="op">$</span><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
+<span>  <span class="va">annotations</span><span class="op">$</span><span class="va">density</span>,<span class="st">" / "</span>,</span>
+<span>  <span class="va">annotations</span><span class="op">$</span><span class="va">survival</span>,<span class="st">" = "</span>, </span>
+<span>  <span class="va">annotations</span><span class="op">$</span><span class="va">hazard</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the normal distribution</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">x</span>, y<span class="op">=</span><span class="va">Density</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_blank.html">geom_blank</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Density</span><span class="op">*</span><span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area</a></span><span class="op">(</span>data<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">x</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">t</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            fill<span class="op">=</span><span class="st">"blue"</span>, </span>
+<span>            alpha <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">annotations</span>,</span>
+<span>             <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">density</span><span class="op">)</span>,</span>
+<span>             size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">annotations</span>,</span>
+<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">t</span>, y <span class="op">=</span> <span class="va">density</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>,</span>
+<span>            vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>            fontface <span class="op">=</span> <span class="st">"bold"</span>,</span>
+<span>            size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"x"</span>, </span>
+<span>       y<span class="op">=</span><span class="st">"Probability Density"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Hazard rate = f(t) / S(t), where f(t) is represented by a normal distribution"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, </span>
+<span>                                  margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">0.5</span>, unit <span class="op">=</span> <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

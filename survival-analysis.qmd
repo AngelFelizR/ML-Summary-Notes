@@ -153,3 +153,94 @@ $$
 When the **sample size is large**, the log-rank test statistic $W$ has approximately a **standard normal distribution** and can be used to compute a **p-value** for the null hypothesis that there is no difference between the survival curves in the two groups. 
 
 For the `ISLR2::BrainCancer`the **p-value is 0.2** using the theoretical null distribution. Thus, **we cannot reject the null hypothesis** of no difference in survival curves between females and males.
+
+## Regression Models With a Survival Response
+
+Fitting a linear regression to a censored data can be challenging as we want to predict $T$ rather than $Y$ and to overcome this difficulty need to use *a sequential construction*.
+
+### Hazard Function
+
+The **hazard function** also known as *hazard rate* or *force of mortality* is useful to estimate the **risk of an event** and measures the  instantaneous rate (*conditional probability/unit of time*) at which events occur given that the event has not yet occurred for the subjects under study.
+
+$$
+h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t < T \leq t + \Delta t| T > t)}{\Delta t}
+$$
+
+Where:
+- $T$: It is the (unobserved) survival time.
+- $\Delta t$: It's an extremely tiny number.
+
+It has a close relational with the **probability density function of** $T$ which shows how *common* or *rare* is any particular $T$ value is likely to be:
+
+$$
+f(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t < T \leq t + \Delta t)}{\Delta t}
+$$
+
+Using the conditional probability definition we can find how the *hazard function* connect the *probability density function* and the *survival function*.
+
+$$
+\begin{split}
+h(t) & = \lim_{\Delta t \rightarrow 0} \frac{\Pr((t < T \leq t + \Delta t) \cap (T > t)) / \Pr(T > t)}{\Delta t} \\
+h(t) & = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t < T \leq t + \Delta t) / \Delta t }{\Pr(T > t)}  \\
+h(t) & = \frac{f(t)}{S(t)}
+\end{split}
+$$
+
+Let's see a simulated example:
+
+```{r hazard-rate-simulated-plot}
+# Setup
+library(ggplot2)
+mu <- 5
+sigma <- 1
+t <- 3:6
+
+# Create a data frame of values around the mean
+df <- data.frame(x = seq(mu-4*sigma, mu+4*sigma, length=1000))
+df$Density <- dnorm(df$x, mean=mu, sd=sigma)
+df$S <- pnorm(df$x, mean=mu, sd=sigma, lower.tail = FALSE)
+
+# Define hazard points to estimate
+annotations <-data.frame(
+  t,
+  density = dnorm(t, mean=mu, sd=sigma) |> round(2),
+  survival = pnorm(t, mean=mu, sd=sigma, lower.tail = FALSE) |> round(2),
+  hazard = 
+    (dnorm(t, mean=mu, sd=sigma) /
+       pnorm(t, mean=mu, sd=sigma, lower.tail = FALSE)) |>
+    round(2)
+)
+
+annotations$label <- paste0(
+  annotations$density," / ",
+  annotations$survival," = ", 
+  annotations$hazard
+)
+
+# Plot the normal distribution
+ggplot(df, aes(x=x, y=Density)) + 
+  geom_blank(aes(y = Density*1.2)) +
+  geom_line() +
+  geom_area(data= subset(df, x > max(t)),
+            fill="blue", 
+            alpha = 0.4) +
+  geom_point(data = annotations,
+             aes(x = t, y = density),
+             size = 3) +
+  geom_text(data = annotations,
+            aes(x = t, y = density, label = label),
+            vjust = -1,
+            fontface = "bold",
+            size = 4) +
+  labs(x="x", 
+       y="Probability Density",
+       title = "Hazard rate = f(t) / S(t), where f(t) is represented by a normal distribution") +
+  scale_x_continuous(breaks = scales::breaks_width(1)) +
+  theme_classic()+
+  theme(plot.title = element_text(face = "bold", 
+                                  margin = margin(b = 0.5, unit = "cm")))
+```
+
+
+
+
