@@ -160,6 +160,8 @@ Fitting a linear regression to a censored data can be challenging as we want to 
 
 ### Hazard Function
 
+#### Definition
+
 The **hazard function** also known as *hazard rate* or *force of mortality* is useful to estimate the **risk of an event** and measures the  instantaneous rate (*conditional probability/unit of time*) at which events occur given that the event has not yet occurred for the subjects under study.
 
 $$
@@ -167,6 +169,7 @@ h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t < T \leq t + \Delta t| T > t)}{
 $$
 
 Where:
+
 - $T$: It is the (unobserved) survival time.
 - $\Delta t$: It's an extremely tiny number.
 
@@ -189,6 +192,7 @@ $$
 Let's see a simulated example:
 
 ```{r hazard-rate-simulated-plot}
+#| code-fold: true
 # Setup
 library(ggplot2)
 mu <- 5
@@ -240,6 +244,39 @@ ggplot(df, aes(x=x, y=Density)) +
   theme(plot.title = element_text(face = "bold", 
                                   margin = margin(b = 0.5, unit = "cm")))
 ```
+
+#### Modeling the survival time
+
+To use the hazard function to **model the survival time** as a function of the **covariates** (predictors), we can assume the next form for the hazard function to assure positive results:
+
+$$
+h(t|x_i) = \exp \left( \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \right)
+$$
+
+Based on $h(t|x_i)$ we can calculate $S(t|x_i)$ and maximize the next likelihood function to estimate the parameters $\beta$ assuming that the $n$ **observations are independent**
+
+$$
+L = \prod_{i=1}^n h(y_i)^{\delta_i} S(y_i)
+$$
+
+- When the $i$th observation is **not censored** ($\delta = 1$) the likelihood is the **probability of dying** $f(y_i)$ in a tiny interval around time $y_i$.
+- When the $i$th observation is **censored**($\delta = 0$) the likelihood is the **probability of surviving** $S(y_i)$ at least until time $y_i$.
+
+### Proportional Hazards
+
+#### Assumptions
+
+#### Cox’s Proportional Hazards Model
+
+#### Connection With The Log-Rank Test
+
+### Examples
+
+#### Brain Cancer Data
+
+#### Publication Data
+
+
 
 
 

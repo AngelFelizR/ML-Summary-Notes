@@ -263,7 +263,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li>
 <a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="toc-section-number">9.4</span>  Regression Models With a Survival Response</a>
   <ul>
-<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a></li>
+<li>
+<a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a>
+  <ul class="collapse">
+<li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
+  <li><a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time">Modeling the survival time</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#proportional-hazards" id="toc-proportional-hazards" class="nav-link" data-scroll-target="#proportional-hazards"><span class="toc-section-number">9.4.2</span>  Proportional Hazards</a>
+  <ul class="collapse">
+<li><a href="#assumptions-1" id="toc-assumptions-1" class="nav-link" data-scroll-target="#assumptions-1">Assumptions</a></li>
+  <li><a href="#coxs-proportional-hazards-model" id="toc-coxs-proportional-hazards-model" class="nav-link" data-scroll-target="#coxs-proportional-hazards-model">Cox’s Proportional Hazards Model</a></li>
+  <li><a href="#connection-with-the-log-rank-test" id="toc-connection-with-the-log-rank-test" class="nav-link" data-scroll-target="#connection-with-the-log-rank-test">Connection With The Log-Rank Test</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="toc-section-number">9.4.3</span>  Examples</a>
+  <ul class="collapse">
+<li><a href="#brain-cancer-data" id="toc-brain-cancer-data" class="nav-link" data-scroll-target="#brain-cancer-data">Brain Cancer Data</a></li>
+  <li><a href="#publication-data" id="toc-publication-data" class="nav-link" data-scroll-target="#publication-data">Publication Data</a></li>
+  </ul>
+</li>
   </ul>
 </li>
   </ul></nav>
@@ -442,11 +463,18 @@ W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
 <p>Fitting a linear regression to a censored data can be challenging as we want to predict <span class="math inline">\(T\)</span> rather than <span class="math inline">\(Y\)</span> and to overcome this difficulty need to use <em>a sequential construction</em>.</p>
 <section id="hazard-function" class="level3" data-number="9.4.1"><h3 data-number="9.4.1" class="anchored" data-anchor-id="hazard-function">
 <span class="header-section-number">9.4.1</span> Hazard Function</h3>
+<section id="definition" class="level4"><h4 class="anchored" data-anchor-id="definition">Definition</h4>
 <p>The <strong>hazard function</strong> also known as <em>hazard rate</em> or <em>force of mortality</em> is useful to estimate the <strong>risk of an event</strong> and measures the instantaneous rate (<em>conditional probability/unit of time</em>) at which events occur given that the event has not yet occurred for the subjects under study.</p>
 <p><span class="math display">\[
 h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t| T &gt; t)}{\Delta t}
 \]</span></p>
-<p>Where: - <span class="math inline">\(T\)</span>: It is the (unobserved) survival time. - <span class="math inline">\(\Delta t\)</span>: It’s an extremely tiny number.</p>
+<p>Where:</p>
+<ul>
+<li>
+<span class="math inline">\(T\)</span>: It is the (unobserved) survival time.</li>
+<li>
+<span class="math inline">\(\Delta t\)</span>: It’s an extremely tiny number.</li>
+</ul>
 <p>It has a close relational with the <strong>probability density function of</strong> <span class="math inline">\(T\)</span> which shows how <em>common</em> or <em>rare</em> is any particular <span class="math inline">\(T\)</span> value is likely to be:</p>
 <p><span class="math display">\[
 f(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t)}{\Delta t}
@@ -461,7 +489,7 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 \]</span></p>
 <p>Let’s see a simulated example:</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
@@ -511,13 +539,34 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, </span>
 <span>                                  margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">0.5</span>, unit <span class="op">=</span> <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <p><img src="survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section><section id="modeling-the-survival-time" class="level4"><h4 class="anchored" data-anchor-id="modeling-the-survival-time">Modeling the survival time</h4>
+<p>To use the hazard function to <strong>model the survival time</strong> as a function of the <strong>covariates</strong> (predictors), we can assume the next form for the hazard function to assure positive results:</p>
+<p><span class="math display">\[
+h(t|x_i) = \exp \left( \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \right)
+\]</span></p>
+<p>Based on <span class="math inline">\(h(t|x_i)\)</span> we can calculate <span class="math inline">\(S(t|x_i)\)</span> and maximize the next likelihood function to estimate the parameters <span class="math inline">\(\beta\)</span> assuming that the <span class="math inline">\(n\)</span> <strong>observations are independent</strong></p>
+<p><span class="math display">\[
+L = \prod_{i=1}^n h(y_i)^{\delta_i} S(y_i)
+\]</span></p>
+<ul>
+<li>When the <span class="math inline">\(i\)</span>th observation is <strong>not censored</strong> (<span class="math inline">\(\delta = 1\)</span>) the likelihood is the <strong>probability of dying</strong> <span class="math inline">\(f(y_i)\)</span> in a tiny interval around time <span class="math inline">\(y_i\)</span>.</li>
+<li>When the <span class="math inline">\(i\)</span>th observation is <strong>censored</strong>(<span class="math inline">\(\delta = 0\)</span>) the likelihood is the <strong>probability of surviving</strong> <span class="math inline">\(S(y_i)\)</span> at least until time <span class="math inline">\(y_i\)</span>.</li>
+</ul></section></section><section id="proportional-hazards" class="level3" data-number="9.4.2"><h3 data-number="9.4.2" class="anchored" data-anchor-id="proportional-hazards">
+<span class="header-section-number">9.4.2</span> Proportional Hazards</h3>
+<section id="assumptions-1" class="level4"><h4 class="anchored" data-anchor-id="assumptions-1">Assumptions</h4>
+</section><section id="coxs-proportional-hazards-model" class="level4"><h4 class="anchored" data-anchor-id="coxs-proportional-hazards-model">Cox’s Proportional Hazards Model</h4>
+</section><section id="connection-with-the-log-rank-test" class="level4"><h4 class="anchored" data-anchor-id="connection-with-the-log-rank-test">Connection With The Log-Rank Test</h4>
+</section></section><section id="examples" class="level3" data-number="9.4.3"><h3 data-number="9.4.3" class="anchored" data-anchor-id="examples">
+<span class="header-section-number">9.4.3</span> Examples</h3>
+<section id="brain-cancer-data" class="level4"><h4 class="anchored" data-anchor-id="brain-cancer-data">Brain Cancer Data</h4>
+</section><section id="publication-data" class="level4"><h4 class="anchored" data-anchor-id="publication-data">Publication Data</h4>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
