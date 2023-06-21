@@ -263,26 +263,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li>
 <a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="toc-section-number">9.4</span>  Regression Models With a Survival Response</a>
   <ul>
-<li>
-<a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a>
-  <ul class="collapse">
-<li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
-  <li><a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time">Modeling the survival time</a></li>
-  </ul>
-</li>
+<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a></li>
   <li>
-<a href="#proportional-hazards" id="toc-proportional-hazards" class="nav-link" data-scroll-target="#proportional-hazards"><span class="toc-section-number">9.4.2</span>  Proportional Hazards</a>
+<a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time"><span class="toc-section-number">9.4.2</span>  Modeling the survival time</a>
   <ul class="collapse">
-<li><a href="#assumptions-1" id="toc-assumptions-1" class="nav-link" data-scroll-target="#assumptions-1">Assumptions</a></li>
-  <li><a href="#coxs-proportional-hazards-model" id="toc-coxs-proportional-hazards-model" class="nav-link" data-scroll-target="#coxs-proportional-hazards-model">Cox’s Proportional Hazards Model</a></li>
-  <li><a href="#connection-with-the-log-rank-test" id="toc-connection-with-the-log-rank-test" class="nav-link" data-scroll-target="#connection-with-the-log-rank-test">Connection With The Log-Rank Test</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="toc-section-number">9.4.3</span>  Examples</a>
-  <ul class="collapse">
-<li><a href="#brain-cancer-data" id="toc-brain-cancer-data" class="nav-link" data-scroll-target="#brain-cancer-data">Brain Cancer Data</a></li>
-  <li><a href="#publication-data" id="toc-publication-data" class="nav-link" data-scroll-target="#publication-data">Publication Data</a></li>
+<li><a href="#lineal-approach" id="toc-lineal-approach" class="nav-link" data-scroll-target="#lineal-approach">Lineal approach</a></li>
+  <li><a href="#flexible-approach" id="toc-flexible-approach" class="nav-link" data-scroll-target="#flexible-approach">Flexible approach</a></li>
   </ul>
 </li>
   </ul>
@@ -463,7 +449,6 @@ W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
 <p>Fitting a linear regression to a censored data can be challenging as we want to predict <span class="math inline">\(T\)</span> rather than <span class="math inline">\(Y\)</span> and to overcome this difficulty need to use <em>a sequential construction</em>.</p>
 <section id="hazard-function" class="level3" data-number="9.4.1"><h3 data-number="9.4.1" class="anchored" data-anchor-id="hazard-function">
 <span class="header-section-number">9.4.1</span> Hazard Function</h3>
-<section id="definition" class="level4"><h4 class="anchored" data-anchor-id="definition">Definition</h4>
 <p>The <strong>hazard function</strong> also known as <em>hazard rate</em> or <em>force of mortality</em> is useful to estimate the <strong>risk of an event</strong> and measures the instantaneous rate (<em>conditional probability/unit of time</em>) at which events occur given that the event has not yet occurred for the subjects under study.</p>
 <p><span class="math display">\[
 h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t| T &gt; t)}{\Delta t}
@@ -543,7 +528,9 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 <p><img src="survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section><section id="modeling-the-survival-time" class="level4"><h4 class="anchored" data-anchor-id="modeling-the-survival-time">Modeling the survival time</h4>
+</section><section id="modeling-the-survival-time" class="level3" data-number="9.4.2"><h3 data-number="9.4.2" class="anchored" data-anchor-id="modeling-the-survival-time">
+<span class="header-section-number">9.4.2</span> Modeling the survival time</h3>
+<section id="lineal-approach" class="level4"><h4 class="anchored" data-anchor-id="lineal-approach">Lineal approach</h4>
 <p>To use the hazard function to <strong>model the survival time</strong> as a function of the <strong>covariates</strong> (predictors), we can assume the next form for the hazard function to assure positive results:</p>
 <p><span class="math display">\[
 h(t|x_i) = \exp \left( \beta_0 + \sum_{j=1}^p \beta_j x_{ij} \right)
@@ -555,18 +542,38 @@ L = \prod_{i=1}^n h(y_i)^{\delta_i} S(y_i)
 <ul>
 <li>When the <span class="math inline">\(i\)</span>th observation is <strong>not censored</strong> (<span class="math inline">\(\delta = 1\)</span>) the likelihood is the <strong>probability of dying</strong> <span class="math inline">\(f(y_i)\)</span> in a tiny interval around time <span class="math inline">\(y_i\)</span>.</li>
 <li>When the <span class="math inline">\(i\)</span>th observation is <strong>censored</strong>(<span class="math inline">\(\delta = 0\)</span>) the likelihood is the <strong>probability of surviving</strong> <span class="math inline">\(S(y_i)\)</span> at least until time <span class="math inline">\(y_i\)</span>.</li>
-</ul></section></section><section id="proportional-hazards" class="level3" data-number="9.4.2"><h3 data-number="9.4.2" class="anchored" data-anchor-id="proportional-hazards">
-<span class="header-section-number">9.4.2</span> Proportional Hazards</h3>
-<section id="assumptions-1" class="level4"><h4 class="anchored" data-anchor-id="assumptions-1">Assumptions</h4>
-</section><section id="coxs-proportional-hazards-model" class="level4"><h4 class="anchored" data-anchor-id="coxs-proportional-hazards-model">Cox’s Proportional Hazards Model</h4>
-</section><section id="connection-with-the-log-rank-test" class="level4"><h4 class="anchored" data-anchor-id="connection-with-the-log-rank-test">Connection With The Log-Rank Test</h4>
-</section></section><section id="examples" class="level3" data-number="9.4.3"><h3 data-number="9.4.3" class="anchored" data-anchor-id="examples">
-<span class="header-section-number">9.4.3</span> Examples</h3>
-<section id="brain-cancer-data" class="level4"><h4 class="anchored" data-anchor-id="brain-cancer-data">Brain Cancer Data</h4>
-</section><section id="publication-data" class="level4"><h4 class="anchored" data-anchor-id="publication-data">Publication Data</h4>
+</ul></section><section id="flexible-approach" class="level4"><h4 class="anchored" data-anchor-id="flexible-approach">Flexible approach</h4>
+<p>To use the hazard function to <strong>model the survival time</strong> as a function of the <strong>covariates</strong> (predictors), we can use the <strong>proportional hazards assumption</strong></p>
+<p><span class="math display">\[
+h(t|x_i) = \underbrace{h_0(t)}_\text{Baseline Hazard}
+\underbrace{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}_\text{Relative Risk}
+\]</span> Where</p>
+<ul>
+<li>
+<em>Baseline Hazard</em> <span class="math inline">\(h_0(t) \geq 0\)</span>: Represent an unspecified function, so it can take any form.</li>
+</ul>
+<p>The most import assumption to keep in main is that <em>a one-unit increase in</em> <span class="math inline">\(x_{ij}\)</span> <em>corresponds to an increase in</em> <span class="math inline">\(h(t|x_i)\)</span> <em>by a factor of</em> <span class="math inline">\(\exp(\beta_j)\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/58-proportinal-hazard-assumption.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>But with the proportional hazards assumption <strong>we can not estimate</strong> <span class="math inline">\(\beta = (\beta_1, \dots, \beta_p)^T\)</span> by maximizing the likelihood with out having an specify the form of <span class="math inline">\(h_0(t)\)</span>.</p>
+<p>To solve this problem the <strong>Cox’s proportional hazards model</strong> make use of the same <strong>sequential in time</strong> logic that we used to derive the <em>Kaplan-Meier survival curve</em> and the <em>log-rank test</em>.</p>
+<p>We know that if the <span class="math inline">\(i\)</span>th observation is uncensored, then <span class="math inline">\(h(t|x_i) = h_0(y_i)\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)\)</span>, but the <em>total hazard at time</em> <span class="math inline">\(y_i\)</span> <em>for the at risk observations</em> <span class="math inline">\(\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)\)</span> making possible to <strong>cancel out</strong> <span class="math inline">\(h_0(y_i)\)</span> at calculating <strong>the probability that the</strong> <span class="math inline">\(i\)</span><strong>th observation is the one to fail at time</strong> <span class="math inline">\(y_i\)</span>:</p>
+<p><span class="math display">\[
+\frac{h_0(y_i)\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+\]</span></p>
+<p>The <strong>partial likelihood</strong> correspond to the product of these probabilities over all of the uncensored observations and we can used to estimate <span class="math inline">\(\beta\)</span>. If there are <strong>no tied failure times</strong> it takes the form:</p>
+<p><span class="math display">\[
+PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+\]</span></p>
+<section id="connection-with-the-log-rank-test" class="level5"><h5 class="anchored" data-anchor-id="connection-with-the-log-rank-test">Connection With The Log-Rank Test</h5>
+<p>In the case of <strong>a single binary covariate</strong>, the score test for <span class="math inline">\(H_0 : \beta = 0\)</span> in <em>Cox’s proportional hazards model</em> is exactly equal to the <em>log-rank test</em>.</p>
 
 
-</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

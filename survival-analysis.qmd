@@ -160,8 +160,6 @@ Fitting a linear regression to a censored data can be challenging as we want to 
 
 ### Hazard Function
 
-#### Definition
-
 The **hazard function** also known as *hazard rate* or *force of mortality* is useful to estimate the **risk of an event** and measures the  instantaneous rate (*conditional probability/unit of time*) at which events occur given that the event has not yet occurred for the subjects under study.
 
 $$
@@ -245,7 +243,9 @@ ggplot(df, aes(x=x, y=Density)) +
                                   margin = margin(b = 0.5, unit = "cm")))
 ```
 
-#### Modeling the survival time
+### Modeling the survival time
+
+#### Lineal approach
 
 To use the hazard function to **model the survival time** as a function of the **covariates** (predictors), we can assume the next form for the hazard function to assure positive results:
 
@@ -262,22 +262,42 @@ $$
 - When the $i$th observation is **not censored** ($\delta = 1$) the likelihood is the **probability of dying** $f(y_i)$ in a tiny interval around time $y_i$.
 - When the $i$th observation is **censored**($\delta = 0$) the likelihood is the **probability of surviving** $S(y_i)$ at least until time $y_i$.
 
-### Proportional Hazards
+#### Flexible approach
 
-#### Assumptions
+To use the hazard function to **model the survival time** as a function of the **covariates** (predictors), we can use the **proportional hazards assumption**
 
-#### Cox’s Proportional Hazards Model
+$$
+h(t|x_i) = \underbrace{h_0(t)}_\text{Baseline Hazard} 
+\underbrace{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}_\text{Relative Risk}
+$$
+Where
 
-#### Connection With The Log-Rank Test
+- *Baseline Hazard* $h_0(t) \geq 0$: Represent an unspecified function, so it can take any form.
 
-### Examples
+The most import assumption to keep in main is that *a one-unit increase in* $x_{ij}$ *corresponds to an increase in* $h(t|x_i)$ *by a factor of* $\exp(\beta_j)$.
 
-#### Brain Cancer Data
+![](img/58-proportinal-hazard-assumption.png){fig-align="center"}
 
-#### Publication Data
+But with the proportional hazards assumption **we can not estimate** $\beta = (\beta_1, \dots, \beta_p)^T$ by maximizing the likelihood with out having an specify the form of $h_0(t)$.
 
+To solve this problem the **Cox’s proportional hazards model** make use of the same **sequential in time** logic that we used to derive the *Kaplan-Meier survival curve* and the *log-rank test*. 
 
+We know that if the $i$th observation is uncensored, then $h(t|x_i) = h_0(y_i)\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)$, but the *total hazard at time* $y_i$ *for the at risk observations* $\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)$ making possible to **cancel out** $h_0(y_i)$ at calculating **the probability that the** $i$**th observation is the one to fail at time** $y_i$:
 
+$$
+\frac{h_0(y_i)\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+$$
 
+The **partial likelihood** correspond to the product of these probabilities over all of the uncensored observations and we can used to estimate $\beta$. If there are **no tied failure times** it takes the form:
+
+$$
+PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+$$
+
+##### Connection With The Log-Rank Test
+
+In the case of **a single binary covariate**, the score test for $H_0 : \beta = 0$ in *Cox’s proportional hazards model* is exactly equal to the *log-rank test*.
 
 
