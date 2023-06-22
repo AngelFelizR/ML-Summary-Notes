@@ -187,6 +187,12 @@ h(t) & = \frac{f(t)}{S(t)}
 \end{split}
 $$
 
+But also 
+
+$$
+\frac{\mathrm d}{\mathrm d x} S(t) = -f(t)
+$$
+
 Let's see a simulated example:
 
 ```{r hazard-rate-simulated-plot}
@@ -293,11 +299,72 @@ The **partial likelihood** correspond to the product of these probabilities over
 
 $$
 PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
-{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i}\exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
 $$
 
 ##### Connection With The Log-Rank Test
 
 In the case of **a single binary covariate**, the score test for $H_0 : \beta = 0$ in *Cox’s proportional hazards model* is exactly equal to the *log-rank test*.
 
+#### Examples
 
+##### Brain Cancer Data
+
+![](img/59-BrainCancer-Cox’s-proportional-hazards-model.png){fig-align="center"}
+
+- The estimated hazard for patients with *HG Glioma* is $e^{2.15} = 8.58$ times greater that patients with different diagnosis if we **hold all other covariates fixed**.
+
+- The higher the *Karnofsky index*, the lower the chance of dying at any given point in time, to be more specific each one-unit increase in the *Karnofsky index* corresponds to a multiplier of $e^{−0.05} = 0.95$ in the instantaneous chance of dying.
+
+##### Publication Data
+
+- They start running a **log-rank test** yields a very unimpressive $p$-value of $0.36$  based on `posres`.
+
+![](img/60-publication-KM-survival-curve.png){fig-align="center"}
+
+- Then the run a **Cox model** with all the predictors the `posres` turn to be a great predictor of the time to publication. Here we can see the *KM survival curve* after adjusting for all other covariates.
+
+![](img/61-publication-KM-survival-curve-adjusted.png){fig-align="center"}
+
+### Shrinkage for the Cox Model
+
+To implement the “loss+penalty” formulation to our *partial likelihood* we use the next function:
+
+$$
+- \log 
+\left( 
+  \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+  {\sum_{i': y_{i'} \geq y_i}\exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+\right)
++ \lambda P(\beta)
+$$
+
+Where:
+
+- $\beta = \beta_1, \dots, \beta_p$
+- $\lambda$: Correspond to a non-negative tunning parameter
+- $P(\beta) = \sum_{j=1}^p \beta_j^2$ *ridge penalty*
+- $P(\beta) = \sum_{j=1}^p |\beta_j|$ *lasso penalty*
+
+Let's see an example of the tuning process for a lasso-penalized Cox model:
+
+![](img/62-lasso-penalized-Cox-model.png){fig-align="center"}
+
+### Checking model performace
+
+To achieve this goal we need to overcome that:
+
+1. Some of the observations are censored.
+2. The model rather than predicting a single survival time given a covariate vector x, estimates an entire survival curve, $S(t|x)$, as a function of $t$.
+
+To solve those problems we:
+
+1. Stratify the observations using the coefficient estimates and **compute the "risk" score for each test observation**.
+
+$$
+\text{budget}_i \cdot \hat{\beta}_{\text{budget}} + \text{impact}_i \cdot \hat{\beta}_{\text{impact}}
+$$
+
+2. Categorize the observations based on their “risk”.
+
+![](img/63-km-survival-curve-after-classification.png){fig-align="center"}

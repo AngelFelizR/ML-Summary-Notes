@@ -269,8 +269,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
 <li><a href="#lineal-approach" id="toc-lineal-approach" class="nav-link" data-scroll-target="#lineal-approach">Lineal approach</a></li>
   <li><a href="#flexible-approach" id="toc-flexible-approach" class="nav-link" data-scroll-target="#flexible-approach">Flexible approach</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 </li>
+  <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="toc-section-number">9.4.3</span>  Shrinkage for the Cox Model</a></li>
+  <li><a href="#checking-model-performace" id="toc-checking-model-performace" class="nav-link" data-scroll-target="#checking-model-performace"><span class="toc-section-number">9.4.4</span>  Checking model performace</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -472,6 +475,10 @@ h(t) &amp; = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t)
 h(t) &amp; = \frac{f(t)}{S(t)}
 \end{split}
 \]</span></p>
+<p>But also</p>
+<p><span class="math display">\[
+\frac{\mathrm d}{\mathrm d x} S(t) = -f(t)
+\]</span></p>
 <p>Let’s see a simulated example:</p>
 <div class="cell">
 <details><summary>Code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
@@ -567,13 +574,86 @@ h(t|x_i) = \underbrace{h_0(t)}_\text{Baseline Hazard}
 <p>The <strong>partial likelihood</strong> correspond to the product of these probabilities over all of the uncensored observations and we can used to estimate <span class="math inline">\(\beta\)</span>. If there are <strong>no tied failure times</strong> it takes the form:</p>
 <p><span class="math display">\[
 PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
-{\sum_{i': y_{i'} \geq y_i} h_0(y_i) \exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+{\sum_{i': y_{i'} \geq y_i}\exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
 \]</span></p>
 <section id="connection-with-the-log-rank-test" class="level5"><h5 class="anchored" data-anchor-id="connection-with-the-log-rank-test">Connection With The Log-Rank Test</h5>
 <p>In the case of <strong>a single binary covariate</strong>, the score test for <span class="math inline">\(H_0 : \beta = 0\)</span> in <em>Cox’s proportional hazards model</em> is exactly equal to the <em>log-rank test</em>.</p>
+</section></section><section id="examples" class="level4"><h4 class="anchored" data-anchor-id="examples">Examples</h4>
+<section id="brain-cancer-data" class="level5"><h5 class="anchored" data-anchor-id="brain-cancer-data">Brain Cancer Data</h5>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/59-BrainCancer-Cox’s-proportional-hazards-model.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p>The estimated hazard for patients with <em>HG Glioma</em> is <span class="math inline">\(e^{2.15} = 8.58\)</span> times greater that patients with different diagnosis if we <strong>hold all other covariates fixed</strong>.</p></li>
+<li><p>The higher the <em>Karnofsky index</em>, the lower the chance of dying at any given point in time, to be more specific each one-unit increase in the <em>Karnofsky index</em> corresponds to a multiplier of <span class="math inline">\(e^{−0.05} = 0.95\)</span> in the instantaneous chance of dying.</p></li>
+</ul></section><section id="publication-data" class="level5"><h5 class="anchored" data-anchor-id="publication-data">Publication Data</h5>
+<ul>
+<li>They start running a <strong>log-rank test</strong> yields a very unimpressive <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.36\)</span> based on <code>posres</code>.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/60-publication-KM-survival-curve.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Then the run a <strong>Cox model</strong> with all the predictors the <code>posres</code> turn to be a great predictor of the time to publication. Here we can see the <em>KM survival curve</em> after adjusting for all other covariates.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/61-publication-KM-survival-curve-adjusted.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section></section></section><section id="shrinkage-for-the-cox-model" class="level3" data-number="9.4.3"><h3 data-number="9.4.3" class="anchored" data-anchor-id="shrinkage-for-the-cox-model">
+<span class="header-section-number">9.4.3</span> Shrinkage for the Cox Model</h3>
+<p>To implement the “loss+penalty” formulation to our <em>partial likelihood</em> we use the next function:</p>
+<p><span class="math display">\[
+- \log
+\left(
+  \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_j \right)}
+  {\sum_{i': y_{i'} \geq y_i}\exp \left( \sum_{j=1}^p x_{i'j} \beta_j \right)}
+\right)
++ \lambda P(\beta)
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\beta = \beta_1, \dots, \beta_p\)</span></li>
+<li>
+<span class="math inline">\(\lambda\)</span>: Correspond to a non-negative tunning parameter</li>
+<li>
+<span class="math inline">\(P(\beta) = \sum_{j=1}^p \beta_j^2\)</span> <em>ridge penalty</em>
+</li>
+<li>
+<span class="math inline">\(P(\beta) = \sum_{j=1}^p |\beta_j|\)</span> <em>lasso penalty</em>
+</li>
+</ul>
+<p>Let’s see an example of the tuning process for a lasso-penalized Cox model:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/62-lasso-penalized-Cox-model.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="checking-model-performace" class="level3" data-number="9.4.4"><h3 data-number="9.4.4" class="anchored" data-anchor-id="checking-model-performace">
+<span class="header-section-number">9.4.4</span> Checking model performace</h3>
+<p>To achieve this goal we need to overcome that:</p>
+<ol type="1">
+<li>Some of the observations are censored.</li>
+<li>The model rather than predicting a single survival time given a covariate vector x, estimates an entire survival curve, <span class="math inline">\(S(t|x)\)</span>, as a function of <span class="math inline">\(t\)</span>.</li>
+</ol>
+<p>To solve those problems we:</p>
+<ol type="1">
+<li>Stratify the observations using the coefficient estimates and <strong>compute the “risk” score for each test observation</strong>.</li>
+</ol>
+<p><span class="math display">\[
+\text{budget}_i \cdot \hat{\beta}_{\text{budget}} + \text{impact}_i \cdot \hat{\beta}_{\text{impact}}
+\]</span></p>
+<ol start="2" type="1">
+<li>Categorize the observations based on their “risk”.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/63-km-survival-curve-after-classification.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 
 
-</section></section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
