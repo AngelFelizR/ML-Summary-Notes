@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.2.269">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 9&nbsp; Survival Analysis and Censored Data</title>
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 9&nbsp; Time-event (Survival) Analysis and Censored Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,7 +159,7 @@ div.csl-indent {
       </div> <!-- /container-fluid -->
     </nav><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
       <h1 class="quarto-secondary-nav-title">
-<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span>
+<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span>
 </h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
@@ -229,7 +229,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span></a>
+  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></a>
   </div>
 </li>
       </ul>
@@ -273,27 +273,42 @@ div.csl-indent {
 <li>
 <a href="#general-concepts" id="toc-general-concepts" class="nav-link active" data-scroll-target="#general-concepts"><span class="toc-section-number">9.1</span>  General concepts</a>
   <ul>
-<li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="toc-section-number">9.1.1</span>  Assumptions</a></li>
-  <li><a href="#censoring-types" id="toc-censoring-types" class="nav-link" data-scroll-target="#censoring-types"><span class="toc-section-number">9.1.2</span>  Censoring types</a></li>
+<li><a href="#case-of-use" id="toc-case-of-use" class="nav-link" data-scroll-target="#case-of-use"><span class="toc-section-number">9.1.1</span>  Case of use</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="toc-section-number">9.1.2</span>  Assumptions</a></li>
+  <li><a href="#censoring-types" id="toc-censoring-types" class="nav-link" data-scroll-target="#censoring-types"><span class="toc-section-number">9.1.3</span>  Censoring types</a></li>
   </ul>
 </li>
-  <li><a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="toc-section-number">9.2</span>  Kaplan-Meier Survival Curve</a></li>
-  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="toc-section-number">9.3</span>  Log-Rank Test</a></li>
   <li>
-<a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="toc-section-number">9.4</span>  Regression Models With a Survival Response</a>
+<a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="toc-section-number">9.2</span>  Kaplan-Meier Survival Curve</a>
   <ul>
-<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.4.1</span>  Hazard Function</a></li>
+<li><a href="#empirical-explanation" id="toc-empirical-explanation" class="nav-link" data-scroll-target="#empirical-explanation"><span class="toc-section-number">9.2.1</span>  Empirical explanation</a></li>
+  <li><a href="#mathematical-explanation" id="toc-mathematical-explanation" class="nav-link" data-scroll-target="#mathematical-explanation"><span class="toc-section-number">9.2.2</span>  Mathematical explanation</a></li>
+  <li><a href="#interpreting-survival-curve" id="toc-interpreting-survival-curve" class="nav-link" data-scroll-target="#interpreting-survival-curve"><span class="toc-section-number">9.2.3</span>  Interpreting Survival Curve</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">9.2.4</span>  Coding example</a></li>
+  </ul>
+</li>
   <li>
-<a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time"><span class="toc-section-number">9.4.2</span>  Modeling the survival time</a>
+<a href="#the-weibull-model" id="toc-the-weibull-model" class="nav-link" data-scroll-target="#the-weibull-model"><span class="toc-section-number">9.3</span>  The Weibull Model</a>
+  <ul>
+<li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">9.3.1</span>  Coding example</a></li>
+  </ul>
+</li>
+  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="toc-section-number">9.4</span>  Log-Rank Test</a></li>
+  <li>
+<a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="toc-section-number">9.5</span>  Regression Models With a Survival Response</a>
+  <ul>
+<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="toc-section-number">9.5.1</span>  Hazard Function</a></li>
+  <li>
+<a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time"><span class="toc-section-number">9.5.2</span>  Modeling the survival time</a>
   <ul class="collapse">
 <li><a href="#lineal-approach" id="toc-lineal-approach" class="nav-link" data-scroll-target="#lineal-approach">Lineal approach</a></li>
   <li><a href="#flexible-approach" id="toc-flexible-approach" class="nav-link" data-scroll-target="#flexible-approach">Flexible approach</a></li>
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
   </ul>
 </li>
-  <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="toc-section-number">9.4.3</span>  Shrinkage for the Cox Model</a></li>
+  <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="toc-section-number">9.5.3</span>  Shrinkage for the Cox Model</a></li>
   <li>
-<a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="toc-section-number">9.4.4</span>  Model Evaluation</a>
+<a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="toc-section-number">9.5.4</span>  Model Evaluation</a>
   <ul class="collapse">
 <li><a href="#comparing-predicted-and-true-survival-times" id="toc-comparing-predicted-and-true-survival-times" class="nav-link" data-scroll-target="#comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</a></li>
   <li><a href="#c-index" id="toc-c-index" class="nav-link" data-scroll-target="#c-index">C-index</a></li>
@@ -301,13 +316,13 @@ div.csl-indent {
 </li>
   </ul>
 </li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">9.5</span>  References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">9.6</span>  References</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title d-none d-lg-block">
-<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survival Analysis and Censored Data</span>
+<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span>
 </h1>
 </div>
 
@@ -323,7 +338,7 @@ div.csl-indent {
 
 </header><section id="general-concepts" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="general-concepts">
 <span class="header-section-number">9.1</span> General concepts</h2>
-<p>In this models the outcome variable is the <strong>time until an event occurs</strong> or any other numeric variable have been <strong>censored</strong> by any limitation during data collection.</p>
+<p>In this models the outcome variable is the <strong>time until an event occurs</strong> or any other numeric variable have been <strong>censored</strong> by any limitation during data collection. In consecuence, times are always <strong>positive</strong> and we need to use distributions like the <strong>Weibull</strong> distribution.</p>
 <ul>
 <li>
 <strong>Survival, failure or event time</strong> <span class="math inline">\(T\)</span>: Represents the time at which the event of interest occurs. For instance, the time at which the <em>patient dies</em> or the <em>customer cancels his or her subscription</em>.</li>
@@ -342,19 +357,27 @@ Y = \min(T, C)
    0 &amp; \quad \text{if } T &gt; C
 \end{cases}
 \]</span></p>
-<p>As result when <span class="math inline">\(\delta = 1\)</span> we observe the true survival time, and when <span class="math inline">\(\delta = 0\)</span> if we observe the censoring time.In the next example, we just could observe the event for patients 1 and 3 before ending the study.</p>
+<p>As result when <span class="math inline">\(\delta = 1\)</span> we observe the true survival time, and when <span class="math inline">\(\delta = 0\)</span> if we observe the censoring time. In the next example, we just could observe the event for patients 1 and 3 before ending the study.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/55-censored-survival-example.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-<section id="assumptions" class="level3" data-number="9.1.1"><h3 data-number="9.1.1" class="anchored" data-anchor-id="assumptions">
-<span class="header-section-number">9.1.1</span> Assumptions</h3>
+<section id="case-of-use" class="level3" data-number="9.1.1"><h3 data-number="9.1.1" class="anchored" data-anchor-id="case-of-use">
+<span class="header-section-number">9.1.1</span> Case of use</h3>
+<ul>
+<li>The time needed for the individual to find a job again</li>
+<li>The time needed for a letter to be delivered</li>
+<li>The time needed for a cab to pick you up at your house after having called the cab company</li>
+<li>The time needed for a customer to churn.</li>
+<li>When our measure instrument cannot report values <strong>above a certain number</strong>.</li>
+</ul></section><section id="assumptions" class="level3" data-number="9.1.2"><h3 data-number="9.1.2" class="anchored" data-anchor-id="assumptions">
+<span class="header-section-number">9.1.2</span> Assumptions</h3>
 <p>In order to analyze survival data, we need to determine whether the following assumptions are reasonable:</p>
 <ul>
 <li><p>The <strong>event time</strong> <span class="math inline">\(T\)</span> <strong>is independent of the censoring time</strong> <span class="math inline">\(C\)</span>. For example, <em>patients drop out of the cancer study early because they are very sick</em>, that would <strong>overestimate</strong> the true average survival time. We can check this assumption by exploring the <strong><em>reasons related to dropouts</em></strong>.</p></li>
 <li><p>The <strong>predictors are independent of the censoring event</strong> <span class="math inline">\(\delta = 0\)</span>. For example, if in our study <em>very sick males are more likely to drop out of the study than very sick females</em>, that would drive the <strong>wrong conclusion</strong> that males survive longer than females.</p></li>
-</ul></section><section id="censoring-types" class="level3" data-number="9.1.2"><h3 data-number="9.1.2" class="anchored" data-anchor-id="censoring-types">
-<span class="header-section-number">9.1.2</span> Censoring types</h3>
+</ul></section><section id="censoring-types" class="level3" data-number="9.1.3"><h3 data-number="9.1.3" class="anchored" data-anchor-id="censoring-types">
+<span class="header-section-number">9.1.3</span> Censoring types</h3>
 <ol type="1">
 <li>
 <strong>Right censoring</strong>: It occurs when <span class="math inline">\(T \geq Y\)</span>, i.e.&nbsp;the true event time <span class="math inline">\(T\)</span> is at least as large as the observed time <span class="math inline">\(Y\)</span>.</li>
@@ -372,7 +395,9 @@ S(t) = \Pr(T &gt; t)
 \]</span></p>
 <p>To explain how complicated can be to estimate <span class="math inline">\(S(20) = \Pr(T&gt;20)\)</span> when our target variable is a mix of event and censored times we will use the <code><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">ISLR2::BrainCancer</a></code> table as a example.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pillar</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="fu">ISLR2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">BrainCancer</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">BrainCancer</span> <span class="op">&lt;-</span> <span class="fu">ISLR2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">BrainCancer</a></span></span>
+<span></span>
+<span><span class="fu">pillar</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">BrainCancer</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 88
 Columns: 8
@@ -385,7 +410,7 @@ $ stereo    &lt;fct&gt; SRS, SRT, SRS, SRT, SRT, SRS, SRT, SRT, SRT, SRT, SRT, S
 $ status    &lt;int&gt; 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, …
 $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34.66,…</code></pre>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu">ISLR2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">BrainCancer</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="op">(</span>\<span class="op">(</span><span class="va">DT</span><span class="op">)</span> <span class="va">DT</span><span class="op">[</span>, <span class="va">.N</span>,</span>
 <span>            keyby <span class="op">=</span> <span class="fu">.</span><span class="op">(</span>alive_20_months <span class="op">=</span> <span class="va">time</span> <span class="op">&gt;</span> <span class="fl">20</span>,</span>
 <span>                      event_time <span class="op">=</span> <span class="va">status</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -400,10 +425,20 @@ $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34
 </div>
 </div>
 <ul>
-<li><p>Taking the total of patients who were alive after 20 months (<span class="math inline">\(36+12=48\)</span>) over the total number of patients (<span class="math inline">\(48/88 \approx 55\%\)</span>) would be a mistake as we cannot assume that <span class="math inline">\(T &lt; 20\)</span> for <span class="math inline">\(17\)</span> censored patients.</p></li>
+<li><p>Taking the total of patients who were alive after 20 months (<span class="math inline">\(36+12=48\)</span>) over the total number of patients (<span class="math inline">\(48/88 \approx 55\%\)</span>) would be a mistake as <strong>we cannot assume that event time is lower than 20</strong> (<span class="math inline">\(T &lt; 20\)</span>) <strong>for 17 censored patients</strong>.</p></li>
 <li><p>Omitting the <span class="math inline">\(17\)</span> censored patients might sound as solution but that would <strong>under estimate</strong> the probability as a patient who was censored at <span class="math inline">\(t = 19.9\)</span> likely would have survived past <span class="math inline">\(t = 20\)</span>, and would be better to take a advantage of that censored time.</p></li>
 </ul>
-<p>To overcome this challenge let’s define:</p>
+<p><em>The Kaplan-Meier method shares a solution to this problem.</em></p>
+<section id="empirical-explanation" class="level3" data-number="9.2.1"><h3 data-number="9.2.1" class="anchored" data-anchor-id="empirical-explanation">
+<span class="header-section-number">9.2.1</span> Empirical explanation</h3>
+<p><br></p>
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7_XK7mGMm1E?start=659" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
+</iframe>
+</div>
+</section><section id="mathematical-explanation" class="level3" data-number="9.2.2"><h3 data-number="9.2.2" class="anchored" data-anchor-id="mathematical-explanation">
+<span class="header-section-number">9.2.2</span> Mathematical explanation</h3>
+<p>Let’s start defining some important elements:</p>
 <ul>
 <li>
 <span class="math inline">\(d_1 &lt; d_2 &lt; \dots &lt; d_K\)</span>: The <span class="math inline">\(K\)</span> unique death times among the non-censored patients.</li>
@@ -435,8 +470,139 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 </figure>
 </div>
 <p><em>Based on this new function we can say that the probability of survival past 20 months is</em> <span class="math inline">\(71\%\)</span>.</p>
-</section><section id="log-rank-test" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="log-rank-test">
-<span class="header-section-number">9.3</span> Log-Rank Test</h2>
+</section><section id="interpreting-survival-curve" class="level3" data-number="9.2.3"><h3 data-number="9.2.3" class="anchored" data-anchor-id="interpreting-survival-curve">
+<span class="header-section-number">9.2.3</span> Interpreting Survival Curve</h3>
+<p>If select a <span class="math inline">\(t\)</span> value on the <span class="math inline">\(x\)</span>-axis we can answer the flowing questions:</p>
+<ul>
+<li>What is the probability that a breast cancer patient survives longer than 5 years? <span class="math inline">\(S(5)\)</span>
+</li>
+<li>Out of 100 unemployed people, how many do we expect to have a job again after 2 months? <span class="math inline">\(1 - S(2)\)</span>
+</li>
+</ul>
+<p>But it also works in the other sense by selecting a quantile on the <span class="math inline">\(y\)</span>-axis and the checking the related value on the <span class="math inline">\(x\)</span>-axis, answer</p>
+<p>What is the typical waiting time for a cab?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/64-median-survival-curve.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="coding-example" class="level3" data-number="9.2.4"><h3 data-number="9.2.4" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">9.2.4</span> Coding example</h3>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">BrainCancerSv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">BrainCancer</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">BrainCancerSv</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="va">time</span><span class="op">:</span><span class="va">estimate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+   time n.risk n.event n.censor estimate
+  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+1  0.07     88       1        0    0.989
+2  1.18     87       0        1    0.989
+3  1.41     86       1        0    0.977
+4  1.54     85       0        1    0.977
+5  2.03     84       0        1    0.977
+6  3.38     83       1        0    0.965</code></pre>
+</div>
+</div>
+<p>We can plot this results using the <code>survminer</code> package:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rpkgs.datanovia.com/survminer/index.html">survminer</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot.html">ggsurvplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">BrainCancerSv</span>,</span>
+<span>  palette <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>  surv.median.line <span class="op">=</span> <span class="st">"hv"</span>,</span>
+<span>  conf.int <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  risk.table <span class="op">=</span> <span class="st">"nrisk_cumevents"</span>,</span>
+<span>  legend <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>  break.x.by <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Brain Cancer Survival Curve"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival-analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Some additional options to consider:</p>
+<ul>
+<li>
+<code>palette</code>: Can be used to define the colors of the curves.</li>
+<li>
+<code>linetype</code>: Can be used to define the linetype of the curves.</li>
+<li>
+<code>surv.median.line</code>: Can highlight the median survival time.</li>
+<li>
+<code>risk.table</code>: Shows a table with the number of subjects at risk of dying.</li>
+<li>
+<code>cumevents</code>: Shows a table with the number of events that happened already.</li>
+<li>
+<code>cumcensor</code>: Shows a table with the number of censored observations so far.</li>
+<li>
+<code>tables.height</code>: Indicate how big the tables should be.</li>
+</ul>
+<p>You event can compare to survival curves. To use the same data let’s assume for one curve that we are reporting the event time for all observations.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">BrainCancerSvWrong</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">BrainCancer</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot_combine.html">ggsurvplot_combine</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>correct <span class="op">=</span> <span class="va">BrainCancerSv</span>, </span>
+<span>       wrong <span class="op">=</span> <span class="va">BrainCancerSvWrong</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival-analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><em>As results we would unter estimate the probability of survive</em>.</p>
+</section></section><section id="the-weibull-model" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="the-weibull-model">
+<span class="header-section-number">9.3</span> The Weibull Model</h2>
+<p>The Weibull model produces a survival curve that is not a step function but it is smooth. It’s like using a linear model instead of using a histogram, as you need to put in some assumptions about the distribution, but it is helpful for more complex analyses as</p>
+<ul>
+<li>Adjusting for covariates</li>
+<li>Making inferences.</li>
+</ul>
+<section id="coding-example-1" class="level3" data-number="9.3.1"><h3 data-number="9.3.1" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">9.3.1</span> Coding example</h3>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">SurvivalProb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">.99</span>, <span class="fl">.01</span>, by <span class="op">=</span> <span class="op">-</span><span class="fl">.01</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">BrainCancerWm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">BrainCancer</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">BrainCancerWmTime</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span></span>
+<span>  <span class="va">BrainCancerWm</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"quantile"</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">SurvivalProb</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">BrainCancerWmDf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="va">BrainCancerWmTime</span>,</span>
+<span>  surv <span class="op">=</span> <span class="va">SurvivalProb</span>, </span>
+<span>  upper <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  lower <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  std.err <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot_df.html">ggsurvplot_df</a></span><span class="op">(</span></span>
+<span>  <span class="va">BrainCancerWmDf</span>,</span>
+<span>  surv.geom <span class="op">=</span> <span class="va">geom_line</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="survival-analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section></section><section id="log-rank-test" class="level2" data-number="9.4"><h2 data-number="9.4" class="anchored" data-anchor-id="log-rank-test">
+<span class="header-section-number">9.4</span> Log-Rank Test</h2>
 <p>If we want to explore whether the sex is an important factor to impact the <em>survival curve</em> we can create a plot comparing the curve of each sex.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/57-survival-curve-male-female.png" class="img-fluid figure-img"></p>
@@ -473,11 +639,11 @@ W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
 \]</span></p>
 <p>When the <strong>sample size is large</strong>, the log-rank test statistic <span class="math inline">\(W\)</span> has approximately a <strong>standard normal distribution</strong> and can be used to compute a <strong>p-value</strong> for the null hypothesis that there is no difference between the survival curves in the two groups.</p>
 <p>For the <code><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">ISLR2::BrainCancer</a></code>the <strong>p-value is 0.2</strong> using the theoretical null distribution. Thus, <strong>we cannot reject the null hypothesis</strong> of no difference in survival curves between females and males.</p>
-</section><section id="regression-models-with-a-survival-response" class="level2" data-number="9.4"><h2 data-number="9.4" class="anchored" data-anchor-id="regression-models-with-a-survival-response">
-<span class="header-section-number">9.4</span> Regression Models With a Survival Response</h2>
+</section><section id="regression-models-with-a-survival-response" class="level2" data-number="9.5"><h2 data-number="9.5" class="anchored" data-anchor-id="regression-models-with-a-survival-response">
+<span class="header-section-number">9.5</span> Regression Models With a Survival Response</h2>
 <p>Fitting a linear regression to a censored data can be challenging as we want to predict <span class="math inline">\(T\)</span> rather than <span class="math inline">\(Y\)</span> and to overcome this difficulty need to use <em>a sequential construction</em>.</p>
-<section id="hazard-function" class="level3" data-number="9.4.1"><h3 data-number="9.4.1" class="anchored" data-anchor-id="hazard-function">
-<span class="header-section-number">9.4.1</span> Hazard Function</h3>
+<section id="hazard-function" class="level3" data-number="9.5.1"><h3 data-number="9.5.1" class="anchored" data-anchor-id="hazard-function">
+<span class="header-section-number">9.5.1</span> Hazard Function</h3>
 <p>The <strong>hazard function</strong> also known as <em>hazard rate</em> or <em>force of mortality</em> is useful to estimate the <strong>risk of an event</strong> and measures the instantaneous rate (<em>conditional probability/unit of time</em>) at which events occur given that the event has not yet occurred for the subjects under study.</p>
 <p><span class="math display">\[
 h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t| T &gt; t)}{\Delta t}
@@ -507,7 +673,7 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 \]</span></p>
 <p>Let’s see a simulated example:</p>
 <div class="cell">
-<details><summary>Code</summary><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
+<details><summary>Code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Setup</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">mu</span> <span class="op">&lt;-</span> <span class="fl">5</span></span>
 <span><span class="va">sigma</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
@@ -561,8 +727,8 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 <p><img src="survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section><section id="modeling-the-survival-time" class="level3" data-number="9.4.2"><h3 data-number="9.4.2" class="anchored" data-anchor-id="modeling-the-survival-time">
-<span class="header-section-number">9.4.2</span> Modeling the survival time</h3>
+</section><section id="modeling-the-survival-time" class="level3" data-number="9.5.2"><h3 data-number="9.5.2" class="anchored" data-anchor-id="modeling-the-survival-time">
+<span class="header-section-number">9.5.2</span> Modeling the survival time</h3>
 <section id="lineal-approach" class="level4"><h4 class="anchored" data-anchor-id="lineal-approach">Lineal approach</h4>
 <p>To use the hazard function to <strong>model the survival time</strong> as a function of the <strong>covariates</strong> (predictors), we can assume the next form for the hazard function to assure positive results:</p>
 <p><span class="math display">\[
@@ -628,8 +794,8 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <figure class="figure"><p><img src="img/61-publication-KM-survival-curve-adjusted.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section></section></section><section id="shrinkage-for-the-cox-model" class="level3" data-number="9.4.3"><h3 data-number="9.4.3" class="anchored" data-anchor-id="shrinkage-for-the-cox-model">
-<span class="header-section-number">9.4.3</span> Shrinkage for the Cox Model</h3>
+</section></section></section><section id="shrinkage-for-the-cox-model" class="level3" data-number="9.5.3"><h3 data-number="9.5.3" class="anchored" data-anchor-id="shrinkage-for-the-cox-model">
+<span class="header-section-number">9.5.3</span> Shrinkage for the Cox Model</h3>
 <p>To implement the “loss+penalty” formulation to our <em>partial likelihood</em> we use the next function:</p>
 <p><span class="math display">\[
 - \log
@@ -656,8 +822,8 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <figure class="figure"><p><img src="img/62-lasso-penalized-Cox-model.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="model-evaluation" class="level3" data-number="9.4.4"><h3 data-number="9.4.4" class="anchored" data-anchor-id="model-evaluation">
-<span class="header-section-number">9.4.4</span> Model Evaluation</h3>
+</section><section id="model-evaluation" class="level3" data-number="9.5.4"><h3 data-number="9.5.4" class="anchored" data-anchor-id="model-evaluation">
+<span class="header-section-number">9.5.4</span> Model Evaluation</h3>
 <section id="comparing-predicted-and-true-survival-times" class="level4"><h4 class="anchored" data-anchor-id="comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</h4>
 <p>To compare the predicted and the true survival time, we need to figure out how to:</p>
 <ol type="1">
@@ -869,9 +1035,11 @@ C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delt
 <ol start="3" type="1">
 <li>Calculate the concordance index C:</li>
 </ol>
-<p><span class="math inline">\(C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i&gt;y_{i'}} \delta_{i'}} = \frac{0}{5} = 0\)</span></p>
-</section></section></section></section><section id="references" class="level2" data-number="9.5"><h2 data-number="9.5" class="anchored" data-anchor-id="references">
-<span class="header-section-number">9.5</span> References</h2>
+<p><span class="math display">\[
+C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i&gt;y_{i'}} \delta_{i'}} = \frac{0}{5} = 0
+\]</span></p>
+</section></section></section></section><section id="references" class="level2" data-number="9.6"><h2 data-number="9.6" class="anchored" data-anchor-id="references">
+<span class="header-section-number">9.6</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">

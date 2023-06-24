@@ -5,11 +5,11 @@ format:
     number-depth: 3
     css: summary-format.css
 ---
-# Survival Analysis and Censored Data
+# Time-event (Survival) Analysis and Censored Data
 
 ## General concepts
 
-In this models the outcome variable is the **time until an event occurs** or any other numeric variable have been **censored** by any limitation during data collection.
+In this models the outcome variable is the **time until an event occurs** or any other numeric variable have been **censored** by any limitation during data collection. In consecuence, times are always **positive** and we need to use distributions like the **Weibull** distribution.
 
 - **Survival, failure or event time** $T$: Represents the time at which the event of interest occurs. For instance, the time at which the *patient dies* or the *customer cancels his or her subscription*.
 - **Censoring time** $C$: Represents the time at which censoring occurs. For example, the time at which the patient *drops out of the study* or the *study ends*.
@@ -30,9 +30,17 @@ $$
  \end{cases}
 $$
 
-As result when $\delta = 1$ we observe the true survival time, and when $\delta = 0$ if we observe the censoring time.In the next example, we just could observe the event for patients 1 and 3 before ending the study.
+As result when $\delta = 1$ we observe the true survival time, and when $\delta = 0$ if we observe the censoring time. In the next example, we just could observe the event for patients 1 and 3 before ending the study.
 
 ![](img/55-censored-survival-example.png){fig-align="center"}
+
+### Case of use
+
+- The time needed for the individual to find a job again
+- The time needed for a letter to be delivered
+- The time needed for a cab to pick you up at your house after having called the cab company
+- The time needed for a customer to churn.
+- When our measure instrument cannot report values **above a certain number**.
 
 ### Assumptions
 
@@ -61,20 +69,34 @@ $$
 To explain how complicated can be to estimate $S(20) = \Pr(T>20)$ when our target variable is a mix of event and censored times we will use the `ISLR2::BrainCancer` table as a example.
 
 ```{r}
-pillar::glimpse(ISLR2::BrainCancer)
+BrainCancer <- ISLR2::BrainCancer
 
-data.table::as.data.table(ISLR2::BrainCancer) |>
+pillar::glimpse(BrainCancer)
+
+data.table::as.data.table(BrainCancer) |>
   (\(DT) DT[, .N,
             keyby = .(alive_20_months = time > 20,
                       event_time = status)])()
   
 ```
 
-- Taking the total of patients who were alive after 20 months ($36+12=48$) over the total number of patients ($48/88 \approx 55\%$) would be a mistake as we cannot assume that $T < 20$ for $17$ censored patients.
+- Taking the total of patients who were alive after 20 months ($36+12=48$) over the total number of patients ($48/88 \approx 55\%$) would be a mistake as **we cannot assume that event time is lower than 20** ($T < 20$) **for 17 censored patients**.
 
 - Omitting the $17$ censored patients might sound as solution but that would **under estimate** the probability as a patient who was censored at $t = 19.9$ likely would have survived past $t = 20$, and would be better to take a advantage of that censored time.
 
-To overcome this challenge let's define:
+*The Kaplan-Meier method shares a solution to this problem.*
+
+### Empirical explanation
+
+<br>
+
+<div style="text-align: center;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7_XK7mGMm1E?start=659" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen ></iframe>
+</div>
+
+### Mathematical explanation
+
+Let's start defining some important elements:
 
 - $d_1 < d_2 < \dots < d_K$: The $K$ unique death times among the non-censored patients.
 - $q_k$: The number of patients who died at time $d_k$.
@@ -105,6 +127,119 @@ As we can see the the example below, the **Kaplan-Meier survival curve** has a s
 ![](img/56-Kaplan-Meier-survival-curve.png){fig-align="center"}
 
 *Based on this new function we can say that the probability of survival past 20 months is* $71\%$.
+
+
+### Interpreting Survival Curve
+
+If select a $t$ value on the $x$-axis we can answer the flowing questions:
+
+- What is the probability that a breast cancer patient survives longer than 5 years? $S(5)$
+- Out of 100 unemployed people, how many do we expect to have a job again after 2 months? $1 - S(2)$
+
+But it also works in the other sense by selecting a quantile on the $y$-axis and the checking the related value on the $x$-axis, answer 
+
+What is the typical waiting time for a cab?
+
+![](img/64-median-survival-curve.png){fig-align="center"}
+
+### Coding example
+
+```{r}
+library(survival)
+
+BrainCancerSv <- survfit(
+  Surv(time, status) ~ 1,
+  data = BrainCancer
+)
+
+broom::tidy(BrainCancerSv) |>
+  subset(select = time:estimate) |>
+  head()
+  
+```
+
+We can plot this results using the `survminer` package:
+
+```{r}
+library(survminer)
+
+ggsurvplot(
+  BrainCancerSv,
+  palette = "blue",
+  surv.median.line = "hv",
+  conf.int = FALSE,
+  risk.table = "nrisk_cumevents",
+  legend = "none",
+  break.x.by = 10,
+  title = "Brain Cancer Survival Curve"
+)
+```
+
+Some additional options to consider:
+
+- `palette`: Can be used to define the colors of the curves.
+- `linetype`: Can be used to define the linetype of the curves.
+- `surv.median.line`: Can highlight the median survival time.
+- `risk.table`: Shows a table with the number of subjects at risk of dying.
+- `cumevents`: Shows a table with the number of events that happened already.
+- `cumcensor`: Shows a table with the number of censored observations so far.
+- `tables.height`: Indicate how big the tables should be.
+
+You event can compare to survival curves. To use the same data let's assume for one curve that we are reporting the event time for all observations.
+
+```{r}
+BrainCancerSvWrong <- survfit(
+  Surv(time) ~ 1,
+  data = BrainCancer
+)
+
+ggsurvplot_combine(
+  list(correct = BrainCancerSv, 
+       wrong = BrainCancerSvWrong)
+)
+```
+
+*As results we would unter estimate the probability of survive*.
+
+## The Weibull Model
+
+The Weibull model produces a survival curve that is not a step function but it is smooth. It's like using a linear model instead of using a histogram, as you need to put in some assumptions about the distribution, but it is helpful for more complex analyses as
+
+- Adjusting for covariates
+- Making inferences. 
+
+### Coding example
+
+```{r}
+
+SurvivalProb <- seq(.99, .01, by = -.01)
+
+BrainCancerWm <- survreg(
+  Surv(time, status) ~ 1,
+  data = BrainCancer
+)
+
+BrainCancerWmTime <- predict(
+  BrainCancerWm,
+  type = "quantile",
+  p = 1 - SurvivalProb,
+  newdata = data.frame(1)
+)
+
+BrainCancerWmDf <- data.frame(
+  time = BrainCancerWmTime,
+  surv = SurvivalProb, 
+  upper = NA,
+  lower = NA,
+  std.err = NA
+)
+
+ggsurvplot_df(
+  BrainCancerWmDf,
+  surv.geom = geom_line
+)
+```
+
 
 
 ## Log-Rank Test
@@ -437,6 +572,8 @@ $\hat{\eta}_i = \hat{\beta} x_i$
 
 3. Calculate the concordance index C:
 
-$C = \frac{\sum_{i,i':y_i>y_{i'}} I(\hat{\eta}_{i'} > \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i>y_{i'}} \delta_{i'}} = \frac{0}{5} = 0$
+$$
+C = \frac{\sum_{i,i':y_i>y_{i'}} I(\hat{\eta}_{i'} > \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i>y_{i'}} \delta_{i'}} = \frac{0}{5} = 0
+$$
 
 ## References
