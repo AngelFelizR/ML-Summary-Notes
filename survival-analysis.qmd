@@ -1,4 +1,5 @@
 ---
+bibliography: references/01-c-index.bib
 format:
   html:
     number-depth: 3
@@ -350,21 +351,92 @@ Let's see an example of the tuning process for a lasso-penalized Cox model:
 
 ![](img/62-lasso-penalized-Cox-model.png){fig-align="center"}
 
-### Checking model performace
 
-To achieve this goal we need to overcome that:
+### Model Evaluation
 
-1. Some of the observations are censored.
-2. The model rather than predicting a single survival time given a covariate vector x, estimates an entire survival curve, $S(t|x)$, as a function of $t$.
+#### Comparing predicted and true survival times
 
-To solve those problems we:
+To compare the predicted and the true survival time, we need to figure out how to:
 
-1. Stratify the observations using the coefficient estimates and **compute the "risk" score for each test observation**.
+1. Use censored observations.
+2. Translate the estimated survival curve $S(t|x)$ into *survival times*.
+
+One possible solution is to stratify the observations based on the coefficient estimated by following the next steps:
+
+1. Calculate an **estimated risk score** using the coefficients from the Cox's model on test dataset.
 
 $$
-\text{budget}_i \cdot \hat{\beta}_{\text{budget}} + \text{impact}_i \cdot \hat{\beta}_{\text{impact}}
+\hat{\eta}_i = \hat{\beta}_1 x_{i1} + \dots + \hat{\beta}_p x_{ip}
 $$
 
-2. Categorize the observations based on their “risk”.
+2. Categorize the observations based on their “risk”. If the model works well you should see a clear separation between each class.
 
 ![](img/63-km-survival-curve-after-classification.png){fig-align="center"}
+
+#### C-index
+
+I would be useful to calculate a metric like the AUC from the ROC curve, but it's important to recall that we do not observe the event time of each observation $t_1, \dots, t_n$.
+
+According to @LONGATO2020103496 an alternative is to use the **Harrell's concordance index** (**C-index**) which quantify the probability that *greater risk scores are attributed to subjects with higher change of experiencing the event*.
+
+$$
+C = P(\hat{\eta}_{i'} > \hat{\eta}_i \; | \; T_{i'} < T_i, \; \delta_{i'} = 1, \; T_{i'} < t)
+$$
+
+With the next function:
+
+$$
+C = \frac{\sum_{i,i':y_i>y_{i'}} I(\hat{\eta}_{i'} > \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i>y_{i'}} \delta_{i'}}
+$$
+
+Where:
+
+- $y_i$ and $y_{i'}$ are the observed survival times.
+- $\hat{\eta}_i$ and $\hat{\eta}_{i'}$ are the estimated risk scores
+- $I(\hat{\eta}_{i'} > \hat{\eta}_i)$ returns 1 if the criteria is met.
+- $\delta_{i'}$ returns 1 if the $i'^{th}$ subject's event has been observed.
+
+##### Simulated example
+
+Where $P = 1$ and $\hat{\beta} = 2.5$ and we have the next testing set:
+
+| Subject | x    | Survival Time $y$ | Censoring Indicator $\delta$ |
+|---------|------|-------------------|-----------------------------|
+| 1       | 1    | 3                 | 0                           |
+| 2       | 2    | 4                 | 1                           |
+| 3       | 3    | 5                 | 1                           |
+| 4       | 4    | 6                 | 1                           |
+| 5       | 5    | 7                 | 0                           |
+
+1. Calculate the risk scores $\hat{\eta}$ for each subject:
+
+$\hat{\eta}_i = \hat{\beta} x_i$
+
+| Subject | $\hat{\eta}$ |
+|---------|---------------|
+| 1       | 2.5           |
+| 2       | 5             |
+| 3       | 7.5           |
+| 4       | 10            |
+| 5       | 12.5          |
+
+2. For each pair of subjects ($i, i'$) where $y_i > y_{i'}$, calculate $I(\hat{\eta}_{i'} > \hat{\eta}_i) \delta_{i'}$ and $\delta_{i'}$:
+
+| Pair (i, i') | $y_i > y_{i'}$ | $I(\hat{\eta}_{i'} > \hat{\eta}_i)$ | $\delta_{i'}$ | $I(\hat{\eta}_{i'} > \hat{\eta}_i) \delta_{i'}$ |
+|--------------|-----------------|-----------------|-----------------|-----------------|
+| (2,1)        | True            | 0               | 0               | 0               |
+| (3,1)        | True            | 0               | 0               | 0               |
+| (3,2)        | True            | 0               | 1               | 0               |
+| (4,1)        | True            | 0               | 0               | 0               |
+| (4,2)        | True            | 0               | 1               | 0               |
+| (4,3)        | True            | 0               | 1               | 0               |
+| (5,1)        | True            | 0               | 0               | 0               |
+| (5,2)        | True            | 0               | 1               | 0               |
+| (5,3)        | True            | 0               | 1               | 0               |
+| (5,4)        | True            | 0               | 1               | 0               |
+
+3. Calculate the concordance index C:
+
+$C = \frac{\sum_{i,i':y_i>y_{i'}} I(\hat{\eta}_{i'} > \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i>y_{i'}} \delta_{i'}} = \frac{0}{5} = 0$
+
+## References

@@ -81,6 +81,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -273,9 +292,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul>
 </li>
   <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="toc-section-number">9.4.3</span>  Shrinkage for the Cox Model</a></li>
-  <li><a href="#checking-model-performace" id="toc-checking-model-performace" class="nav-link" data-scroll-target="#checking-model-performace"><span class="toc-section-number">9.4.4</span>  Checking model performace</a></li>
+  <li>
+<a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="toc-section-number">9.4.4</span>  Model Evaluation</a>
+  <ul class="collapse">
+<li><a href="#comparing-predicted-and-true-survival-times" id="toc-comparing-predicted-and-true-survival-times" class="nav-link" data-scroll-target="#comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</a></li>
+  <li><a href="#c-index" id="toc-c-index" class="nav-link" data-scroll-target="#c-index">C-index</a></li>
   </ul>
 </li>
+  </ul>
+</li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">9.5</span>  References</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -630,30 +656,230 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <figure class="figure"><p><img src="img/62-lasso-penalized-Cox-model.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="checking-model-performace" class="level3" data-number="9.4.4"><h3 data-number="9.4.4" class="anchored" data-anchor-id="checking-model-performace">
-<span class="header-section-number">9.4.4</span> Checking model performace</h3>
-<p>To achieve this goal we need to overcome that:</p>
+</section><section id="model-evaluation" class="level3" data-number="9.4.4"><h3 data-number="9.4.4" class="anchored" data-anchor-id="model-evaluation">
+<span class="header-section-number">9.4.4</span> Model Evaluation</h3>
+<section id="comparing-predicted-and-true-survival-times" class="level4"><h4 class="anchored" data-anchor-id="comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</h4>
+<p>To compare the predicted and the true survival time, we need to figure out how to:</p>
 <ol type="1">
-<li>Some of the observations are censored.</li>
-<li>The model rather than predicting a single survival time given a covariate vector x, estimates an entire survival curve, <span class="math inline">\(S(t|x)\)</span>, as a function of <span class="math inline">\(t\)</span>.</li>
+<li>Use censored observations.</li>
+<li>Translate the estimated survival curve <span class="math inline">\(S(t|x)\)</span> into <em>survival times</em>.</li>
 </ol>
-<p>To solve those problems we:</p>
+<p>One possible solution is to stratify the observations based on the coefficient estimated by following the next steps:</p>
 <ol type="1">
-<li>Stratify the observations using the coefficient estimates and <strong>compute the “risk” score for each test observation</strong>.</li>
+<li>Calculate an <strong>estimated risk score</strong> using the coefficients from the Cox’s model on test dataset.</li>
 </ol>
 <p><span class="math display">\[
-\text{budget}_i \cdot \hat{\beta}_{\text{budget}} + \text{impact}_i \cdot \hat{\beta}_{\text{impact}}
+\hat{\eta}_i = \hat{\beta}_1 x_{i1} + \dots + \hat{\beta}_p x_{ip}
 \]</span></p>
 <ol start="2" type="1">
-<li>Categorize the observations based on their “risk”.</li>
+<li>Categorize the observations based on their “risk”. If the model works well you should see a clear separation between each class.</li>
 </ol>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/63-km-survival-curve-after-classification.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
+</section><section id="c-index" class="level4"><h4 class="anchored" data-anchor-id="c-index">C-index</h4>
+<p>I would be useful to calculate a metric like the AUC from the ROC curve, but it’s important to recall that we do not observe the event time of each observation <span class="math inline">\(t_1, \dots, t_n\)</span>.</p>
+<p>According to <span class="citation" data-cites="LONGATO2020103496">Longato, Vettoretti, and Di Camillo (<a href="#ref-LONGATO2020103496" role="doc-biblioref">2020</a>)</span> an alternative is to use the <strong>Harrell’s concordance index</strong> (<strong>C-index</strong>) which quantify the probability that <em>greater risk scores are attributed to subjects with higher change of experiencing the event</em>.</p>
+<p><span class="math display">\[
+C = P(\hat{\eta}_{i'} &gt; \hat{\eta}_i \; | \; T_{i'} &lt; T_i, \; \delta_{i'} = 1, \; T_{i'} &lt; t)
+\]</span></p>
+<p>With the next function:</p>
+<p><span class="math display">\[
+C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i&gt;y_{i'}} \delta_{i'}}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li>
+<span class="math inline">\(y_i\)</span> and <span class="math inline">\(y_{i'}\)</span> are the observed survival times.</li>
+<li>
+<span class="math inline">\(\hat{\eta}_i\)</span> and <span class="math inline">\(\hat{\eta}_{i'}\)</span> are the estimated risk scores</li>
+<li>
+<span class="math inline">\(I(\hat{\eta}_{i'} &gt; \hat{\eta}_i)\)</span> returns 1 if the criteria is met.</li>
+<li>
+<span class="math inline">\(\delta_{i'}\)</span> returns 1 if the <span class="math inline">\(i'^{th}\)</span> subject’s event has been observed.</li>
+</ul>
+<section id="simulated-example" class="level5"><h5 class="anchored" data-anchor-id="simulated-example">Simulated example</h5>
+<p>Where <span class="math inline">\(P = 1\)</span> and <span class="math inline">\(\hat{\beta} = 2.5\)</span> and we have the next testing set:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Subject</th>
+<th>x</th>
+<th>Survival Time <span class="math inline">\(y\)</span>
+</th>
+<th>Censoring Indicator <span class="math inline">\(\delta\)</span>
+</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>2</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>4</td>
+<td>6</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>5</td>
+<td>7</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Calculate the risk scores <span class="math inline">\(\hat{\eta}\)</span> for each subject:</li>
+</ol>
+<p><span class="math inline">\(\hat{\eta}_i = \hat{\beta} x_i\)</span></p>
+<table class="table">
+<thead><tr class="header">
+<th>Subject</th>
+<th><span class="math inline">\(\hat{\eta}\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>2.5</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>7.5</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>12.5</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>For each pair of subjects (<span class="math inline">\(i, i'\)</span>) where <span class="math inline">\(y_i &gt; y_{i'}\)</span>, calculate <span class="math inline">\(I(\hat{\eta}_{i'} &gt; \hat{\eta}_i) \delta_{i'}\)</span> and <span class="math inline">\(\delta_{i'}\)</span>:</li>
+</ol>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead><tr class="header">
+<th>Pair (i, i’)</th>
+<th><span class="math inline">\(y_i &gt; y_{i'}\)</span></th>
+<th><span class="math inline">\(I(\hat{\eta}_{i'} &gt; \hat{\eta}_i)\)</span></th>
+<th><span class="math inline">\(\delta_{i'}\)</span></th>
+<th><span class="math inline">\(I(\hat{\eta}_{i'} &gt; \hat{\eta}_i) \delta_{i'}\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>(2,1)</td>
+<td>True</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>(3,1)</td>
+<td>True</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>(3,2)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>(4,1)</td>
+<td>True</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>(4,2)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>(4,3)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>(5,1)</td>
+<td>True</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>(5,2)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>(5,3)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>(5,4)</td>
+<td>True</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ol start="3" type="1">
+<li>Calculate the concordance index C:</li>
+</ol>
+<p><span class="math inline">\(C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i&gt;y_{i'}} \delta_{i'}} = \frac{0}{5} = 0\)</span></p>
+</section></section></section></section><section id="references" class="level2" data-number="9.5"><h2 data-number="9.5" class="anchored" data-anchor-id="references">
+<span class="header-section-number">9.5</span> References</h2>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-LONGATO2020103496" class="csl-entry" role="doc-biblioentry">
+Longato, Enrico, Martina Vettoretti, and Barbara Di Camillo. 2020. <span>“A Practical Perspective on the Concordance Index for the Evaluation and Selection of Prognostic Time-to-Event Models.”</span> <em>Journal of Biomedical Informatics</em> 108: 103496. https://doi.org/<a href="https://doi.org/10.1016/j.jbi.2020.103496">https://doi.org/10.1016/j.jbi.2020.103496</a>.
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
