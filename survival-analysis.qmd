@@ -69,14 +69,15 @@ $$
 To explain how complicated can be to estimate $S(20) = \Pr(T>20)$ when our target variable is a mix of event and censored times we will use the `ISLR2::BrainCancer` table as a example.
 
 ```{r}
-BrainCancer <- ISLR2::BrainCancer
+library(data.table)
+
+BrainCancer <- as.data.table(ISLR2::BrainCancer)
 
 pillar::glimpse(BrainCancer)
 
-data.table::as.data.table(BrainCancer) |>
-  (\(DT) DT[, .N,
-            keyby = .(alive_20_months = time > 20,
-                      event_time = status)])()
+BrainCancer[, .N,
+            keyby = .(alive_after_20_months = time > 20,
+                      event_time = status)]
   
 ```
 
@@ -152,10 +153,13 @@ BrainCancerSv <- survfit(
   data = BrainCancer
 )
 
-broom::tidy(BrainCancerSv) |>
-  subset(select = time:estimate) |>
+survminer::surv_summary(BrainCancerSv) |>
+  subset(select = time:surv) |>
   head()
-  
+
+broom::tidy(BrainCancerSv) |>
+  base::subset(select = time:estimate) |>
+  head()
 ```
 
 We can plot this results using the `survminer` package:
@@ -201,43 +205,48 @@ ggsurvplot_combine(
 
 *As results we would unter estimate the probability of survive*.
 
-## The Weibull Model
+## Weibull Model Survival Curve
 
-The Weibull model produces a survival curve that is not a step function but it is smooth. It's like using a linear model instead of using a histogram, as you need to put in some assumptions about the distribution, but it is helpful for more complex analyses as
-
-- Adjusting for covariates
-- Making inferences. 
+The Weibull model can produce a *smooth survival curve* by using some assumptions about the distribution, but it is very useful when we are adjusting the *results based on covariates* or *making inferences*.
 
 ### Coding example
 
 ```{r}
+# Defining the probabilities to plot
 
 SurvivalProb <- seq(.99, .01, by = -.01)
 
-BrainCancerWm <- survreg(
+plot(SurvivalProb)
+
+
+# Fitting the distribution
+
+BrainCancerWSC <- survreg(
   Surv(time, status) ~ 1,
   data = BrainCancer
 )
 
+
+# Predicting times
+
 BrainCancerWmTime <- predict(
-  BrainCancerWm,
+  BrainCancerWSC,
   type = "quantile",
   p = 1 - SurvivalProb,
   newdata = data.frame(1)
 )
 
-BrainCancerWmDf <- data.frame(
+
+# Create a data.frame an plot the results
+
+data.frame(
   time = BrainCancerWmTime,
   surv = SurvivalProb, 
   upper = NA,
   lower = NA,
   std.err = NA
-)
-
-ggsurvplot_df(
-  BrainCancerWmDf,
-  surv.geom = geom_line
-)
+) |>
+  ggsurvplot_df(surv.geom = geom_line)
 ```
 
 
@@ -387,6 +396,10 @@ ggplot(df, aes(x=x, y=Density)) +
 
 ### Modeling the survival time
 
+As we often want to know how a treatment or the severity of an illness affects the survival of the patients.
+
+
+
 #### Lineal approach
 
 To use the hazard function to **model the survival time** as a function of the **covariates** (predictors), we can assume the next form for the hazard function to assure positive results:
@@ -442,9 +455,9 @@ $$
 
 In the case of **a single binary covariate**, the score test for $H_0 : \beta = 0$ in *Cox’s proportional hazards model* is exactly equal to the *log-rank test*.
 
-#### Examples
+##### Examples
 
-##### Brain Cancer Data
+###### Brain Cancer Data
 
 ![](img/59-BrainCancer-Cox’s-proportional-hazards-model.png){fig-align="center"}
 
@@ -452,7 +465,7 @@ In the case of **a single binary covariate**, the score test for $H_0 : \beta = 
 
 - The higher the *Karnofsky index*, the lower the chance of dying at any given point in time, to be more specific each one-unit increase in the *Karnofsky index* corresponds to a multiplier of $e^{−0.05} = 0.95$ in the instantaneous chance of dying.
 
-##### Publication Data
+###### Publication Data
 
 - They start running a **log-rank test** yields a very unimpressive $p$-value of $0.36$  based on `posres`.
 
@@ -461,6 +474,128 @@ In the case of **a single binary covariate**, the score test for $H_0 : \beta = 
 - Then the run a **Cox model** with all the predictors the `posres` turn to be a great predictor of the time to publication. Here we can see the *KM survival curve* after adjusting for all other covariates.
 
 ![](img/61-publication-KM-survival-curve-adjusted.png){fig-align="center"}
+
+##### Coding example
+
+```{r}
+# Training Cox Models
+BrainCancerCox <- coxph(
+  Surv(time, status) ~ diagnosis + ki,
+  data = BrainCancer
+)
+
+coef(BrainCancerCox)
+
+# Defining the relations to plot
+BrainCancerGrid <- expand.grid(
+  diagnosis = levels(BrainCancer$diagnosis),
+  ki = quantile(BrainCancer$ki, probs = c(0.50, 0.75))
+)
+
+# Compute Cox model and survival curves
+BrainCancerCoxSc <- survfit(
+  BrainCancerCox,
+  data = BrainCancer,
+  newdata = BrainCancerGrid,
+  conf.type = "none"
+)
+
+# Use the summary of BrainCancerCoxSc
+# to take a vector of patient IDs
+BrainCancerCoxScDf <- surv_summary(BrainCancerCoxSc)
+pid <- as.character(BrainCancerCoxScDf$strata)
+
+
+# Transforming the data to create the plot
+m_newdat <- BrainCancerGrid[pid, , drop = FALSE]
+BrainCancerCoxScDfPlot <- cbind(BrainCancerCoxScDf, m_newdat)
+BrainCancerCoxScDfPlot$ki <- factor(BrainCancerCoxScDfPlot$ki)
+
+
+# Plot
+ggsurvplot_df(
+  BrainCancerCoxScDfPlot, 
+  linetype = "ki",
+  color = "diagnosis", 
+  legend.title = NULL, 
+  censor = FALSE
+)
+
+```
+
+
+#### Weibull model
+
+This method start assuming a distribution to describe the event time, from the following distributions.
+
+```{r}
+names(survreg.distributions)
+```
+
+In this model the coefficients are interpreted in the opposite way to the Cox's Model as **positive coefficients increase time until the event take place**.
+
+
+```{r}
+BrainCancerWM <- survreg(
+  Surv(time, status) ~ diagnosis + ki,
+  data = BrainCancer,
+  dist = "weibull"
+)
+
+coef(BrainCancerWM)
+
+```
+
+One technique to visualize numeric variables in using the 25%, 50%, and 75-% quantiles
+
+```{r}
+# Defining the probabilities to plot
+
+SurvivalProb <- seq(.99, .01, by = -.01)
+
+plot(SurvivalProb)
+
+
+# Defining the relations to plot
+
+BrainCancerGrid <- CJ(
+  diagnosis = levels(BrainCancer$diagnosis),
+  ki = quantile(BrainCancer$ki, probs = c(0.50, 0.75))
+)
+
+BrainCancerGrid
+
+
+# The predict function creates column per observation in newdata
+
+BrainCancerWmTime <- predict(
+  BrainCancerWM,
+  type = "quantile",
+  p = 1 - SurvivalProb,
+  newdata = BrainCancerGrid
+)
+
+
+# Join and pivot longer the variables in order the have
+# the columns names to run the plotting function
+
+cbind(BrainCancerGrid,
+      BrainCancerWmTime
+)[, melt(.SD,
+         id.vars = names(BrainCancerGrid),
+         variable.name = "surv_id",
+         value.name = "time")
+][,`:=`(surv = SurvivalProb[as.integer(surv_id)],
+        ki = factor(ki))
+][, c("upper", "lower", "std.err", "strata") := NA_real_] |>
+  ggsurvplot_df(surv.geom = geom_line,
+                linetype = "ki", 
+                color = "diagnosis", 
+                legend.title = NULL)
+
+```
+
+
 
 ### Shrinkage for the Cox Model
 
