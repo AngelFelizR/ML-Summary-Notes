@@ -397,19 +397,21 @@ S(t) = \Pr(T &gt; t)
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">BrainCancer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu">ISLR2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">BrainCancer</a></span><span class="op">)</span></span>
+<span><span class="va">BrainCancer</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="fu">ISLR2</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">BrainCancer</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pillar</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">BrainCancer</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 88
+<pre><code>Rows: 87
 Columns: 8
 $ sex       &lt;fct&gt; Female, Male, Female, Female, Male, Female, Male, Male, Fema…
 $ diagnosis &lt;fct&gt; Meningioma, HG glioma, Meningioma, LG glioma, HG glioma, Men…
 $ loc       &lt;fct&gt; Infratentorial, Supratentorial, Infratentorial, Supratentori…
-$ ki        &lt;int&gt; 90, 90, 70, 80, 90, 80, 80, 80, 70, 100, 80, 90, 90, 90, 60,…
+$ ki        &lt;int&gt; 90, 90, 70, 80, 90, 80, 80, 80, 70, 100, 80, 90, 90, 60, 70,…
 $ gtv       &lt;dbl&gt; 6.11, 19.35, 7.95, 7.61, 5.06, 4.82, 3.19, 12.37, 12.16, 2.5…
 $ stereo    &lt;fct&gt; SRS, SRT, SRS, SRT, SRT, SRS, SRT, SRT, SRT, SRT, SRT, SRS, …
-$ status    &lt;int&gt; 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, …
+$ status    &lt;int&gt; 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, …
 $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34.66,…</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">BrainCancer</span><span class="op">[</span>, <span class="va">.N</span>,</span>
@@ -421,7 +423,7 @@ $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34
                   &lt;lgcl&gt;      &lt;int&gt; &lt;int&gt;
 1:                 FALSE          0    17
 2:                 FALSE          1    23
-3:                  TRUE          0    36
+3:                  TRUE          0    35
 4:                  TRUE          1    12</code></pre>
 </div>
 </div>
@@ -501,12 +503,12 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  time n.risk n.event n.censor      surv
-1 0.07     88       1        0 0.9886364
-2 1.18     87       0        1 0.9886364
-3 1.41     86       1        0 0.9771406
-4 1.54     85       0        1 0.9771406
-5 2.03     84       0        1 0.9771406
-6 3.38     83       1        0 0.9653678</code></pre>
+1 0.07     87       1        0 0.9885057
+2 1.18     86       0        1 0.9885057
+3 1.41     85       1        0 0.9768763
+4 1.54     84       0        1 0.9768763
+5 2.03     83       0        1 0.9768763
+6 3.38     82       1        0 0.9649631</code></pre>
 </div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">BrainCancerSv</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="va">time</span><span class="op">:</span><span class="va">estimate</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -515,12 +517,12 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <pre><code># A tibble: 6 × 5
    time n.risk n.event n.censor estimate
   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-1  0.07     88       1        0    0.989
-2  1.18     87       0        1    0.989
-3  1.41     86       1        0    0.977
-4  1.54     85       0        1    0.977
-5  2.03     84       0        1    0.977
-6  3.38     83       1        0    0.965</code></pre>
+1  0.07     87       1        0    0.989
+2  1.18     86       0        1    0.989
+3  1.41     85       1        0    0.977
+4  1.54     84       0        1    0.977
+5  2.03     83       0        1    0.977
+6  3.38     82       1        0    0.965</code></pre>
 </div>
 </div>
 <p>We can plot this results using the <code>survminer</code> package:</p>
@@ -592,7 +594,8 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span></span>
 <span><span class="va">BrainCancerWSC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html">survreg</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="fl">1</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">BrainCancer</span></span>
+<span>  data <span class="op">=</span> <span class="va">BrainCancer</span>,</span>
+<span>  dist <span class="op">=</span> <span class="st">"weibull"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span></span>
@@ -791,7 +794,7 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <section id="connection-with-the-log-rank-test" class="level5"><h5 class="anchored" data-anchor-id="connection-with-the-log-rank-test">Connection With The Log-Rank Test</h5>
 <p>In the case of <strong>a single binary covariate</strong>, the score test for <span class="math inline">\(H_0 : \beta = 0\)</span> in <em>Cox’s proportional hazards model</em> is exactly equal to the <em>log-rank test</em>.</p>
 </section><section id="examples" class="level5"><h5 class="anchored" data-anchor-id="examples">Examples</h5>
-<section id="brain-cancer-data" class="level6"><h6 class="anchored" data-anchor-id="brain-cancer-data">Brain Cancer Data</h6>
+<section id="brain-cancer-data" class="level6"><h6 class="anchored" data-anchor-id="brain-cancer-data"><strong>Brain Cancer Data</strong></h6>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/59-BrainCancer-Cox’s-proportional-hazards-model.png" class="img-fluid figure-img"></p>
 </figure>
@@ -799,7 +802,7 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <ul>
 <li><p>The estimated hazard for patients with <em>HG Glioma</em> is <span class="math inline">\(e^{2.15} = 8.58\)</span> times greater that patients with different diagnosis if we <strong>hold all other covariates fixed</strong>.</p></li>
 <li><p>The higher the <em>Karnofsky index</em>, the lower the chance of dying at any given point in time, to be more specific each one-unit increase in the <em>Karnofsky index</em> corresponds to a multiplier of <span class="math inline">\(e^{−0.05} = 0.95\)</span> in the instantaneous chance of dying.</p></li>
-</ul></section><section id="publication-data" class="level6"><h6 class="anchored" data-anchor-id="publication-data">Publication Data</h6>
+</ul></section><section id="publication-data" class="level6"><h6 class="anchored" data-anchor-id="publication-data"><strong>Publication Data</strong></h6>
 <ul>
 <li>They start running a <strong>log-rank test</strong> yields a very unimpressive <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.36\)</span> based on <code>posres</code>.</li>
 </ul>
@@ -1195,6 +1198,36 @@ C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delt
 <p><span class="math display">\[
 C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i&gt;y_{i'}} \delta_{i'}} = \frac{0}{5} = 0
 \]</span></p>
+</section><section id="coding-example-3" class="level5"><h5 class="anchored" data-anchor-id="coding-example-3">Coding example</h5>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.msbi.nl/putter">dynpred</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5883878</code></pre>
+</div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span> <span class="op">+</span> <span class="va">ki</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7376879</code></pre>
+</div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7501296</code></pre>
+</div>
+</div>
 </section></section></section></section><section id="references" class="level2" data-number="9.6"><h2 data-number="9.6" class="anchored" data-anchor-id="references">
 <span class="header-section-number">9.6</span> References</h2>
 

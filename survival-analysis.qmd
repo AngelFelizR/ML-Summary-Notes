@@ -71,7 +71,9 @@ To explain how complicated can be to estimate $S(20) = \Pr(T>20)$ when our targe
 ```{r}
 library(data.table)
 
-BrainCancer <- as.data.table(ISLR2::BrainCancer)
+BrainCancer <- 
+  na.omit(ISLR2::BrainCancer) |>
+  as.data.table()
 
 pillar::glimpse(BrainCancer)
 
@@ -223,7 +225,8 @@ plot(SurvivalProb)
 
 BrainCancerWSC <- survreg(
   Surv(time, status) ~ 1,
-  data = BrainCancer
+  data = BrainCancer,
+  dist = "weibull"
 )
 
 
@@ -457,7 +460,7 @@ In the case of **a single binary covariate**, the score test for $H_0 : \beta = 
 
 ##### Examples
 
-###### Brain Cancer Data
+###### **Brain Cancer Data**
 
 ![](img/59-BrainCancer-Cox’s-proportional-hazards-model.png){fig-align="center"}
 
@@ -465,7 +468,7 @@ In the case of **a single binary covariate**, the score test for $H_0 : \beta = 
 
 - The higher the *Karnofsky index*, the lower the chance of dying at any given point in time, to be more specific each one-unit increase in the *Karnofsky index* corresponds to a multiplier of $e^{−0.05} = 0.95$ in the instantaneous chance of dying.
 
-###### Publication Data
+###### **Publication Data**
 
 - They start running a **log-rank test** yields a very unimpressive $p$-value of $0.36$  based on `posres`.
 
@@ -710,5 +713,23 @@ $\hat{\eta}_i = \hat{\beta} x_i$
 $$
 C = \frac{\sum_{i,i':y_i>y_{i'}} I(\hat{\eta}_{i'} > \hat{\eta}_{i}) \delta_{i'}}{\sum_{i,i':y_i>y_{i'}} \delta_{i'}} = \frac{0}{5} = 0
 $$
+
+##### Coding example
+
+```{r}
+library(dynpred)
+
+
+CVcindex(Surv(time, status) ~ diagnosis, data = BrainCancer) |>
+  (\(X) X[["cindex"]])()
+
+CVcindex(Surv(time, status) ~ diagnosis + ki, data = BrainCancer) |>
+  (\(X) X[["cindex"]])()
+
+CVcindex(Surv(time, status) ~ ., data = BrainCancer) |>
+  (\(X) X[["cindex"]])()
+
+```
+
 
 ## References
