@@ -41,6 +41,7 @@ book:
       - 03-execises.qmd
       - 04-execises.qmd
       - 05-execises.qmd
+      - 11-execises.qmd
       
 format:
   html:

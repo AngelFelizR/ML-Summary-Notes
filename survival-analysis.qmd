@@ -719,16 +719,14 @@ $$
 ```{r}
 library(dynpred)
 
-
-CVcindex(Surv(time, status) ~ diagnosis, data = BrainCancer) |>
-  (\(X) X[["cindex"]])()
-
-CVcindex(Surv(time, status) ~ diagnosis + ki, data = BrainCancer) |>
-  (\(X) X[["cindex"]])()
-
-CVcindex(Surv(time, status) ~ ., data = BrainCancer) |>
-  (\(X) X[["cindex"]])()
-
+data.frame(
+  predictors = c("diagnosis" ,"diagnosis + ki", "."),
+  c_index = c(
+    CVcindex(Surv(time, status) ~ diagnosis, data = BrainCancer)[["cindex"]],
+    CVcindex(Surv(time, status) ~ diagnosis + ki, data = BrainCancer)[["cindex"]],
+    CVcindex(Surv(time, status) ~ ., data = BrainCancer)[["cindex"]]
+  )
+)
 ```
 
 

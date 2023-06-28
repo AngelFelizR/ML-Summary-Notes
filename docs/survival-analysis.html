@@ -1202,30 +1202,26 @@ C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delt
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.msbi.nl/putter">dynpred</a></span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  predictors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"diagnosis"</span> ,<span class="st">"diagnosis + ki"</span>, <span class="st">"."</span><span class="op">)</span>,</span>
+<span>  c_index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span> <span class="op">+</span> <span class="va">ki</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
+<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87
+
+1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87
+
+1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5883878</code></pre>
-</div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">diagnosis</span> <span class="op">+</span> <span class="va">ki</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7376879</code></pre>
-</div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/dynpred/man/CVcindex.html">CVcindex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">BrainCancer</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="va">X</span><span class="op">[[</span><span class="st">"cindex"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>1/872/873/874/875/876/877/878/879/8710/8711/8712/8713/8714/8715/8716/8717/8718/8719/8720/8721/8722/8723/8724/8725/8726/8727/8728/8729/8730/8731/8732/8733/8734/8735/8736/8737/8738/8739/8740/8741/8742/8743/8744/8745/8746/8747/8748/8749/8750/8751/8752/8753/8754/8755/8756/8757/8758/8759/8760/8761/8762/8763/8764/8765/8766/8767/8768/8769/8770/8771/8772/8773/8774/8775/8776/8777/8778/8779/8780/8781/8782/8783/8784/8785/8786/8787/87</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7501296</code></pre>
+<pre><code>      predictors   c_index
+1      diagnosis 0.5883878
+2 diagnosis + ki 0.7376879
+3              . 0.7501296</code></pre>
 </div>
 </div>
 </section></section></section></section><section id="references" class="level2" data-number="9.6"><h2 data-number="9.6" class="anchored" data-anchor-id="references">
