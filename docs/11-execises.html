@@ -264,7 +264,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">5</a></li>
   </ul>
 </li>
-  <li><a href="#applied" id="toc-applied" class="nav-link" data-scroll-target="#applied">Applied</a></li>
+  <li>
+<a href="#applied" id="toc-applied" class="nav-link" data-scroll-target="#applied">Applied</a>
+  <ul>
+<li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5">10</a></li>
+  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6">11</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -483,6 +489,7 @@ h3, h4 {
 </div>
 </div>
 </section></section><section id="applied" class="level2"><h2 class="anchored" data-anchor-id="applied">Applied</h2>
+<section id="section-5" class="level3"><h3 class="anchored" data-anchor-id="section-5">10</h3>
 <p><strong>10.</strong> <em>This exercise focuses on the brain tumor data, which is included in the ISLR2 R library</em>.</p>
 <p><strong>(A)</strong> <em>Plot the Kaplan-Meier survival curve with</em> <span class="math inline">\(\pm1\)</span> <em>standard error bands, using the survfit() function in the survival package.</em></p>
 <div class="cell">
@@ -558,19 +565,92 @@ n= 87, number of events= 35
 </div>
 <p><strong>(D)</strong> <em>Stratify the data by the value of</em> <code>ki</code> <em>. (Since only one observation has</em> <code>ki=40</code> <em>, you can group that observation together with the observations that have</em> <code>ki=60</code> <em>.) Plot Kaplan-Meier survival curves for each of the five strata, adjusted for the other predictors.</em></p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">BrainCancerGrid</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">BrainCancerDt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">.SD</span><span class="op">)</span>,</span>
-<span>                .SDcols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">BrainCancerDt</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ki"</span>,<span class="st">"status"</span>,<span class="st">"time"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>                by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span>ki <span class="op">=</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fifelse.html">fifelse</a></span><span class="op">(</span><span class="va">ki</span> <span class="op">==</span> <span class="fl">40</span>, <span class="fl">60</span>, <span class="va">ki</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">BrainCancerKiGrid</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">BrainCancerDt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html">is.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fifelse.html">fifelse</a></span><span class="op">(</span><span class="va">x</span> <span class="op">==</span> <span class="fl">40L</span>, <span class="fl">60L</span>, <span class="va">x</span><span class="op">)</span> <span class="kw">else</span> <span class="va">x</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span> <span class="op">)</span></span>
+<span>  <span class="op">]</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">.SD</span><span class="op">)</span> , .SDcols <span class="op">=</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"time"</span>,<span class="st">"status"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">BrainCancerCox2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">.</span> <span class="op">-</span><span class="va">ki</span>, </span>
-<span>  data <span class="op">=</span> <span class="va">BrainCancer</span></span>
+<span><span class="va">BrainCancerKiSv</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="va">BrainCancerCox</span>,</span>
+<span>          data <span class="op">=</span> <span class="va">BrainCancer</span>,</span>
+<span>          newdata <span class="op">=</span> <span class="va">BrainCancerKiGrid</span>,</span>
+<span>          conf.type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">BrainCancerKiSv</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Months"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Survival Probability"</span>,</span>
+<span>     col <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomleft"</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">BrainCancerKiGrid</span><span class="op">$</span><span class="va">ki</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>      col <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="11-execises_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="section-6" class="level3"><h3 class="anchored" data-anchor-id="section-6">11</h3>
+<p><strong>11.</strong> This example makes use of the data in Table 11.4.</p>
+<p><strong>(A)</strong> <em>Create two groups of observations. In Group 1, X &lt;2, whereas in Group 2, X ≥ 2. Plot the Kaplan-Meier survival curves corresponding to the two groups. Be sure to label the curves so that it is clear which curve corresponds to which group. By eye, does there appear to be a difference between the two groups’ survival curves?</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ExampleTable</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">y_values</span>,</span>
+<span>             status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">y_values</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>             X <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">11</span>, <span class="op">-</span><span class="fl">0.3</span>, <span class="fl">2.8</span>, <span class="fl">1.8</span>, <span class="fl">0.4</span><span class="op">)</span></span>
+<span>  <span class="op">)</span><span class="op">[</span>, <span class="va">under_2</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">X</span> <span class="op">&lt;</span> <span class="fl">2</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="va">ExampleTableSv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">under_2</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">ExampleTable</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ExampleTableSv</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Months"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Survival Probability"</span>,</span>
+<span>     col <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomleft"</span>,</span>
+<span>       <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">ExampleTable</span><span class="op">$</span><span class="va">under_2</span><span class="op">)</span>, </span>
+<span>       col <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">6</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="11-execises_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>(B)</strong> <em>Fit Cox’s proportional hazards model, using the group indicator as a covariate. What is the estimated coefficient? Write a sentence providing the interpretation of this coefficient, in terms of the hazard or the instantaneous probability of the event. Is there evidence that the true coefficient value is non-zero?</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">under_2</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">ExampleTable</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+coxph(formula = Surv(time, status) ~ under_2, data = ExampleTable)
+
+              coef exp(coef) se(coef)     z     p
+under_2TRUE 0.3401    1.4051   1.2359 0.275 0.783
+
+Likelihood ratio test=0.08  on 1 df, p=0.7797
+n= 6, number of events= 3 </code></pre>
+</div>
+</div>
+<p><strong>(C)</strong> <em>Recall from Section 11.5.2 that in the case of a single binary covariate, the log-rank test statistic should be identical to the score statistic for the Cox model. Conduct a log-rank test to determine whether there is a difference between the survival curves for the two groups. How does the p-value for the log-rank test statistic compare to the p-value for the score statistic for the Cox model from (b)?</em></p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survdiff.html">survdiff</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">under_2</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">ExampleTable</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(time, status) ~ under_2, data = ExampleTable)
+
+              N Observed Expected (O-E)^2/E (O-E)^2/V
+under_2=FALSE 2        1     1.23    0.0441    0.0764
+under_2=TRUE  4        2     1.77    0.0308    0.0764
+
+ Chisq= 0.1  on 1 degrees of freedom, p= 0.8 </code></pre>
+</div>
 </div>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

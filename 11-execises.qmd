@@ -152,6 +152,8 @@ ggplot(aes(time, surv))+
 
 ## Applied
 
+### 10
+
 **10.** *This exercise focuses on the brain tumor data, which is included in the ISLR2 R library*.
 
 **(A)** *Plot the Kaplan-Meier survival curve with* $\pm1$ *standard error bands, using the survfit() function in the survival package.*
@@ -214,16 +216,72 @@ BrainCancerCox
 
 ```{r}
 
-BrainCancerGrid <-
-  BrainCancerDt[, unique(.SD),
-                .SDcols = setdiff(names(BrainCancerDt), c("ki","status","time")),
-                by = .(ki = fifelse(ki == 40, 60, ki))]
+BrainCancerKiGrid <-
+  BrainCancerDt[, lapply(.SD, \(x) if(is.integer(x)) fifelse(x == 40L, 60L, x) else x[1L] )
+  ][, unique(.SD) , .SDcols = !c("time","status")]
 
-BrainCancerCox2 <- coxph(
-  Surv(time, status) ~ . -ki, 
-  data = BrainCancer
-)
+BrainCancerKiSv <-
+  survfit(BrainCancerCox,
+          data = BrainCancer,
+          newdata = BrainCancerKiGrid,
+          conf.type = "none")
+
+plot(BrainCancerKiSv,
+     xlab = "Months",
+     ylab = "Survival Probability",
+     col = 2:6)
+legend("bottomleft",
+      factor(BrainCancerKiGrid$ki) |>
+        as.character(), 
+      col = 2:6, lty = 1)
 
 
 ```
+
+### 11
+
+**11.** This example makes use of the data in Table 11.4.
+
+**(A)** *Create two groups of observations. In Group 1, X <2, whereas in Group 2, X ≥ 2. Plot the Kaplan-Meier survival curves corresponding to the two groups. Be sure to label the curves so that it is clear which curve corresponds to which group. By eye, does there appear to be a difference between the two groups’ survival curves?*
+
+```{r}
+ExampleTable <-
+  data.table(time = y_values,
+             status = names(y_values) |> as.integer(),
+             X = c(0.1, 11, -0.3, 2.8, 1.8, 0.4)
+  )[, under_2 := factor(X < 2)]
+
+
+ExampleTableSv <- survfit(
+  Surv(time, status) ~ under_2, 
+  data = ExampleTable
+)
+
+plot(ExampleTableSv,
+     xlab = "Months",
+     ylab = "Survival Probability",
+     col = 2:6)
+legend("bottomleft",
+       levels(ExampleTable$under_2), 
+       col = 2:6, lty = 1)
+```
+
+**(B)** *Fit Cox’s proportional hazards model, using the group indicator as a covariate. What is the estimated coefficient? Write a sentence providing the interpretation of this coefficient, in terms of the hazard or the instantaneous probability of the event. Is there evidence that the true coefficient value is non-zero?*
+
+```{r}
+coxph(
+  Surv(time, status) ~ under_2, 
+  data = ExampleTable
+)
+```
+
+**(C)** *Recall from Section 11.5.2 that in the case of a single binary covariate, the log-rank test statistic should be identical to the score statistic for the Cox model. Conduct a log-rank test to determine whether there is a difference between the survival curves for the two groups. How does the p-value for the log-rank test statistic compare to the p-value for the score statistic for the Cox model from (b)?*
+
+```{r}
+survdiff(
+  Surv(time, status) ~ under_2, 
+  data = ExampleTable
+)
+```
+
 
