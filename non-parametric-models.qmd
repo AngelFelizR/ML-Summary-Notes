@@ -179,6 +179,9 @@ As we said before, simple trees has a *high variance* problem $Var(\hat{f}(x_{0}
 
 We know from the *Central Limit Theorem* a natural way to *reduce the variance* and *increase the test set accuracy* is taking many **training sets from the population**, build a separate prediction model using each training set, and average the resulting prediction, as for a given a set of $n$ **independent observations** $Z_1, \dots, Z_n$, each with variance $\sigma^2$, the variance of the mean $\overline{Z}$ of the observations is given by $\sigma^2/n$.
 
+![](img/66-bagging-concept.png){fig-align="center"}
+
+
 As we generally do not have access to multiple training sets we use **bootstrap** to take repeated samples from the one training data set, train $B$ **not pruned regression trees** and **average** the resulting predictions or select the most commonly occurring class among the $B$ predictions in classification settings.
 
 $$

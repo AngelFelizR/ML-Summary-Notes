@@ -526,6 +526,10 @@ RSS = \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
 <span class="header-section-number">8.2.2</span> Bagging (bootstrap aggregation)</h3>
 <p>As we said before, simple trees has a <em>high variance</em> problem <span class="math inline">\(Var(\hat{f}(x_{0}))\)</span> and <strong>bagging</strong> can help to mitigate this problem.</p>
 <p>We know from the <em>Central Limit Theorem</em> a natural way to <em>reduce the variance</em> and <em>increase the test set accuracy</em> is taking many <strong>training sets from the population</strong>, build a separate prediction model using each training set, and average the resulting prediction, as for a given a set of <span class="math inline">\(n\)</span> <strong>independent observations</strong> <span class="math inline">\(Z_1, \dots, Z_n\)</span>, each with variance <span class="math inline">\(\sigma^2\)</span>, the variance of the mean <span class="math inline">\(\overline{Z}\)</span> of the observations is given by <span class="math inline">\(\sigma^2/n\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/66-bagging-concept.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 <p>As we generally do not have access to multiple training sets we use <strong>bootstrap</strong> to take repeated samples from the one training data set, train <span class="math inline">\(B\)</span> <strong>not pruned regression trees</strong> and <strong>average</strong> the resulting predictions or select the most commonly occurring class among the <span class="math inline">\(B\)</span> predictions in classification settings.</p>
 <p><span class="math display">\[
 \hat{f}_{bag}(x) = \frac{1}{B}\sum_{b=1}^B\hat{f}^{*b}(x)
