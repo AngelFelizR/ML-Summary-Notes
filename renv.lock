@@ -9,6 +9,29 @@
     ]
   },
   "Packages": {
+    "DALEX": {
+      "Package": "DALEX",
+      "Version": "2.4.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "082ea3e101d0fd99a30a75d1a15e2dd4",
+      "Requirements": [
+        "ggplot2",
+        "iBreakDown",
+        "ingredients"
+      ]
+    },
+    "DALEXtra": {
+      "Package": "DALEXtra",
+      "Version": "2.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6c7cb21e59aa3528664280fc8630b27d",
+      "Requirements": [
+        "DALEX",
+        "ggplot2"
+      ]
+    },
     "DiceDesign": {
       "Package": "DiceDesign",
       "Version": "1.9",
@@ -991,6 +1014,16 @@
         "promises"
       ]
     },
+    "iBreakDown": {
+      "Package": "iBreakDown",
+      "Version": "2.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "b45a9f10d6a33995a3b47f62f3264262",
+      "Requirements": [
+        "ggplot2"
+      ]
+    },
     "igraph": {
       "Package": "igraph",
       "Version": "1.4.3",
@@ -1023,6 +1056,18 @@
         "rlang",
         "tibble",
         "tidyr"
+      ]
+    },
+    "ingredients": {
+      "Package": "ingredients",
+      "Version": "2.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f9d2e6727e3f6d67a33361d4d2d15d42",
+      "Requirements": [
+        "ggplot2",
+        "gridExtra",
+        "scales"
       ]
     },
     "ipred": {

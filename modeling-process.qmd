@@ -104,18 +104,13 @@ According to **Hands-on Machine Learning with R**, we need to follow the next pr
 
 3. Even though that *Lasso* and *tree-based* methods are resistant to **non-informative predictors** it better to remove them as with more features often becomes **harder to interpret** and is **costly to compute**. Based on the context we have 2 kind of variables to remove:
   - **Zero variance variables**: The feature only contains a single unique value, provides no useful information to a model.
-  - **Near-zero variance variables**: The fraction of unique values over the sample size is low (say $\leq 10$%) and the ratio of the frequency of the most prevalent value to the frequency of the second most prevalent value is large (say $\geq 20$%)
-  - **High dimensional problem**: It is an alternative approach to filter out non-informative features **without manually removing them**. Use `step_pca`to reduce the dimension of our features with principal components analysis (Chapter 17) and retain the number of components required to explain, say, 95% of the variance and use these components as features in downstream modeling.
-  
-```r
-ames_train |>
-  step_nzv()
-```
+  - **Near-zero variance variables**: The fraction of unique values over the sample size is low (say $\leq 10$%) and the ratio of the frequency of the most prevalent value to the frequency of the second most prevalent value is large (say $\geq 20$%). You can use `step_nzv` to apply it.
+  - **High dimensional problem**: It is an alternative approach to filter out non-informative features **without manually removing them**.  It  can be used to represent **correlated variables** with a smaller number of **uncorrelated features** (called principle components). Use `step_pca` or `step_pls` to reduce the dimension of our features.
 
 4. Perform imputation if required.
 
 5. Solve the problems related to **numeric features** based on the model as they can affect GLMs, regularized regression, KNN, support vector machines and neural networks.
-  - **Skewed**: It can affect GLMs and regularized models. The recommended way it's to use **log** or **Box-Cox** for positive or `step_YeoJohnson` if the variable has negative numbers.    
+  - **Skewed**: It can affect GLMs and regularized models. The recommended way it's to use **sqrt**,**log** or **Box-Cox** for positive or `step_YeoJohnson` if the variable has negative numbers.    
   - **Wide range in magnitudes**: What are the largest and smallest values across all features and do they span several orders of magnitude?. It is often a good idea to **standardize** the features. Standardizing features includes **centering** and **scaling** so that numeric variables have zero mean and unit variance, which provides a common comparable unit of measure across all the variables.
   
 
