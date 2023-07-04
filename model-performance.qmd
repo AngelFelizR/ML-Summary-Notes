@@ -84,7 +84,70 @@ To evaluate how good works a models we need to split the available data in two p
 - **Training data**: Used to fit the model.
 - **Test data**: Used to confirm how well the model works with new data.
 
-Some measurements to evaluate our test data in **regression models** are:
+
+### Regression models
+
+
+- **Ground Truth vs. Predicts Plot**: In this plot we represent the *predictions on the x-axis* and the *outcome on the y-axis* in a **scatted plot** with a line with **slope = 1**. If the model predicted perfectly, all the points would be along this line. If you see regions where the points are entirely above or below the line it demonstrates that **the errors are correlated with the value of the outcome**. Some possible problems could be:
+  - Don't having all the important variables in your model
+  - You need an algorithm that can find more complex relationships in the data
+
+![](img/69-ground-truth-vs-predictions-plot.png){fig-align="center"}
+
+- **Residual Plots**: It plots the residuals ($y_i - \hat{y}_i$) against the predictions ($\hat{y}_i$).In a model with no systematic errors, the errors will be evenly distributed between positive and negative, but When there are systematic errors, there will be **clusters of all positive or all negative residuals**.
+
+![](img/70-residual-plots.png){fig-align="center"}
+
+- **Gain curve plot**: It is useful when **sorting the instances** is more important than predicting the exact outcome value like happens when **predicting probabilities**, where:
+  - The **x-axis** shows the **fraction of total houses** as sorted by the model.
+  - The **y-axis** shows the fraction of total accumulated outcome magnitude. 
+  - The **diagonal line** represents the gain curve if the houses are **sorted randomly**. T
+  - The **wizard curve** represents what a **perfect model** would trace out.
+  - The blue curve is what **our model** traces out.
+  - A **relative gini coefficient** close to one shows that the model correctly sorts high unemployment situations from lower ones.
+  
+
+```{r}
+#| code-fold: true
+
+# Creating a data.frame
+set.seed(34903490)
+y = abs(rnorm(20)) + 0.1
+x = abs(y + 0.5*rnorm(20))
+frm = data.frame(model=x, value=y)
+
+# Getting the predicted top 25% most valuable points
+# as sorted by the model
+gainx = 0.25  
+
+# Creating a function to calculate the label for the annotated point
+labelfun = function (gx, gy) {
+  pctx = gx*100
+  pcty = gy*100
+
+  paste("The predicted top ", pctx, "% most valuable points by the model\n",
+        "are ", pcty, "% of total actual value", sep='')
+}
+
+WVPlots::GainCurvePlotWithNotation(
+  frm,
+  xvar = "model",
+  truthVar = "value",
+  title = "Example Gain Curve with annotation",
+  gainx = gainx,
+  labelfun = labelfun
+)
+```
+  
+
+- **Test Root Mean Squared Error (RMSE)**: It takes the square root of the MSE metric so that your error is in the same units as your response variable.**Objective: minimize**
+
+To know if the **RMSE of our model** is high or low can compare it with the **standard deviation of the outcome** (`sd(y)`), then if the *RMSE being smaller than the standard deviation* that demonstrates that *the model tends to estimate better than simply taking the average*.
+
+$$
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
+$$
+
 
 - **Mean squared error (MSE)**: The squared component results in larger errors having larger penalties. **Objective: minimize**
 
@@ -94,16 +157,14 @@ $$
 
 ![](img/01-Training-vs-Test-Error.png){fig-align="center"}
 
-- **Test root mean squared error (RMSE)**: It takes the square root of the MSE metric so that your error is in the same units as your response variable.**Objective: minimize**
+
+
+- $R^2$: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable(s). But if have too many limitations and You should not place too much emphasis on this metric. **Objective: minimize**
 
 $$
-RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
-$$
 
-- **Mean absolute error (MAE)**: Similar to MSE but rather than squaring, it just takes the mean absolute difference between the actual and predicted values. **Objective: minimize**
-
-$$
-\text{MAE} = \frac{1}{n} \sum_{i=1}^n (|y_i - \hat{y}_i|)
+R^2 = 1 - \frac{\overbrace{\sum_{i = 1}^n(y_i - \hat{y}_i)^2}^\text{residual sum of squares}}
+               {\underbrace{\sum_{i = 1}^n(y_i - \overline{y}_i)^2}_\text{total sum of squares}}
 $$
 
 - **Root mean squared logarithmic error (RMSLE)**: When your response variable has a wide range of values, large response values with large errors can dominate the MSE/RMSE metric. RMSLE minimizes this impact so that small response values with large errors can have just as meaningful of an impact as large response values with large errors. **Objective: minimize**
@@ -113,13 +174,20 @@ $$
 $$
 
 
-- **Deviance**: If the response variable distribution is Gaussian, then it will be approximately equal to MSE. When not, it usually gives a more useful estimate of error. It is often used with *classification models* and compares a saturated model (i.e. fully featured model) to an unsaturated model (i.e. intercept only or average) to provide the degree to which a model explains the variation in a set of data. **Objective: minimize**
+- **Mean absolute error (MAE)**: Similar to MSE but rather than squaring, it just takes the mean absolute difference between the actual and predicted values. **Objective: minimize**
 
-- $R^2$: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable(s). But if have too many limitations and You should not place too much emphasis on this metric. **Objective: minimize**
+$$
+\text{MAE} = \frac{1}{n} \sum_{i=1}^n (|y_i - \hat{y}_i|)
+$$
+
+
+
+
+- **Deviance**: If the response variable distribution is Gaussian, then it will be approximately equal to MSE. When not, it usually gives a more useful estimate of error. It is often used with *classification models* and compares a saturated model (i.e. fully featured model) to an unsaturated model (i.e. intercept only or average) to provide the degree to which a model explains the variation in a set of data. **Objective: minimize**
 
 <br>
 
-Some measurements to evaluate our test data in **classification models** are:
+### Classification models
 
 - **Error (misclassification) rate**: It represents the overall error. **Objective: minimize**
 

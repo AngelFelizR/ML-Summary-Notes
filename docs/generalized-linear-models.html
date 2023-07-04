@@ -282,11 +282,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="#possible-problems" id="toc-possible-problems" class="nav-link" data-scroll-target="#possible-problems"><span class="toc-section-number">5.1.5</span>  Possible problems</a>
   <ul class="collapse">
 <li><a href="#the-target-doesnt-follow-a-normal-distribution" id="toc-the-target-doesnt-follow-a-normal-distribution" class="nav-link" data-scroll-target="#the-target-doesnt-follow-a-normal-distribution">The target doesn’t follow a normal distribution</a></li>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity">Collinearity</a></li>
   <li><a href="#non-linearity-of-the-response-predictor-relationships" id="toc-non-linearity-of-the-response-predictor-relationships" class="nav-link" data-scroll-target="#non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</a></li>
   <li><a href="#correlation-of-error-terms" id="toc-correlation-of-error-terms" class="nav-link" data-scroll-target="#correlation-of-error-terms">Correlation of error terms</a></li>
   <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers">Outliers</a></li>
   <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points">High-leverage points</a></li>
-  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity">Collinearity</a></li>
   </ul>
 </li>
   <li><a href="#avoid-using-for-classification-problems" id="toc-avoid-using-for-classification-problems" class="nav-link" data-scroll-target="#avoid-using-for-classification-problems"><span class="toc-section-number">5.1.6</span>  Avoid using for classification problems</a></li>
@@ -317,7 +317,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
 <li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr"><span class="toc-section-number">5.4.1</span>  Principal Components Regression (PCR)</a></li>
   <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls"><span class="toc-section-number">5.4.2</span>  Partial Least Squares (PLS)</a></li>
-  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="toc-section-number">5.4.3</span>  Coding example</a></li>
+  <li><a href="#pcr-vs-pls" id="toc-pcr-vs-pls" class="nav-link" data-scroll-target="#pcr-vs-pls"><span class="toc-section-number">5.4.3</span>  PCR vs PLS</a></li>
+  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="toc-section-number">5.4.4</span>  Coding example</a></li>
   </ul>
 </li>
   <li>
@@ -562,6 +563,28 @@ y(\lambda) =
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Sale_Price</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">ames_train</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">step_YeoJohnson</span><span class="op">(</span><span class="fu">all_outcomes</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To make correct interpretations of our predictions it’s important to remember that we need to <strong>revert this transformation after getting the prediction</strong>.</p>
+</section><section id="collinearity" class="level4"><h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
+<p><strong>Collinearity</strong> refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for <span class="math inline">\(\hat{\beta}_{j}\)</span> to grow. That reduce the <strong>power of the hypothesis test</strong>,that is, the probability of correctly detecting a non-zero coeﬃcient.</p>
+<p>Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (<strong>multicollinearity</strong>).</p>
+<table class="table">
+<colgroup>
+<col style="width: 64%">
+<col style="width: 36%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Detection method</th>
+<th style="text-align: left;">Solutions</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">The best way to assess multicollinearity is to compute the <strong>variance inﬂation factor (VIF)</strong>, which is the ratio of the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> when ﬁtting the full model divided by the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity</td>
+<td style="text-align: left;">1. Drop one of the problematic variables from the regression.   2. Combine the collinear variables together into a single predictor</td>
+</tr></tbody>
+</table>
+<p><span class="math display">\[
+\text{VIF}(\hat{\beta}_{j}) = \frac{1}
+                                   {1 - R_{X_{j}|X_{-j}}^2}
+\]</span></p>
+<p>Where <span class="math inline">\(R_{X_{j}|X_{-j}}^2\)</span> is the <span class="math inline">\(R^2\)</span> from a regression of <span class="math inline">\(X_{j}\)</span> onto all of the other predictors.</p>
 </section><section id="non-linearity-of-the-response-predictor-relationships" class="level4"><h4 class="anchored" data-anchor-id="non-linearity-of-the-response-predictor-relationships">Non-linearity of the response-predictor relationships</h4>
 <table class="table">
 <colgroup>
@@ -582,6 +605,7 @@ y(\lambda) =
 </figure>
 </div>
 </section><section id="correlation-of-error-terms" class="level4"><h4 class="anchored" data-anchor-id="correlation-of-error-terms">Correlation of error terms</h4>
+<p>If there is correlation among the errors, then the estimated standard errors of the coefficients will be biased <strong>leading to prediction intervals being narrower</strong> than they should be.</p>
 <table class="table">
 <colgroup>
 <col style="width: 64%">
@@ -642,28 +666,6 @@ h_{i} = \frac{1}{n} +
 <figure class="figure"><p><img src="img/07-studentized-residuals-leverage-plot.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="collinearity" class="level4"><h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
-<p><strong>Collinearity</strong> refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for <span class="math inline">\(\hat{\beta}_{j}\)</span> to grow. That reduce the <strong>power of the hypothesis test</strong>,that is, the probability of correctly detecting a non-zero coeﬃcient.</p>
-<p>Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (<strong>multicollinearity</strong>).</p>
-<table class="table">
-<colgroup>
-<col style="width: 64%">
-<col style="width: 36%">
-</colgroup>
-<thead><tr class="header">
-<th style="text-align: left;">Detection method</th>
-<th style="text-align: left;">Solutions</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td style="text-align: left;">The best way to assess multicollinearity is to compute the <strong>variance inﬂation factor (VIF)</strong>, which is the ratio of the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> when ﬁtting the full model divided by the variance of <span class="math inline">\(\hat{\beta}_{j}\)</span> if ﬁt on its own with 1 as its lowest value and 5 or 10 as problematic values of collinearity</td>
-<td style="text-align: left;">1. Drop one of the problematic variables from the regression.   2. Combine the collinear variables together into a single predictor</td>
-</tr></tbody>
-</table>
-<p><span class="math display">\[
-\text{VIF}(\hat{\beta}_{j}) = \frac{1}
-                                   {1 - R_{X_{j}|X_{-j}}^2}
-\]</span></p>
-<p>Where <span class="math inline">\(R_{X_{j}|X_{-j}}^2\)</span> is the <span class="math inline">\(R^2\)</span> from a regression of <span class="math inline">\(X_{j}\)</span> onto all of the other predictors.</p>
 </section></section><section id="avoid-using-for-classification-problems" class="level3" data-number="5.1.6"><h3 data-number="5.1.6" class="anchored" data-anchor-id="avoid-using-for-classification-problems">
 <span class="header-section-number">5.1.6</span> Avoid using for classification problems</h3>
 <p>There are better model to achieve that kind of situation. For example, he linear <strong>discriminant analysis (LDA)</strong> procedure the same response of a linear regression for a binary problem. Other reasons are:</p>
@@ -1197,6 +1199,18 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 <li><p>Use least squares to ﬁt a linear model to predict <span class="math inline">\(Y\)</span> using <span class="math inline">\(Z_1, \dots, Z_M\)</span></p></li>
 </ol>
 <p>To select the number <span class="math inline">\(M\)</span> we can use <strong>cross-validation</strong>.</p>
+</section><section id="pcr-vs-pls" class="level3" data-number="5.4.3"><h3 data-number="5.4.3" class="anchored" data-anchor-id="pcr-vs-pls">
+<span class="header-section-number">5.4.3</span> PCR vs PLS</h3>
+<p>The next figure illustrates how each method work.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/67-PCR-vs-PLS-diagrams.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>The next figure illustrates that the first two PCs when using - <strong>PCR</strong>: Has very <strong>little relationship</strong> to the response variable. - <strong>PLS</strong>: Has a much <strong>stronger association</strong> to the response variable.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/68-PCR-vs-PLS-example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1210,8 +1224,8 @@ Performance Note
 <p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
 </div>
 </div>
-</section><section id="coding-example-2" class="level3" data-number="5.4.3"><h3 data-number="5.4.3" class="anchored" data-anchor-id="coding-example-2">
-<span class="header-section-number">5.4.3</span> Coding example</h3>
+</section><section id="coding-example-2" class="level3" data-number="5.4.4"><h3 data-number="5.4.4" class="anchored" data-anchor-id="coding-example-2">
+<span class="header-section-number">5.4.4</span> Coding example</h3>
 <p>To run a <strong>PCR</strong> or a <strong>PLS</strong> we just need to set a lineal model.</p>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
@@ -1262,8 +1276,11 @@ Performance Note
      &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;                
 1        1      0.75 Preprocessor04_Model1</code></pre>
 </div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">final_pcr_fit</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">pca_workflow</span>, <span class="va">best_threshold</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">final_pcr_fit</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">augment</span><span class="op">(</span>new_data <span class="op">=</span> <span class="va">Hitters_test</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">rmse</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Salary</span>, estimate <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1271,6 +1288,24 @@ Performance Note
   .metric .estimator .estimate
   &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
 1 rmse    standard        402.</code></pre>
+</div>
+</div>
+<p>But thanks to the <code>DALEXtra</code> package we can interpret these complex models.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ModelOriented.github.io/DALEXtra/">DALEXtra</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1807</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ModelOriented.github.io/DALEXtra/reference/explain_tidymodels.html">explain_tidymodels</a></span><span class="op">(</span></span>
+<span>  <span class="va">final_pcr_fit</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">Hitters_train</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Salary</span><span class="op">)</span>, </span>
+<span>  y <span class="op">=</span> <span class="va">Hitters_train</span><span class="op">$</span><span class="va">Salary</span>,</span>
+<span>  label <span class="op">=</span> <span class="st">"RDA"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://modeloriented.github.io/DALEX/reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section></section><section id="poisson-regression" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="poisson-regression">
@@ -1290,7 +1325,7 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 <span class="header-section-number">5.5.1</span> Coding example</h3>
 <p>To perform <strong>Poisson Regression</strong> we just need to create the model specification by loading the <strong>poissonreg</strong> package and using <strong>glm</strong> engine.</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pois_spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/poisson_reg.html">poisson_reg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html">set_mode</a></span><span class="op">(</span><span class="st">"regression"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -1403,7 +1438,7 @@ Pr(Y = K|X= x) = \frac{1}
 <span class="header-section-number">5.6.5</span> Coding example</h3>
 <p>To perform <strong>Logistic Regression</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="va">Smarket</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Year</span> <span class="op">!=</span> <span class="fl">2005</span><span class="op">)</span></span>
 <span></span>
@@ -1428,7 +1463,7 @@ Prediction Down  Up
       Down   35  35
       Up     76 106</code></pre>
 </div>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">accuracy</span><span class="op">(</span><span class="va">SmarketLrPredictions</span>, truth <span class="op">=</span> <span class="va">Direction</span>, estimate <span class="op">=</span> <span class="va">.pred_class</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .metric  .estimator .estimate

@@ -204,6 +204,24 @@
       "Hash": "2042cd9759cc89a453c4aefef0ce9aae",
       "Requirements": []
     },
+    "WVPlots": {
+      "Package": "WVPlots",
+      "Version": "1.3.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "384a1eef664009ef135d2d849cf0ec23",
+      "Requirements": [
+        "cdata",
+        "ggplot2",
+        "gridExtra",
+        "mgcv",
+        "rlang",
+        "rqdatatable",
+        "rquery",
+        "sigr",
+        "wrapr"
+      ]
+    },
     "abind": {
       "Package": "abind",
       "Version": "1.4-5",
@@ -348,6 +366,18 @@
       "Repository": "CRAN",
       "Hash": "ac6cdb8552c61bd36b0e54d07cf2aab7",
       "Requirements": []
+    },
+    "cdata": {
+      "Package": "cdata",
+      "Version": "1.2.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0686f323243a6d5250e636823a2c0e73",
+      "Requirements": [
+        "rqdatatable",
+        "rquery",
+        "wrapr"
+      ]
     },
     "class": {
       "Package": "class",
@@ -1846,6 +1876,28 @@
       "Hash": "1de7ab598047a87bba48434ba35d497d",
       "Requirements": []
     },
+    "rqdatatable": {
+      "Package": "rqdatatable",
+      "Version": "1.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ede2aea73b7c9a2039c0b3825c0964a4",
+      "Requirements": [
+        "data.table",
+        "rquery",
+        "wrapr"
+      ]
+    },
+    "rquery": {
+      "Package": "rquery",
+      "Version": "1.4.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5ef76befe8a21be101785477464de866",
+      "Requirements": [
+        "wrapr"
+      ]
+    },
     "rsample": {
       "Package": "rsample",
       "Version": "1.1.1",
@@ -1961,6 +2013,16 @@
         "sourcetools",
         "withr",
         "xtable"
+      ]
+    },
+    "sigr": {
+      "Package": "sigr",
+      "Version": "1.1.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5087aca7e6dd37c2f2d18619a62dfb1a",
+      "Requirements": [
+        "wrapr"
       ]
     },
     "slider": {
@@ -2386,6 +2448,14 @@
         "withr",
         "workflows"
       ]
+    },
+    "wrapr": {
+      "Package": "wrapr",
+      "Version": "2.0.9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "619a07190b5a4e942d0d471d470585f4",
+      "Requirements": []
     },
     "xfun": {
       "Package": "xfun",
