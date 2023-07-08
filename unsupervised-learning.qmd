@@ -1,0 +1,83 @@
+---
+format:
+  html:
+    number-depth: 3
+    css: summary-format.css
+---
+
+# Unsupervised Learning
+
+It refers to a set of statistical tools intended for the setting in which we have only a set of features $X_1,X_2, \dots ,X_p$ measured on $n$ observations is to discover interesting things about the measurements like:
+
+-   Finding an informative way to visualize and explore the data
+-   Imputing missing values
+-   Discovering subgroups among the variables or among the observations
+
+As result, the exercise tends to be **more subjective**.
+
+## Principal Components Analysis (PCA)
+
+As the number of variables in our analysis increases checking **two-dimensional scatterplots** gets less insightful since they each contain just a **small fraction of the total information** present in the data set.
+
+PCA finds a **low-dimensional representation** of a data set that **contains as much variation** as possible, since not all of dimensions are equally **informative** *(present a large variance)*.
+
+PCA assumes that all dimensions can be described as a **linear combination** of the $p$ original variables, known as **principal component scores**.
+
+$$
+Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
+$$
+
+Where:
+
+- $\phi_1 = (\phi_{11} \phi_{21} \dots \phi_{p1})^T$ represent the loading vector for the first principal component.
+- $\sum_{j=1}^p \phi_{j1}^2 = 1$
+
+
+To perform a *principal components analysis* (PCA):
+
+1. **Center** and **scale** all the variables in $\mathbf{X}$  to have mean zero and standard deviation one. This step is important to ensure all variables are on the same scale, particularly if they were measured in different units or have outliers.
+
+```{r}
+library(data.table)
+
+set.seed(1010)
+
+# For example, we could two variables with different scales
+data.table(
+  x1 = rnorm(10, mean = 100, 5),
+  x2 = rnorm(10, mean = 500, 2)
+
+# Melt all the variable to check how scaling affect each one
+)[, melt(.SD, measure.vars = c("x1", "x2"))
+
+# Scale each variable
+][, value := scale(value),
+  by = "variable"
+
+# Check how the distribution of each variable have changed
+][, .(p25 = quantile(value, 0.25) |> round(2),
+      mean = mean(value) |> round(2),
+      p75 = quantile(value, 0.75) |> round(2)),
+  by = "variable"]
+
+```
+
+
+2. The **loading vector** is determined by solving the following optimization problem using **eigen decomposition**. This identifies the **direction with the highest variability** in the feature space, defined as the *first principal component*.
+
+$$
+\underset{\phi_{11}, \dots, \phi_{p1}}{\text{maximize}}
+\left\{ \frac{1}{n} \sum_{i = 1}^n
+\left( \sum_{j=1}^p \phi_{j1} x_j \right)^2 \right\} 
+\text{ subject to }
+\sum_{j=1}^p \phi_{j1}^2 = 1 .
+$$
+
+![](img/29-pca-data-example.png){fig-align="center" width=90% height=90%}
+
+3. Repeat the process until having *p* distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** in the data that hasn't been captured.
+
+### Creating low-dimensional views of the data
+
+
+## clustering

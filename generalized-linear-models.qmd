@@ -656,7 +656,7 @@ The PCR assumes that *the directions in which* $X_1, \dots, X_M$ *show the most 
 
 To perform a *principal components analysis* (PCA):
 
-1. It's recommended to standardize each predictor
+1. It's recommended to standardize each predictor to have the same scale.
 
 $$
 \tilde{x}_{ij} = 

@@ -35,6 +35,7 @@ book:
       - flexible-regression.qmd
       - non-parametric-models.qmd
       - survival-analysis.qmd
+      - unsupervised-learning.qmd
   - part: "Exercise Solutions"
     chapters:
       - 02-execises.qmd
