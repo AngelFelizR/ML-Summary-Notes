@@ -211,6 +211,29 @@ To solve this problem **Random Forests**  provide an improvement over bagged tre
 
 ![](img/52-random-forest-effect-over-bagging.png){fig-align="center"}
 
+#### Parameters to tune
+
+Random forests have the least variability in their prediction accuracy when tuning, as the **default values tend to produce good results**.
+
+1. **Number of trees** ($B$): A good rule of thumb is to **start with 10 times the number of features** as the error estimate converges after some trees and computation time increases linearly with the number of trees.
+
+![](img/71-ramdom-forest-tuning-number-of-trees.png){fig-align="center"}
+
+2. **Number of predictors** ($m_{try}$): In `ranger`, $m_{try} = \text{floor} \left( \frac{p}{3} \right)$ in regression problems and $m_{try} = \text{floor} \left( \sqrt{p} \right)$ in classifications problems, but we can explore in the range $[2,p]$.
+  - With **few** relevant predictors (e.g., noisy data) a **higher number tends to perform better** because it makes it more likely to *select those features with the strongest signal*.
+  - With **many** relevant predictors a **lower number might perform better**.
+
+![](img/72-ramdom-forest-tuning-number-of-predictors.png){fig-align="center"}
+
+3. **Tree complexity** (*node size*): The default values of $1$ for classification and $5$ for regression as these values tend to produce good results, but:
+  - If your data has **many noisy predictors** and a **high number of trees**, then performance may improve by **increasing node size** (i.e., decreasing tree depth and complexity).
+  - If **computation time is a concern** then you can often decrease run time substantially by **increasing the node size**.
+
+Start with three values between 1–10 and adjust depending on impact to accuracy and run time.
+
+![](img/73-ramdom-forest-tuning-node-size.png){fig-align="center"}
+
+
 ### Boosting
 
 As well as **bagging**, **boosting** is a general approach that can be be applied to many statistical learning methods for regression or classification. Both methods create many models in order to create a single prediction $\hat{f}^1, \dots, \hat{f}^B$.

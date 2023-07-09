@@ -213,6 +213,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsupervised-learning.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a>
+  </div>
+</li>
       </ul>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1146,7 +1151,7 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 <p>The PCR assumes that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_M\)</span> <em>show the most variation are the directions that are associated with</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_m\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
 <p>To perform a <em>principal components analysis</em> (PCA):</p>
 <ol type="1">
-<li>It’s recommended to standardize each predictor</li>
+<li>It’s recommended to standardize each predictor to have the same scale.</li>
 </ol>
 <p><span class="math display">\[
 \tilde{x}_{ij} =
