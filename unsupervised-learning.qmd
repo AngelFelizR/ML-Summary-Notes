@@ -17,11 +17,35 @@ As result, the exercise tends to be **more subjective**.
 
 ## Principal Components Analysis (PCA)
 
-As the number of variables in our analysis increases checking **two-dimensional scatterplots** gets less insightful since they each contain just a **small fraction of the total information** present in the data set.
+### Purpose
 
-PCA finds a **low-dimensional representation** of a data set that **contains as much variation** as possible, since not all of dimensions are equally **informative** *(present a large variance)*.
+As the **number of variables increases** checking *two-dimensional scatterplots* **gets less insightful** since they each contain just a small fraction of the total information present in the data set.
 
-PCA assumes that all dimensions can be described as a **linear combination** of the $p$ original variables, known as **principal component scores**.
+For example, if we see correlations between features is easy to create more general categories known as **latent variable** as follow:
+
+- Sandwich
+  - cheese - mayonnaise
+  - mayonnaise - bread
+  - bread - cheese
+  - bread -	lettuce
+- Soda
+  - pepsi - coke
+  - 7up - coke
+- Vegetables
+  - spinach -	broccoli
+  - peas - potatoes
+  - peas - carrots
+
+
+At the end this process can help to:
+
+- Reduce the number of featured need to describe the data
+- Remove multicollinearity between features
+  
+
+### Mathematical Description
+
+PCA finds a **low-dimensional representation** of a data set that **contains as much variation (information)** as possible. It assumes that all dimensions can be described as a **linear combination** of the $p$ original variables, known as **principal component scores**.
 
 $$
 Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
@@ -33,11 +57,19 @@ Where:
 - $\sum_{j=1}^p \phi_{j1}^2 = 1$
 
 
-To perform a *principal components analysis* (PCA):
+To perform a *principal components analysis* (PCA) need to:
 
-1. **Center** and **scale** all the variables in $\mathbf{X}$  to have mean zero and standard deviation one. This step is important to ensure all variables are on the same scale, particularly if they were measured in different units or have outliers.
+(@) Make any needed transformation to *tidy the data*.
+
+(@) Remove or impute any *missing value*.
+
+(@) Transform or variables to be numeric by using method like *one-hot encoding*.
+
+(@) **Center** and **scale** all the variables in $\mathbf{X}$  to have mean zero and standard deviation one. This step is important to ensure all variables are on the same scale, particularly if they were measured in different units or have outliers.
 
 ```{r}
+#| code-fold: true
+#| code-summary: "Show the code"
 library(data.table)
 
 set.seed(1010)
@@ -63,7 +95,7 @@ data.table(
 ```
 
 
-2. The **loading vector** is determined by solving the following optimization problem using **eigen decomposition**. This identifies the **direction with the highest variability** in the feature space, defined as the *first principal component*.
+(@) The **loading vector** is determined by solving the following optimization problem using *eigen decomposition*. This identifies the **direction with the largest variance** in the feature space and reveals the **relative contributions of the original features** to the new PCs.
 
 $$
 \underset{\phi_{11}, \dots, \phi_{p1}}{\text{maximize}}
@@ -75,9 +107,288 @@ $$
 
 ![](img/29-pca-data-example.png){fig-align="center" width=90% height=90%}
 
-3. Repeat the process until having *p* distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** in the data that hasn't been captured.
+(@) Repeat the process until having $\min(n-1, p)$ distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** assuring a new **uncorrelated** new component.
 
 ### Creating low-dimensional views of the data
 
 
-## clustering
+### Coding example
+
+1. Importing useful packages
+
+```{r}
+library(ggplot2)
+theme_set(theme_light())
+```
+
+
+2. Getting the data
+
+```{r}
+my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
+```
+
+
+3. Importing library to use
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+`broom` is really useful to extract model information.
+
+```{r}
+library(broom)
+```
+
+## h2o
+
+*Java is a prerequisite for H2O*.
+
+``` {r}
+#| output: false
+
+library(h2o)
+
+# turn off progress bars for brevity
+h2o.no_progress()  
+
+# connect to H2O instance with 5 gigabytes
+h2o.init(max_mem_size = "5g")  
+
+# convert data to h2o object
+my_basket.h2o <- as.h2o(my_basket)
+```
+
+## recipes
+
+```{r}
+library(recipes)
+```
+
+
+:::
+
+4. Apply the PCA function
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+```{r}
+stats_pca <- prcomp(my_basket, scale = TRUE)
+```
+
+## h2o
+
+- `pca_method`: When your data contains mostly numeric data use **“GramSVD”**, but if the data contain many categorical variables (or just a few categorical variables with high cardinality) we recommend to use **“GLRM”**.
+- `k`: Integer specifying how many PCs to compute.Use `ncol(data)`.
+- `transform`: Character string specifying how (if at all) your data should be standardized.
+- `impute_missing`: Logical specifying whether or not to impute missing values with the **corresponding column mean**.
+- `max_runtime_secs`: Number specifying the max run time (in seconds) to limit the runtime for model training.
+
+
+``` {r}
+h2o_pca <- h2o.prcomp(
+  training_frame = my_basket.h2o,
+  pca_method = "GramSVD",
+  k = ncol(my_basket.h2o), 
+  transform = "STANDARDIZE", 
+  impute_missing = TRUE,
+  max_runtime_secs = 1000
+)
+```
+
+## recipes
+
+```{r}
+pca_rec <- recipe(~., data = my_basket) |>
+  step_normalize(all_numeric()) |>
+  step_pca(all_numeric(), id = "pca") |>
+  prep()
+```
+
+:::
+
+
+5. Extracting importance of each component
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+```{r}
+tidy(stats_pca, matrix = "eigenvalues") |>
+  head(5)
+```
+
+
+## h2o
+
+``` {r}
+h2o_pca@model$importance[, 1:5]
+```
+
+## recipes
+
+```{r}
+tidy(pca_rec, id = "pca", type = "variance") |>
+  filter(component <= 5,
+         terms != "cumulative variance") |>
+  tidyr::pivot_wider(id_cols = component,
+                     names_from = terms,
+                     values_from = value)
+```
+
+:::
+
+
+6. Identifying which of our original features contribute to the PCs by assessing the loadings.
+
+- PC1
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+  - PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
+
+```{r}
+tidy(stats_pca, matrix = "loadings") |>
+  filter(PC == 1) |>
+  arrange(-value) |>
+  head(20) |>
+  ggplot(aes(value, reorder(column, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+
+## h2o
+
+  - PC1 can be interpreted as the **Entertainment Lifestyle** component, as it seems to characterize individuals who might prefer leisure activities over more nutritious food choices.
+
+``` {r}
+as.data.table(h2o_pca@model$eigenvectors,
+              keep.rownames = "feature"
+  )[order(-pc1)
+  ][1:20] |>
+  ggplot(aes(pc1, reorder(feature, pc1))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+## recipes
+
+```{r}
+tidy(pca_rec, id = "pca", type = "coef") |>
+  filter(component == "PC1") |>
+  arrange(-value) |>
+  head(20) |>
+  ggplot(aes(value, reorder(terms, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+
+:::
+
+- PC2
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+  - PC2 can be interpreted as the a **Dine-in Food Choices** component, as  associated items are typically part of a main meal that one might consume for lunch or dinner.
+
+```{r}
+tidy(stats_pca, matrix = "loadings") |>
+  filter(PC == 2) |>
+  arrange(-value) |>
+  head(20) |>
+  ggplot(aes(value, reorder(column, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+
+## h2o
+
+  - PC2 can be interpreted as the a **Breakfast and News** component, as it appears to characterize individuals who prefer sweet, breakfast, or caffeinated items, perhaps while reading the newspaper. They seem to avoid other types of food and drink.
+
+``` {r}
+as.data.table(h2o_pca@model$eigenvectors,
+              keep.rownames = "feature"
+  )[order(-pc2)
+  ][1:20] |>
+  ggplot(aes(pc2, reorder(feature, pc2))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+## recipes
+
+```{r}
+tidy(pca_rec, id = "pca", type = "coef") |>
+  filter(component == "PC2") |>
+  arrange(-value) |>
+  head(20) |>
+  ggplot(aes(value, reorder(terms, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0)
+```
+
+:::
+
+7. Compare PCs against one another to see how the different features contribute to each PC.
+
+::: {.panel-tabset group="library"}
+
+## stats
+
+```{r}
+tidy(stats_pca, matrix = "loadings") |>
+  filter(PC <= 2) |>
+  tidyr::pivot_wider(id_cols = column,
+                     names_from = PC,
+                     values_from = value) |>
+  ggplot(aes(`1`, `2`, label = column)) +
+  geom_text(check_overlap = TRUE)+
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  labs(x = "Unhealthy Lifestyle",
+       y = "Dine-in Food Choices")
+```
+
+
+## h2o
+
+``` {r}
+as.data.table(h2o_pca@model$eigenvectors,
+              keep.rownames = "feature") |>
+  ggplot(aes(pc1, pc2, label = feature)) +
+  geom_text(check_overlap = TRUE)+
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  labs(x = "Entertainment Lifestyle",
+       y = "Breakfast and News")
+```
+
+## recipes
+
+```{r}
+tidy(pca_rec, id = "pca", type = "coef") |>
+  filter(component %chin% paste0("PC",1:2)) |>
+  tidyr::pivot_wider(id_cols = terms,
+                     names_from = component,
+                     values_from = value) |>
+  ggplot(aes(PC1, PC2, label = terms)) +
+  geom_text(check_overlap = TRUE)+
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)
+```
+
+:::
+
+
+## Clustering
