@@ -266,8 +266,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
 <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose"><span class="toc-section-number">10.1.1</span>  Purpose</a></li>
   <li><a href="#mathematical-description" id="toc-mathematical-description" class="nav-link" data-scroll-target="#mathematical-description"><span class="toc-section-number">10.1.2</span>  Mathematical Description</a></li>
-  <li><a href="#creating-low-dimensional-views-of-the-data" id="toc-creating-low-dimensional-views-of-the-data" class="nav-link" data-scroll-target="#creating-low-dimensional-views-of-the-data"><span class="toc-section-number">10.1.3</span>  Creating low-dimensional views of the data</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">10.1.4</span>  Coding example</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">10.1.3</span>  Coding example</a></li>
+  <li>
+<a href="#ways-to-select-fewer-components" id="toc-ways-to-select-fewer-components" class="nav-link" data-scroll-target="#ways-to-select-fewer-components"><span class="toc-section-number">10.1.4</span>  Ways to select fewer components</a>
+  <ul class="collapse">
+<li><a href="#variance-criterion" id="toc-variance-criterion" class="nav-link" data-scroll-target="#variance-criterion">Variance criterion</a></li>
+  <li><a href="#proportion-of-variance-explained-criterion" id="toc-proportion-of-variance-explained-criterion" class="nav-link" data-scroll-target="#proportion-of-variance-explained-criterion">Proportion of variance explained criterion</a></li>
+  <li><a href="#scree-plot-criterion" id="toc-scree-plot-criterion" class="nav-link" data-scroll-target="#scree-plot-criterion">Scree plot criterion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</li>
   </ul>
 </li>
   <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="toc-section-number">10.2</span>  Clustering</a></li>
@@ -394,12 +402,10 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 </div>
 <ol start="6" class="example" type="1">
 <li>Repeat the process until having <span class="math inline">\(\min(n-1, p)\)</span> distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a <strong>new direction of variance</strong> assuring a new <strong>uncorrelated</strong> new component.</li>
-</ol></section><section id="creating-low-dimensional-views-of-the-data" class="level3" data-number="10.1.3"><h3 data-number="10.1.3" class="anchored" data-anchor-id="creating-low-dimensional-views-of-the-data">
-<span class="header-section-number">10.1.3</span> Creating low-dimensional views of the data</h3>
-</section><section id="coding-example" class="level3" data-number="10.1.4"><h3 data-number="10.1.4" class="anchored" data-anchor-id="coding-example">
-<span class="header-section-number">10.1.4</span> Coding example</h3>
+</ol></section><section id="coding-example" class="level3" data-number="10.1.3"><h3 data-number="10.1.3" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">10.1.3</span> Coding example</h3>
 <ol type="1">
-<li>Importing useful packages</li>
+<li>Importing useful packages —–</li>
 </ol>
 <div class="cell">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
@@ -741,7 +747,68 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </div>
 </div>
 </div>
-</section></section><section id="clustering" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="clustering">
+</section><section id="ways-to-select-fewer-components" class="level3" data-number="10.1.4"><h3 data-number="10.1.4" class="anchored" data-anchor-id="ways-to-select-fewer-components">
+<span class="header-section-number">10.1.4</span> Ways to select fewer components</h3>
+<section id="variance-criterion" class="level4"><h4 class="anchored" data-anchor-id="variance-criterion">Variance criterion</h4>
+<p>The <strong>sum of the variance (eigenvalues) of all the components is equal to the number of variables</strong> entered into the PCA.</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"eigenvalues"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>total_variance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">std.dev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  total_variance
+           &lt;dbl&gt;
+1           42.0</code></pre>
+</div>
+</div>
+<p>A variance of 1 means that the principal component would explain about one variable’s worth of the variability. In that sense we would just be interesting in selecting <strong>components with variance 1 or greater</strong>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"eigenvalues"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">std.dev</span><span class="op">^</span><span class="fl">2</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+      PC std.dev percent cumulative
+   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+ 1     1    1.51  0.0546     0.0546
+ 2     2    1.47  0.0517     0.106 
+ 3     3    1.46  0.0507     0.157 
+ 4     4    1.44  0.0494     0.206 
+ 5     5    1.44  0.0491     0.255 
+ 6     6    1.41  0.0474     0.303 
+ 7     7    1.25  0.0374     0.340 
+ 8     8    1.03  0.0251     0.365 
+ 9     9    1.01  0.0243     0.390 
+10    10    1.01  0.0242     0.414 </code></pre>
+</div>
+</div>
+</section><section id="proportion-of-variance-explained-criterion" class="level4"><h4 class="anchored" data-anchor-id="proportion-of-variance-explained-criterion">Proportion of variance explained criterion</h4>
+<p>Depending of the use case the investigator might want to explain a particular proportion of variability. For example, to explain at least 75% of total variability we need to select the first 27 components.</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"eigenvalues"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">cumulative</span> <span class="op">&gt;=</span> <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+     PC std.dev percent cumulative
+  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+1    27   0.872  0.0181      0.764</code></pre>
+</div>
+</div>
+</section><section id="scree-plot-criterion" class="level4"><h4 class="anchored" data-anchor-id="scree-plot-criterion">Scree plot criterion</h4>
+<p>The scree plot criterion looks for the “elbow” in the curve and <strong>selects all components just before the line flattens out</strong>, which looks like <strong>8</strong> in our example.</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"eigenvalues"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">PC</span>, <span class="va">percent</span>, group <span class="op">=</span> <span class="fl">1</span>, label <span class="op">=</span> <span class="va">PC</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>nudge_y <span class="op">=</span> <span class="op">-</span><span class="fl">.002</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="conclusion" class="level4"><h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
+<p>The frank answer is that <strong>there is no one best method for determining how many components to use</strong>. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.</p>
+</section></section></section><section id="clustering" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="clustering">
 <span class="header-section-number">10.2</span> Clustering</h2>
 
 

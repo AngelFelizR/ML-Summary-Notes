@@ -109,12 +109,10 @@ $$
 
 (@) Repeat the process until having $\min(n-1, p)$ distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** assuring a new **uncorrelated** new component.
 
-### Creating low-dimensional views of the data
-
 
 ### Coding example
 
-1. Importing useful packages
+1. Importing useful packages -----
 
 ```{r}
 library(ggplot2)
@@ -390,5 +388,50 @@ tidy(pca_rec, id = "pca", type = "coef") |>
 
 :::
 
+### Ways to select fewer components
+
+#### Variance criterion
+
+The **sum of the variance (eigenvalues) of all the components is equal to the number of variables** entered into the PCA. 
+
+```{r}
+tidy(stats_pca, matrix = "eigenvalues") |>
+  summarize(total_variance = sum(std.dev^2))
+```
+
+A variance of 1 means that the principal component would explain about one variable’s worth of the variability. In that sense we would just be interesting in selecting **components with variance 1 or greater**.
+
+```{r}
+tidy(stats_pca, matrix = "eigenvalues") |>
+  filter(std.dev^2 >= 1)
+```
+
+
+#### Proportion of variance explained criterion
+
+Depending of the use case the investigator might want to explain a particular proportion of variability. For example, to explain at least 75% of total variability we need to select the first 27 components.
+
+```{r}
+tidy(stats_pca, matrix = "eigenvalues") |>
+  filter(cumulative >= 0.75) |>
+  head(1L)
+```
+
+
+#### Scree plot criterion
+
+The scree plot criterion looks for the “elbow” in the curve and **selects all components just before the line flattens out**, which looks like **8** in our example.
+
+```{r}
+tidy(stats_pca, matrix = "eigenvalues") |>
+  ggplot(aes(PC, percent, group = 1, label = PC)) +
+  geom_point() +
+  geom_line() +
+  geom_text(nudge_y = -.002)
+```
+
+#### Conclusion
+
+The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
 
 ## Clustering
