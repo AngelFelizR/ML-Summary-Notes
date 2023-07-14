@@ -265,10 +265,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="#principal-components-analysis-pca" id="toc-principal-components-analysis-pca" class="nav-link active" data-scroll-target="#principal-components-analysis-pca"><span class="toc-section-number">10.1</span>  Principal Components Analysis (PCA)</a>
   <ul>
 <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose"><span class="toc-section-number">10.1.1</span>  Purpose</a></li>
-  <li><a href="#mathematical-description" id="toc-mathematical-description" class="nav-link" data-scroll-target="#mathematical-description"><span class="toc-section-number">10.1.2</span>  Mathematical Description</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">10.1.3</span>  Coding example</a></li>
+  <li><a href="#grafical-description" id="toc-grafical-description" class="nav-link" data-scroll-target="#grafical-description"><span class="toc-section-number">10.1.2</span>  Grafical description</a></li>
+  <li><a href="#mathematical-description" id="toc-mathematical-description" class="nav-link" data-scroll-target="#mathematical-description"><span class="toc-section-number">10.1.3</span>  Mathematical Description</a></li>
+  <li><a href="#proportion-of-variance-explained-pve" id="toc-proportion-of-variance-explained-pve" class="nav-link" data-scroll-target="#proportion-of-variance-explained-pve"><span class="toc-section-number">10.1.4</span>  Proportion of Variance Explained (PVE)</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="toc-section-number">10.1.5</span>  Coding example</a></li>
   <li>
-<a href="#ways-to-select-fewer-components" id="toc-ways-to-select-fewer-components" class="nav-link" data-scroll-target="#ways-to-select-fewer-components"><span class="toc-section-number">10.1.4</span>  Ways to select fewer components</a>
+<a href="#ways-to-select-fewer-components" id="toc-ways-to-select-fewer-components" class="nav-link" data-scroll-target="#ways-to-select-fewer-components"><span class="toc-section-number">10.1.6</span>  Ways to select fewer components</a>
   <ul class="collapse">
 <li><a href="#variance-criterion" id="toc-variance-criterion" class="nav-link" data-scroll-target="#variance-criterion">Variance criterion</a></li>
   <li><a href="#proportion-of-variance-explained-criterion" id="toc-proportion-of-variance-explained-criterion" class="nav-link" data-scroll-target="#proportion-of-variance-explained-criterion">Proportion of variance explained criterion</a></li>
@@ -278,7 +280,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
   </ul>
 </li>
-  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="toc-section-number">10.2</span>  Clustering</a></li>
+  <li>
+<a href="#matrix-completion" id="toc-matrix-completion" class="nav-link" data-scroll-target="#matrix-completion"><span class="toc-section-number">10.2</span>  Matrix Completion</a>
+  <ul>
+<li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="toc-section-number">10.2.1</span>  Missing Values</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">10.2.2</span>  Coding example</a></li>
+  <li><a href="#recommender-systems" id="toc-recommender-systems" class="nav-link" data-scroll-target="#recommender-systems"><span class="toc-section-number">10.2.3</span>  Recommender Systems</a></li>
+  </ul>
+</li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="toc-section-number">10.3</span>  Clustering</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -338,8 +348,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li>Reduce the number of featured need to describe the data</li>
 <li>Remove multicollinearity between features</li>
-</ul></section><section id="mathematical-description" class="level3" data-number="10.1.2"><h3 data-number="10.1.2" class="anchored" data-anchor-id="mathematical-description">
-<span class="header-section-number">10.1.2</span> Mathematical Description</h3>
+</ul></section><section id="grafical-description" class="level3" data-number="10.1.2"><h3 data-number="10.1.2" class="anchored" data-anchor-id="grafical-description">
+<span class="header-section-number">10.1.2</span> Grafical description</h3>
+<p>The <strong>first principal component loading vector</strong> represent the <strong>line</strong> in <span class="math inline">\(p\)</span>-dimensional space that is <strong>closest to the</strong> <span class="math inline">\(\mathbf{n}\)</span> <strong>observations</strong>, since that line could provide a good summary of the data.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/74-pca-first-loading-vector.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>But, if we add the <strong>second principal component loading vector</strong> we could span the <strong>closest plane</strong> to the <span class="math inline">\(n\)</span> observations, in terms of <strong>average squared Euclidean distance</strong>, to provide good summary of the data</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/75-pca-closest-plane.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="mathematical-description" class="level3" data-number="10.1.3"><h3 data-number="10.1.3" class="anchored" data-anchor-id="mathematical-description">
+<span class="header-section-number">10.1.3</span> Mathematical Description</h3>
 <p>PCA finds a <strong>low-dimensional representation</strong> of a data set that <strong>contains as much variation (information)</strong> as possible. It assumes that all dimensions can be described as a <strong>linear combination</strong> of the <span class="math inline">\(p\)</span> original variables, known as <strong>principal component scores</strong>.</p>
 <p><span class="math display">\[
 Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
@@ -402,8 +424,20 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 </div>
 <ol start="6" class="example" type="1">
 <li>Repeat the process until having <span class="math inline">\(\min(n-1, p)\)</span> distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a <strong>new direction of variance</strong> assuring a new <strong>uncorrelated</strong> new component.</li>
-</ol></section><section id="coding-example" class="level3" data-number="10.1.3"><h3 data-number="10.1.3" class="anchored" data-anchor-id="coding-example">
-<span class="header-section-number">10.1.3</span> Coding example</h3>
+</ol></section><section id="proportion-of-variance-explained-pve" class="level3" data-number="10.1.4"><h3 data-number="10.1.4" class="anchored" data-anchor-id="proportion-of-variance-explained-pve">
+<span class="header-section-number">10.1.4</span> Proportion of Variance Explained (PVE)</h3>
+<p>To know how much of the <strong>information</strong> (variance) in a given data set is <strong>not contained</strong> after projecting the observations onto the <strong>first few principal components</strong> we can use <strong>Proportion of Variance Explained (PVE)</strong> for each component.</p>
+<p><span class="math display">\[
+\text{PVE}_m = \frac{\overbrace{\frac{1}{n} \sum_{i=1}^n \left( \sum_{j=1}^p \phi_{jm} x_{ij} \right)^2 }^\text{Variance explained by the component}}
+{\underbrace{\frac{1}{n} \sum_{j=1}^p \sum_{i=1}^n x_{ij}^2}_\text{Total variance present in a data set}} = 1 - \frac{\text{RSS}}{\text{TSS}}
+\]</span></p>
+<p>As result, PVE can be interpret as the <span class="math inline">\(R^2\)</span> of the approximation for <span class="math inline">\(\mathbf{X}\)</span> given by the first <span class="math inline">\(M\)</span> principal components.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/76-pca-pve-charts.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
+</div>
+</section><section id="coding-example" class="level3" data-number="10.1.5"><h3 data-number="10.1.5" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">10.1.5</span> Coding example</h3>
 <ol type="1">
 <li>Importing useful packages —–</li>
 </ol>
@@ -566,6 +600,9 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <ol start="6" type="1">
 <li>Identifying which of our original features contribute to the PCs by assessing the loadings.</li>
 </ol>
+<blockquote class="blockquote">
+<p>Two different software packages will yield the same principal component loading vectors, although <strong>the signs of those loading vectors may differ</strong>.</p>
+</blockquote>
 <ul>
 <li>PC1</li>
 </ul>
@@ -747,8 +784,8 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </div>
 </div>
 </div>
-</section><section id="ways-to-select-fewer-components" class="level3" data-number="10.1.4"><h3 data-number="10.1.4" class="anchored" data-anchor-id="ways-to-select-fewer-components">
-<span class="header-section-number">10.1.4</span> Ways to select fewer components</h3>
+</section><section id="ways-to-select-fewer-components" class="level3" data-number="10.1.6"><h3 data-number="10.1.6" class="anchored" data-anchor-id="ways-to-select-fewer-components">
+<span class="header-section-number">10.1.6</span> Ways to select fewer components</h3>
 <section id="variance-criterion" class="level4"><h4 class="anchored" data-anchor-id="variance-criterion">Variance criterion</h4>
 <p>The <strong>sum of the variance (eigenvalues) of all the components is equal to the number of variables</strong> entered into the PCA.</p>
 <div class="cell">
@@ -807,9 +844,118 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </div>
 </div>
 </section><section id="conclusion" class="level4"><h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
-<p>The frank answer is that <strong>there is no one best method for determining how many components to use</strong>. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.</p>
-</section></section></section><section id="clustering" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="clustering">
-<span class="header-section-number">10.2</span> Clustering</h2>
+<p>There is no one best method for determining how many components to use:</p>
+<ul>
+<li><p>If we performing an <strong>Exploratory Data Analysis (EDA)</strong> we would probably validate if the first few principal components are interesting and continue to look at subsequent principal components until <strong>no further interesting patterns are found</strong>.</p></li>
+<li><p>If we compute principal components for use in a <strong>supervised analysis</strong> we can define number of principal component score vectors as a <strong>tuning parameter</strong> to be selected via <strong>cross-validation</strong>.</p></li>
+</ul></section></section></section><section id="matrix-completion" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="matrix-completion">
+<span class="header-section-number">10.2</span> Matrix Completion</h2>
+<section id="missing-values" class="level3" data-number="10.2.1"><h3 data-number="10.2.1" class="anchored" data-anchor-id="missing-values">
+<span class="header-section-number">10.2.1</span> Missing Values</h3>
+<p>Often datasets have <strong>missing values</strong>, but most of the statistical learning methods <strong>cannot handle them</strong>.</p>
+<p>Some possible solutions could be to:</p>
+<ul>
+<li>Remove the rows that contain missing observations</li>
+<li>Replace missing values by the mean of the <span class="math inline">\(j\)</span>th column</li>
+<li>Use <strong>matrix completion</strong> to impute missing values by using principal components after <strong>confirming that missingness is at random</strong>.</li>
+</ul>
+<p>The good news, it is that we can <em>impute the missing values</em> and <em>solve the principal component problem at the same time</em> by following the next approximation Algorithm:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/77-matrix-complition.png" style="width:60.0%;height:80.0%" class="figure-img"></p>
+</figure>
+</div>
+<p>After applying this method with with <code>USArrests</code> date set with <strong>0.63 of correlation</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/78-missing-value-imputation.png" style="height:50.0%" class="figure-img"></p>
+</figure>
+</div>
+</section><section id="coding-example-1" class="level3" data-number="10.2.2"><h3 data-number="10.2.2" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">10.2.2</span> Coding example</h3>
+<p>Before being able to apply the Algorithm 12.1, we need to:</p>
+<ul>
+<li>Scale and transform the data.frame into a matrix</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">USArrests</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The <strong>singular value decomposition (SVD)</strong> algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation <span class="math inline">\(\mathbf{X}= \mathbf{UDV}′\)</span>, where:
+<ul>
+<li>
+<strong>D</strong>: Is a vector that measure the amount of <strong>variance</strong> of each principal component.</li>
+<li>
+<strong>V</strong>: Is a matrix of the right singular vector (also known as <strong>loading vectors</strong>). These vectors are the principal components and represent the directions of maximum variance in the data.</li>
+</ul>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_svd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">arrests_m</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># To calculate scored vectors</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">arrests_svd</span><span class="op">$</span><span class="va">d</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">arrests_svd</span><span class="op">$</span><span class="va">u</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]       [,2]        [,3]         [,4]
+[1,] -0.9756604  1.1220012 -0.43980366  0.154696581
+[2,] -1.9305379  1.0624269  2.01950027 -0.434175454
+[3,] -1.7454429 -0.7384595  0.05423025 -0.826264240
+[4,]  0.1399989  1.1085423  0.11342217 -0.180973554
+[5,] -2.4986128 -1.5274267  0.59254100 -0.338559240
+[6,] -1.4993407 -0.9776297  1.08400162  0.001450164</code></pre>
+</div>
+</div>
+<ul>
+<li>Omitting 20 values</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">values_to_omit</span> <span class="op">&lt;-</span> <span class="fl">20L</span></span>
+<span><span class="va">arrests_na</span> <span class="op">&lt;-</span> <span class="va">arrests_m</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">row_na</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">arrests_m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">values_to_omit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">col_na</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">arrests_m</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">values_to_omit</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">index_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">row_na</span>, <span class="va">col_na</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">arrests_na</span><span class="op">[</span><span class="va">index_na</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA_real_</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Writing a function that returns an approximation to the matrix</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit.svd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X</span>, <span class="va">M</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> ,</span>
+<span>    <span class="va">u</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/h2o/man/H2OFrame.html">%*%</a></span> <span class="op">(</span><span class="va">d</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">M</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">v</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Algorithm 12.1 steps:</p>
+<ol type="1">
+<li>Substitute missing values with the mean of each column.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_hat</span> <span class="op">&lt;-</span> <span class="va">arrests_na</span></span>
+<span><span class="va">arrests_hat</span><span class="op">[</span><span class="va">index_na</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">arrests_na</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="va">col_na</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Computing the first <span class="math inline">\(M\)</span> principal components of the data</p>
+</section><section id="recommender-systems" class="level3" data-number="10.2.3"><h3 data-number="10.2.3" class="anchored" data-anchor-id="recommender-systems">
+<span class="header-section-number">10.2.3</span> Recommender Systems</h3>
+<p>Image a matrix of <span class="math inline">\(n \times p\)</span> with customer rating with scores from 1 to 5 for each movies they have seen, but on average each customer had seen around 200 movies, so <strong>99% of the matrix had missing elements</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/79-movie-rating-matrix.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>In order <strong>to suggest a movie</strong> that a particular customer might like, we needed to <strong>impute the missing values</strong> of this data matrix.</p>
+</section></section><section id="clustering" class="level2" data-number="10.3"><h2 data-number="10.3" class="anchored" data-anchor-id="clustering">
+<span class="header-section-number">10.3</span> Clustering</h2>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

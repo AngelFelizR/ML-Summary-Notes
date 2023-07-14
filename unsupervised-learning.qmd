@@ -41,7 +41,17 @@ At the end this process can help to:
 
 - Reduce the number of featured need to describe the data
 - Remove multicollinearity between features
-  
+
+### Grafical description
+
+The **first principal component loading vector** represent the **line** in $p$-dimensional space that is **closest to the** $\mathbf{n}$ **observations**, since that line could provide a good summary of the data.
+
+![](img/74-pca-first-loading-vector.png){fig-align="center"}
+
+But, if we add the **second principal component loading vector** we could span the **closest plane** to the $n$ observations, in terms of **average squared Euclidean distance**, to provide good summary of the data
+
+![](img/75-pca-closest-plane.png){fig-align="center"}
+
 
 ### Mathematical Description
 
@@ -109,6 +119,18 @@ $$
 
 (@) Repeat the process until having $\min(n-1, p)$ distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** assuring a new **uncorrelated** new component.
 
+### Proportion of Variance Explained (PVE)
+
+To know how much of the **information** (variance) in a given data set is **not contained** after projecting the observations onto the **first few principal components** we can use **Proportion of Variance Explained (PVE)** for each component.
+
+$$
+\text{PVE}_m = \frac{\overbrace{\frac{1}{n} \sum_{i=1}^n \left( \sum_{j=1}^p \phi_{jm} x_{ij} \right)^2 }^\text{Variance explained by the component}}
+{\underbrace{\frac{1}{n} \sum_{j=1}^p \sum_{i=1}^n x_{ij}^2}_\text{Total variance present in a data set}} = 1 - \frac{\text{RSS}}{\text{TSS}}
+$$
+
+As result, PVE can be interpret as the $R^2$ of the approximation for $\mathbf{X}$ given by the first $M$ principal components.
+
+![](img/76-pca-pve-charts.png){fig-align="center" width=90% height=90%}
 
 ### Coding example
 
@@ -241,7 +263,9 @@ tidy(pca_rec, id = "pca", type = "variance") |>
 :::
 
 
-6. Identifying which of our original features contribute to the PCs by assessing the loadings.
+6. Identifying which of our original features contribute to the PCs by assessing the loadings. 
+
+> Two different software packages will yield the same principal component loading vectors, although **the signs of those loading vectors may differ**.
 
 - PC1
 
@@ -432,6 +456,114 @@ tidy(stats_pca, matrix = "eigenvalues") |>
 
 #### Conclusion
 
-The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
+There is no one best method for determining how many components to use: 
+
+- If we performing an **Exploratory Data Analysis (EDA)** we would probably validate if the first few principal components are interesting and continue to look at subsequent principal components until **no further interesting patterns are found**.
+
+- If we compute principal components for use in a **supervised analysis** we can define number of principal component score vectors as a **tuning parameter** to be selected via **cross-validation**.
+
+
+## Matrix Completion
+
+### Missing Values
+
+Often datasets have **missing values**, but most of the statistical learning methods **cannot handle them**.
+
+Some possible solutions could be to:
+
+- Remove the rows that contain missing observations
+- Replace missing values by the mean of the $j$th column
+- Use **matrix completion** to impute missing values by using principal components after **confirming that missingness is at random**.
+
+The good news, it is that we can *impute the missing values* and
+*solve the principal component problem at the same time* by following the next approximation Algorithm:
+
+![](img/77-matrix-complition.png){fig-align="center" width=60% height=80%}
+
+After applying this method with with `USArrests` date set with 
+**0.63 of correlation**.
+
+![](img/78-missing-value-imputation.png){fig-align="center" height=50%}
+
+### Coding example
+
+Before being able to apply the Algorithm 12.1, we need to:
+
+- Scale and transform the data.frame into a matrix
+
+```{r}
+arrests_m <- scale(USArrests) |> as.matrix()
+```
+
+- The **singular value decomposition (SVD)** algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation $\mathbf{X}= \mathbf{UDV}′$, where:
+  - **D**: Is a vector that measure the amount of **variance** of each principal component.
+  - **V**: Is a matrix of the right singular vector (also known as **loading vectors**). These vectors are the principal components and represent the directions of maximum variance in the data.
+
+```{r}
+arrests_svd <- svd(arrests_m)
+
+# To calculate scored vectors
+t(arrests_svd$d * t(arrests_svd$u)) |> head()
+```
+
+- Omitting 20 values
+
+```{r}
+values_to_omit <- 20L
+arrests_na <- arrests_m
+
+set.seed(15)
+
+row_na <- 
+  nrow(arrests_m) |>
+  seq_len() |>
+  sample(size = values_to_omit)
+
+col_na <- 
+  ncol(arrests_m) |>
+  seq_len() |>
+  sample(size = values_to_omit, replace = TRUE)
+
+index_na <- rbind(row_na, col_na)
+
+arrests_na[index_na] <- NA_real_
+
+```
+
+- Writing a function that returns an approximation to the matrix
+
+```{r}
+fit.svd <- function(X, M = 1) {
+  with(
+    svd(X) ,
+    u[, 1:M, drop = FALSE] %*% (d[1:M] * t(v[, 1:M, drop = FALSE ]))
+  )
+}
+```
+
+
+Algorithm 12.1 steps:
+
+1. Substitute missing values with the mean of each column.
+
+```{r}
+arrests_hat <- arrests_na
+arrests_hat[index_na] <- colMeans(arrests_na, na.rm = TRUE)[col_na]
+```
+
+Computing the first $M$ principal components of the data
+
+
+### Recommender Systems
+
+Image a matrix of $n \times p$ with customer rating with scores from 1 to 5 for each movies they have seen, but on average each customer had seen around 200 movies, so **99% of the matrix had missing elements**
+
+![](img/79-movie-rating-matrix.png){fig-align="center"}
+
+In order **to suggest a movie** that a particular customer might like, we needed to **impute the missing values** of this data matrix.
+
 
 ## Clustering
+
+
+
