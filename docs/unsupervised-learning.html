@@ -284,7 +284,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a href="#matrix-completion" id="toc-matrix-completion" class="nav-link" data-scroll-target="#matrix-completion"><span class="toc-section-number">10.2</span>  Matrix Completion</a>
   <ul>
 <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="toc-section-number">10.2.1</span>  Missing Values</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">10.2.2</span>  Coding example</a></li>
+  <li>
+<a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="toc-section-number">10.2.2</span>  Coding example</a>
+  <ul class="collapse">
+<li><a href="#manual-implementation" id="toc-manual-implementation" class="nav-link" data-scroll-target="#manual-implementation">Manual implementation</a></li>
+  <li><a href="#softimpute-package" id="toc-softimpute-package" class="nav-link" data-scroll-target="#softimpute-package"><code>softImpute</code> package</a></li>
+  </ul>
+</li>
   <li><a href="#recommender-systems" id="toc-recommender-systems" class="nav-link" data-scroll-target="#recommender-systems"><span class="toc-section-number">10.2.3</span>  Recommender Systems</a></li>
   </ul>
 </li>
@@ -879,12 +885,14 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">USArrests</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
-<li>The <strong>singular value decomposition (SVD)</strong> algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation <span class="math inline">\(\mathbf{X}= \mathbf{UDV}′\)</span>, where:
+<li>The <strong>singular value decomposition (SVD)</strong> algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation <span class="math inline">\(\mathbf{X}= \mathbf{UDV'}\)</span>, where:
 <ul>
 <li>
-<strong>D</strong>: Is a vector that measure the amount of <strong>variance</strong> of each principal component.</li>
+<strong>U</strong>: This is the matrix that transforms the original data into the new dimensional space spanned by the principal components. It represents <strong>the coordinates of the original data after being projected onto these principal components</strong>.</li>
 <li>
-<strong>V</strong>: Is a matrix of the right singular vector (also known as <strong>loading vectors</strong>). These vectors are the principal components and represent the directions of maximum variance in the data.</li>
+<strong>D</strong>: This is a <strong>diagonal matrix</strong> whose elements represent the amount of <strong>variance</strong> captured by each <strong>principal component</strong> in descending order.</li>
+<li>
+<strong>V</strong>: This is the transpose of the matrix that represents the principal directions (or <strong>loading vectors</strong>) in the input space, defining how each original feature contributes to each principal component.</li>
 </ul>
 </li>
 </ul>
@@ -907,8 +915,9 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <li>Omitting 20 values</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">values_to_omit</span> <span class="op">&lt;-</span> <span class="fl">20L</span></span>
-<span><span class="va">arrests_na</span> <span class="op">&lt;-</span> <span class="va">arrests_m</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_na</span> <span class="op">&lt;-</span> <span class="va">arrests_m</span></span>
+<span></span>
+<span><span class="va">values_to_omit</span> <span class="op">&lt;-</span> <span class="fl">20L</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
 <span></span>
@@ -922,31 +931,119 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">values_to_omit</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">index_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">row_na</span>, <span class="va">col_na</span><span class="op">)</span></span>
+<span><span class="va">index_na</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">row_na</span>, <span class="va">col_na</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">arrests_na</span><span class="op">[</span><span class="va">index_na</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">NA_real_</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<ul>
-<li>Writing a function that returns an approximation to the matrix</li>
-</ul>
-<div class="cell">
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit.svd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X</span>, <span class="va">M</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> ,</span>
-<span>    <span class="va">u</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/h2o/man/H2OFrame.html">%*%</a></span> <span class="op">(</span><span class="va">d</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">M</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">v</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Algorithm 12.1 steps:</p>
+<section id="manual-implementation" class="level4"><h4 class="anchored" data-anchor-id="manual-implementation">Manual implementation</h4>
 <ol type="1">
-<li>Substitute missing values with the mean of each column.</li>
+<li>
+<strong>Substitute missing</strong> values with the <strong>mean</strong> of each column.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">arrests_hat</span> <span class="op">&lt;-</span> <span class="va">arrests_na</span></span>
-<span><span class="va">arrests_hat</span><span class="op">[</span><span class="va">index_na</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">arrests_na</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="va">col_na</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Calculate the mean of each column</span></span>
+<span><span class="va">arrests_col_mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">arrests_na</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Impute the mean of the column on each missing value</span></span>
+<span><span class="co"># save the result in a new variable</span></span>
+<span><span class="va">arrests_hat</span> <span class="op">&lt;-</span> <span class="va">arrests_na</span></span>
+<span><span class="va">arrests_hat</span><span class="op">[</span><span class="va">index_na</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">arrests_col_mean</span><span class="op">[</span><span class="va">col_na</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Computing the first <span class="math inline">\(M\)</span> principal components of the data</p>
-</section><section id="recommender-systems" class="level3" data-number="10.2.3"><h3 data-number="10.2.3" class="anchored" data-anchor-id="recommender-systems">
+<ol start="2" type="1">
+<li>Repeat steps (a)–(c) until the objective (12.14) fails to decrease.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Find a low-rank approximation of the resulting matrix</span></span>
+<span><span class="co"># It does the same as the next code but faster</span></span>
+<span><span class="co"># u[, 1:M, drop = FALSE] %*%</span></span>
+<span><span class="co">#   (if(M == 1L) matrix(d[1L]) else diag(d[1:M]))  %*%</span></span>
+<span><span class="co">#   t(v[, 1:M, drop = FALSE ])</span></span>
+<span><span class="va">aproximate_low_rank</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">X</span>, <span class="va">M</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/svd.html">svd</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> ,</span>
+<span>   <span class="va">u</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span> <span class="op"><a href="https://rdrr.io/pkg/h2o/man/H2OFrame.html">%*%</a></span> <span class="op">(</span><span class="va">d</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">M</span><span class="op">]</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">v</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="va">M</span>, drop <span class="op">=</span> <span class="cn">FALSE</span> <span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Create a m x n matrix checking if missing values</span></span>
+<span><span class="co"># If TRUE then the value is missing</span></span>
+<span><span class="va">arrests_is_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">arrests_na</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Mean of the squared non-missing elements</span></span>
+<span><span class="co"># of the old version of arrests_hat</span></span>
+<span><span class="va">mssold</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">arrests_na</span>,</span>
+<span>        center <span class="op">=</span> <span class="va">arrests_col_mean</span>,</span>
+<span>        scale  <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="op">!</span><span class="va">arrests_is_missing</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Mean squared error of the non-missing elements</span></span>
+<span><span class="va">mss0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">arrests_na</span><span class="op">[</span><span class="op">!</span><span class="va">arrests_is_missing</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">iteration_count</span> <span class="op">&lt;-</span> <span class="fl">0L</span></span>
+<span><span class="va">relative_error</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">stop_error</span> <span class="op">&lt;-</span> <span class="fl">1e-7</span></span>
+<span></span>
+<span><span class="kw">while</span><span class="op">(</span><span class="va">relative_error</span> <span class="op">&gt;</span> <span class="va">stop_error</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">iteration_count</span> <span class="op">&lt;-</span> <span class="va">iteration_count</span> <span class="op">+</span> <span class="fl">1L</span></span>
+<span>  <span class="co"># Step 2(a)</span></span>
+<span>  <span class="va">Xapp</span> <span class="op">&lt;-</span> <span class="fu">aproximate_low_rank</span><span class="op">(</span><span class="va">arrests_hat</span>, M <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="co"># Step 2(b)</span></span>
+<span>  <span class="va">arrests_hat</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">Xapp</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span></span>
+<span>  <span class="co"># Step 2(c)</span></span>
+<span>  <span class="va">mss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">arrests_na</span> <span class="op">-</span> <span class="va">Xapp</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="va">arrests_is_missing</span><span class="op">]</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="va">relative_error</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">mssold</span> <span class="op">-</span> <span class="va">mss</span><span class="op">)</span> <span class="op">/</span> <span class="va">mss0</span></span>
+<span>  <span class="va">mssold</span> <span class="op">&lt;-</span> <span class="va">mss</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Iter:"</span>, <span class="va">iteration_count</span>,</span>
+<span>      <span class="st">"MSS:"</span>, <span class="va">mss</span>,</span>
+<span>      <span class="st">"Rel. Err:"</span>, <span class="va">relative_error</span>,<span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iter: 1 MSS: 0.3821695 Rel. Err: 0.6194004 
+Iter: 2 MSS: 0.3705046 Rel. Err: 0.01161265 
+Iter: 3 MSS: 0.3692779 Rel. Err: 0.001221144 
+Iter: 4 MSS: 0.3691229 Rel. Err: 0.0001543015 
+Iter: 5 MSS: 0.3691008 Rel. Err: 2.199233e-05 
+Iter: 6 MSS: 0.3690974 Rel. Err: 3.376005e-06 
+Iter: 7 MSS: 0.3690969 Rel. Err: 5.465067e-07 
+Iter: 8 MSS: 0.3690968 Rel. Err: 9.253082e-08 </code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Return the estimated missing entries</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Xapp</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -0.71765446  0.52560595  0.19245420  0.39807811  1.57182624 -0.24170178
+ [7] -0.64908551 -0.35809011  0.70971688  0.77250419 -0.46235534  0.20593198
+[13]  0.41971994  0.02474913 -0.26163638 -0.01699151 -0.17575691  1.07630731
+[19]  1.11622838 -1.79227516</code></pre>
+</div>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute the correlation between the imputed values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/h2o/man/h2o.cor.html">cor</a></span><span class="op">(</span></span>
+<span>  <span class="va">Xapp</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span>,</span>
+<span>  <span class="va">arrests_m</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6535043</code></pre>
+</div>
+</div>
+</section><section id="softimpute-package" class="level4"><h4 class="anchored" data-anchor-id="softimpute-package">
+<code>softImpute</code> package</h4>
+<div class="cell">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">softImpute</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/softImpute/man/softImpute.html">softImpute</a></span><span class="op">(</span><span class="va">arrests_na</span>,</span>
+<span>                       rank.max <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                       type <span class="op">=</span> <span class="st">"svd"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">softImpute</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/softImpute/man/complete.html">complete</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">arrests_na</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span><span class="op">)</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/h2o/man/h2o.cor.html">cor</a></span><span class="op">(</span><span class="va">arrests_m</span><span class="op">[</span><span class="va">arrests_is_missing</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6535752</code></pre>
+</div>
+</div>
+</section></section><section id="recommender-systems" class="level3" data-number="10.2.3"><h3 data-number="10.2.3" class="anchored" data-anchor-id="recommender-systems">
 <span class="header-section-number">10.2.3</span> Recommender Systems</h3>
 <p>Image a matrix of <span class="math inline">\(n \times p\)</span> with customer rating with scores from 1 to 5 for each movies they have seen, but on average each customer had seen around 200 movies, so <strong>99% of the matrix had missing elements</strong></p>
 <div class="quarto-figure quarto-figure-center">

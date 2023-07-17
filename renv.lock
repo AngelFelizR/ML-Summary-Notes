@@ -2067,6 +2067,16 @@
         "warp"
       ]
     },
+    "softImpute": {
+      "Package": "softImpute",
+      "Version": "1.4-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "693dea922bd2e79dcc65d3b9c1d14c47",
+      "Requirements": [
+        "Matrix"
+      ]
+    },
     "sourcetools": {
       "Package": "sourcetools",
       "Version": "0.1.7-1",

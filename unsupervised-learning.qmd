@@ -495,9 +495,10 @@ Before being able to apply the Algorithm 12.1, we need to:
 arrests_m <- scale(USArrests) |> as.matrix()
 ```
 
-- The **singular value decomposition (SVD)** algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation $\mathbf{X}= \mathbf{UDV}′$, where:
-  - **D**: Is a vector that measure the amount of **variance** of each principal component.
-  - **V**: Is a matrix of the right singular vector (also known as **loading vectors**). These vectors are the principal components and represent the directions of maximum variance in the data.
+- The **singular value decomposition (SVD)** algorithm breaks a matrix into three other matrices, in a way that can be taken back the next function matrix equation $\mathbf{X}= \mathbf{UDV'}$, where:
+  - **U**: This is the matrix that transforms the original data into the new dimensional space spanned by the principal components. It represents **the coordinates of the original data after being projected onto these principal components**.
+  - **D**: This is a **diagonal matrix** whose elements represent the amount of **variance** captured by each **principal component** in descending order.
+  - **V**: This is the transpose of the matrix that represents the principal directions (or **loading vectors**) in the input space, defining how each original feature contributes to each principal component.
 
 ```{r}
 arrests_svd <- svd(arrests_m)
@@ -509,8 +510,9 @@ t(arrests_svd$d * t(arrests_svd$u)) |> head()
 - Omitting 20 values
 
 ```{r}
-values_to_omit <- 20L
 arrests_na <- arrests_m
+
+values_to_omit <- 20L
 
 set.seed(15)
 
@@ -524,35 +526,108 @@ col_na <-
   seq_len() |>
   sample(size = values_to_omit, replace = TRUE)
 
-index_na <- rbind(row_na, col_na)
+index_na <- cbind(row_na, col_na)
 
 arrests_na[index_na] <- NA_real_
 
 ```
 
-- Writing a function that returns an approximation to the matrix
+
+#### Manual implementation
+
+1. **Substitute missing** values with the **mean** of each column.
 
 ```{r}
-fit.svd <- function(X, M = 1) {
+# Calculate the mean of each column
+arrests_col_mean <- colMeans(arrests_na, na.rm = TRUE)
+
+# Impute the mean of the column on each missing value
+# save the result in a new variable
+arrests_hat <- arrests_na
+arrests_hat[index_na] <- arrests_col_mean[col_na]
+```
+
+
+2. Repeat steps (a)–(c) until the objective (12.14) fails to decrease.
+
+```{r}
+
+# Find a low-rank approximation of the resulting matrix
+# It does the same as the next code but faster
+# u[, 1:M, drop = FALSE] %*%
+#   (if(M == 1L) matrix(d[1L]) else diag(d[1:M]))  %*%
+#   t(v[, 1:M, drop = FALSE ])
+aproximate_low_rank <- function(X, M = 1) {
   with(
     svd(X) ,
-    u[, 1:M, drop = FALSE] %*% (d[1:M] * t(v[, 1:M, drop = FALSE ]))
+   u[, 1:M, drop = FALSE] %*% (d[1:M] * t(v[, 1:M, drop = FALSE ]))
   )
 }
+
+# Create a m x n matrix checking if missing values
+# If TRUE then the value is missing
+arrests_is_missing <- is.na(arrests_na)
+
+# Mean of the squared non-missing elements
+# of the old version of arrests_hat
+mssold <-
+  scale(arrests_na,
+        center = arrests_col_mean,
+        scale  = FALSE) |>
+  (\(x) x[!arrests_is_missing]^2)() |>
+  mean()
+
+# Mean squared error of the non-missing elements
+mss0 <- mean(arrests_na[!arrests_is_missing]^2)
+
+iteration_count <- 0L
+relative_error <- 1
+stop_error <- 1e-7
+
+while(relative_error > stop_error) {
+  iteration_count <- iteration_count + 1L
+  # Step 2(a)
+  Xapp <- aproximate_low_rank(arrests_hat, M = 1)
+  # Step 2(b)
+  arrests_hat[arrests_is_missing] <- Xapp[arrests_is_missing]
+  # Step 2(c)
+  mss <- mean(((arrests_na - Xapp)[!arrests_is_missing])^2)
+  relative_error <- (mssold - mss) / mss0
+  mssold <- mss
+  cat("Iter:", iteration_count,
+      "MSS:", mss,
+      "Rel. Err:", relative_error,"\n")
+}
+
 ```
 
-
-Algorithm 12.1 steps:
-
-1. Substitute missing values with the mean of each column.
+3. Return the estimated missing entries
 
 ```{r}
-arrests_hat <- arrests_na
-arrests_hat[index_na] <- colMeans(arrests_na, na.rm = TRUE)[col_na]
+Xapp[arrests_is_missing]
+
+
+
+# Compute the correlation between the imputed values
+cor(
+  Xapp[arrests_is_missing],
+  arrests_m[arrests_is_missing]
+)
+
 ```
 
-Computing the first $M$ principal components of the data
 
+#### `softImpute` package
+
+```{r}
+softImpute::softImpute(arrests_na,
+                       rank.max = 1,
+                       type = "svd") |>
+  softImpute::complete(x = arrests_na) |>
+  (\(x) x[arrests_is_missing])() |>
+  cor(arrests_m[arrests_is_missing])
+
+```
 
 ### Recommender Systems
 
