@@ -640,5 +640,150 @@ In order **to suggest a movie** that a particular customer might like, we needed
 
 ## Clustering
 
+It refers to a very broad set of techniques for finding subgroups, or clusters, in a data set. Some applications could be to:
+
+- Find few different unknown **subtypes of breast cancer**.
+- Perform **market segmentation** by identify **subgroups of people** who might be more likely to purchase a particular product.
+
+
+### K-means clustering
+
+In *K-means clustering*, we seek to partition the observations into a **pre-specified number of non-overlapping clusters** $K$.
+
+
+![](img/80-k-mean-clustering-example.png){fig-align="center"}
+
+For this method, the main goal is to classify observations within clusters with **high intra-class similarity** *(low within-cluster variation)*, but with **low inter-class similarity**.
+
+
+#### Mathematical Description
+
+Let $C_1, \dots, C_K$ denote sets containing the **indices of the observations** in each cluster, where:
+
+- Each observation belongs to at least one of the $K$ clusters. $C_1  \cup C_2 \cup \dots \cup C_K = \{1, \dots,n\}$
+
+- No observation belongs to more than one cluster. $C_k \cap C_{k'} = \emptyset$ for all $k \neq k'$.
+
+$$
+\underset{C_1. \dots, C_K}{\text{minimize}} =
+\left\{ \sum_{k=1}^k W(C_k) \right\}
+$$
+
+$W(C_k)$ represent the amount by which the observations within a cluster differ from each other. There are many possible ways to define this concept, but the most common choice involves **squared euclidean distance**, which is *sensitive to outliers* and works better with **gaussian distributed** features.
+
+$$
+W(C_k) = \frac{1}{| C_k|} \sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
+$$
+Where:
+
+- $|C_k|$: Denotes the number of observations in the $k$th cluster
+
+
+##### Distance alternatives
+
+Some alternatives to the euclidean distance more robust to outliers and Non-normal distributions are:
+- Manhattan distance
+- Minkowski distance
+- Gower distance
+
+if you are analyzing unscaled data where observations may have large differences in magnitude but similar behavior then a **correlation-based distance** is preferred like:
+- $1 - \text{Pearson correlation}$
+- $1 - \text{Spearman correlation}$
+- $1 - \text{Kendall Tau correlation}$
+
+![](img/84-k-mean-clustering-scaling-problem.png){fig-align="center"}
+
+#### Aproximation algorithm
+
+As solving this problem would be very difficult, since there are almost $K^n$ ways to partition n observations into $K$ clusters, but we can use a very simple algorithm to find **local optimum**.
+
+![](img/81-K-Means-Clustering-Algorithm.png){fig-align="center"}
+
+![](img/82-K-Means-Clustering-Algorithm-Example.png){fig-align="center"}
+
+Since the results obtained will depend on the **initial (random) cluster assignment** of each observation it is important to **run the algorithm multiple times** (10-20) from different random initial configurations *(random starts)*. Then one selects the solution with the **smallest objective**.
+
+![](img/83-K-Means-Clustering-Algorithm-Example-Selection.png){fig-align="center"}
+
+#### Coding example
+
+To perform k-means clustering on mixed data we need to:
+
+- Convert any ordinal categorical variables to numeric
+- Convert nominal categorical variables to one-hot encode
+- Scale all variables
+
+#### Selecting the number of clusters
+
+- $k$ **is predetermined** by external resources or knowledge.
+- $k = \sqrt{n/2}$ rule of thumb
+- **elbow method**
+  - Compute k-means clustering for different values of $k$ (1-20)
+  - For each  $k$, calculate the total within-cluster sum of squares (WSS).
+  - Plot the curve of WSS according to the number of clusters $k$
+  - The location of a bend (i.e., elbow) in the plot is generally considered as an indicator of the appropriate number of clusters.
+
+```{r}
+#The results show the “elbow” appears to happen when k = 5
+factoextra::fviz_nbclust(
+  my_basket, 
+  kmeans, 
+  k.max = 25,
+  method = "wss",
+  diss = factoextra::get_dist(my_basket, method = "spearman")
+)
+```
+
+#### Partitioning around medians (PAM)
+
+It has the same algorithmic steps as k-means but uses the **median** rather than the mean to determine the centroid; making it more robust to outliers. 
+
+As your data becomes more sparse the performance of k-means and hierarchical clustering become *slow* and *ineffective*. An alternative is to use the **Gower distance**,  which applies a particular distance calculation that works well for each data type.
+
+- **quantitative (interval)**: range-normalized Manhattan distance.
+- **ordinal**: variable is first ranked, then Manhattan distance is used with a special adjustment for ties.
+- **nominal**: variables with $k$ categories are first converted into $k$ binary columns (i.e., one-hot encoded) and then the **Dice coefficient** is used. To compute the dice metric for two observations $(X,Y)$ the algorithm looks across all one-hot encoded categorical variables and scores them as:
+  - **a** — number of dummies 1 for both observations
+  - **b** — number of dummies 1 for $X$ and 0 for $Y$
+  - **c** - number of dummies 0 for $X$ and 1 for $Y$
+  - **d** — number of dummies 0 for both
+and then uses the following formula:
+
+$$
+D = \frac{2a}{2a + b +c}
+$$
+
+```{r}
+# Original data minus Sale_Price
+ames_full <- 
+  AmesHousing::make_ames() |> 
+  subset(select = -Sale_Price)
+
+# Compute Gower distance for original data
+gower_dst <- cluster::daisy(ames_full, metric = "gower")
+
+# You can supply the Gower distance matrix to several clustering algos
+pam_gower <- cluster::pam(x = gower_dst, k = 8, diss = TRUE)
+```
+
+
+##### clustering large applications (CLARA)
+
+It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.
+
+```{r}
+system.time(kmeans(my_basket, centers = 10))
+
+system.time(cluster::clara(my_basket, k = 10))
+```
+
+### Hierarchical clustering
+
+we do not know in advance how many clusters we want; in fact, we end up with a tree-like visual representation of the observations, called a **dendrogram**.
+
+> It allows us to view at once the clusterings obtained for each possible number of clusters, from 1 to n.
+
+
+
 
 
