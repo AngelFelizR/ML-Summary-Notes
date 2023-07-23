@@ -147,18 +147,61 @@ system.time(kmeans(my_basket, centers = 10))
 system.time(cluster::clara(my_basket, k = 10))
 ```
 
+
 ### Hierarchical clustering
 
 - It doesn't require to define the number of clusters.
 - It returns an attractive tree-based representation (**dendrogram**).
 
+> It assumes that clusters are nested, but that isn't true k-means clustering coud yield better.
 
-#### Unstanding dendrograms
+
+#### Understanding dendrograms
+
+In general we can say that:
 
 - Each **leaf** represent an observation
-- Similar the groups of observations are found in lower fusions
-- Diferent the groups of observations are found in lower fusions
+- **Similar** the groups of observations are **lower** in the tree
+- **Different** the groups of observations are near the **top** of the tree
+- The **height of the cut** controls the **number of clusters** obtained.
 
 ![](img/85-hierarchical-clustering-clusters.png){fig-align="center"}
 
-- Some methods, known as **Bottom-up** or **Agglomerative**, are built starting from the leaves and combining clusters up to the trunk.
+In the next example:
+
+- {1,6} and {5,7} are close observations
+
+![](img/86-hierarchical-clustering-simularity-example1.png){fig-align="center"}
+
+- Observation 9 is no more similar to observation 2 than it
+is to observations 8, 5, and 7, as it was **fused at higher height of the cut**.
+
+![](img/87-hierarchical-clustering-9-similarity.png){fig-align="center"}
+
+#### Bottom-up (Agglomerative) Hierarchical Clustering Algorithm
+
+1. Defining a **dissimilarity measure** between
+each pair of observations, like **Euclidean distance** and **correlation-based distance**.
+2. Defining each of the $n$ observations as a *cluster*.
+3. **Fusing the most similar 2 clusters** and repeating the process until all the observations belong to **one single cluster**.
+
+- Step 1
+
+![](img/88-hierarchical-clustering-step1.png){fig-align="center"}
+
+- Step 2
+
+![](img/89-hierarchical-clustering-step2.png){fig-align="center"}
+
+- Step 3
+
+![](img/90-hierarchical-clustering-step3.png){fig-align="center"}
+
+But to undertand the last step is important to define how to measure *the dissimilarity between two groups of observations* (**linkage**).
+
+- **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
+- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
+- **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
+- **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
+
+![](img/91-hierarchical-clustering-linkage-examples.png){fig-align="center"}
