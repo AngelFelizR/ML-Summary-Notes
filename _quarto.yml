@@ -36,6 +36,7 @@ book:
       - non-parametric-models.qmd
       - survival-analysis.qmd
       - unsupervised-learning.qmd
+      - clustering.qmd
   - part: "Exercise Solutions"
     chapters:
       - 02-execises.qmd
