@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Angel Feliz">
+<title>An Introduction to Statistical Learning (Non Official Solution Book) - 11&nbsp; Unsupervised learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-execises.html" rel="next">
+<link href="./unsupervised-learning.html" rel="prev">
+<link href="./cover.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="summary-format.css">
+</head>
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools ms-auto">
+    <a href="https://github.com/AngelFelizR/ISL-Solutuon-Book" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./modeling-process.html">Teorical Summary</a></li><li class="breadcrumb-item"><a href="./clustering.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Teorical Summary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./missing-values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./clustering.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Exercise Solutions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-execises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02 - Statistical Learning</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-execises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03 - Linear Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-execises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04 - Classification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-execises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05 - Resampling Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-execises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11 - Survival Analysis and Censored Data</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#clustering" id="toc-clustering" class="nav-link active" data-scroll-target="#clustering"><span class="header-section-number">11.1</span> Clustering</a>
+  <ul>
+<li>
+<a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">11.1.1</span> K-means clustering</a>
+  <ul class="collapse">
+<li><a href="#mathematical-description" id="toc-mathematical-description" class="nav-link" data-scroll-target="#mathematical-description">Mathematical Description</a></li>
+  <li><a href="#aproximation-algorithm" id="toc-aproximation-algorithm" class="nav-link" data-scroll-target="#aproximation-algorithm">Aproximation algorithm</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example">Coding example</a></li>
+  <li><a href="#selecting-the-number-of-clusters" id="toc-selecting-the-number-of-clusters" class="nav-link" data-scroll-target="#selecting-the-number-of-clusters">Selecting the number of clusters</a></li>
+  <li><a href="#partitioning-around-medians-pam" id="toc-partitioning-around-medians-pam" class="nav-link" data-scroll-target="#partitioning-around-medians-pam">Partitioning around medians (PAM)</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering"><span class="header-section-number">11.1.2</span> Hierarchical clustering</a>
+  <ul class="collapse">
+<li><a href="#understanding-dendrograms" id="toc-understanding-dendrograms" class="nav-link" data-scroll-target="#understanding-dendrograms">Understanding dendrograms</a></li>
+  <li><a href="#linkage" id="toc-linkage" class="nav-link" data-scroll-target="#linkage">Linkage</a></li>
+  <li><a href="#hierarchical-clustering-types" id="toc-hierarchical-clustering-types" class="nav-link" data-scroll-target="#hierarchical-clustering-types">Hierarchical Clustering Types</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Unsupervised learning</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header><section id="clustering" class="level2" data-number="11.1"><h2 data-number="11.1" class="anchored" data-anchor-id="clustering">
+<span class="header-section-number">11.1</span> Clustering</h2>
+<p>It refers to a very broad set of techniques for finding subgroups, or clusters, in a data set. Some applications could be to:</p>
+<ul>
+<li>Find few different unknown <strong>subtypes of breast cancer</strong>.</li>
+<li>Perform <strong>market segmentation</strong> by identify <strong>subgroups of people</strong> who might be more likely to purchase a particular product.</li>
+</ul>
+<section id="k-means-clustering" class="level3" data-number="11.1.1"><h3 data-number="11.1.1" class="anchored" data-anchor-id="k-means-clustering">
+<span class="header-section-number">11.1.1</span> K-means clustering</h3>
+<p>In <em>K-means clustering</em>, we seek to partition the observations into a <strong>pre-specified number of non-overlapping clusters</strong> <span class="math inline">\(K\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/80-k-mean-clustering-example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>For this method, the main goal is to classify observations within clusters with <strong>high intra-class similarity</strong> <em>(low within-cluster variation)</em>, but with <strong>low inter-class similarity</strong>.</p>
+<section id="mathematical-description" class="level4"><h4 class="anchored" data-anchor-id="mathematical-description">Mathematical Description</h4>
+<p>Let <span class="math inline">\(C_1, \dots, C_K\)</span> denote sets containing the <strong>indices of the observations</strong> in each cluster, where:</p>
+<ul>
+<li><p>Each observation belongs to at least one of the <span class="math inline">\(K\)</span> clusters. <span class="math inline">\(C_1 \cup C_2 \cup \dots \cup C_K = \{1, \dots,n\}\)</span></p></li>
+<li><p>No observation belongs to more than one cluster. <span class="math inline">\(C_k \cap C_{k'} = \emptyset\)</span> for all <span class="math inline">\(k \neq k'\)</span>.</p></li>
+</ul>
+<p><span class="math display">\[
+\underset{C_1. \dots, C_K}{\text{minimize}} =
+\left\{ \sum_{k=1}^k W(C_k) \right\}
+\]</span></p>
+<p><span class="math inline">\(W(C_k)\)</span> represent the amount by which the observations within a cluster differ from each other. There are many possible ways to define this concept, but the most common choice involves <strong>squared euclidean distance</strong>, which is <em>sensitive to outliers</em> and works better with <strong>gaussian distributed</strong> features.</p>
+<p><span class="math display">\[
+W(C_k) = \frac{1}{| C_k|} \sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
+\]</span> Where:</p>
+<ul>
+<li>
+<span class="math inline">\(|C_k|\)</span>: Denotes the number of observations in the <span class="math inline">\(k\)</span>th cluster</li>
+</ul>
+<section id="distance-alternatives" class="level5"><h5 class="anchored" data-anchor-id="distance-alternatives">Distance alternatives</h5>
+<p>Some alternatives to the euclidean distance more robust to outliers and Non-normal distributions are:</p>
+<ul>
+<li>Manhattan distance</li>
+<li>Minkowski distance</li>
+<li>Gower distance</li>
+</ul>
+<p>if you are analyzing unscaled data where observations may have large differences in magnitude but similar behavior then a <strong>correlation-based distance</strong> is preferred like:</p>
+<ul>
+<li><span class="math inline">\(1 - \text{Pearson correlation}\)</span></li>
+<li><span class="math inline">\(1 - \text{Spearman correlation}\)</span></li>
+<li><span class="math inline">\(1 - \text{Kendall Tau correlation}\)</span></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/84-k-mean-clustering-scaling-problem.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section></section><section id="aproximation-algorithm" class="level4"><h4 class="anchored" data-anchor-id="aproximation-algorithm">Aproximation algorithm</h4>
+<p>As solving this problem would be very difficult, since there are almost <span class="math inline">\(K^n\)</span> ways to partition n observations into <span class="math inline">\(K\)</span> clusters, but we can use a very simple algorithm to find <strong>local optimum</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/81-K-Means-Clustering-Algorithm.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/82-K-Means-Clustering-Algorithm-Example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Since the results obtained will depend on the <strong>initial (random) cluster assignment</strong> of each observation it is important to <strong>run the algorithm multiple times</strong> (10-20) from different random initial configurations <em>(random starts)</em>. Then one selects the solution with the <strong>smallest objective</strong>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/83-K-Means-Clustering-Algorithm-Example-Selection.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="coding-example" class="level4"><h4 class="anchored" data-anchor-id="coding-example">Coding example</h4>
+<p>To perform k-means clustering on mixed data we need to:</p>
+<ul>
+<li>Convert any ordinal categorical variables to numeric</li>
+<li>Convert nominal categorical variables to one-hot encode</li>
+<li>Scale all variables</li>
+</ul></section><section id="selecting-the-number-of-clusters" class="level4"><h4 class="anchored" data-anchor-id="selecting-the-number-of-clusters">Selecting the number of clusters</h4>
+<ul>
+<li>
+<span class="math inline">\(k\)</span> <strong>is predetermined</strong> by external resources or knowledge.</li>
+<li>
+<span class="math inline">\(k = \sqrt{n/2}\)</span> rule of thumb</li>
+<li>
+<strong>elbow method</strong>
+<ul>
+<li>Compute k-means clustering for different values of <span class="math inline">\(k\)</span> (1-20)</li>
+<li>For each <span class="math inline">\(k\)</span>, calculate the total within-cluster sum of squares (WSS).</li>
+<li>Plot the curve of WSS according to the number of clusters <span class="math inline">\(k\)</span>
+</li>
+<li>The location of a bend (i.e., elbow) in the plot is generally considered as an indicator of the appropriate number of clusters.</li>
+</ul>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_basket</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"https://koalaverse.github.io/homlr/data/my_basket.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#The results show the “elbow” appears to happen when k = 5</span></span>
+<span><span class="fu">factoextra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span></span>
+<span>  <span class="va">my_basket</span>, </span>
+<span>  <span class="va">kmeans</span>, </span>
+<span>  k.max <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"wss"</span>,</span>
+<span>  diss <span class="op">=</span> <span class="fu">factoextra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/dist.html">get_dist</a></span><span class="op">(</span><span class="va">my_basket</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="clustering_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="partitioning-around-medians-pam" class="level4"><h4 class="anchored" data-anchor-id="partitioning-around-medians-pam">Partitioning around medians (PAM)</h4>
+<p>It has the same algorithmic steps as k-means but uses the <strong>median</strong> rather than the mean to determine the centroid; making it more robust to outliers.</p>
+<p>As your data becomes more sparse the performance of k-means and hierarchical clustering become <em>slow</em> and <em>ineffective</em>. An alternative is to use the <strong>Gower distance</strong>, which applies a particular distance calculation that works well for each data type.</p>
+<ul>
+<li>
+<strong>quantitative (interval)</strong>: range-normalized Manhattan distance.</li>
+<li>
+<strong>ordinal</strong>: variable is first ranked, then Manhattan distance is used with a special adjustment for ties.</li>
+<li>
+<strong>nominal</strong>: variables with <span class="math inline">\(k\)</span> categories are first converted into <span class="math inline">\(k\)</span> binary columns (i.e., one-hot encoded) and then the <strong>Dice coefficient</strong> is used. To compute the dice metric for two observations <span class="math inline">\((X,Y)\)</span> the algorithm looks across all one-hot encoded categorical variables and scores them as:
+<ul>
+<li>
+<strong>a</strong> — number of dummies 1 for both observations</li>
+<li>
+<strong>b</strong> — number of dummies 1 for <span class="math inline">\(X\)</span> and 0 for <span class="math inline">\(Y\)</span>
+</li>
+<li>
+<strong>c</strong> - number of dummies 0 for <span class="math inline">\(X\)</span> and 1 for <span class="math inline">\(Y\)</span>
+</li>
+<li>
+<strong>d</strong> — number of dummies 0 for both and then uses the following formula:</li>
+</ul>
+</li>
+</ul>
+<p><span class="math display">\[
+D = \frac{2a}{2a + b +c}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Original data minus Sale_Price</span></span>
+<span><span class="va">ames_full</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">AmesHousing</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="op">-</span><span class="va">Sale_Price</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compute Gower distance for original data</span></span>
+<span><span class="va">gower_dst</span> <span class="op">&lt;-</span> <span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/daisy.html">daisy</a></span><span class="op">(</span><span class="va">ames_full</span>, metric <span class="op">=</span> <span class="st">"gower"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># You can supply the Gower distance matrix to several clustering algos</span></span>
+<span><span class="va">pam_gower</span> <span class="op">&lt;-</span> <span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/pam.html">pam</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gower_dst</span>, k <span class="op">=</span> <span class="fl">8</span>, diss <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="clustering-large-applications-clara" class="level5"><h5 class="anchored" data-anchor-id="clustering-large-applications-clara">clustering large applications (CLARA)</h5>
+<p>It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+   0.01    0.00    0.01 </code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   user  system elapsed 
+   0.00    0.00    0.01 </code></pre>
+</div>
+</div>
+</section></section></section><section id="hierarchical-clustering" class="level3" data-number="11.1.2"><h3 data-number="11.1.2" class="anchored" data-anchor-id="hierarchical-clustering">
+<span class="header-section-number">11.1.2</span> Hierarchical clustering</h3>
+<ul>
+<li>It doesn’t require to define the number of clusters.</li>
+<li>It returns an attractive tree-based representation (<strong>dendrogram</strong>).</li>
+</ul>
+<blockquote class="blockquote">
+<p>It assumes that clusters are nested, but that isn’t true k-means clustering coud yield better.</p>
+</blockquote>
+<section id="understanding-dendrograms" class="level4"><h4 class="anchored" data-anchor-id="understanding-dendrograms">Understanding dendrograms</h4>
+<p>In general we can say that:</p>
+<ul>
+<li>Each <strong>leaf</strong> represent an observation</li>
+<li>
+<strong>Similar</strong> the groups of observations are <strong>lower</strong> in the tree</li>
+<li>
+<strong>Different</strong> the groups of observations are near the <strong>top</strong> of the tree</li>
+<li>The <strong>height of the cut</strong> controls the <strong>number of clusters</strong> obtained.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/85-hierarchical-clustering-clusters.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>In the next example:</p>
+<ul>
+<li>{1,6} and {5,7} are close observations</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/86-hierarchical-clustering-simularity-example1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Observation 9 is no more similar to observation 2 than it is to observations 8, 5, and 7, as it was <strong>fused at higher height of the cut</strong>.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/87-hierarchical-clustering-9-similarity.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="linkage" class="level4"><h4 class="anchored" data-anchor-id="linkage">Linkage</h4>
+<p>It measures the dissimilarity between two clusters. To do so we have the next methods:</p>
+<ul>
+<li>
+<p>AGNES clustering</p>
+<ul>
+<li>
+<strong>Complete (maximal intercluster dissimilarity)</strong>: Record the <strong>largest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>compact clusters</strong>.</li>
+<li>
+<strong>Ward’s minimum variance</strong>: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to <strong>produce more compact clusters</strong>.</li>
+</ul>
+</li>
+<li>
+<p>DIANA clustering</p>
+<ul>
+<li>
+<strong>Average (mean intercluster dissimilarity)</strong>: Record the <strong>average dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It can <strong>vary</strong> in the compactness of the clusters it creates.</li>
+</ul>
+</li>
+<li><p><strong>Single (minimal intercluster dissimilarity)</strong>: Record the <strong>smallest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>extended clusters</strong>.</p></li>
+<li><p><strong>Centroid</strong>: Computes the dissimilarity between the centroid for cluster <span class="math inline">\(A\)</span> (a mean vector of length <span class="math inline">\(p\)</span>, one element for each variable) and the centroid for cluster <span class="math inline">\(B\)</span>. It is often used in genomics, but <em>inversions</em> can lead to <strong>difficulties</strong> in visualizing and interpreting of the dendrogram.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/92-hierarchical-clustering-linkage-examples.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="hierarchical-clustering-types" class="level4"><h4 class="anchored" data-anchor-id="hierarchical-clustering-types">Hierarchical Clustering Types</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/93-hierarchical-clustering-types.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">AGNES (bottom-up) versus DIANA (top-down) clustering</figcaption></figure>
+</div>
+<section id="agglomerative-clustering-agnes-bottom-up" class="level5"><h5 class="anchored" data-anchor-id="agglomerative-clustering-agnes-bottom-up">Agglomerative Clustering (AGNES, Bottom-up)</h5>
+<ol type="1">
+<li>Defining a <strong>dissimilarity measure</strong> between each pair of observations, like <strong>Euclidean distance</strong> and <strong>correlation-based distance</strong>.</li>
+<li>Defining each of the <span class="math inline">\(n\)</span> observations as a <em>cluster</em>.</li>
+<li>
+<strong>Fusing the most similar 2 clusters</strong> and repeating the process until all the observations belong to <strong>one single cluster</strong>.</li>
+</ol>
+<ul>
+<li>Step 1</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/88-hierarchical-clustering-step1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Step 2</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/89-hierarchical-clustering-step2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li>Step 3</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/90-hierarchical-clustering-step3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>It is good at identifying <strong>small</strong> clusters.</p>
+</blockquote>
+<section id="coding-example-1" class="level6"><h6 class="anchored" data-anchor-id="coding-example-1">Coding example</h6>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Helper packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>       <span class="co"># for data manipulation</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>     <span class="co"># for data visualization</span></span>
+<span></span>
+<span><span class="va">ames_scale</span> <span class="op">&lt;-</span> <span class="fu">AmesHousing</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># select numeric columns</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Sale_Price</span><span class="op">)</span> <span class="op">|&gt;</span>    <span class="co"># remove target column</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">as.double</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># coerce to double type</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># center &amp; scale the resulting columns</span></span>
+<span></span>
+<span><span class="co"># For reproducibility</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Dissimilarity matrix</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span><span class="op">(</span></span>
+<span>  <span class="va">ames_scale</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"euclidean"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cluster_methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"average"</span>,</span>
+<span>  <span class="st">"single"</span>,</span>
+<span>  <span class="st">"complete"</span>,</span>
+<span>  <span class="st">"ward.D"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/setattr.html">setattr</a></span><span class="op">(</span><span class="va">cluster_methods</span>,</span>
+<span>                    <span class="st">"names"</span>,</span>
+<span>                    <span class="va">cluster_methods</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">cluster_methods</span>,</span>
+<span>       \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">fastcluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html">hclust</a></span><span class="op">(</span><span class="va">d</span>, method <span class="op">=</span> <span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>         <span class="fu">cluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/coef.hclust.html">coef.hclust</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   ward.D  complete   average    single 
+0.9972137 0.9267750 0.9139303 0.8712890 </code></pre>
+</div>
+</div>
+</section></section><section id="divisive-clustering-diana-top-down" class="level5"><h5 class="anchored" data-anchor-id="divisive-clustering-diana-top-down">Divisive Clustering (DIANA, top-down)</h5>
+<ol type="1">
+<li>Defining a <strong>dissimilarity measure</strong> between each pair of observations, like <strong>Euclidean distance</strong> and <strong>correlation-based distance</strong>.</li>
+<li>Defining the root, in which all observations are included in a single cluster.</li>
+<li>The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.</li>
+</ol>
+<blockquote class="blockquote">
+<p>It is good at identifying <strong>large</strong> clusters.</p>
+</blockquote>
+<p>https://uc-r.github.io/hc_clustering</p>
+
+
+</section></section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./unsupervised-learning.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-execises.html" class="pagination-link">
+        <span class="nav-page-text">02 - Statistical Learning</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">This book was built with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+</body></html>

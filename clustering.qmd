@@ -50,11 +50,13 @@ Where:
 ##### Distance alternatives
 
 Some alternatives to the euclidean distance more robust to outliers and Non-normal distributions are:
+
 - Manhattan distance
 - Minkowski distance
 - Gower distance
 
 if you are analyzing unscaled data where observations may have large differences in magnitude but similar behavior then a **correlation-based distance** is preferred like:
+
 - $1 - \text{Pearson correlation}$
 - $1 - \text{Spearman correlation}$
 - $1 - \text{Kendall Tau correlation}$
@@ -178,7 +180,29 @@ is to observations 8, 5, and 7, as it was **fused at higher height of the cut**.
 
 ![](img/87-hierarchical-clustering-9-similarity.png){fig-align="center"}
 
-#### Bottom-up (Agglomerative) Hierarchical Clustering Algorithm
+
+#### Linkage
+
+It measures the dissimilarity between two clusters. To do so we have the next methods:
+
+- AGNES clustering
+  - **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
+  - **Ward’s minimum variance**: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to **produce more compact clusters**.
+
+- DIANA clustering
+  - **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
+
+- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
+
+- **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
+
+![](img/92-hierarchical-clustering-linkage-examples.png){fig-align="center"}
+
+#### Hierarchical Clustering Types 
+
+![AGNES (bottom-up) versus DIANA (top-down) clustering](img/93-hierarchical-clustering-types.png){fig-align="center"}
+
+##### Agglomerative Clustering (AGNES, Bottom-up)
 
 1. Defining a **dissimilarity measure** between
 each pair of observations, like **Euclidean distance** and **correlation-based distance**.
@@ -197,11 +221,58 @@ each pair of observations, like **Euclidean distance** and **correlation-based d
 
 ![](img/90-hierarchical-clustering-step3.png){fig-align="center"}
 
-But to undertand the last step is important to define how to measure *the dissimilarity between two groups of observations* (**linkage**).
+> It is good at identifying **small** clusters.
 
-- **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
-- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
-- **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
-- **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
+###### Coding example
 
-![](img/91-hierarchical-clustering-linkage-examples.png){fig-align="center"}
+```{r}
+# Helper packages
+library(dplyr)       # for data manipulation
+library(ggplot2)     # for data visualization
+
+ames_scale <- AmesHousing::make_ames() |>
+  select_if(is.numeric) |>  # select numeric columns
+  select(-Sale_Price) |>    # remove target column
+  mutate_all(as.double) |>  # coerce to double type
+  scale()                   # center & scale the resulting columns
+
+# For reproducibility
+set.seed(123)
+
+# Dissimilarity matrix
+d <- dist(
+  ames_scale,
+  method = "euclidean"
+)
+
+cluster_methods <- c(
+  "average",
+  "single",
+  "complete",
+  "ward.D"
+)
+
+data.table::setattr(cluster_methods,
+                    "names",
+                    cluster_methods)
+
+sapply(cluster_methods,
+       \(x) fastcluster::hclust(d, method = x) |>
+         cluster::coef.hclust() ) |> 
+  sort(decreasing = TRUE)
+
+
+
+```
+
+##### Divisive Clustering (DIANA, top-down)
+
+1. Defining a **dissimilarity measure** between
+each pair of observations, like **Euclidean distance** and **correlation-based distance**.
+2. Defining the root, in which all observations are included in a single cluster. 
+3. The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.
+
+> It is good at identifying **large** clusters.
+
+https://uc-r.github.io/hc_clustering
+
