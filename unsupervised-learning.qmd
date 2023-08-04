@@ -131,7 +131,7 @@ my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
 `broom` is really useful to extract model information.
 
@@ -139,7 +139,7 @@ my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
 library(broom)
 ```
 
-## h2o
+#### h2o
 
 *Java is a prerequisite for H2O*.
 
@@ -158,7 +158,7 @@ h2o.init(max_mem_size = "5g")
 my_basket.h2o <- as.h2o(my_basket)
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 library(recipes)
@@ -171,13 +171,13 @@ library(recipes)
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
 ```{r}
 stats_pca <- prcomp(my_basket, scale = TRUE)
 ```
 
-## h2o
+#### h2o
 
 - `pca_method`: When your data contains mostly numeric data use **“GramSVD”**, but if the data contain many categorical variables (or just a few categorical variables with high cardinality) we recommend to use **“GLRM”**.
 - `k`: Integer specifying how many PCs to compute.Use `ncol(data)`.
@@ -197,7 +197,7 @@ h2o_pca <- h2o.prcomp(
 )
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 pca_rec <- recipe(~., data = my_basket) |>
@@ -213,7 +213,7 @@ pca_rec <- recipe(~., data = my_basket) |>
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
 ```{r}
 tidy(stats_pca, matrix = "eigenvalues") |>
@@ -221,13 +221,13 @@ tidy(stats_pca, matrix = "eigenvalues") |>
 ```
 
 
-## h2o
+#### h2o
 
 ``` {r}
 h2o_pca@model$importance[, 1:5]
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 tidy(pca_rec, id = "pca", type = "variance") |>
@@ -247,7 +247,7 @@ tidy(pca_rec, id = "pca", type = "variance") |>
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
   - PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
 
@@ -262,7 +262,7 @@ tidy(stats_pca, matrix = "loadings") |>
 ```
 
 
-## h2o
+#### h2o
 
   - PC1 can be interpreted as the **Entertainment Lifestyle** component, as it seems to characterize individuals who might prefer leisure activities over more nutritious food choices.
 
@@ -276,7 +276,7 @@ as.data.table(h2o_pca@model$eigenvectors,
   geom_vline(xintercept = 0)
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 tidy(pca_rec, id = "pca", type = "coef") |>
@@ -295,7 +295,7 @@ tidy(pca_rec, id = "pca", type = "coef") |>
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
   - PC2 can be interpreted as the a **Dine-in Food Choices** component, as  associated items are typically part of a main meal that one might consume for lunch or dinner.
 
@@ -310,7 +310,7 @@ tidy(stats_pca, matrix = "loadings") |>
 ```
 
 
-## h2o
+#### h2o
 
   - PC2 can be interpreted as the a **Breakfast and News** component, as it appears to characterize individuals who prefer sweet, breakfast, or caffeinated items, perhaps while reading the newspaper. They seem to avoid other types of food and drink.
 
@@ -324,7 +324,7 @@ as.data.table(h2o_pca@model$eigenvectors,
   geom_vline(xintercept = 0)
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 tidy(pca_rec, id = "pca", type = "coef") |>
@@ -342,7 +342,7 @@ tidy(pca_rec, id = "pca", type = "coef") |>
 
 ::: {.panel-tabset group="library"}
 
-## stats
+#### stats
 
 ```{r}
 tidy(stats_pca, matrix = "loadings") |>
@@ -359,7 +359,7 @@ tidy(stats_pca, matrix = "loadings") |>
 ```
 
 
-## h2o
+#### h2o
 
 ``` {r}
 as.data.table(h2o_pca@model$eigenvectors,
@@ -372,7 +372,7 @@ as.data.table(h2o_pca@model$eigenvectors,
        y = "Breakfast and News")
 ```
 
-## recipes
+#### recipes
 
 ```{r}
 tidy(pca_rec, id = "pca", type = "coef") |>
