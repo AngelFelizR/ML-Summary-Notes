@@ -274,5 +274,33 @@ each pair of observations, like **Euclidean distance** and **correlation-based d
 
 > It is good at identifying **large** clusters.
 
+#### Defining number of clusters
+
+```{r}
+p1 <- factoextra::fviz_nbclust(
+  ames_scale,
+  FUN = hcut,
+  method = "wss",
+  k.max = 10
+) +
+  ggtitle("(A) Elbow method")
+
+
+p2 <- factoextra::fviz_nbclust(
+  ames_scale,
+  FUN = hcut,
+  method = "silhouette",
+  k.max = 10
+) +
+  ggtitle("(B) Silhouette method")
+
+
+# Display plots side by side
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+####  Working with dendrograms
+
 https://uc-r.github.io/hc_clustering
+
 
