@@ -822,6 +822,14 @@
       "Hash": "8106d78941f34855c440ddb946b8f7a5",
       "Requirements": []
     },
+    "fastcluster": {
+      "Package": "fastcluster",
+      "Version": "1.2.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f032f97ae2ab52d5c0fc51a1b3b2b91d",
+      "Requirements": []
+    },
     "fastmap": {
       "Package": "fastmap",
       "Version": "1.1.1",
@@ -2269,16 +2277,6 @@
         "rlang",
         "vctrs",
         "warp"
-      ]
-    },
-    "softImpute": {
-      "Package": "softImpute",
-      "Version": "1.4-1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "693dea922bd2e79dcc65d3b9c1d14c47",
-      "Requirements": [
-        "Matrix"
       ]
     },
     "sourcetools": {
