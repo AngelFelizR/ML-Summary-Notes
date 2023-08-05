@@ -160,6 +160,14 @@
         "Matrix"
       ]
     },
+    "NbClust": {
+      "Package": "NbClust",
+      "Version": "3.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e56c312f8636aace4c6ed1082df79ab9",
+      "Requirements": []
+    },
     "R.cache": {
       "Package": "R.cache",
       "Version": "0.16.0",
@@ -236,6 +244,16 @@
       "Hash": "e749cae40fa9ef469b6050959517453c",
       "Requirements": []
     },
+    "RcppArmadillo": {
+      "Package": "RcppArmadillo",
+      "Version": "0.12.4.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "44b6ca3a6d22b4c87cdd6140e6f15245",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
     "RcppEigen": {
       "Package": "RcppEigen",
       "Version": "0.3.3.9.3",
@@ -245,6 +263,39 @@
       "Requirements": [
         "Matrix",
         "Rcpp"
+      ]
+    },
+    "RcppGSL": {
+      "Package": "RcppGSL",
+      "Version": "0.3.13",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e8fc7310d256a7b6c4de8e57ab76c55d",
+      "Requirements": [
+        "Rcpp"
+      ]
+    },
+    "RcppZiggurat": {
+      "Package": "RcppZiggurat",
+      "Version": "0.1.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "75b4a36aeeed440ad03b996081190703",
+      "Requirements": [
+        "Rcpp",
+        "RcppGSL"
+      ]
+    },
+    "Rfast": {
+      "Package": "Rfast",
+      "Version": "2.0.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "da912d76aecdfaf552510dee733887a3",
+      "Requirements": [
+        "Rcpp",
+        "RcppArmadillo",
+        "RcppZiggurat"
       ]
     },
     "SQUAREM": {
@@ -845,6 +896,18 @@
       "Repository": "CRAN",
       "Hash": "09fb526c49460c4933bc077db6eba924",
       "Requirements": []
+    },
+    "flexclust": {
+      "Package": "flexclust",
+      "Version": "1.4-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5119656cf1990993d4100e5e407f90ac",
+      "Requirements": [
+        "class",
+        "lattice",
+        "modeltools"
+      ]
     },
     "fontawesome": {
       "Package": "fontawesome",
@@ -1630,6 +1693,14 @@
         "tibble",
         "vctrs"
       ]
+    },
+    "modeltools": {
+      "Package": "modeltools",
+      "Version": "0.2-23",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f5a957c02222589bdf625a67be68b2a9",
+      "Requirements": []
     },
     "multcompView": {
       "Package": "multcompView",
@@ -2421,6 +2492,33 @@
         "pillar",
         "pkgconfig",
         "rlang",
+        "vctrs"
+      ]
+    },
+    "tidyclust": {
+      "Package": "tidyclust",
+      "Version": "0.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "097ea4f8c2c0781843ce374cb73a8955",
+      "Requirements": [
+        "Rfast",
+        "cli",
+        "dials",
+        "dplyr",
+        "flexclust",
+        "foreach",
+        "generics",
+        "glue",
+        "hardhat",
+        "modelenv",
+        "parsnip",
+        "prettyunits",
+        "rlang",
+        "rsample",
+        "tibble",
+        "tidyr",
+        "tune",
         "vctrs"
       ]
     },

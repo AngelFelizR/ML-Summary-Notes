@@ -284,18 +284,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#mathematical-description-1" id="toc-mathematical-description-1" class="nav-link" data-scroll-target="#mathematical-description-1">Mathematical Description</a></li>
   <li><a href="#aproximation-algorithm" id="toc-aproximation-algorithm" class="nav-link" data-scroll-target="#aproximation-algorithm">Aproximation algorithm</a></li>
   <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1">Coding example</a></li>
-  <li><a href="#selecting-the-number-of-clusters" id="toc-selecting-the-number-of-clusters" class="nav-link" data-scroll-target="#selecting-the-number-of-clusters">Selecting the number of clusters</a></li>
   <li><a href="#partitioning-around-medians-pam" id="toc-partitioning-around-medians-pam" class="nav-link" data-scroll-target="#partitioning-around-medians-pam">Partitioning around medians (PAM)</a></li>
+  <li><a href="#clustering-large-applications-clara" id="toc-clustering-large-applications-clara" class="nav-link" data-scroll-target="#clustering-large-applications-clara">Clustering large applications (CLARA)</a></li>
   </ul>
 </li>
   <li>
 <a href="#hierarchical-clustering" id="toc-hierarchical-clustering" class="nav-link" data-scroll-target="#hierarchical-clustering"><span class="header-section-number">10.3.2</span> Hierarchical clustering</a>
   <ul class="collapse">
 <li><a href="#understanding-dendrograms" id="toc-understanding-dendrograms" class="nav-link" data-scroll-target="#understanding-dendrograms">Understanding dendrograms</a></li>
-  <li><a href="#linkage" id="toc-linkage" class="nav-link" data-scroll-target="#linkage">Linkage</a></li>
   <li><a href="#hierarchical-clustering-types" id="toc-hierarchical-clustering-types" class="nav-link" data-scroll-target="#hierarchical-clustering-types">Hierarchical Clustering Types</a></li>
-  <li><a href="#defining-number-of-clusters" id="toc-defining-number-of-clusters" class="nav-link" data-scroll-target="#defining-number-of-clusters">Defining number of clusters</a></li>
-  <li><a href="#working-with-dendrograms" id="toc-working-with-dendrograms" class="nav-link" data-scroll-target="#working-with-dendrograms">Working with dendrograms</a></li>
+  <li><a href="#linkage" id="toc-linkage" class="nav-link" data-scroll-target="#linkage">Linkage</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#selecting-number-of-clusters" id="toc-selecting-number-of-clusters" class="nav-link" data-scroll-target="#selecting-number-of-clusters"><span class="header-section-number">10.3.3</span> Selecting number of clusters</a>
+  <ul class="collapse">
+<li><a href="#working-with-dendrograms" id="toc-working-with-dendrograms" class="nav-link" data-scroll-target="#working-with-dendrograms">Working with dendrograms</a></li>
   </ul>
 </li>
   </ul>
@@ -329,18 +333,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="libraries-to-use" class="level2" data-number="10.1"><h2 data-number="10.1" class="anchored" data-anchor-id="libraries-to-use">
 <span class="header-section-number">10.1</span> Libraries to use</h2>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Helper packages</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>       <span class="co"># for data manipulation</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>     <span class="co"># for data visualization</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Data manipulation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/recipes">recipes</a></span><span class="op">)</span></span>
-<span><span class="co"># Really useful to extract model information.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Data visualization</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>     </span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Model creation</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/h2oai/h2o-3">h2o</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/cluster/">cluster</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://svn.r-project.org/R-packages/trunk/cluster/">cluster</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/tidyclust">tidyclust</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extracting model information</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://broom.tidymodels.org/">broom</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.sthda.com/english/rpkgs/factoextra">factoextra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sites.google.com/site/malikacharrad/research/nbclust-package">NbClust</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="principal-components-analysis-pca" class="level2" data-number="10.2"><h2 data-number="10.2" class="anchored" data-anchor-id="principal-components-analysis-pca">
 <span class="header-section-number">10.2</span> Principal Components Analysis (PCA)</h2>
@@ -446,7 +456,7 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_basket</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"https://koalaverse.github.io/homlr/data/my_basket.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
-<li>Importing library to use</li>
+<li>Apply the PCA function</li>
 </ol>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
 <ul class="nav nav-tabs" role="tablist">
@@ -456,12 +466,14 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 </ul>
 <div class="tab-content" data-group="library">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stats_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">my_basket</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p><em>Java is a prerequisite for H2O</em>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># turn off progress bars for brevity</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># turn off progress bars for brevity</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/h2o/man/h2o.no_progress.html">h2o.no_progress</a></span><span class="op">(</span><span class="op">)</span>  </span>
 <span></span>
 <span><span class="co"># connect to H2O instance with 5 gigabytes</span></span>
@@ -471,18 +483,18 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 H2O is not running yet, starting it now...
 
 Note:  In case of errors look at the following log files:
-    C:\Users\angel\AppData\Local\Temp\RtmpyiUYKN\file82d0406d136e/h2o_angel_started_from_r.out
-    C:\Users\angel\AppData\Local\Temp\RtmpyiUYKN\file82d0dc4400d/h2o_angel_started_from_r.err
+    C:\Users\angel\AppData\Local\Temp\RtmpoNDDl3\filea35c1d0a81/h2o_angel_started_from_r.out
+    C:\Users\angel\AppData\Local\Temp\RtmpoNDDl3\filea35c5fd84670/h2o_angel_started_from_r.err
 
 
-Starting H2O JVM and connecting:  Connection successful!
+Starting H2O JVM and connecting: . Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         4 seconds 95 milliseconds 
+    H2O cluster uptime:         5 seconds 299 milliseconds 
     H2O cluster timezone:       America/La_Paz 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.40.0.4 
-    H2O cluster version age:    3 months and 6 days 
+    H2O cluster version age:    3 months and 8 days 
     H2O cluster name:           H2O_started_from_R_angel_idp550 
     H2O cluster total nodes:    1 
     H2O cluster total memory:   4.43 GB 
@@ -495,31 +507,9 @@ R is connected to the H2O cluster:
     H2O Internal Security:      FALSE 
     R Version:                  R version 4.2.3 (2023-03-15 ucrt) </code></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># convert data to h2o object</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># convert data to h2o object</span></span>
 <span><span class="va">my_basket.h2o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/h2o/man/as.h2o.html">as.h2o</a></span><span class="op">(</span><span class="va">my_basket</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-
-</div>
-</div>
-</div>
-<ol start="4" type="1">
-<li>Apply the PCA function</li>
-</ol>
-<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
-<ul class="nav nav-tabs" role="tablist">
-<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">stats</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">h2o</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">recipes</a></li>
-</ul>
-<div class="tab-content" data-group="library">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stats_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">my_basket</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <ul>
 <li>
 <code>pca_method</code>: When your data contains mostly numeric data use <strong>“GramSVD”</strong>, but if the data contain many categorical variables (or just a few categorical variables with high cardinality) we recommend to use <strong>“GLRM”</strong>.</li>
@@ -545,7 +535,7 @@ R is connected to the H2O cluster:
 <span><span class="fu"><a href="https://rdrr.io/pkg/h2o/man/h2o.shutdown.html">h2o.shutdown</a></span><span class="op">(</span>prompt <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">my_basket</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -555,17 +545,17 @@ R is connected to the H2O cluster:
 </div>
 </div>
 </div>
-<ol start="5" type="1">
+<ol start="3" type="1">
 <li>Extracting importance of each component</li>
 </ol>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
 <ul class="nav nav-tabs" role="tablist">
-<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">stats</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">h2o</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">recipes</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">stats</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">h2o</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">recipes</a></li>
 </ul>
 <div class="tab-content" data-group="library">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"eigenvalues"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -581,7 +571,7 @@ R is connected to the H2O cluster:
 </div>
 </div>
 </div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">h2o_pca</span><span class="op">@</span><span class="va">model</span><span class="op">$</span><span class="va">importance</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -592,7 +582,7 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </div>
 </div>
 </div>
-<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="cell">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">pca_rec</span>, id <span class="op">=</span> <span class="st">"pca"</span>, type <span class="op">=</span> <span class="st">"variance"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">component</span> <span class="op">&lt;=</span> <span class="fl">5</span>,</span>
@@ -614,7 +604,7 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </div>
 </div>
 </div>
-<ol start="6" type="1">
+<ol start="4" type="1">
 <li>Identifying which of our original features contribute to the PCs by assessing the loadings.</li>
 </ol>
 <ul>
@@ -622,12 +612,12 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
 <ul class="nav nav-tabs" role="tablist">
-<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">stats</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">h2o</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">recipes</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">stats</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">h2o</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">recipes</a></li>
 </ul>
 <div class="tab-content" data-group="library">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <ul>
 <li>PC1 can be interpreted as the <strong>Unhealthy Lifestyle</strong> component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).</li>
 </ul>
@@ -640,11 +630,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <ul>
 <li>PC1 can be interpreted as the <strong>Entertainment Lifestyle</strong> component, as it seems to characterize individuals who might prefer leisure activities over more nutritious food choices.</li>
 </ul>
@@ -657,11 +647,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
 <div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">pca_rec</span>, id <span class="op">=</span> <span class="st">"pca"</span>, type <span class="op">=</span> <span class="st">"coef"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">component</span> <span class="op">==</span> <span class="st">"PC1"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -671,7 +661,7 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -682,12 +672,12 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 </ul>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
 <ul class="nav nav-tabs" role="tablist">
-<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">stats</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">h2o</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">recipes</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">stats</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">h2o</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-3" role="tab" aria-controls="tabset-4-3" aria-selected="false">recipes</a></li>
 </ul>
 <div class="tab-content" data-group="library">
-<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
 <ul>
 <li>PC2 can be interpreted as the a <strong>Dine-in Food Choices</strong> component, as associated items are typically part of a main meal that one might consume for lunch or dinner.</li>
 </ul>
@@ -700,11 +690,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
 <ul>
 <li>PC2 can be interpreted as the a <strong>Breakfast and News</strong> component, as it appears to characterize individuals who prefer sweet, breakfast, or caffeinated items, perhaps while reading the newspaper. They seem to avoid other types of food and drink.</li>
 </ul>
@@ -717,11 +707,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
+<div id="tabset-4-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-3-tab">
 <div class="cell">
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">pca_rec</span>, id <span class="op">=</span> <span class="st">"pca"</span>, type <span class="op">=</span> <span class="st">"coef"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">component</span> <span class="op">==</span> <span class="st">"PC2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -731,23 +721,23 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
 </div>
 </div>
-<ol start="7" type="1">
+<ol start="5" type="1">
 <li>Compare PCs against one another to see how the different features contribute to each PC.</li>
 </ol>
 <div class="tabset-margin-container"></div><div class="panel-tabset" data-group="library">
 <ul class="nav nav-tabs" role="tablist">
-<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">stats</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">h2o</a></li>
-<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-3" role="tab" aria-controls="tabset-6-3" aria-selected="false">recipes</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">stats</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">h2o</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-3" role="tab" aria-controls="tabset-5-3" aria-selected="false">recipes</a></li>
 </ul>
 <div class="tab-content" data-group="library">
-<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">stats_pca</span>, matrix <span class="op">=</span> <span class="st">"loadings"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">PC</span> <span class="op">&lt;=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -761,11 +751,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Unhealthy Lifestyle"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"Dine-in Food Choices"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">h2o_pca</span><span class="op">@</span><span class="va">model</span><span class="op">$</span><span class="va">eigenvectors</span>,</span>
 <span>              keep.rownames <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -776,11 +766,11 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Entertainment Lifestyle"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"Breakfast and News"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
-<div id="tabset-6-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-3-tab">
+<div id="tabset-5-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-3-tab">
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">pca_rec</span>, id <span class="op">=</span> <span class="st">"pca"</span>, type <span class="op">=</span> <span class="st">"coef"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">component</span> <span class="op"><a href="https://Rdatatable.gitlab.io/data.table/reference/chmatch.html">%chin%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC"</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -792,7 +782,7 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </div>
@@ -854,7 +844,22 @@ Cumulative Proportion  0.05457025 0.10628436 0.15697514 0.20639012 0.25543833</c
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>nudge_y <span class="op">=</span> <span class="op">-</span><span class="fl">.002</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we can visualize the results</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/eigenvalue.html">fviz_screeplot</a></span><span class="op">(</span><span class="va">stats_pca</span>, addlabels <span class="op">=</span> <span class="cn">TRUE</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_pca.html">fviz_pca_var</a></span><span class="op">(</span><span class="va">stats_pca</span>, col.var <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_contrib.html">fviz_contrib</a></span><span class="op">(</span><span class="va">stats_pca</span>, choice <span class="op">=</span> <span class="st">"var"</span>, axes <span class="op">=</span> <span class="fl">1</span>, top <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-24-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="conclusion" class="level4"><h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
@@ -930,37 +935,29 @@ W(C_k) = \frac{1}{| C_k|} \sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
 <li>Convert any ordinal categorical variables to numeric</li>
 <li>Convert nominal categorical variables to one-hot encode</li>
 <li>Scale all variables</li>
-</ul></section><section id="selecting-the-number-of-clusters" class="level4"><h4 class="anchored" data-anchor-id="selecting-the-number-of-clusters">Selecting the number of clusters</h4>
-<ul>
-<li>
-<span class="math inline">\(k\)</span> <strong>is predetermined</strong> by external resources or knowledge.</li>
-<li>
-<span class="math inline">\(k = \sqrt{n/2}\)</span> rule of thumb</li>
-<li>
-<strong>elbow method</strong>
-<ul>
-<li>Compute k-means clustering for different values of <span class="math inline">\(k\)</span> (1-20)</li>
-<li>For each <span class="math inline">\(k\)</span>, calculate the total within-cluster sum of squares (WSS).</li>
-<li>Plot the curve of WSS according to the number of clusters <span class="math inline">\(k\)</span>
-</li>
-<li>The location of a bend (i.e., elbow) in the plot is generally considered as an indicator of the appropriate number of clusters.</li>
-</ul>
-</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">my_basket</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/fread.html">fread</a></span><span class="op">(</span><span class="st">"https://koalaverse.github.io/homlr/data/my_basket.csv"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ames_scale</span> <span class="op">&lt;-</span> <span class="fu">AmesHousing</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># select numeric columns</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Sale_Price</span><span class="op">)</span> <span class="op">|&gt;</span>    <span class="co"># remove target column</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">as.double</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># coerce to double type</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># center &amp; scale the resulting columns</span></span>
 <span></span>
-<span><span class="co">#The results show the “elbow” appears to happen when k = 5</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span></span>
-<span>  <span class="va">my_basket</span>, </span>
-<span>  <span class="va">kmeans</span>, </span>
-<span>  k.max <span class="op">=</span> <span class="fl">25</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"wss"</span>,</span>
-<span>  diss <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/dist.html">get_dist</a></span><span class="op">(</span><span class="va">my_basket</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Dissimilarity matrix</span></span>
+<span><span class="va">ames_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span><span class="op">(</span></span>
+<span>  <span class="va">ames_scale</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"euclidean"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For reproducibility</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ames_kmeans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span></span>
+<span>  <span class="va">ames_dist</span>,</span>
+<span>  centers <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  nstart <span class="op">=</span> <span class="fl">10</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 </section><section id="partitioning-around-medians-pam" class="level4"><h4 class="anchored" data-anchor-id="partitioning-around-medians-pam">Partitioning around medians (PAM)</h4>
 <p>It has the same algorithmic steps as k-means but uses the <strong>median</strong> rather than the mean to determine the centroid; making it more robust to outliers.</p>
@@ -990,7 +987,7 @@ W(C_k) = \frac{1}{| C_k|} \sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
 D = \frac{2a}{2a + b +c}
 \]</span></p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Original data minus Sale_Price</span></span>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Original data minus Sale_Price</span></span>
 <span><span class="va">ames_full</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">AmesHousing</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span>select <span class="op">=</span> <span class="op">-</span><span class="va">Sale_Price</span><span class="op">)</span></span>
@@ -1001,21 +998,21 @@ D = \frac{2a}{2a + b +c}
 <span><span class="co"># You can supply the Gower distance matrix to several clustering algos</span></span>
 <span><span class="va">pam_gower</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/cluster/man/pam.html">pam</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">gower_dst</span>, k <span class="op">=</span> <span class="fl">8</span>, diss <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="clustering-large-applications-clara" class="level5"><h5 class="anchored" data-anchor-id="clustering-large-applications-clara">clustering large applications (CLARA)</h5>
+</section><section id="clustering-large-applications-clara" class="level4"><h4 class="anchored" data-anchor-id="clustering-large-applications-clara">Clustering large applications (CLARA)</h4>
 <p>It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.02    0.00    0.02 </code></pre>
+   0.00    0.00    0.02 </code></pre>
 </div>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.02    0.00    0.02 </code></pre>
+   0.02    0.00    0.01 </code></pre>
 </div>
 </div>
-</section></section></section><section id="hierarchical-clustering" class="level3" data-number="10.3.2"><h3 data-number="10.3.2" class="anchored" data-anchor-id="hierarchical-clustering">
+</section></section><section id="hierarchical-clustering" class="level3" data-number="10.3.2"><h3 data-number="10.3.2" class="anchored" data-anchor-id="hierarchical-clustering">
 <span class="header-section-number">10.3.2</span> Hierarchical clustering</h3>
 <ul>
 <li>It doesn’t require to define the number of clusters.</li>
@@ -1051,32 +1048,6 @@ D = \frac{2a}{2a + b +c}
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/87-hierarchical-clustering-9-similarity.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</section><section id="linkage" class="level4"><h4 class="anchored" data-anchor-id="linkage">Linkage</h4>
-<p>It measures the dissimilarity between two clusters. To do so we have the next methods:</p>
-<ul>
-<li>
-<p>AGNES clustering</p>
-<ul>
-<li>
-<strong>Complete (maximal intercluster dissimilarity)</strong>: Record the <strong>largest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>compact clusters</strong>.</li>
-<li>
-<strong>Ward’s minimum variance</strong>: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to <strong>produce more compact clusters</strong>.</li>
-</ul>
-</li>
-<li>
-<p>DIANA clustering</p>
-<ul>
-<li>
-<strong>Average (mean intercluster dissimilarity)</strong>: Record the <strong>average dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It can <strong>vary</strong> in the compactness of the clusters it creates.</li>
-</ul>
-</li>
-<li><p><strong>Single (minimal intercluster dissimilarity)</strong>: Record the <strong>smallest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>extended clusters</strong>.</p></li>
-<li><p><strong>Centroid</strong>: Computes the dissimilarity between the centroid for cluster <span class="math inline">\(A\)</span> (a mean vector of length <span class="math inline">\(p\)</span>, one element for each variable) and the centroid for cluster <span class="math inline">\(B\)</span>. It is often used in genomics, but <em>inversions</em> can lead to <strong>difficulties</strong> in visualizing and interpreting of the dendrogram.</p></li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="img/92-hierarchical-clustering-linkage-examples.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </section><section id="hierarchical-clustering-types" class="level4"><h4 class="anchored" data-anchor-id="hierarchical-clustering-types">Hierarchical Clustering Types</h4>
@@ -1115,24 +1086,45 @@ D = \frac{2a}{2a + b +c}
 <blockquote class="blockquote">
 <p>It is good at identifying <strong>small</strong> clusters.</p>
 </blockquote>
-<section id="coding-example-2" class="level6"><h6 class="anchored" data-anchor-id="coding-example-2">Coding example</h6>
+</section><section id="divisive-clustering-diana-top-down" class="level5"><h5 class="anchored" data-anchor-id="divisive-clustering-diana-top-down">Divisive Clustering (DIANA, top-down)</h5>
+<ol type="1">
+<li>Defining a <strong>dissimilarity measure</strong> between each pair of observations, like <strong>Euclidean distance</strong> and <strong>correlation-based distance</strong>.</li>
+<li>Defining the root, in which all observations are included in a single cluster.</li>
+<li>The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.</li>
+</ol>
+<blockquote class="blockquote">
+<p>It is good at identifying <strong>large</strong> clusters.</p>
+</blockquote>
+</section></section><section id="linkage" class="level4"><h4 class="anchored" data-anchor-id="linkage">Linkage</h4>
+<p>It measures the dissimilarity between two clusters. To do so we have the next methods:</p>
+<ul>
+<li>
+<p>AGNES clustering</p>
+<ul>
+<li>
+<strong>Complete (maximal intercluster dissimilarity)</strong>: Record the <strong>largest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>compact clusters</strong>.</li>
+<li>
+<strong>Ward’s minimum variance</strong>: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to <strong>produce more compact clusters</strong>.</li>
+</ul>
+</li>
+<li>
+<p>DIANA clustering</p>
+<ul>
+<li>
+<strong>Average (mean intercluster dissimilarity)</strong>: Record the <strong>average dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It can <strong>vary</strong> in the compactness of the clusters it creates.</li>
+</ul>
+</li>
+<li><p><strong>Single (minimal intercluster dissimilarity)</strong>: Record the <strong>smallest dissimilarity</strong> between cluster <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. It tends to produce more <strong>extended clusters</strong>.</p></li>
+<li><p><strong>Centroid</strong>: Computes the dissimilarity between the centroid for cluster <span class="math inline">\(A\)</span> (a mean vector of length <span class="math inline">\(p\)</span>, one element for each variable) and the centroid for cluster <span class="math inline">\(B\)</span>. It is often used in genomics, but <em>inversions</em> can lead to <strong>difficulties</strong> in visualizing and interpreting of the dendrogram.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/92-hierarchical-clustering-linkage-examples.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<section id="selecting-the-best-linkage-method" class="level6"><h6 class="anchored" data-anchor-id="selecting-the-best-linkage-method">Selecting the best linkage method</h6>
+<p>To find the best method we can use the <code>coef.hclust</code> function from the <code>ckuster</code> package to extract the <strong>agglomeration coefficients</strong> from the result of a hierarchical cluster analysis, which indicate the <strong>cost of merging different clusters at each stage</strong> of the clustering process. As result, the higher this value is, the more dissimilar the clusters being merged are.</p>
 <div class="cell">
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ames_scale</span> <span class="op">&lt;-</span> <span class="fu">AmesHousing</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/AmesHousing/man/make_ames.html">make_ames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select_all.html">select_if</a></span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># select numeric columns</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">Sale_Price</span><span class="op">)</span> <span class="op">|&gt;</span>    <span class="co"># remove target column</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span><span class="va">as.double</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># coerce to double type</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="op">)</span>                   <span class="co"># center &amp; scale the resulting columns</span></span>
-<span></span>
-<span><span class="co"># For reproducibility</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Dissimilarity matrix</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span><span class="op">(</span></span>
-<span>  <span class="va">ames_scale</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"euclidean"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">cluster_methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cluster_methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"average"</span>,</span>
 <span>  <span class="st">"single"</span>,</span>
 <span>  <span class="st">"complete"</span>,</span>
@@ -1144,50 +1136,143 @@ D = \frac{2a}{2a + b +c}
 <span>        <span class="va">cluster_methods</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">cluster_methods</span>,</span>
-<span>       \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">fastcluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html">hclust</a></span><span class="op">(</span><span class="va">d</span>, method <span class="op">=</span> <span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>         <span class="fu"><a href="https://rdrr.io/pkg/cluster/man/coef.hclust.html">coef.hclust</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>       \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">fastcluster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html">hclust</a></span><span class="op">(</span><span class="va">ames_dist</span>, method <span class="op">=</span> <span class="va">x</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>        <span class="fu"><a href="https://rdrr.io/pkg/cluster/man/coef.hclust.html">coef.hclust</a></span><span class="op">(</span><span class="op">)</span> <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span>decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   ward.D  complete   average    single 
 0.9972137 0.9267750 0.9139303 0.8712890 </code></pre>
 </div>
 </div>
-</section></section><section id="divisive-clustering-diana-top-down" class="level5"><h5 class="anchored" data-anchor-id="divisive-clustering-diana-top-down">Divisive Clustering (DIANA, top-down)</h5>
-<ol type="1">
-<li>Defining a <strong>dissimilarity measure</strong> between each pair of observations, like <strong>Euclidean distance</strong> and <strong>correlation-based distance</strong>.</li>
-<li>Defining the root, in which all observations are included in a single cluster.</li>
-<li>The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.</li>
-</ol>
-<blockquote class="blockquote">
-<p>It is good at identifying <strong>large</strong> clusters.</p>
-</blockquote>
-</section></section><section id="defining-number-of-clusters" class="level4"><h4 class="anchored" data-anchor-id="defining-number-of-clusters">Defining number of clusters</h4>
+<p>As we were expecting the the best result was using the “ward.D” linkage as the default R <code>hclust</code> performs a bottom-up algorithm.</p>
+</section></section></section><section id="selecting-number-of-clusters" class="level3" data-number="10.3.3"><h3 data-number="10.3.3" class="anchored" data-anchor-id="selecting-number-of-clusters">
+<span class="header-section-number">10.3.3</span> Selecting number of clusters</h3>
+<p>As <span class="math inline">\(k\)</span> increases the <strong>homogeneity</strong> between observations in each cluster, but it also increases the risk to overfit the model, but it is important to know that <strong>there is not a definitive answer to this question</strong>. Some possibilities are:</p>
+<ul>
+<li><p>Defining <span class="math inline">\(k\)</span> based on <strong>domain knowledge</strong> or resources <strong>limitations</strong>. For example, you want to divide customers in 4 groups as you only 4 employees to execute the plan.</p></li>
+<li>
+<p><strong>Optimizing a criterion</strong></p>
+<ul>
+<li>The <strong><em>elbow method</em></strong> tries to minimize the total intra-cluster variation (within-cluster sum of square, WSS) by selecting the number of clusters so that <strong><em>adding another cluster doesn’t improve much better the total WSS</em></strong>.</li>
+</ul>
+</li>
+</ul>
+<p>https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-3-must-know-methods/</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="algorithm">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">HC</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">K-means</a></li>
+</ul>
+<div class="tab-content" data-group="algorithm">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <div class="cell">
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span></span>
-<span>  <span class="va">ames_scale</span>,</span>
-<span>  FUN <span class="op">=</span> <span class="va">hcut</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"wss"</span>,</span>
-<span>  k.max <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"(A) Elbow method"</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span></span>
-<span>  <span class="va">ames_scale</span>,</span>
-<span>  FUN <span class="op">=</span> <span class="va">hcut</span>,</span>
-<span>  method <span class="op">=</span> <span class="st">"silhouette"</span>,</span>
-<span>  k.max <span class="op">=</span> <span class="fl">10</span></span>
-<span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"(B) Silhouette method"</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Display plots side by side</span></span>
-<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"wss"</span>,</span>
+<span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Elbow method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
+<div class="cell">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"wss"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Elbow method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section><section id="working-with-dendrograms" class="level4"><h4 class="anchored" data-anchor-id="working-with-dendrograms">Working with dendrograms</h4>
+</div>
+</div>
+</div>
+<ul>
+<li>The <strong><em>silhouette method</em></strong> uses an estimation of the average distance between clusters by measuring how close each point in one cluster is to points in the neighboring clusters. The optimal number of clusters <span class="math inline">\(k\)</span> is the one that <strong><em>maximize the average silhouette over a range of possible values for </em></strong><span class="math inline">\(k\)</span>.</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="algorithm">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">HC</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">K-means</a></li>
+</ul>
+<div class="tab-content" data-group="algorithm">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div class="cell">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"silhouette"</span>,</span>
+<span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Silhouette method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"silhouette"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Silhouette method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>
+<strong>Gap statistic</strong>: Compares the total within intra-cluster variation for different values of <span class="math inline">\(k\)</span> with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic, so the clustering structure would be <strong>far away from the random uniform distribution of points</strong>.</li>
+</ul>
+<p><span class="math display">\[
+\text{Gap}(k) = \frac{1}{B} \sum_{b=1}^B \log(W^*_{kb}) - \log(W_k)
+\]</span></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset" data-group="algorithm">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">HC</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">K-means</a></li>
+</ul>
+<div class="tab-content" data-group="algorithm">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="cell">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"gap_stat"</span>,</span>
+<span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span>,</span>
+<span>             nboot <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Gap statistic method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
+<span>             method <span class="op">=</span> <span class="st">"gap_stat"</span>,</span>
+<span>             nboot <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>             nstart <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Gap statistic method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>As there there are more than 30 indices and methods to we can compute all them in order to decide the best number of clusters using the <strong>majority rule</strong>
+</li>
+</ul>
+<section id="working-with-dendrograms" class="level4"><h4 class="anchored" data-anchor-id="working-with-dendrograms">Working with dendrograms</h4>
 <p>https://uc-r.github.io/hc_clustering</p>
 
 

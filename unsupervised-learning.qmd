@@ -20,20 +20,24 @@ As result, the exercise tends to be **more subjective**.
 ```{r}
 #| output: false
 
-# Helper packages
-library(dplyr)       # for data manipulation
-library(ggplot2)     # for data visualization
-theme_set(theme_light())
-library(factoextra)
+# Data manipulation
 library(data.table)
 library(recipes)
-# Really useful to extract model information.
-library(broom)
 
+# Data visualization
+library(ggplot2)     
+theme_set(theme_light())
+
+# Model creation
 library(h2o)
 library(cluster)
+library(tidymodels)
+library(tidyclust)
 
-
+# Extracting model information
+library(broom)
+library(factoextra)
+library(NbClust)
 ```
 
 
@@ -139,46 +143,7 @@ $$
 my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
 ```
 
-
-2. Importing library to use
-
-::: {.panel-tabset group="library"}
-
-#### stats
-
-
-
-```{r}
-
-```
-
-#### h2o
-
-*Java is a prerequisite for H2O*.
-
-``` {r}
-
-
-# turn off progress bars for brevity
-h2o.no_progress()  
-
-# connect to H2O instance with 5 gigabytes
-h2o.init(max_mem_size = "5g")  
-
-# convert data to h2o object
-my_basket.h2o <- as.h2o(my_basket)
-```
-
-#### recipes
-
-```{r}
-
-```
-
-
-:::
-
-4. Apply the PCA function
+2. Apply the PCA function
 
 ::: {.panel-tabset group="library"}
 
@@ -189,6 +154,19 @@ stats_pca <- prcomp(my_basket, scale = TRUE)
 ```
 
 #### h2o
+
+*Java is a prerequisite for H2O*.
+
+``` {r}
+# turn off progress bars for brevity
+h2o.no_progress()  
+
+# connect to H2O instance with 5 gigabytes
+h2o.init(max_mem_size = "5g")  
+
+# convert data to h2o object
+my_basket.h2o <- as.h2o(my_basket)
+```
 
 - `pca_method`: When your data contains mostly numeric data use **“GramSVD”**, but if the data contain many categorical variables (or just a few categorical variables with high cardinality) we recommend to use **“GLRM”**.
 - `k`: Integer specifying how many PCs to compute.Use `ncol(data)`.
@@ -222,7 +200,7 @@ pca_rec <- recipe(~., data = my_basket) |>
 :::
 
 
-5. Extracting importance of each component
+3. Extracting importance of each component
 
 ::: {.panel-tabset group="library"}
 
@@ -254,7 +232,7 @@ tidy(pca_rec, id = "pca", type = "variance") |>
 :::
 
 
-6. Identifying which of our original features contribute to the PCs by assessing the loadings.
+4. Identifying which of our original features contribute to the PCs by assessing the loadings.
 
 - PC1
 
@@ -351,7 +329,7 @@ tidy(pca_rec, id = "pca", type = "coef") |>
 
 :::
 
-7. Compare PCs against one another to see how the different features contribute to each PC.
+5. Compare PCs against one another to see how the different features contribute to each PC.
 
 ::: {.panel-tabset group="library"}
 
@@ -443,6 +421,16 @@ tidy(stats_pca, matrix = "eigenvalues") |>
   geom_text(nudge_y = -.002)
 ```
 
+Now we can visualize the results
+
+```{r}
+fviz_screeplot(stats_pca, addlabels = TRUE, ylim = c(0, 50))
+
+fviz_pca_var(stats_pca, col.var = "black")
+
+fviz_contrib(stats_pca, choice = "var", axes = 1, top = 25)
+```
+
 #### Conclusion
 
 The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
@@ -524,26 +512,27 @@ To perform k-means clustering on mixed data we need to:
 - Convert nominal categorical variables to one-hot encode
 - Scale all variables
 
-#### Selecting the number of clusters
-
-- $k$ **is predetermined** by external resources or knowledge.
-- $k = \sqrt{n/2}$ rule of thumb
-- **elbow method**
-  - Compute k-means clustering for different values of $k$ (1-20)
-  - For each  $k$, calculate the total within-cluster sum of squares (WSS).
-  - Plot the curve of WSS according to the number of clusters $k$
-  - The location of a bend (i.e., elbow) in the plot is generally considered as an indicator of the appropriate number of clusters.
-
 ```{r}
-my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
+ames_scale <- AmesHousing::make_ames() |>
+  select_if(is.numeric) |>  # select numeric columns
+  select(-Sale_Price) |>    # remove target column
+  mutate_all(as.double) |>  # coerce to double type
+  scale()                   # center & scale the resulting columns
 
-#The results show the “elbow” appears to happen when k = 5
-fviz_nbclust(
-  my_basket, 
-  kmeans, 
-  k.max = 25,
-  method = "wss",
-  diss = get_dist(my_basket, method = "spearman")
+
+# Dissimilarity matrix
+ames_dist <- dist(
+  ames_scale,
+  method = "euclidean"
+)
+
+# For reproducibility
+set.seed(123)
+
+ames_kmeans <- kmeans(
+  ames_dist,
+  centers = 10,
+  nstart = 10
 )
 ```
 
@@ -580,7 +569,7 @@ pam_gower <- pam(x = gower_dst, k = 8, diss = TRUE)
 ```
 
 
-##### clustering large applications (CLARA)
+#### Clustering large applications (CLARA)
 
 It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.
 
@@ -621,24 +610,6 @@ is to observations 8, 5, and 7, as it was **fused at higher height of the cut**.
 
 ![](img/87-hierarchical-clustering-9-similarity.png){fig-align="center"}
 
-
-#### Linkage
-
-It measures the dissimilarity between two clusters. To do so we have the next methods:
-
-- AGNES clustering
-  - **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
-  - **Ward’s minimum variance**: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to **produce more compact clusters**.
-
-- DIANA clustering
-  - **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
-
-- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
-
-- **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
-
-![](img/92-hierarchical-clustering-linkage-examples.png){fig-align="center"}
-
 #### Hierarchical Clustering Types 
 
 ![AGNES (bottom-up) versus DIANA (top-down) clustering](img/93-hierarchical-clustering-types.png){fig-align="center"}
@@ -664,24 +635,37 @@ each pair of observations, like **Euclidean distance** and **correlation-based d
 
 > It is good at identifying **small** clusters.
 
-###### Coding example
+##### Divisive Clustering (DIANA, top-down)
+
+1. Defining a **dissimilarity measure** between
+each pair of observations, like **Euclidean distance** and **correlation-based distance**.
+2. Defining the root, in which all observations are included in a single cluster. 
+3. The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.
+
+> It is good at identifying **large** clusters.
+
+#### Linkage
+
+It measures the dissimilarity between two clusters. To do so we have the next methods:
+
+- AGNES clustering
+  - **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
+  - **Ward’s minimum variance**: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to **produce more compact clusters**.
+
+- DIANA clustering
+  - **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
+
+- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
+
+- **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
+
+![](img/92-hierarchical-clustering-linkage-examples.png){fig-align="center"}
+
+###### Selecting the best linkage method
+
+To find the best method we can use the `coef.hclust` function from the `ckuster` package to extract the **agglomeration coefficients** from the result of a hierarchical cluster analysis, which indicate the **cost of merging different clusters at each stage** of the clustering process. As result, the higher this value is, the more dissimilar the clusters being merged are.
 
 ```{r}
-ames_scale <- AmesHousing::make_ames() |>
-  select_if(is.numeric) |>  # select numeric columns
-  select(-Sale_Price) |>    # remove target column
-  mutate_all(as.double) |>  # coerce to double type
-  scale()                   # center & scale the resulting columns
-
-# For reproducibility
-set.seed(123)
-
-# Dissimilarity matrix
-d <- dist(
-  ames_scale,
-  method = "euclidean"
-)
-
 cluster_methods <- c(
   "average",
   "single",
@@ -694,45 +678,120 @@ setattr(cluster_methods,
         cluster_methods)
 
 sapply(cluster_methods,
-       \(x) fastcluster::hclust(d, method = x) |>
-         coef.hclust() ) |> 
+       \(x) fastcluster::hclust(ames_dist, method = x) |>
+        coef.hclust() ) |> 
   sort(decreasing = TRUE)
 
 ```
 
-##### Divisive Clustering (DIANA, top-down)
+As we were expecting the the best result was using the "ward.D" linkage as the default R `hclust` performs a bottom-up algorithm.
 
-1. Defining a **dissimilarity measure** between
-each pair of observations, like **Euclidean distance** and **correlation-based distance**.
-2. Defining the root, in which all observations are included in a single cluster. 
-3. The current cluster is split into two clusters that are considered most heterogeneous. The process is iterated until all observations are in their own cluster.
 
-> It is good at identifying **large** clusters.
+### Selecting number of clusters
 
-#### Defining number of clusters
+As $k$ increases the **homogeneity** between observations in each cluster, but it also increases the risk to overfit the model, but it is important to know that **there is not a definitive answer to this question**. Some possibilities are:
+
+- Defining $k$ based on **domain knowledge** or resources **limitations**. For example, you want to divide customers in 4 groups as you only 4 employees to execute the plan.
+
+- **Optimizing a criterion**
+
+  - The ***elbow method*** tries to minimize the total intra-cluster variation (within-cluster sum of square, WSS) by selecting the number of clusters so that ***adding another cluster doesn’t improve much better the total WSS***.
+  
+https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-3-must-know-methods/
+
+::: {.panel-tabset group="algorithm"}
+
+#### HC
 
 ```{r}
-p1 <- fviz_nbclust(
-  ames_scale,
-  FUN = hcut,
-  method = "wss",
-  k.max = 10
-) +
-  ggtitle("(A) Elbow method")
-
-
-p2 <- fviz_nbclust(
-  ames_scale,
-  FUN = hcut,
-  method = "silhouette",
-  k.max = 10
-) +
-  ggtitle("(B) Silhouette method")
-
-
-# Display plots side by side
-gridExtra::grid.arrange(p1, p2, nrow = 1)
+fviz_nbclust(ames_scale,
+             FUNcluster = hcut,
+             method = "wss",
+             hc_method = "ward.D") +
+  labs(subtitle = "Elbow method")
 ```
+
+
+#### K-means
+
+```{r}
+fviz_nbclust(ames_scale,
+             FUNcluster = kmeans,
+             method = "wss") +
+  labs(subtitle = "Elbow method")
+```
+
+:::
+  
+
+  
+  
+  - The ***silhouette method*** uses an estimation of the average distance between clusters by measuring how close each point in one cluster is to points in the neighboring clusters. The optimal number of clusters $k$ is the one that ***maximize the average silhouette over a range of possible values for ***$k$.
+  
+::: {.panel-tabset group="algorithm"}
+
+#### HC
+
+```{r}
+fviz_nbclust(ames_scale,
+             FUNcluster = hcut,
+             method = "silhouette",
+             hc_method = "ward.D") +
+  labs(subtitle = "Silhouette method")
+```
+
+
+#### K-means
+
+```{r}
+fviz_nbclust(ames_scale,
+             FUNcluster = kmeans,
+             method = "silhouette") +
+  labs(subtitle = "Silhouette method")
+```
+
+:::
+
+- **Gap statistic**: Compares the total within intra-cluster variation for different values of $k$ with their expected values under null reference distribution of the data. The estimate of the optimal clusters will be value that maximize the gap statistic, so the clustering structure would be **far away from the random uniform distribution of points**.
+
+$$
+\text{Gap}(k) = \frac{1}{B} \sum_{b=1}^B \log(W^*_{kb}) - \log(W_k)
+$$
+
+::: {.panel-tabset group="algorithm"}
+
+#### HC
+
+```{r}
+set.seed(123)
+fviz_nbclust(ames_scale,
+             FUNcluster = hcut,
+             method = "gap_stat",
+             hc_method = "ward.D",
+             nboot = 50,
+             verbose = FALSE)+
+  labs(subtitle = "Gap statistic method")
+```
+
+
+#### K-means
+
+```{r}
+set.seed(123)
+fviz_nbclust(ames_scale,
+             FUNcluster = kmeans,
+             method = "gap_stat",
+             nboot = 50,
+             nstart = 25,
+             verbose = FALSE)+
+  labs(subtitle = "Gap statistic method")
+```
+
+:::
+
+- As there there are more than 30 indices and methods to we can compute all them in order to decide the best number of clusters using the **majority rule**
+
+
 
 ####  Working with dendrograms
 
