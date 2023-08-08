@@ -67,6 +67,7 @@ At the end this process can help to:
 
 - Reduce the number of featured need to describe the data
 - Remove multicollinearity between features
+- 
   
 
 ### Mathematical Description
@@ -135,7 +136,7 @@ $$
 (@) Repeat the process until having $\min(n-1, p)$ distinct principal components. Each new component must be orthogonal to all previously computed principal components to ensure that each new component captures a **new direction of variance** assuring a new **uncorrelated** new component.
 
 
-### Coding example
+### R implementation
 
 1. Getting the data
 
@@ -199,236 +200,176 @@ pca_rec <- recipe(~., data = my_basket) |>
 
 :::
 
+### Interpreting results
 
-3. Extracting importance of each component
+After apply PCA now we have new $p$ components that we need to interpret to find the most important components.
+
+#### Extract the variance explained by each component
 
 ::: {.panel-tabset group="library"}
 
-#### stats
+##### stats
 
 ```{r}
-tidy(stats_pca, matrix = "eigenvalues") |>
-  head(5)
+stats_pca_variance <-
+  tidy(stats_pca,
+       matrix = "eigenvalues")
+
+setDT(stats_pca_variance)
+
+stats_pca_variance[1:5]
 ```
 
 
-#### h2o
+##### h2o
 
 ``` {r}
-h2o_pca@model$importance[, 1:5]
+h2o_pca@model$importance |>
+  t() |>
+  as.data.table(keep.rownames = "component") |>
+  head(5L)
 ```
 
-#### recipes
+##### recipes
 
 ```{r}
-tidy(pca_rec, id = "pca", type = "variance") |>
-  filter(component <= 5,
-         terms != "cumulative variance") |>
-  tidyr::pivot_wider(id_cols = component,
-                     names_from = terms,
-                     values_from = value)
+tidy(pca_rec,
+     id = "pca",
+     type = "variance") |>
+  filter(component <= 5) |>
+  pivot_wider(id_cols = component,
+              names_from = terms,
+              values_from = value)
 ```
 
 :::
 
+#### Select the components to explore
 
-4. Identifying which of our original features contribute to the PCs by assessing the loadings.
+##### Variance criterion
 
-- PC1
-
-::: {.panel-tabset group="library"}
-
-#### stats
-
-  - PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
+As the **sum of the variance (eigenvalues) of all the components is equal to the number of variables** entered into the PCA. 
 
 ```{r}
-tidy(stats_pca, matrix = "loadings") |>
-  filter(PC == 1) |>
-  arrange(-value) |>
-  head(20) |>
-  ggplot(aes(value, reorder(column, value))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-
-#### h2o
-
-  - PC1 can be interpreted as the **Entertainment Lifestyle** component, as it seems to characterize individuals who might prefer leisure activities over more nutritious food choices.
-
-``` {r}
-as.data.table(h2o_pca@model$eigenvectors,
-              keep.rownames = "feature"
-  )[order(-pc1)
-  ][1:20] |>
-  ggplot(aes(pc1, reorder(feature, pc1))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-#### recipes
-
-```{r}
-tidy(pca_rec, id = "pca", type = "coef") |>
-  filter(component == "PC1") |>
-  arrange(-value) |>
-  head(20) |>
-  ggplot(aes(value, reorder(terms, value))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-
-:::
-
-- PC2
-
-::: {.panel-tabset group="library"}
-
-#### stats
-
-  - PC2 can be interpreted as the a **Dine-in Food Choices** component, as  associated items are typically part of a main meal that one might consume for lunch or dinner.
-
-```{r}
-tidy(stats_pca, matrix = "loadings") |>
-  filter(PC == 2) |>
-  arrange(-value) |>
-  head(20) |>
-  ggplot(aes(value, reorder(column, value))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-
-#### h2o
-
-  - PC2 can be interpreted as the a **Breakfast and News** component, as it appears to characterize individuals who prefer sweet, breakfast, or caffeinated items, perhaps while reading the newspaper. They seem to avoid other types of food and drink.
-
-``` {r}
-as.data.table(h2o_pca@model$eigenvectors,
-              keep.rownames = "feature"
-  )[order(-pc2)
-  ][1:20] |>
-  ggplot(aes(pc2, reorder(feature, pc2))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-#### recipes
-
-```{r}
-tidy(pca_rec, id = "pca", type = "coef") |>
-  filter(component == "PC2") |>
-  arrange(-value) |>
-  head(20) |>
-  ggplot(aes(value, reorder(terms, value))) +
-  geom_point()+
-  geom_vline(xintercept = 0)
-```
-
-:::
-
-5. Compare PCs against one another to see how the different features contribute to each PC.
-
-::: {.panel-tabset group="library"}
-
-#### stats
-
-```{r}
-tidy(stats_pca, matrix = "loadings") |>
-  filter(PC <= 2) |>
-  tidyr::pivot_wider(id_cols = column,
-                     names_from = PC,
-                     values_from = value) |>
-  ggplot(aes(`1`, `2`, label = column)) +
-  geom_text(check_overlap = TRUE)+
-  geom_vline(xintercept = 0)+
-  geom_hline(yintercept = 0)+
-  labs(x = "Unhealthy Lifestyle",
-       y = "Dine-in Food Choices")
-```
-
-
-#### h2o
-
-``` {r}
-as.data.table(h2o_pca@model$eigenvectors,
-              keep.rownames = "feature") |>
-  ggplot(aes(pc1, pc2, label = feature)) +
-  geom_text(check_overlap = TRUE)+
-  geom_vline(xintercept = 0)+
-  geom_hline(yintercept = 0)+
-  labs(x = "Entertainment Lifestyle",
-       y = "Breakfast and News")
-```
-
-#### recipes
-
-```{r}
-tidy(pca_rec, id = "pca", type = "coef") |>
-  filter(component %chin% paste0("PC",1:2)) |>
-  tidyr::pivot_wider(id_cols = terms,
-                     names_from = component,
-                     values_from = value) |>
-  ggplot(aes(PC1, PC2, label = terms)) +
-  geom_text(check_overlap = TRUE)+
-  geom_vline(xintercept = 0)+
-  geom_hline(yintercept = 0)
-```
-
-:::
-
-### Ways to select fewer components
-
-#### Variance criterion
-
-The **sum of the variance (eigenvalues) of all the components is equal to the number of variables** entered into the PCA. 
-
-```{r}
-tidy(stats_pca, matrix = "eigenvalues") |>
-  summarize(total_variance = sum(std.dev^2))
+stats_pca_variance[, .(total_variance = sum(std.dev^2))]
 ```
 
 A variance of 1 means that the principal component would explain about one variable’s worth of the variability. In that sense we would just be interesting in selecting **components with variance 1 or greater**.
 
 ```{r}
-tidy(stats_pca, matrix = "eigenvalues") |>
-  filter(std.dev^2 >= 1)
+stats_pca_variance[std.dev >= 1]
 ```
 
 
-#### Proportion of variance explained criterion
+##### Scree plot criterion
+
+The scree plot criterion looks for the “elbow” in the curve and **selects all components just before the line flattens out**, which looks like **8** in our example.
+
+::: {.panel-tabset}
+
+###### ggplot2
+
+```{r}
+stats_pca_variance |>
+  ggplot(aes(PC, percent, group = 1, label = PC)) +
+  geom_point() +
+  geom_line() +
+  geom_text(nudge_y = -.002,
+            check_overlap = TRUE)
+```
+
+###### factoextra
+
+```{r}
+fviz_eig(stats_pca,
+         geom = "line",
+         ncp = 30,
+         ggtheme = theme_light())+
+  geom_text(aes(label = dim),
+            nudge_y = -.2,
+            check_overlap = TRUE)
+```
+
+:::
+
+##### Proportion of variance explained criterion
 
 Depending of the use case the investigator might want to explain a particular proportion of variability. For example, to explain at least 75% of total variability we need to select the first 27 components.
 
 ```{r}
-tidy(stats_pca, matrix = "eigenvalues") |>
-  filter(cumulative >= 0.75) |>
-  head(1L)
+stats_pca_variance[cumulative >= 0.75][1L]
 ```
 
 
-#### Scree plot criterion
+#### Interpret the meaning of each component based on the loading
 
-The scree plot criterion looks for the “elbow” in the curve and **selects all components just before the line flattens out**, which looks like **8** in our example.
+- PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
 
 ```{r}
-tidy(stats_pca, matrix = "eigenvalues") |>
-  ggplot(aes(PC, percent, group = 1, label = PC)) +
-  geom_point() +
-  geom_line() +
-  geom_text(nudge_y = -.002)
+stats_pca_loadings <-
+  tidy(stats_pca, matrix = "loadings")
+
+setDT(stats_pca_loadings)
+
+stats_pca_loadings[PC == 1
+  ][order(-value)
+  ][, rbind(.SD[1:10], .SD[(.N-9L):.N])] |>
+  ggplot(aes(value, reorder(column, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0,
+             linetype = 2,
+             linewidth = 1)+
+  labs(y = "Original Columns",
+       x = "Unhealthy / Entertainment Lifestyle")
 ```
+
+- PC2 can be interpreted as the a **Dine-in Food Choices** component, as  associated items are typically part of a main meal that one might consume for lunch or dinner.
+
+```{r}
+stats_pca_loadings[PC == 2
+  ][order(-value)
+  ][, rbind(.SD[1:10], .SD[(.N-9L):.N])] |>
+  ggplot(aes(value, reorder(column, value))) +
+  geom_point()+
+  geom_vline(xintercept = 0,
+             linetype = 2,
+             linewidth = 1)+
+  labs(y = "Original Columns",
+       x = "Dine-in Food Choices")
+```
+
+5. Compare PCs against one another to see how the different features contribute to each PC.
+
+#### stats
+
+```{r}
+stats_pca_loadings[PC <= 2] |>
+  dcast(column ~ PC, value.var = "value") |>
+  ggplot(aes(`1`, `2`, label = column)) +
+  geom_text(check_overlap = TRUE)+
+  geom_vline(xintercept = 0)+
+  geom_hline(yintercept = 0)+
+  labs(title = "Component Loadings",
+       x = "Unhealthy Lifestyle",
+       y = "Dine-in Food Choices")
+```
+
+
+
+#### Visualize
 
 Now we can visualize the results
 
 ```{r}
-fviz_screeplot(stats_pca, addlabels = TRUE, ylim = c(0, 50))
 
-fviz_pca_var(stats_pca, col.var = "black")
+fviz_pca_var(stats_pca, col.var = "contrib")
 
-fviz_contrib(stats_pca, choice = "var", axes = 1, top = 25)
+fviz_contrib(stats_pca, 
+             choice = "var", 
+             axes = 1:8,
+             sort.val = "asc",
+             top = 25)+
+  coord_flip()
 ```
 
 #### Conclusion
