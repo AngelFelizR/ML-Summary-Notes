@@ -265,7 +265,7 @@ stats_pca_variance[std.dev >= 1]
 
 The scree plot criterion looks for the “elbow” in the curve and **selects all components just before the line flattens out**, which looks like **8** in our example.
 
-::: {.panel-tabset}
+::: {.panel-tabset group="visualization"}
 
 ###### ggplot2
 
@@ -300,10 +300,18 @@ Depending of the use case the investigator might want to explain a particular pr
 stats_pca_variance[cumulative >= 0.75][1L]
 ```
 
+##### Conclusion
 
-#### Interpret the meaning of each component based on the loading
+The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
+
+
+#### Interpret the results
 
 - PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
+
+::: {.panel-tabset group="visualization"}
+
+##### ggplot2
 
 ```{r}
 stats_pca_loadings <-
@@ -313,7 +321,8 @@ setDT(stats_pca_loadings)
 
 stats_pca_loadings[PC == 1
   ][order(-value)
-  ][, rbind(.SD[1:10], .SD[(.N-9L):.N])] |>
+  ][, rbind(.SD[1:10],
+            .SD[(.N-9L):.N])] |>
   ggplot(aes(value, reorder(column, value))) +
   geom_point()+
   geom_vline(xintercept = 0,
@@ -323,12 +332,30 @@ stats_pca_loadings[PC == 1
        x = "Unhealthy / Entertainment Lifestyle")
 ```
 
+##### factoextra
+
+```{r}
+fviz_contrib(stats_pca, 
+             choice = "var", 
+             axes = 1,
+             sort.val = "asc",
+             top = 25)+
+  coord_flip()
+```
+
+:::
+
 - PC2 can be interpreted as the a **Dine-in Food Choices** component, as  associated items are typically part of a main meal that one might consume for lunch or dinner.
+
+::: {.panel-tabset group="visualization"}
+
+##### ggplot2
 
 ```{r}
 stats_pca_loadings[PC == 2
   ][order(-value)
-  ][, rbind(.SD[1:10], .SD[(.N-9L):.N])] |>
+  ][, rbind(.SD[1:10],
+            .SD[(.N-9L):.N])] |>
   ggplot(aes(value, reorder(column, value))) +
   geom_point()+
   geom_vline(xintercept = 0,
@@ -338,43 +365,64 @@ stats_pca_loadings[PC == 2
        x = "Dine-in Food Choices")
 ```
 
-5. Compare PCs against one another to see how the different features contribute to each PC.
-
-#### stats
+##### factoextra
 
 ```{r}
-stats_pca_loadings[PC <= 2] |>
-  dcast(column ~ PC, value.var = "value") |>
-  ggplot(aes(`1`, `2`, label = column)) +
-  geom_text(check_overlap = TRUE)+
-  geom_vline(xintercept = 0)+
-  geom_hline(yintercept = 0)+
-  labs(title = "Component Loadings",
-       x = "Unhealthy Lifestyle",
-       y = "Dine-in Food Choices")
-```
-
-
-
-#### Visualize
-
-Now we can visualize the results
-
-```{r}
-
-fviz_pca_var(stats_pca, col.var = "contrib")
-
 fviz_contrib(stats_pca, 
              choice = "var", 
-             axes = 1:8,
+             axes = 2,
              sort.val = "asc",
              top = 25)+
   coord_flip()
 ```
 
-#### Conclusion
+:::
 
-The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
+- Explore the loading for the first 2 components to have a better view the importance of each variable and how each variable correlates with each other.
+
+::: {.panel-tabset}
+
+##### ggplot2
+
+```{r}
+stats_pca_loadings[PC <= 2L
+  ][, contrib := sqrt(sum(value^2)),
+    by = "column"] |>
+  dcast(column + contrib ~ PC, 
+        value.var = "value") |>
+  ggplot(aes(`1`, `2`, label = column)) +
+  geom_text(aes(alpha = contrib),
+            color = "navyblue")+
+  geom_vline(xintercept = 0,
+             linetype = 2,
+             linewidth = 0.3)+
+  geom_hline(yintercept = 0,
+             linetype = 2,
+             linewidth = 0.3)+
+  labs(title = "Component Loadings",
+       x = paste0("Unhealthy Lifestyle (",
+                  scales::percent(stats_pca_variance$percent[1L],
+                                  accuracy = 0.01),")"),
+       y = paste0("Dine-in Food Choices (",
+                  scales::percent(stats_pca_variance$percent[2L],
+                                  accuracy = 0.01),")"))+
+  theme(legend.position = "none")
+```
+
+##### factoextra
+
+```{r}
+fviz_pca_var(stats_pca,
+             geom = "text",
+             col.var = "contrib",
+             check_overlap = TRUE)+
+  scale_color_gradient(low = NA, high = "navyblue")+
+  coord_cartesian(xlim = c(-0.5,0.5),
+                  ylim = c(-0.5,0.5))+
+  theme(legend.position = "none")
+```
+
+:::
 
 ## Clustering
 
@@ -663,9 +711,6 @@ fviz_nbclust(ames_scale,
 ```
 
 :::
-  
-
-  
   
   - The ***silhouette method*** uses an estimation of the average distance between clusters by measuring how close each point in one cluster is to points in the neighboring clusters. The optimal number of clusters $k$ is the one that ***maximize the average silhouette over a range of possible values for ***$k$.
   
