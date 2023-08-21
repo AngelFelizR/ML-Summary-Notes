@@ -151,8 +151,31 @@ my_basket <- fread("https://koalaverse.github.io/homlr/data/my_basket.csv")
 #### stats
 
 ```{r}
-stats_pca <- prcomp(my_basket, scale = TRUE)
+stats_pca <- prcomp(
+  # Numeric data.frame o matrix
+  my_basket,
+  
+  # Set standard deviation to 1 before applying PCA
+  # this is really useful when sd is very different between columns
+  # but we don't nee
+  scale = TRUE,
+  
+  # Set mean to 0 before applying PCA
+  # it's better to keep it TRUE
+  center = TRUE
+)
 ```
+
+After performing a PCA we can see the next elements:
+
+```{r}
+names(stats_pca)
+```
+
+- `center:` the column means used to center to the data, or FALSE if the data weren't centered.
+- `scale`: the column standard deviations used to scale the data, or FALSE if the data weren't scaled.
+- `rotation`: the directions of the principal component vectors in terms of the original features/variables. This information allows you to define new data in terms of the original principal components.
+- `x`: the value of each observation in the original dataset projected to the principal components.
 
 #### h2o
 
@@ -200,15 +223,11 @@ pca_rec <- recipe(~., data = my_basket) |>
 
 :::
 
-### Interpreting results
-
-After apply PCA now we have new $p$ components that we need to interpret to find the most important components.
-
-#### Extract the variance explained by each component
+### Extract the variance explained by each component
 
 ::: {.panel-tabset group="library"}
 
-##### stats
+#### stats
 
 ```{r}
 stats_pca_variance <-
@@ -221,7 +240,7 @@ stats_pca_variance[1:5]
 ```
 
 
-##### h2o
+#### h2o
 
 ``` {r}
 h2o_pca@model$importance |>
@@ -230,7 +249,7 @@ h2o_pca@model$importance |>
   head(5L)
 ```
 
-##### recipes
+#### recipes
 
 ```{r}
 tidy(pca_rec,
@@ -244,9 +263,9 @@ tidy(pca_rec,
 
 :::
 
-#### Select the components to explore
+### Select the components to explore
 
-##### Variance criterion
+#### Variance criterion
 
 As the **sum of the variance (eigenvalues) of all the components is equal to the number of variables** entered into the PCA. 
 
@@ -261,13 +280,13 @@ stats_pca_variance[std.dev >= 1]
 ```
 
 
-##### Scree plot criterion
+#### Scree plot criterion
 
 The scree plot criterion looks for the “elbow” in the curve and **selects all components just before the line flattens out**, which looks like **8** in our example.
 
 ::: {.panel-tabset group="visualization"}
 
-###### ggplot2
+##### ggplot2
 
 ```{r}
 stats_pca_variance |>
@@ -278,7 +297,7 @@ stats_pca_variance |>
             check_overlap = TRUE)
 ```
 
-###### factoextra
+##### factoextra
 
 ```{r}
 fviz_eig(stats_pca,
@@ -292,7 +311,7 @@ fviz_eig(stats_pca,
 
 :::
 
-##### Proportion of variance explained criterion
+#### Proportion of variance explained criterion
 
 Depending of the use case the investigator might want to explain a particular proportion of variability. For example, to explain at least 75% of total variability we need to select the first 27 components.
 
@@ -300,18 +319,18 @@ Depending of the use case the investigator might want to explain a particular pr
 stats_pca_variance[cumulative >= 0.75][1L]
 ```
 
-##### Conclusion
+#### Conclusion
 
 The frank answer is that **there is no one best method for determining how many components to use**. If we were merely trying to profile customers we would probably use 8 or 10, if we were performing dimension reduction to feed into a downstream predictive model we would likely retain 26 or more based on cross-validation.
 
 
-#### Interpret the results
+### Interpret the results
 
 - PC1 can be interpreted as the **Unhealthy Lifestyle** component, as the higher weights are associated with less healthy behaviors, such as alcohol (bulmers, red.wine, fosters, kronenbourg), sweets (mars, twix, kitkat), tobacco (cigarettes), and potentially gambling (lottery).
 
 ::: {.panel-tabset group="visualization"}
 
-##### ggplot2
+#### ggplot2
 
 ```{r}
 stats_pca_loadings <-
@@ -332,7 +351,7 @@ stats_pca_loadings[PC == 1
        x = "Unhealthy / Entertainment Lifestyle")
 ```
 
-##### factoextra
+#### factoextra
 
 ```{r}
 fviz_contrib(stats_pca, 
@@ -349,7 +368,7 @@ fviz_contrib(stats_pca,
 
 ::: {.panel-tabset group="visualization"}
 
-##### ggplot2
+#### ggplot2
 
 ```{r}
 stats_pca_loadings[PC == 2
@@ -365,7 +384,7 @@ stats_pca_loadings[PC == 2
        x = "Dine-in Food Choices")
 ```
 
-##### factoextra
+#### factoextra
 
 ```{r}
 fviz_contrib(stats_pca, 
@@ -378,11 +397,56 @@ fviz_contrib(stats_pca,
 
 :::
 
-- Explore the loading for the first 2 components to have a better view the importance of each variable and how each variable correlates with each other.
+- Find correlated features. As this can be hard we have many features let's use the `iris` data set.
 
-::: {.panel-tabset}
+```{r}
+iris_pca <- prcomp(iris[-5])
+```
 
-##### ggplot2
+
+::: {.panel-tabset group="visualization"}
+
+#### ggplot2
+
+```{r}
+iris_pca$rotation |>
+  as.data.table(keep.rownames = "column") |>
+  ggplot(aes(`PC1`, `PC2`, label = column)) +
+  geom_vline(xintercept = 0,
+             linetype = 2,
+             linewidth = 0.3)+
+  geom_hline(yintercept = 0,
+             linetype = 2,
+             linewidth = 0.3)+
+  geom_text()+
+  geom_segment(aes(xend = `PC1`,
+                   yend = `PC2`),
+               x = 0,
+               y = 0,
+               arrow = arrow(length = unit(0.15, "inches")))+
+  labs(title = "Component Loadings",
+       x = "PC 1",
+       y = "PC 2")
+```
+
+#### factoextra
+
+```{r}
+fviz_pca_var(iris_pca,
+             check_overlap = TRUE)+
+  labs(title = "Component Loadings",
+       x = "PC 1",
+       y = "PC 2")
+```
+
+:::
+
+
+- Found out how much each feature contribute to new components.
+
+::: {.panel-tabset group="visualization"}
+
+#### ggplot2
 
 ```{r}
 stats_pca_loadings[PC <= 2L
@@ -392,7 +456,8 @@ stats_pca_loadings[PC <= 2L
         value.var = "value") |>
   ggplot(aes(`1`, `2`, label = column)) +
   geom_text(aes(alpha = contrib),
-            color = "navyblue")+
+            color = "navyblue",
+            check_overlap = TRUE)+
   geom_vline(xintercept = 0,
              linetype = 2,
              linewidth = 0.3)+
@@ -409,7 +474,7 @@ stats_pca_loadings[PC <= 2L
   theme(legend.position = "none")
 ```
 
-##### factoextra
+#### factoextra
 
 ```{r}
 fviz_pca_var(stats_pca,
@@ -503,71 +568,56 @@ To perform k-means clustering on mixed data we need to:
 
 ```{r}
 ames_scale <- AmesHousing::make_ames() |>
-  select_if(is.numeric) |>  # select numeric columns
-  select(-Sale_Price) |>    # remove target column
-  mutate_all(as.double) |>  # coerce to double type
-  scale()                   # center & scale the resulting columns
+  # select numeric columns
+  select_if(is.numeric) |>
+  
+  # remove target column
+  select(-Sale_Price) |>
+  
+  # coerce to double type
+  mutate_all(as.double) |>
+  
+  # center & scale the resulting columns
+  scale()                  
+```
 
+- Compute the distances between the rows of a data matrix
 
+```{r}
 # Dissimilarity matrix
 ames_dist <- dist(
   ames_scale,
   method = "euclidean"
 )
+```
 
+
+- Perform k-means clustering after setting a seed
+
+```{r}
 # For reproducibility
 set.seed(123)
 
 ames_kmeans <- kmeans(
   ames_dist,
+  # Number of groups
   centers = 10,
-  nstart = 10
+  
+  # Number of models to create
+  # the it selects the best one
+  nstart = 10,
+  
+  # Max number of iterations for each model
+  iter.max = 10
 )
 ```
 
-#### Partitioning around medians (PAM)
 
-It has the same algorithmic steps as k-means but uses the **median** rather than the mean to determine the centroid; making it more robust to outliers. 
-
-As your data becomes more sparse the performance of k-means and hierarchical clustering become *slow* and *ineffective*. An alternative is to use the **Gower distance**,  which applies a particular distance calculation that works well for each data type.
-
-- **quantitative (interval)**: range-normalized Manhattan distance.
-- **ordinal**: variable is first ranked, then Manhattan distance is used with a special adjustment for ties.
-- **nominal**: variables with $k$ categories are first converted into $k$ binary columns (i.e., one-hot encoded) and then the **Dice coefficient** is used. To compute the dice metric for two observations $(X,Y)$ the algorithm looks across all one-hot encoded categorical variables and scores them as:
-  - **a** — number of dummies 1 for both observations
-  - **b** — number of dummies 1 for $X$ and 0 for $Y$
-  - **c** - number of dummies 0 for $X$ and 1 for $Y$
-  - **d** — number of dummies 0 for both
-and then uses the following formula:
-
-$$
-D = \frac{2a}{2a + b +c}
-$$
+- Measure model's quality (*Total within-cluster sum of squares*). Which represent the **sum all squared distances from each observation to its cluster center** in the model.
 
 ```{r}
-# Original data minus Sale_Price
-ames_full <- 
-  AmesHousing::make_ames() |> 
-  subset(select = -Sale_Price)
-
-# Compute Gower distance for original data
-gower_dst <- daisy(ames_full, metric = "gower")
-
-# You can supply the Gower distance matrix to several clustering algos
-pam_gower <- pam(x = gower_dst, k = 8, diss = TRUE)
+ames_kmeans$tot.withinss |> comma()
 ```
-
-
-#### Clustering large applications (CLARA)
-
-It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.
-
-```{r}
-system.time(kmeans(my_basket, centers = 10))
-
-system.time(clara(my_basket, k = 10))
-```
-
 
 ### Hierarchical clustering
 
@@ -635,24 +685,35 @@ each pair of observations, like **Euclidean distance** and **correlation-based d
 
 #### Linkage
 
-It measures the dissimilarity between two clusters. To do so we have the next methods:
+It measures the dissimilarity between two clusters and defines if we will have a **balanced tree** where each cluster is assigned to an *even number of observations*, or an **unbalanced tree** to find *outliers*.
 
 - AGNES clustering
-  - **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters**.
+  - **Complete (maximal intercluster dissimilarity)**: Record the **largest dissimilarity** between cluster $A$ and $B$. It tends to produce more **compact clusters** and **balanced trees**.
   - **Ward’s minimum variance**: Minimizes the total within-cluster variance. At each step the pair of clusters with the smallest between-cluster distance are merged. Tends to **produce more compact clusters**.
 
 - DIANA clustering
-  - **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates.
+  - **Average (mean intercluster dissimilarity)**: Record the **average dissimilarity** between cluster $A$ and $B$. It can **vary** in the compactness of the clusters it creates, but must of the time produces **balanced trees**.
 
-- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters**.
+- **Single (minimal intercluster dissimilarity)**: Record the **smallest dissimilarity** between cluster $A$ and $B$. It tends to produce more **extended clusters** and **unbalanced trees**.
 
 - **Centroid**: Computes the dissimilarity between the centroid for cluster $A$ (a mean vector of length $p$, one element for each variable) and the centroid for cluster $B$. It is often used in genomics, but *inversions* can lead to **difficulties** in visualizing and interpreting of the dendrogram.
 
 ![](img/92-hierarchical-clustering-linkage-examples.png){fig-align="center"}
 
-###### Selecting the best linkage method
+#### Coding example
 
-To find the best method we can use the `coef.hclust` function from the `ckuster` package to extract the **agglomeration coefficients** from the result of a hierarchical cluster analysis, which indicate the **cost of merging different clusters at each stage** of the clustering process. As result, the higher this value is, the more dissimilar the clusters being merged are.
+Once we have our distance matrix we just need to define a *linkage method*. The default is the **complete** one.
+
+```{r}
+ames_hclust <- hclust(
+  ames_dist, 
+  method = "ward.D"
+)
+```
+
+##### Defining linkage method
+
+To define the best `method` we can use the `coef.hclust` function from the `cluster` package to extract the **agglomeration coefficients** from the result of a hierarchical cluster analysis, which indicate the **cost of merging different clusters at each stage** of the clustering process. As result, the higher this value is, the more dissimilar the clusters being merged are.
 
 ```{r}
 cluster_methods <- c(
@@ -674,6 +735,85 @@ sapply(cluster_methods,
 ```
 
 As we were expecting the the best result was using the "ward.D" linkage as the default R `hclust` performs a bottom-up algorithm.
+
+
+##### Plotting Dendrogram
+
+::: {.panel-tabset}
+
+###### stats
+
+```{r}
+plot(ames_hclust)
+abline(h = 800, col = "red")
+```
+
+###### factoextra
+
+> This function creates great plots but gets really slow if we have many observations.
+
+```{r}
+#| eval: false
+fviz_dend(ames_hclust, k = 2)
+```
+
+![](img/94-ames-dendrogram.png){fig-align="center"}
+
+:::
+
+##### Getting clusters
+
+To get the clusters we just need to cut the tree at some level or define a number of clusters.
+
+```{r}
+cutree(ames_hclust, k = 2) |> table() |> prop.table()
+
+cutree(ames_hclust, h = 400) |> table() |> prop.table()
+```
+
+
+### Partitioning around medians (PAM)
+
+It has the same algorithmic steps as k-means but uses the **median** rather than the mean to determine the centroid; making it more robust to outliers. 
+
+As your data becomes more sparse the performance of k-means and hierarchical clustering become *slow* and *ineffective*. An alternative is to use the **Gower distance**,  which applies a particular distance calculation that works well for each data type.
+
+- **quantitative (interval)**: range-normalized Manhattan distance.
+- **ordinal**: variable is first ranked, then Manhattan distance is used with a special adjustment for ties.
+- **nominal**: variables with $k$ categories are first converted into $k$ binary columns (i.e., one-hot encoded) and then the **Dice coefficient** is used. To compute the dice metric for two observations $(X,Y)$ the algorithm looks across all one-hot encoded categorical variables and scores them as:
+  - **a** — number of dummies 1 for both observations
+  - **b** — number of dummies 1 for $X$ and 0 for $Y$
+  - **c** - number of dummies 0 for $X$ and 1 for $Y$
+  - **d** — number of dummies 0 for both
+and then uses the following formula:
+
+$$
+D = \frac{2a}{2a + b +c}
+$$
+
+```{r}
+# Original data minus Sale_Price
+ames_full <- 
+  AmesHousing::make_ames() |> 
+  subset(select = -Sale_Price)
+
+# Compute Gower distance for original data
+gower_dst <- daisy(ames_full, metric = "gower")
+
+# You can supply the Gower distance matrix to several clustering algos
+pam_gower <- pam(x = gower_dst, k = 8, diss = TRUE)
+```
+
+
+### Clustering large applications (CLARA)
+
+It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.
+
+```{r}
+system.time(kmeans(my_basket, centers = 10))
+
+system.time(clara(my_basket, k = 10))
+```
 
 
 ### Selecting number of clusters
