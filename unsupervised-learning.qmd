@@ -493,7 +493,6 @@ In *K-means clustering*, we seek to partition the observations into a **pre-spec
 
 For this method, the main goal is to classify observations within clusters with **high intra-class similarity** *(low within-cluster variation)*, but with **low inter-class similarity**.
 
-
 #### Mathematical Description
 
 Let $C_1, \dots, C_K$ denote sets containing the **indices of the observations** in each cluster, where:
@@ -560,6 +559,12 @@ As solving this problem would be very difficult, since there are almost $K^n$ wa
 Since the results obtained will depend on the **initial (random) cluster assignment** of each observation it is important to **run the algorithm multiple times** (10-20) from different random initial configurations *(random starts)*. Then one selects the solution with the **smallest objective**.
 
 ![](img/83-K-Means-Clustering-Algorithm-Example-Selection.png){fig-align="center"}
+
+::: {.callout-tip}
+##### Validation tip
+
+To validate that we are modeling signal rather than noise the algorithm should produce **similar clusters in each iteration**.
+:::
 
 #### Coding example
 

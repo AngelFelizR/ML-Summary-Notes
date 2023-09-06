@@ -503,19 +503,19 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 H2O is not running yet, starting it now...
 
 Note:  In case of errors look at the following log files:
-    C:\Users\angel\AppData\Local\Temp\Rtmp88UhPi\file341458985e1/h2o_angel_started_from_r.out
-    C:\Users\angel\AppData\Local\Temp\Rtmp88UhPi\file3414109c4371/h2o_angel_started_from_r.err
+    C:\Users\angel\AppData\Local\Temp\RtmpYX5P4u\file1e2c2f878b6/h2o_angel_started_from_r.out
+    C:\Users\angel\AppData\Local\Temp\RtmpYX5P4u\file1e2c31fc2435/h2o_angel_started_from_r.err
 
 
-Starting H2O JVM and connecting: . Connection successful!
+Starting H2O JVM and connecting:  Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         6 seconds 390 milliseconds 
+    H2O cluster uptime:         4 seconds 860 milliseconds 
     H2O cluster timezone:       America/La_Paz 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.40.0.4 
-    H2O cluster version age:    4 months and 4 days 
-    H2O cluster name:           H2O_started_from_R_angel_iva122 
+    H2O cluster version age:    4 months and 8 days 
+    H2O cluster name:           H2O_started_from_R_angel_yif231 
     H2O cluster total nodes:    1 
     H2O cluster total memory:   4.43 GB 
     H2O cluster total cores:    8 
@@ -988,6 +988,19 @@ J(A,B) &amp; =
 <figure class="figure"><p><img src="img/83-K-Means-Clustering-Algorithm-Example-Selection.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Validation tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To validate that we are modeling signal rather than noise the algorithm should produce <strong>similar clusters in each iteration</strong>.</p>
+</div>
+</div>
 </section><section id="coding-example" class="level4"><h4 class="anchored" data-anchor-id="coding-example">Coding example</h4>
 <p>To perform k-means clustering on mixed data we need to:</p>
 <ul>
@@ -1301,12 +1314,12 @@ D = \frac{2a}{2a + b +c}
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.00    0.00    0.02 </code></pre>
+   0.00    0.00    0.01 </code></pre>
 </div>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.01    0.00    0.02 </code></pre>
+   0.02    0.00    0.02 </code></pre>
 </div>
 </div>
 </section><section id="selecting-number-of-clusters" class="level3" data-number="10.3.5"><h3 data-number="10.3.5" class="anchored" data-anchor-id="selecting-number-of-clusters">
