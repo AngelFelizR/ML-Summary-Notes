@@ -345,14 +345,12 @@ This models works really well even without a tuning process and the random proce
 
 ## Support Vector Machine
 
-
-
-### Maximal Margin Classifier
+### Maximal Margin Classifier *(Hard Margin Classifier)*
 
 In a p-dimensional space, a **hyperplane** is a flat affine subspace of hyperplane dimension $p − 1$.
 
 $$
-\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
+f(X)= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
 $$
 
 But if a point $X = (X_1, X_3, \dots, X_p)^T$ doesn't satisfy that equation that equation the point would lies to one or other side the equation:
@@ -363,7 +361,7 @@ But as we can see below there are several possible *hyperplane* that could do th
 
 ![](img/97-hyperplane.png){fig-align="center"}
 
-To solve this problem, we need to find the **maximal margin hyperplane** by computing the perpendicular distance from each training observation to a given separating hyperplane to select the farthest *hyperplane* from the training observations.
+To solve this problem, we need to find the **maximal margin hyperplane** by computing the perpendicular distance from each training observation to a given separating hyperplane to select the **farthest _hyperplane_ from the training observations**.
 
 ![](img/98-maximal-margin-hyperplane.png){fig-align="center"}
 
@@ -373,10 +371,19 @@ The maximal margin hyperplane is the solution to the next optimization problem w
 
 $$
 \begin{split}
-\underset{\beta_0, \beta_1, \dots, \beta_p, M}{\text{maximize}} & \; M \\
-\text{subject to } \sum_{j=1}^p \beta_{j}^2  & = 1 , \\
-y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) & \geq M \; \; \forall \; i = 1, \dots, n
+  \underset{\beta_0, \beta_1, \dots, \beta_p}{\text{maximize}} & \; M \\
+\text{subject to } &
+  \begin{cases}
+    \sum_{j=1}^p \beta_{j}^2 = 1 , \\
+    y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \geq M , \; i = 1, \dots, n
+  \end{cases}
 \end{split}
+$$
+
+As consecuence, the ubicated in the expected side of the hyperplane will satisfafy the next condition.
+
+$$
+Y_i \times f(X) > 0
 $$
 
 This method has two disadvantages:
@@ -389,7 +396,7 @@ This method has two disadvantages:
 
 ![](img/100-hyperplane-sensitivity.png){fig-align="center"}
 
-### Support Vector Classifiers (soft margin classifier)
+### Support Vector Classifiers *(soft margin classifier)*
 
 To solve this problem we need to allow that:
 
@@ -403,9 +410,13 @@ To get that result, we need to solve the next problem:
 $$
 \begin{split}
 \underset{\beta_0, \beta_1, \dots, \beta_p, M}{\text{maximize}} & \; M \\
-\text{subject to } \sum_{j=1}^p \beta_{j}^2  & = 1 , \\
-y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) & \geq M (1 - \epsilon_i), \\
-\epsilon_i \geq 0, \; \sum_{i=1}^n \epsilon_i \leq C,
+\text{subject to } &
+  \begin{cases}
+    \sum_{j=1}^p \beta_{j}^2 = 1 , \\
+    y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \geq M (1 - \epsilon_i), \; i = 1, \dots, n \\
+    \epsilon_i \geq 0, \\
+    \sum_{i=1}^n \epsilon_i \leq C
+  \end{cases}
 \end{split}
 $$
 
@@ -415,7 +426,7 @@ $$
     - If $\epsilon_i = 0$ then the *i*th observation is on the **correct side of the margin**.
     - If $\epsilon_i > 0$ then the *i*th observation is on the **wrong side of the margin**.
     - If $\epsilon_i > 1$ then the *i*th observation is on the **wrong side of the hyperplane**.
-  - $C$ is a nonnegative tuning parameter that represents the **budget for the amount that the margin can be violated** by the n observations. For $C > 0$ no more than $C$ observations can be on the wrong side of the hyperplane.
+  - $C$ is a nonnegative tuning parameter that represents the **budget for the total amount that the margin can be violated** by the n observations. For $C > 0$ no more than $C$ observations can be on the wrong side of the hyperplane.
 
 It's important to point that only observations that either **lie on the margin** or **violate the margin** will **affect the hyperplane**.
   
@@ -426,19 +437,20 @@ It's important to point that only observations that either **lie on the margin**
 To extend the *Support Vector Classifier* to non-lineal settings we need to use functions that quantifies the similarity of two observations, known as **kernels** $K(x_i, x_{i'})$ and implement it to the **hyperplane** function for the *support vectors* $\mathcal{S}$.
 
 $$
-f(x) = \beta_0 + \sum_{i \in \mathcal{S}} \alpha_i K(x_i, x_{i'})
+f(x) = \beta_0 + \sum_{i \in \mathcal{S}}  K(x_i, x_{i'})
 $$
-And depending on the shape that we want to use there are 2 types of kernels to use.
+And depending on the shape that we want to use there are some types of kernels to use and we need to **tune the related hyperparameters**. Each of the next kernels is linked to a function in `tidymodels`and in the documentation of each function we will see the parameters to tune for each case
 
-#### Polynomial
+#### Polynomial (`svm_poly`)
 
-As the degree $d$ increases the fit becomes more non-linear
+As the degree $d$ increases the fit becomes more non-linear. 
 
 $$
-K(x_i, x_{i'}) = (1 + \sum_{j=1}^p x_{ij} x_{i'j})^d
+K(x_i, x_{i'}) = \alpha_i (1 + \sum_{j=1}^p x_{ij} x_{i'j})^d
 $$
 
-#### Radial
+
+#### Radial (`svm_rbf`)
 
 As $\gamma$ increases the fit becomes more non-linear.
 
@@ -446,13 +458,40 @@ $$
 K(x_i, x_{i'}) = \exp(-\gamma \sum_{j=1}^p(x_{ij}-x_{i'j})^2)
 $$
 
+
+#### Hyperbolic tangent
+
+$$
+K(x_i, x_{i'}) = \tanh(k_1||x_i-x_{i'}|| + k_2)
+$$
+
+There isn't any function to use this kernel but we can change the default kernel in the `set_engine` function
+
+```{r}
+#| eval: false
+
+svm_tanh <- 
+  svm_linear() |>
+  set_mode("classification") |>
+  set_engine("kernlab",
+             kernel = "tanhdot")
+
+```
+
 ### Extending SVMs to the K-class case
 
-To extend this method we have 2 alternatives
+To extend this method we have 2 alternatives:
 
-- **One-Versus-One Classification**: It constructs $\left( \begin{array}{c} K \\ 2 \end{array} \right)$, tallys the number of times that the test observation is assigned to each of the $K$. The final classification is performed by assigning the test observation to the class to which it was most frequently assigned.
+- **One-Versus-One Classification (OVO)**: It constructs $\left( \begin{array}{c} K \\ 2 \end{array} \right)$, tallys the number of times that the test observation is assigned to each of the $K$. The final classification is performed by assigning the test observation to the class to which it was most frequently assigned.
 
-- **One-Versus-All Classification**: We fit $K$ SVMs, each time comparing one of the $K$ classes to the remaining $K − 1$ classes. Let $\beta = \beta_{0k}, \beta_{1k}, \dots, \beta_{pk}$  denote the parameters that result from fitting an SVM comparing the $k$th class (coded as $+1$) to the others (coded as $−1$). We assign the observation to the class for which the lineal combination of coefficients and the test observation $\beta x^*$ is largest.
+- **One-Versus-All Classification (OVA)**: We fit $K$ SVMs, each time comparing one of the $K$ classes to the remaining $K − 1$ classes. Let $\beta = \beta_{0k}, \beta_{1k}, \dots, \beta_{pk}$  denote the parameters that result from fitting an SVM comparing the $k$th class (coded as $+1$) to the others (coded as $−1$). We assign the observation to the class for which the lineal combination of coefficients and the test observation $\beta x^*$ is largest.
+
+
+::: {.callout-tip}
+#### Kernlab support many classes
+
+The `kernlab` package support many classes by default so we don't need to worry about this problem problem.
+:::
 
 
 ### Coding Example

@@ -303,13 +303,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li>
 <a href="#support-vector-machine" id="toc-support-vector-machine" class="nav-link" data-scroll-target="#support-vector-machine"><span class="header-section-number">8.3</span> Support Vector Machine</a>
   <ul>
-<li><a href="#maximal-margin-classifier" id="toc-maximal-margin-classifier" class="nav-link" data-scroll-target="#maximal-margin-classifier"><span class="header-section-number">8.3.1</span> Maximal Margin Classifier</a></li>
-  <li><a href="#support-vector-classifiers-soft-margin-classifier" id="toc-support-vector-classifiers-soft-margin-classifier" class="nav-link" data-scroll-target="#support-vector-classifiers-soft-margin-classifier"><span class="header-section-number">8.3.2</span> Support Vector Classifiers (soft margin classifier)</a></li>
+<li><a href="#maximal-margin-classifier-hard-margin-classifier" id="toc-maximal-margin-classifier-hard-margin-classifier" class="nav-link" data-scroll-target="#maximal-margin-classifier-hard-margin-classifier"><span class="header-section-number">8.3.1</span> Maximal Margin Classifier <em>(Hard Margin Classifier)</em></a></li>
+  <li><a href="#support-vector-classifiers-soft-margin-classifier" id="toc-support-vector-classifiers-soft-margin-classifier" class="nav-link" data-scroll-target="#support-vector-classifiers-soft-margin-classifier"><span class="header-section-number">8.3.2</span> Support Vector Classifiers <em>(soft margin classifier)</em></a></li>
   <li>
 <a href="#non-linear-boundaries" id="toc-non-linear-boundaries" class="nav-link" data-scroll-target="#non-linear-boundaries"><span class="header-section-number">8.3.3</span> Non-linear boundaries</a>
   <ul class="collapse">
-<li><a href="#polynomial" id="toc-polynomial" class="nav-link" data-scroll-target="#polynomial">Polynomial</a></li>
-  <li><a href="#radial" id="toc-radial" class="nav-link" data-scroll-target="#radial">Radial</a></li>
+<li><a href="#polynomial-svm_poly" id="toc-polynomial-svm_poly" class="nav-link" data-scroll-target="#polynomial-svm_poly">Polynomial (<code>svm_poly</code>)</a></li>
+  <li><a href="#radial-svm_rbf" id="toc-radial-svm_rbf" class="nav-link" data-scroll-target="#radial-svm_rbf">Radial (<code>svm_rbf</code>)</a></li>
+  <li><a href="#hyperbolic-tangent" id="toc-hyperbolic-tangent" class="nav-link" data-scroll-target="#hyperbolic-tangent">Hyperbolic tangent</a></li>
   </ul>
 </li>
   <li><a href="#extending-svms-to-the-k-class-case" id="toc-extending-svms-to-the-k-class-case" class="nav-link" data-scroll-target="#extending-svms-to-the-k-class-case"><span class="header-section-number">8.3.4</span> Extending SVMs to the K-class case</a></li>
@@ -744,11 +745,12 @@ r_i = y_i - \sum_{k'&lt;k} \hat{f}_{k'}^b(x_i) - \sum_{k'&gt;k} \hat{f}_{k'}^{b-
 </div>
 </section></section><section id="support-vector-machine" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="support-vector-machine">
 <span class="header-section-number">8.3</span> Support Vector Machine</h2>
-<section id="maximal-margin-classifier" class="level3" data-number="8.3.1"><h3 data-number="8.3.1" class="anchored" data-anchor-id="maximal-margin-classifier">
-<span class="header-section-number">8.3.1</span> Maximal Margin Classifier</h3>
+<section id="maximal-margin-classifier-hard-margin-classifier" class="level3" data-number="8.3.1"><h3 data-number="8.3.1" class="anchored" data-anchor-id="maximal-margin-classifier-hard-margin-classifier">
+<span class="header-section-number">8.3.1</span> Maximal Margin Classifier <em>(Hard Margin Classifier)</em>
+</h3>
 <p>In a p-dimensional space, a <strong>hyperplane</strong> is a flat affine subspace of hyperplane dimension <span class="math inline">\(p − 1\)</span>.</p>
 <p><span class="math display">\[
-\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
+f(X)= \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p = 0
 \]</span></p>
 <p>But if a point <span class="math inline">\(X = (X_1, X_3, \dots, X_p)^T\)</span> doesn’t satisfy that equation that equation the point would lies to one or other side the equation: - Over the <em>hyperplane</em> if <span class="math inline">\(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p &gt; 0\)</span> - Under the <em>hyperplane</em> if <span class="math inline">\(\beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p &lt; 0\)</span></p>
 <p>But as we can see below there are several possible <em>hyperplane</em> that could do the job.</p>
@@ -756,7 +758,7 @@ r_i = y_i - \sum_{k'&lt;k} \hat{f}_{k'}^b(x_i) - \sum_{k'&gt;k} \hat{f}_{k'}^{b-
 <figure class="figure"><p><img src="img/97-hyperplane.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-<p>To solve this problem, we need to find the <strong>maximal margin hyperplane</strong> by computing the perpendicular distance from each training observation to a given separating hyperplane to select the farthest <em>hyperplane</em> from the training observations.</p>
+<p>To solve this problem, we need to find the <strong>maximal margin hyperplane</strong> by computing the perpendicular distance from each training observation to a given separating hyperplane to select the <strong>farthest <em>hyperplane</em> from the training observations</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/98-maximal-margin-hyperplane.png" class="img-fluid figure-img"></p>
 </figure>
@@ -765,10 +767,17 @@ r_i = y_i - \sum_{k'&lt;k} \hat{f}_{k'}^b(x_i) - \sum_{k'&gt;k} \hat{f}_{k'}^{b-
 <p>The maximal margin hyperplane is the solution to the next optimization problem where the <strong>associated class labels</strong> <span class="math inline">\(y_1, \dots, y_n \in \{-1, 1\}\)</span>:</p>
 <p><span class="math display">\[
 \begin{split}
-\underset{\beta_0, \beta_1, \dots, \beta_p, M}{\text{maximize}} &amp; \; M \\
-\text{subject to } \sum_{j=1}^p \beta_{j}^2  &amp; = 1 , \\
-y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \geq M \; \; \forall \; i = 1, \dots, n
+  \underset{\beta_0, \beta_1, \dots, \beta_p}{\text{maximize}} &amp; \; M \\
+\text{subject to } &amp;
+  \begin{cases}
+    \sum_{j=1}^p \beta_{j}^2 = 1 , \\
+    y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \geq M , \; i = 1, \dots, n
+  \end{cases}
 \end{split}
+\]</span></p>
+<p>As consecuence, the ubicated in the expected side of the hyperplane will satisfafy the next condition.</p>
+<p><span class="math display">\[
+Y_i \times f(X) &gt; 0
 \]</span></p>
 <p>This method has two disadvantages:</p>
 <ol type="1">
@@ -786,7 +795,8 @@ y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \g
 </figure>
 </div>
 </section><section id="support-vector-classifiers-soft-margin-classifier" class="level3" data-number="8.3.2"><h3 data-number="8.3.2" class="anchored" data-anchor-id="support-vector-classifiers-soft-margin-classifier">
-<span class="header-section-number">8.3.2</span> Support Vector Classifiers (soft margin classifier)</h3>
+<span class="header-section-number">8.3.2</span> Support Vector Classifiers <em>(soft margin classifier)</em>
+</h3>
 <p>To solve this problem we need to allow that:</p>
 <ul>
 <li>Some observations will be on the incorrect side of the <em>margin</em> like observations 1 and 8.</li>
@@ -800,9 +810,13 @@ y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \g
 <p><span class="math display">\[
 \begin{split}
 \underset{\beta_0, \beta_1, \dots, \beta_p, M}{\text{maximize}} &amp; \; M \\
-\text{subject to } \sum_{j=1}^p \beta_{j}^2  &amp; = 1 , \\
-y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \geq M (1 - \epsilon_i), \\
-\epsilon_i \geq 0, \; \sum_{i=1}^n \epsilon_i \leq C,
+\text{subject to } &amp;
+  \begin{cases}
+    \sum_{j=1}^p \beta_{j}^2 = 1 , \\
+    y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) \geq M (1 - \epsilon_i), \; i = 1, \dots, n \\
+    \epsilon_i \geq 0, \\
+    \sum_{i=1}^n \epsilon_i \leq C
+  \end{cases}
 \end{split}
 \]</span></p>
 <ul>
@@ -819,7 +833,7 @@ y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \g
 </ul>
 </li>
 <li>
-<span class="math inline">\(C\)</span> is a nonnegative tuning parameter that represents the <strong>budget for the amount that the margin can be violated</strong> by the n observations. For <span class="math inline">\(C &gt; 0\)</span> no more than <span class="math inline">\(C\)</span> observations can be on the wrong side of the hyperplane.</li>
+<span class="math inline">\(C\)</span> is a nonnegative tuning parameter that represents the <strong>budget for the total amount that the margin can be violated</strong> by the n observations. For <span class="math inline">\(C &gt; 0\)</span> no more than <span class="math inline">\(C\)</span> observations can be on the wrong side of the hyperplane.</li>
 </ul>
 </li>
 </ul>
@@ -832,31 +846,57 @@ y_i(\beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_p x_{ip}) &amp; \g
 <span class="header-section-number">8.3.3</span> Non-linear boundaries</h3>
 <p>To extend the <em>Support Vector Classifier</em> to non-lineal settings we need to use functions that quantifies the similarity of two observations, known as <strong>kernels</strong> <span class="math inline">\(K(x_i, x_{i'})\)</span> and implement it to the <strong>hyperplane</strong> function for the <em>support vectors</em> <span class="math inline">\(\mathcal{S}\)</span>.</p>
 <p><span class="math display">\[
-f(x) = \beta_0 + \sum_{i \in \mathcal{S}} \alpha_i K(x_i, x_{i'})
-\]</span> And depending on the shape that we want to use there are 2 types of kernels to use.</p>
-<section id="polynomial" class="level4"><h4 class="anchored" data-anchor-id="polynomial">Polynomial</h4>
-<p>As the degree <span class="math inline">\(d\)</span> increases the fit becomes more non-linear</p>
+f(x) = \beta_0 + \sum_{i \in \mathcal{S}}  K(x_i, x_{i'})
+\]</span> And depending on the shape that we want to use there are some types of kernels to use and we need to <strong>tune the related hyperparameters</strong>. Each of the next kernels is linked to a function in <code>tidymodels</code>and in the documentation of each function we will see the parameters to tune for each case</p>
+<section id="polynomial-svm_poly" class="level4"><h4 class="anchored" data-anchor-id="polynomial-svm_poly">Polynomial (<code>svm_poly</code>)</h4>
+<p>As the degree <span class="math inline">\(d\)</span> increases the fit becomes more non-linear.</p>
 <p><span class="math display">\[
-K(x_i, x_{i'}) = (1 + \sum_{j=1}^p x_{ij} x_{i'j})^d
+K(x_i, x_{i'}) = \alpha_i (1 + \sum_{j=1}^p x_{ij} x_{i'j})^d
 \]</span></p>
-</section><section id="radial" class="level4"><h4 class="anchored" data-anchor-id="radial">Radial</h4>
+</section><section id="radial-svm_rbf" class="level4"><h4 class="anchored" data-anchor-id="radial-svm_rbf">Radial (<code>svm_rbf</code>)</h4>
 <p>As <span class="math inline">\(\gamma\)</span> increases the fit becomes more non-linear.</p>
 <p><span class="math display">\[
 K(x_i, x_{i'}) = \exp(-\gamma \sum_{j=1}^p(x_{ij}-x_{i'j})^2)
 \]</span></p>
+</section><section id="hyperbolic-tangent" class="level4"><h4 class="anchored" data-anchor-id="hyperbolic-tangent">Hyperbolic tangent</h4>
+<p><span class="math display">\[
+K(x_i, x_{i'}) = \tanh(k_1||x_i-x_{i'}|| + k_2)
+\]</span></p>
+<p>There isn’t any function to use this kernel but we can change the default kernel in the <code>set_engine</code> function</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">svm_tanh</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">svm_linear</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"kernlab"</span>,</span>
+<span>             kernel <span class="op">=</span> <span class="st">"tanhdot"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section></section><section id="extending-svms-to-the-k-class-case" class="level3" data-number="8.3.4"><h3 data-number="8.3.4" class="anchored" data-anchor-id="extending-svms-to-the-k-class-case">
 <span class="header-section-number">8.3.4</span> Extending SVMs to the K-class case</h3>
-<p>To extend this method we have 2 alternatives</p>
+<p>To extend this method we have 2 alternatives:</p>
 <ul>
-<li><p><strong>One-Versus-One Classification</strong>: It constructs <span class="math inline">\(\left( \begin{array}{c} K \\ 2 \end{array} \right)\)</span>, tallys the number of times that the test observation is assigned to each of the <span class="math inline">\(K\)</span>. The final classification is performed by assigning the test observation to the class to which it was most frequently assigned.</p></li>
-<li><p><strong>One-Versus-All Classification</strong>: We fit <span class="math inline">\(K\)</span> SVMs, each time comparing one of the <span class="math inline">\(K\)</span> classes to the remaining <span class="math inline">\(K − 1\)</span> classes. Let <span class="math inline">\(\beta = \beta_{0k}, \beta_{1k}, \dots, \beta_{pk}\)</span> denote the parameters that result from fitting an SVM comparing the <span class="math inline">\(k\)</span>th class (coded as <span class="math inline">\(+1\)</span>) to the others (coded as <span class="math inline">\(−1\)</span>). We assign the observation to the class for which the lineal combination of coefficients and the test observation <span class="math inline">\(\beta x^*\)</span> is largest.</p></li>
-</ul></section><section id="coding-example-2" class="level3" data-number="8.3.5"><h3 data-number="8.3.5" class="anchored" data-anchor-id="coding-example-2">
+<li><p><strong>One-Versus-One Classification (OVO)</strong>: It constructs <span class="math inline">\(\left( \begin{array}{c} K \\ 2 \end{array} \right)\)</span>, tallys the number of times that the test observation is assigned to each of the <span class="math inline">\(K\)</span>. The final classification is performed by assigning the test observation to the class to which it was most frequently assigned.</p></li>
+<li><p><strong>One-Versus-All Classification (OVA)</strong>: We fit <span class="math inline">\(K\)</span> SVMs, each time comparing one of the <span class="math inline">\(K\)</span> classes to the remaining <span class="math inline">\(K − 1\)</span> classes. Let <span class="math inline">\(\beta = \beta_{0k}, \beta_{1k}, \dots, \beta_{pk}\)</span> denote the parameters that result from fitting an SVM comparing the <span class="math inline">\(k\)</span>th class (coded as <span class="math inline">\(+1\)</span>) to the others (coded as <span class="math inline">\(−1\)</span>). We assign the observation to the class for which the lineal combination of coefficients and the test observation <span class="math inline">\(\beta x^*\)</span> is largest.</p></li>
+</ul>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Kernlab support many classes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>kernlab</code> package support many classes by default so we don’t need to worry about this problem problem.</p>
+</div>
+</div>
+</section><section id="coding-example-2" class="level3" data-number="8.3.5"><h3 data-number="8.3.5" class="anchored" data-anchor-id="coding-example-2">
 <span class="header-section-number">8.3.5</span> Coding Example</h3>
 <ol type="1">
 <li>Load libraries</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.statlearning.com">ISLR</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">kernlab</span><span class="op">)</span></span>
 <span><span class="fu">theme_set</span><span class="op">(</span><span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -873,14 +913,14 @@ K(x_i, x_{i'}) = \exp(-\gamma \sum_{j=1}^p(x_{ij}-x_{i'j})^2)
 <span><span class="fu">ggplot</span><span class="op">(</span><span class="va">sim_data</span>, <span class="fu">aes</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, color <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non-parametric-models_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="non-parametric-models_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ol start="2" type="1">
 <li>Define model specification</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">svm_linear_spec</span> <span class="op">&lt;-</span> <span class="fu">svm_poly</span><span class="op">(</span>degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">svm_linear_spec</span> <span class="op">&lt;-</span> <span class="fu">svm_poly</span><span class="op">(</span>degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">set_mode</span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="co"># We don't need scaling for now</span></span>
 <span>  <span class="fu">set_engine</span><span class="op">(</span><span class="st">"kernlab"</span>, scaled <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -889,7 +929,7 @@ K(x_i, x_{i'}) = \exp(-\gamma \sum_{j=1}^p(x_{ij}-x_{i'j})^2)
 <li>Fitting the model and checking results</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">svm_linear_fit</span> <span class="op">&lt;-</span> <span class="va">svm_linear_spec</span> <span class="op">%&gt;%</span> </span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">svm_linear_fit</span> <span class="op">&lt;-</span> <span class="va">svm_linear_spec</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">set_args</span><span class="op">(</span>cost <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">fit</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">sim_data</span><span class="op">)</span></span>
 <span></span>
@@ -897,7 +937,7 @@ K(x_i, x_{i'}) = \exp(-\gamma \sum_{j=1}^p(x_{ij}-x_{i'j})^2)
 <span>  <span class="fu">extract_fit_engine</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="non-parametric-models_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="non-parametric-models_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
