@@ -319,7 +319,7 @@ The frank answer is that **there is no one best method for determining how many 
 
 #### ggplot2
 
-```{r}
+```{r }
 stats_pca_loadings <-
   tidy(stats_pca, matrix = "loadings")
 
@@ -527,9 +527,7 @@ If we want to calculate the **similarity** for binary variables or categorical v
 
 $$
 \begin{split}
-J(A,B) & =
-  \frac{\overbrace{A \cap B}^\text{# same value columns}}
-       {\underbrace{A \cup B}_\text{# columns}} \\ \\
+J(A,B) & = \frac{\overbrace{A \cap B}^\text{elements common to A and B}}{\underbrace{A \cup B}_\text{all elements in A and B}} \\
 \text{Distance} & = 1 - J(A,B)
 \end{split}
 $$
@@ -747,11 +745,15 @@ As we were expecting the the best result was using the "ward.D" linkage as the d
 
 ##### Plotting Dendrogram
 
+This dendrogram takes too much to be plotted.
+
 ::: {.panel-tabset}
 
 ###### stats
 
 ```{r}
+#| eval: false
+
 plot(ames_hclust)
 abline(h = 800, col = "red")
 ```
@@ -759,6 +761,8 @@ abline(h = 800, col = "red")
 ###### dendextend
 
 ```{r}
+#| eval: false
+
 as.dendrogram(ames_hclust) |>
   color_branches(h = 800) |>
   plot()
@@ -766,10 +770,9 @@ as.dendrogram(ames_hclust) |>
 
 ###### factoextra
 
-> This function creates great plots but gets really slow if we have many observations.
-
 ```{r}
 #| eval: false
+
 fviz_dend(ames_hclust, k = 2)
 ```
 
@@ -832,9 +835,7 @@ pam_gower <- pam(x = gower_dst, k = 8, diss = TRUE)
 It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.
 
 ```{r}
-system.time(kmeans(my_basket, centers = 10))
-
-system.time(clara(my_basket, k = 10))
+clara(my_basket, k = 10)
 ```
 
 
@@ -855,6 +856,7 @@ https://www.datanovia.com/en/lessons/determining-the-optimal-number-of-clusters-
 #### HC
 
 ```{r}
+#| eval: false
 fviz_nbclust(ames_scale,
              FUNcluster = hcut,
              method = "wss",
@@ -862,15 +864,20 @@ fviz_nbclust(ames_scale,
   labs(subtitle = "Elbow method")
 ```
 
+![](img/103-ames-hcut-Elbow.png){fig-align="center" width=90% height=90%}
+
 
 #### K-means
 
 ```{r}
+#| eval: false
 fviz_nbclust(ames_scale,
              FUNcluster = kmeans,
              method = "wss") +
   labs(subtitle = "Elbow method")
 ```
+
+![](img/104-ames-kmeans-Elbow.png){fig-align="center" width=90% height=90%}
 
 :::
   
@@ -884,6 +891,8 @@ fviz_nbclust(ames_scale,
 #### HC
 
 ```{r}
+#| eval: false
+
 fviz_nbclust(ames_scale,
              FUNcluster = hcut,
              method = "silhouette",
@@ -891,15 +900,19 @@ fviz_nbclust(ames_scale,
   labs(subtitle = "Silhouette method")
 ```
 
+![](img/105-ames-hcut-silhouette.png){fig-align="center" width=90% height=90%}
 
 #### K-means
 
 ```{r}
+#| eval: false
 fviz_nbclust(ames_scale,
              FUNcluster = kmeans,
              method = "silhouette") +
   labs(subtitle = "Silhouette method")
 ```
+
+![](img/106-ames-kmeans-silhouette.png){fig-align="center" width=90% height=90%}
 
 :::
 
@@ -914,20 +927,23 @@ $$
 #### HC
 
 ```{r}
+#| eval: false
 set.seed(123)
 fviz_nbclust(ames_scale,
              FUNcluster = hcut,
              method = "gap_stat",
              hc_method = "ward.D",
              nboot = 50,
-             verbose = FALSE)+
+             verbose = FALSE) +
   labs(subtitle = "Gap statistic method")
 ```
 
+![](img/107-ames-hcut-gap.png){fig-align="center" width=90% height=90%}
 
 #### K-means
 
 ```{r}
+#| eval: false
 set.seed(123)
 fviz_nbclust(ames_scale,
              FUNcluster = kmeans,
@@ -937,6 +953,8 @@ fviz_nbclust(ames_scale,
              verbose = FALSE)+
   labs(subtitle = "Gap statistic method")
 ```
+
+![](img/108-ames-kmeans-gap.png){fig-align="center" width=90% height=90%}
 
 :::
 
@@ -1075,24 +1093,24 @@ merge(x = FaRotatedSummary,
       by = "col_names",
       suffixes = c("_2F", "_3F")) |>
   ggplot(aes(MR1_2F, MR1_3F))+
-  geom_blank(aes(MR1_2F*1.1, MR1_3F*1.1))+
+  geom_blank(aes(MR1_2F*1.1, MR1_3F*1.1)) +
   geom_point(aes(size = MR3,
-                 color = abs(MR2_2F - MR2_3F)))+
-  geom_abline()+
+                 color = abs(MR2_2F - MR2_3F))) +
+  geom_abline() +
   geom_text(aes(label = col_names),
-            vjust = -1)+
+            vjust = -1) +
   scale_x_continuous(labels = scales::percent_format(),
-                     breaks = scales::breaks_width(0.2))+
-    scale_y_continuous(labels = scales::percent_format(),
-                     breaks = scales::breaks_width(0.2))+
+                     breaks = scales::breaks_width(0.2)) +
+  scale_y_continuous(labels = scales::percent_format(),
+                     breaks = scales::breaks_width(0.2)) +
   scale_size(labels = scales::percent_format())+
   scale_color_gradient(low = "blue",
-                       high = "red")+
+                       high = "red") +
   labs(title = "Results After Adding\nThe Third Factor",
        x = "Original Factor 1",
        y = "New Factor 1",
        color = "Factor 2 Change",
-       size = "Factor 3")+
+       size = "Factor 3") +
   theme(plot.title = element_text(hjust = 0.5, 
                                   face = "bold",
                                   size = 16),

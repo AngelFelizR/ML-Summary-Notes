@@ -509,19 +509,19 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 H2O is not running yet, starting it now...
 
 Note:  In case of errors look at the following log files:
-    C:\Users\angel\AppData\Local\Temp\RtmpaqNIv4\file9fc9c039f9/h2o_angel_started_from_r.out
-    C:\Users\angel\AppData\Local\Temp\RtmpaqNIv4\file9fc156236b6/h2o_angel_started_from_r.err
+    C:\Users\angel\AppData\Local\Temp\Rtmpk3BvDi\filec30147d16df/h2o_angel_started_from_r.out
+    C:\Users\angel\AppData\Local\Temp\Rtmpk3BvDi\filec30222f7746/h2o_angel_started_from_r.err
 
 
 Starting H2O JVM and connecting: . Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         6 seconds 113 milliseconds 
+    H2O cluster uptime:         7 seconds 375 milliseconds 
     H2O cluster timezone:       America/La_Paz 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.40.0.4 
-    H2O cluster version age:    4 months and 18 days 
-    H2O cluster name:           H2O_started_from_R_angel_ypc389 
+    H2O cluster version age:    4 months and 19 days 
+    H2O cluster name:           H2O_started_from_R_angel_zsn142 
     H2O cluster total nodes:    1 
     H2O cluster total memory:   4.43 GB 
     H2O cluster total cores:    8 
@@ -956,9 +956,7 @@ W(C_k) = \frac{1}{| C_k|} \sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
 <p>If we want to calculate the <strong>similarity</strong> for binary variables or categorical variables after applying one-hot encoding, we can use the <strong>Jaccard Index</strong> to calculate the distance.</p>
 <p><span class="math display">\[
 \begin{split}
-J(A,B) &amp; =
-  \frac{\overbrace{A \cap B}^\text{# same value columns}}
-       {\underbrace{A \cup B}_\text{# columns}} \\ \\
+J(A,B) &amp; = \frac{\overbrace{A \cap B}^\text{elements common to A and B}}{\underbrace{A \cup B}_\text{all elements in A and B}} \\
 \text{Distance} &amp; = 1 - J(A,B)
 \end{split}
 \]</span></p>
@@ -1204,6 +1202,7 @@ Validation tip
 </div>
 <p>As we were expecting the the best result was using the “ward.D” linkage as the default R <code>hclust</code> performs a bottom-up algorithm.</p>
 </section><section id="plotting-dendrogram" class="level5"><h5 class="anchored" data-anchor-id="plotting-dendrogram">Plotting Dendrogram</h5>
+<p>This dendrogram takes too much to be plotted.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">stats</a></li>
@@ -1215,9 +1214,6 @@ Validation tip
 <div class="cell">
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ames_hclust</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">800</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 </div>
 <div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
@@ -1225,15 +1221,9 @@ Validation tip
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html">as.dendrogram</a></span><span class="op">(</span><span class="va">ames_hclust</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="http://talgalili.github.io/dendextend/reference/color_branches.html">color_branches</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">800</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
-</div>
 </div>
 </div>
 <div id="tabset-8-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-3-tab">
-<blockquote class="blockquote">
-<p>This function creates great plots but gets really slow if we have many observations.</p>
-</blockquote>
 <div class="cell">
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_dend.html">fviz_dend</a></span><span class="op">(</span><span class="va">ames_hclust</span>, k <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1312,15 +1302,77 @@ D = \frac{2a}{2a + b +c}
 <span class="header-section-number">10.3.4</span> Clustering large applications (CLARA)</h3>
 <p>It uses the same algorithmic process as PAM; however, instead of finding the medoids for the entire data set it considers a small sample size and applies k-means or PAM.</p>
 <div class="cell">
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
-   0.02    0.00    0.01 </code></pre>
-</div>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
-   0.01    0.00    0.02 </code></pre>
+<pre><code>Call:    clara(x = my_basket, k = 10) 
+Medoids:
+      7up lasagna pepsi yop red.wine cheese bbq bulmers mayonnaise horlics
+ [1,]   0       0     0   0        0      1   0       0          0       0
+ [2,]   0       0     0   0        0      0   0       0          0       0
+ [3,]   0       0     0   0        0      0   0       0          0       0
+ [4,]   0       0     1   0        0      0   0       0          0       0
+ [5,]   0       0     1   0        0      0   0       0          0       0
+ [6,]   0       1     0   0        0      0   0       0          0       0
+ [7,]   0       0     0   0        0      0   0       1          0       0
+ [8,]   0       1     0   0        0      0   0       0          0       0
+ [9,]   0       0     1   0        0      1   0       0          1       0
+[10,]   0       1     0   0        0      2   1       1          2       0
+      chicken.tikka milk mars coke lottery bread pizza sunny.delight ham
+ [1,]             0    0    0    0       0     2     0             0   0
+ [2,]             0    0    0    0       0     0     0             0   0
+ [3,]             0    0    0    0       0     0     0             0   0
+ [4,]             0    0    0    1       0     0     0             0   0
+ [5,]             0    0    0    1       0     0     0             1   0
+ [6,]             0    0    0    0       0     0     1             0   0
+ [7,]             1    2    0    0       0     0     2             0   0
+ [8,]             0    0    2    0       0     1     0             0   0
+ [9,]             0    0    0    0       0     0     2             0   0
+[10,]             2    0    0    0       0     0     2             0   0
+      lettuce kronenbourg leeks fanta tea whiskey peas newspaper muesli
+ [1,]       0           0     0     0   0       0    0         0      0
+ [2,]       0           0     0     0   1       0    0         0      0
+ [3,]       0           0     0     0   0       0    0         0      0
+ [4,]       0           0     0     0   0       0    0         0      0
+ [5,]       0           0     0     0   0       0    0         0      0
+ [6,]       0           0     0     0   0       0    0         0      0
+ [7,]       0           0     0     0   1       1    0         0      3
+ [8,]       1           0     0     0   0       0    3         0      0
+ [9,]       1           0     0     2   0       0    2         0      0
+[10,]       1           2     0     0   0       0    0         0      0
+      white.wine carrots spinach pate instant.coffee twix potatoes fosters soup
+ [1,]          0       0       0    0              0    0        0       0    0
+ [2,]          0       0       0    0              0    0        0       0    0
+ [3,]          0       0       0    0              0    2        0       0    0
+ [4,]          0       0       0    0              0    0        0       0    0
+ [5,]          0       0       0    0              0    0        3       0    0
+ [6,]          0       0       0    0              0    0        0       0    0
+ [7,]          0       0       0    0              0    0        2       0    0
+ [8,]          0       0       0    0              0    0        0       0    2
+ [9,]          0       0       1    0              0    0        5       0    0
+[10,]          0       3       1    0              0    0        0       1    0
+      toad.in.hole coco.pops kitkat broccoli cigarettes
+ [1,]            0         0      0        0          0
+ [2,]            0         0      0        0          0
+ [3,]            0         0      2        0          1
+ [4,]            0         0      0        0          0
+ [5,]            0         0      0        0          0
+ [6,]            0         0      0        0          0
+ [7,]            1         0      0        1          0
+ [8,]            0         0      0        0          1
+ [9,]            0         0      0        0          0
+[10,]            0         0      0        1          0
+Objective function:  2.702859
+Clustering vector:   int [1:2000] 1 2 2 3 2 4 5 2 6 2 6 2 2 6 6 4 4 5 ...
+Cluster sizes:           227 683 131 418 92 438 5 4 1 1 
+Best sample:
+ [1]   14   61   81  113  125  149  255  267  297  300  338  350  357  418  441
+[16]  611  628  677  683  704  706  723  724  802  852  854  874  908  994 1038
+[31] 1056 1082 1086 1153 1184 1194 1211 1276 1278 1331 1346 1393 1442 1446 1474
+[46] 1480 1496 1515 1534 1641 1685 1687 1721 1728 1781 1789 1819 1857 1860 1903
+
+Available components:
+ [1] "sample"     "medoids"    "i.med"      "clustering" "objective" 
+ [6] "clusinfo"   "diss"       "call"       "silinfo"    "data"      </code></pre>
 </div>
 </div>
 </section><section id="selecting-number-of-clusters" class="level3" data-number="10.3.5"><h3 data-number="10.3.5" class="anchored" data-anchor-id="selecting-number-of-clusters">
@@ -1344,25 +1396,27 @@ D = \frac{2a}{2a + b +c}
 <div class="tab-content" data-group="algorithm">
 <div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
 <div class="cell">
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"wss"</span>,</span>
 <span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Elbow method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/103-ames-hcut-Elbow.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 <div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
 <div class="cell">
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"wss"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Elbow method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/104-ames-kmeans-Elbow.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -1384,25 +1438,27 @@ D = \frac{2a}{2a + b +c}
 <div class="tab-content" data-group="algorithm">
 <div id="tabset-10-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-10-1-tab">
 <div class="cell">
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"silhouette"</span>,</span>
 <span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Silhouette method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/105-ames-hcut-silhouette.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 <div id="tabset-10-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-10-2-tab">
 <div class="cell">
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"silhouette"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Silhouette method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/106-ames-kmeans-silhouette.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -1422,22 +1478,23 @@ D = \frac{2a}{2a + b +c}
 <div class="tab-content" data-group="algorithm">
 <div id="tabset-11-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-11-1-tab">
 <div class="cell">
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">hcut</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"gap_stat"</span>,</span>
 <span>             hc_method <span class="op">=</span> <span class="st">"ward.D"</span>,</span>
 <span>             nboot <span class="op">=</span> <span class="fl">50</span>,</span>
-<span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
+<span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Gap statistic method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/107-ames-hcut-gap.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 <div id="tabset-11-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-11-2-tab">
 <div class="cell">
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/factoextra/man/fviz_nbclust.html">fviz_nbclust</a></span><span class="op">(</span><span class="va">ames_scale</span>,</span>
 <span>             FUNcluster <span class="op">=</span> <span class="va">kmeans</span>,</span>
 <span>             method <span class="op">=</span> <span class="st">"gap_stat"</span>,</span>
@@ -1445,9 +1502,10 @@ D = \frac{2a}{2a + b +c}
 <span>             nstart <span class="op">=</span> <span class="fl">25</span>,</span>
 <span>             verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>subtitle <span class="op">=</span> <span class="st">"Gap statistic method"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/108-ames-kmeans-gap.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
+</figure>
 </div>
 </div>
 </div>
@@ -1463,7 +1521,7 @@ D = \frac{2a}{2a + b +c}
 <li>Loading libraries to use</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://pbil.univ-lyon1.fr/ADE-4/">ade4</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://pbil.univ-lyon1.fr/ADE-4/">ade4</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://optimizer.r-forge.r-project.org/GPArotation_www/">GPArotation</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span></span>
 <span></span>
@@ -1487,7 +1545,7 @@ D = \frac{2a}{2a + b +c}
 <li>Run the default EFA</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaDefault</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaDefault</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
 <span>  <span class="va">OlympicDt</span>,</span>
 <span>  nfactors <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  rotate <span class="op">=</span> <span class="st">"none"</span></span>
@@ -1515,7 +1573,7 @@ D = \frac{2a}{2a + b +c}
 <li>Let’s change the sign in columns were the variable is measuring time.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NegCors</span> <span class="op">&lt;-</span> <span class="va">FaDefaultSummary</span><span class="op">[</span><span class="va">MR1</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="va">col_names</span><span class="op">]</span></span>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NegCors</span> <span class="op">&lt;-</span> <span class="va">FaDefaultSummary</span><span class="op">[</span><span class="va">MR1</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="va">col_names</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">OlympicDtNeg</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/copy.html">copy</a></span><span class="op">(</span><span class="va">OlympicDt</span><span class="op">)</span><span class="op">[</span>, <span class="op">(</span><span class="va">NegCors</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">`-`</span><span class="op">)</span>,</span>
@@ -1546,7 +1604,7 @@ D = \frac{2a}{2a + b +c}
 </div>
 <p>Now as all items have positive correlations we know that the first factor is measuring good physical condition.</p>
 <div class="cell">
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaNegSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaNegSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    col_names       MR1         MR2 complexity communalities uniquenesses
  1:      poid 0.5619076  0.79354373   1.801345    0.94545194   0.05454816
@@ -1566,7 +1624,7 @@ D = \frac{2a}{2a + b +c}
 <li>Rotate the factors to get a different interpretation.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
 <span>  <span class="va">OlympicDtNeg</span>,</span>
 <span>  nfactors <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  rotate <span class="op">=</span> <span class="st">"oblimin"</span></span>
@@ -1594,7 +1652,7 @@ D = \frac{2a}{2a + b +c}
 <li>First factor is correlated with running exports from <code>400</code> to <code>long</code> as they complexity is close to 1.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR1</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR1</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
  1:       400  0.83975679 -0.21939302   1.135878    0.72829430   0.27170557
@@ -1613,7 +1671,7 @@ D = \frac{2a}{2a + b +c}
 <li>The second factor is related to strength exports from <code>poid</code> to <code>jave</code>.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
  1:      poid  0.05957999  0.96647757   1.007600    0.94545194   0.05454816
@@ -1632,7 +1690,7 @@ D = \frac{2a}{2a + b +c}
 <li>To be good at <code>perc</code> you need to be good at running and have enough strength, having strength might makes harder to run <code>1500</code> and the current model doesn’t explain <code>haut</code>.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">complexity</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">complexity</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
  1:      perc  0.46180342  0.45071592   1.998820    0.44468513   0.55531465
@@ -1651,7 +1709,7 @@ D = \frac{2a}{2a + b +c}
 <li>Adding other factor.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
 <span>  <span class="va">OlympicDtNeg</span>,</span>
 <span>  nfactors <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  rotate <span class="op">=</span> <span class="st">"oblimin"</span></span>
@@ -1690,29 +1748,29 @@ D = \frac{2a}{2a + b +c}
 <li>Confirm your results by creatinga chart.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FaRotatedSummary</span>,</span>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FaRotatedSummary</span>,</span>
 <span>      y <span class="op">=</span> <span class="va">FaRotated3Summary</span>,</span>
 <span>      by <span class="op">=</span> <span class="st">"col_names"</span>,</span>
 <span>      suffixes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_2F"</span>, <span class="st">"_3F"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">MR1_2F</span>, <span class="va">MR1_3F</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_blank.html">geom_blank</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">MR1_2F</span><span class="op">*</span><span class="fl">1.1</span>, <span class="va">MR1_3F</span><span class="op">*</span><span class="fl">1.1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_blank.html">geom_blank</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">MR1_2F</span><span class="op">*</span><span class="fl">1.1</span>, <span class="va">MR1_3F</span><span class="op">*</span><span class="fl">1.1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">MR3</span>,</span>
-<span>                 color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">MR2_2F</span> <span class="op">-</span> <span class="va">MR2_3F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>                 color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">MR2_2F</span> <span class="op">-</span> <span class="va">MR2_3F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">col_names</span><span class="op">)</span>,</span>
-<span>            vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>            vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"blue"</span>,</span>
-<span>                       high <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
+<span>                       high <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Results After Adding\nThe Third Factor"</span>,</span>
 <span>       x <span class="op">=</span> <span class="st">"Original Factor 1"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"New Factor 1"</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">"Factor 2 Change"</span>,</span>
-<span>       size <span class="op">=</span> <span class="st">"Factor 3"</span><span class="op">)</span><span class="op">+</span></span>
+<span>       size <span class="op">=</span> <span class="st">"Factor 3"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, </span>
 <span>                                  face <span class="op">=</span> <span class="st">"bold"</span>,</span>
 <span>                                  size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span>,</span>
