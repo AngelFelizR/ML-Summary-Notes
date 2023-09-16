@@ -942,6 +942,164 @@ fviz_nbclust(ames_scale,
 
 - As there there are more than 30 indices and methods to we can compute all them in order to decide the best number of clusters using the **majority rule**
 
+
+## Exploratory Factor Analysis
+
+### Coding Example
+
+1. Loading libraries to use
+
+```{r}
+library(ade4)
+library(GPArotation)
+library(psych)
+
+data(olympic)
+OlympicDt <- as.data.table(olympic$tab)
+
+extract_fa_summary <- function(x){
+  
+  as.data.table(
+    # The [] are really good trick 
+    # to transform object class from loadings to matrix
+    x$loadings[],
+    keep.rownames = "col_names"
+  )[, `:=`(complexity = x$complexity,
+           communalities = x$communalities,
+           uniquenesses = x$uniquenesses)][]
+  
+}
+```
+
+2. Run the default EFA
+
+```{r}
+FaDefault <- fa(
+  OlympicDt,
+  nfactors = 2,
+  rotate = "none"
+)
+
+FaDefaultSummary <- extract_fa_summary(FaDefault)
+
+FaDefaultSummary
+```
+
+As MR1 shows some negative correlations as for those exports higher values represent bad results.
+
+3. Let's change the sign in columns were the variable is measuring time.
+
+```{r}
+NegCors <- FaDefaultSummary[MR1 < 0, col_names]
+
+OlympicDtNeg <-
+  copy(OlympicDt)[, (NegCors) := lapply(.SD, `-`),
+                  .SDcols = NegCors]
+
+FaNeg <- fa(
+  OlympicDtNeg,
+  nfactors = 2,
+  rotate = "none"
+)
+
+FaNegSummary <- extract_fa_summary(FaNeg)
+
+FaNegSummary[order(-MR1)]
+
+```
+
+Now as all items have positive correlations we know that the first factor is measuring good physical condition.
+
+```{r}
+FaNegSummary[order(-MR2)]
+```
+
+After arranging the second factor we can see that we have positive correlations with exports that need strength and the negative items are more related to running.
+
+4. Rotate the factors to get a different interpretation.
+
+```{r}
+FaRotated <- fa(
+  OlympicDtNeg,
+  nfactors = 2,
+  rotate = "oblimin"
+)
+
+FaRotatedSummary <- extract_fa_summary(FaRotated)
+
+FaRotatedSummary
+```
+
+After checking the results we can have the next conclusions:
+
+  - First factor is correlated with running exports from `400` to `long` as they complexity is close to 1.
+  
+```{r}
+FaRotatedSummary[order(-MR1)]
+```
+  
+  - The second factor is related to strength exports from `poid` to `jave`.
+  
+```{r}
+FaRotatedSummary[order(-MR2)]
+```  
+  
+  - To be good at `perc` you need to be good at running and have enough strength, having strength might makes harder to run `1500` and the current model doesn't explain `haut`.
+  
+```{r}
+FaRotatedSummary[order(-complexity)]
+```  
+
+5. Adding other factor.
+
+```{r}
+FaRotated3 <- fa(
+  OlympicDtNeg,
+  nfactors = 3,
+  rotate = "oblimin"
+)
+
+FaRotated3Summary <- extract_fa_summary(FaRotated3)
+
+FaRotated3Summary[order(-MR3)]
+
+```
+
+The new third factor is related to `1500`, the `long` and `400` factors are now related to `MR1` and `MR3`.
+
+6. Confirm your results by creatinga  chart.
+
+```{r}
+merge(x = FaRotatedSummary,
+      y = FaRotated3Summary,
+      by = "col_names",
+      suffixes = c("_2F", "_3F")) |>
+  ggplot(aes(MR1_2F, MR1_3F))+
+  geom_blank(aes(MR1_2F*1.1, MR1_3F*1.1))+
+  geom_point(aes(size = MR3,
+                 color = abs(MR2_2F - MR2_3F)))+
+  geom_abline()+
+  geom_text(aes(label = col_names),
+            vjust = -1)+
+  scale_x_continuous(labels = scales::percent_format(),
+                     breaks = scales::breaks_width(0.2))+
+    scale_y_continuous(labels = scales::percent_format(),
+                     breaks = scales::breaks_width(0.2))+
+  scale_size(labels = scales::percent_format())+
+  scale_color_gradient(low = "blue",
+                       high = "red")+
+  labs(title = "Results After Adding\nThe Third Factor",
+       x = "Original Factor 1",
+       y = "New Factor 1",
+       color = "Factor 2 Change",
+       size = "Factor 3")+
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  face = "bold",
+                                  size = 16),
+        legend.position = "top")
+```
+
+
 ### Finding clusters patterns
 
 Para find cluster's patterns we have 3 alternatives:

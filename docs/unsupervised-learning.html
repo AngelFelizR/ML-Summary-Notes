@@ -301,7 +301,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#partitioning-around-medians-pam" id="toc-partitioning-around-medians-pam" class="nav-link" data-scroll-target="#partitioning-around-medians-pam"><span class="header-section-number">10.3.3</span> Partitioning around medians (PAM)</a></li>
   <li><a href="#clustering-large-applications-clara" id="toc-clustering-large-applications-clara" class="nav-link" data-scroll-target="#clustering-large-applications-clara"><span class="header-section-number">10.3.4</span> Clustering large applications (CLARA)</a></li>
   <li><a href="#selecting-number-of-clusters" id="toc-selecting-number-of-clusters" class="nav-link" data-scroll-target="#selecting-number-of-clusters"><span class="header-section-number">10.3.5</span> Selecting number of clusters</a></li>
-  <li><a href="#finding-clusters-patterns" id="toc-finding-clusters-patterns" class="nav-link" data-scroll-target="#finding-clusters-patterns"><span class="header-section-number">10.3.6</span> Finding clusters patterns</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#exploratory-factor-analysis" id="toc-exploratory-factor-analysis" class="nav-link" data-scroll-target="#exploratory-factor-analysis"><span class="header-section-number">10.4</span> Exploratory Factor Analysis</a>
+  <ul>
+<li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="header-section-number">10.4.1</span> Coding Example</a></li>
+  <li><a href="#finding-clusters-patterns" id="toc-finding-clusters-patterns" class="nav-link" data-scroll-target="#finding-clusters-patterns"><span class="header-section-number">10.4.2</span> Finding clusters patterns</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -503,19 +509,19 @@ Z_1 = \phi_{11} X_1 + \phi_{21} X_2 + \dots + \phi_{p1} X_p
 H2O is not running yet, starting it now...
 
 Note:  In case of errors look at the following log files:
-    C:\Users\angel\AppData\Local\Temp\RtmpYX5P4u\file1e2c2f878b6/h2o_angel_started_from_r.out
-    C:\Users\angel\AppData\Local\Temp\RtmpYX5P4u\file1e2c31fc2435/h2o_angel_started_from_r.err
+    C:\Users\angel\AppData\Local\Temp\RtmpaqNIv4\file9fc9c039f9/h2o_angel_started_from_r.out
+    C:\Users\angel\AppData\Local\Temp\RtmpaqNIv4\file9fc156236b6/h2o_angel_started_from_r.err
 
 
-Starting H2O JVM and connecting:  Connection successful!
+Starting H2O JVM and connecting: . Connection successful!
 
 R is connected to the H2O cluster: 
-    H2O cluster uptime:         4 seconds 860 milliseconds 
+    H2O cluster uptime:         6 seconds 113 milliseconds 
     H2O cluster timezone:       America/La_Paz 
     H2O data parsing timezone:  UTC 
     H2O cluster version:        3.40.0.4 
-    H2O cluster version age:    4 months and 8 days 
-    H2O cluster name:           H2O_started_from_R_angel_yif231 
+    H2O cluster version age:    4 months and 18 days 
+    H2O cluster name:           H2O_started_from_R_angel_ypc389 
     H2O cluster total nodes:    1 
     H2O cluster total memory:   4.43 GB 
     H2O cluster total cores:    8 
@@ -584,13 +590,12 @@ R is connected to the H2O cluster:
 <span></span>
 <span><span class="va">stats_pca_variance</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      PC  std.dev percent cumulative
-   &lt;num&gt;    &lt;num&gt;   &lt;num&gt;      &lt;num&gt;
-1:     1 1.513919 0.05457    0.05457
-2:     2 1.473768 0.05171    0.10628
-3:     3 1.459114 0.05069    0.15698
-4:     4 1.440635 0.04941    0.20639
-5:     5 1.435279 0.04905    0.25544</code></pre>
+<pre><code>   PC  std.dev percent cumulative
+1:  1 1.513919 0.05457    0.05457
+2:  2 1.473768 0.05171    0.10628
+3:  3 1.459114 0.05069    0.15698
+4:  4 1.440635 0.04941    0.20639
+5:  5 1.435279 0.04905    0.25544</code></pre>
 </div>
 </div>
 </div>
@@ -602,7 +607,6 @@ R is connected to the H2O cluster:
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">5L</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   component Standard deviation Proportion of Variance Cumulative Proportion
-      &lt;char&gt;              &lt;num&gt;                  &lt;num&gt;                 &lt;num&gt;
 1:       pc1           1.513919             0.05457025            0.05457025
 2:       pc2           1.473768             0.05171412            0.10628436
 3:       pc3           1.459114             0.05069078            0.15697514
@@ -643,7 +647,6 @@ R is connected to the H2O cluster:
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stats_pca_variance</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>total_variance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">std.dev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   total_variance
-            &lt;num&gt;
 1:             42</code></pre>
 </div>
 </div>
@@ -651,18 +654,17 @@ R is connected to the H2O cluster:
 <div class="cell">
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stats_pca_variance</span><span class="op">[</span><span class="va">std.dev</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       PC  std.dev percent cumulative
-    &lt;num&gt;    &lt;num&gt;   &lt;num&gt;      &lt;num&gt;
- 1:     1 1.513919 0.05457    0.05457
- 2:     2 1.473768 0.05171    0.10628
- 3:     3 1.459114 0.05069    0.15698
- 4:     4 1.440635 0.04941    0.20639
- 5:     5 1.435279 0.04905    0.25544
- 6:     6 1.411544 0.04744    0.30288
- 7:     7 1.253307 0.03740    0.34028
- 8:     8 1.026387 0.02508    0.36536
- 9:     9 1.010238 0.02430    0.38966
-10:    10 1.007253 0.02416    0.41382</code></pre>
+<pre><code>    PC  std.dev percent cumulative
+ 1:  1 1.513919 0.05457    0.05457
+ 2:  2 1.473768 0.05171    0.10628
+ 3:  3 1.459114 0.05069    0.15698
+ 4:  4 1.440635 0.04941    0.20639
+ 5:  5 1.435279 0.04905    0.25544
+ 6:  6 1.411544 0.04744    0.30288
+ 7:  7 1.253307 0.03740    0.34028
+ 8:  8 1.026387 0.02508    0.36536
+ 9:  9 1.010238 0.02430    0.38966
+10: 10 1.007253 0.02416    0.41382</code></pre>
 </div>
 </div>
 </section><section id="scree-plot-criterion" class="level4"><h4 class="anchored" data-anchor-id="scree-plot-criterion">Scree plot criterion</h4>
@@ -707,9 +709,8 @@ R is connected to the H2O cluster:
 <div class="cell">
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stats_pca_variance</span><span class="op">[</span><span class="va">cumulative</span> <span class="op">&gt;=</span> <span class="fl">0.75</span><span class="op">]</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      PC   std.dev percent cumulative
-   &lt;num&gt;     &lt;num&gt;   &lt;num&gt;      &lt;num&gt;
-1:    27 0.8718093  0.0181    0.76444</code></pre>
+<pre><code>   PC   std.dev percent cumulative
+1: 27 0.8718093  0.0181    0.76444</code></pre>
 </div>
 </div>
 </section><section id="conclusion" class="level4"><h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
@@ -1314,12 +1315,12 @@ D = \frac{2a}{2a + b +c}
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/kmeans.html">kmeans</a></span><span class="op">(</span><span class="va">my_basket</span>, centers <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.00    0.00    0.01 </code></pre>
+   0.02    0.00    0.01 </code></pre>
 </div>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/cluster/man/clara.html">clara</a></span><span class="op">(</span><span class="va">my_basket</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-   0.02    0.00    0.02 </code></pre>
+   0.01    0.00    0.02 </code></pre>
 </div>
 </div>
 </section><section id="selecting-number-of-clusters" class="level3" data-number="10.3.5"><h3 data-number="10.3.5" class="anchored" data-anchor-id="selecting-number-of-clusters">
@@ -1454,8 +1455,274 @@ D = \frac{2a}{2a + b +c}
 <ul>
 <li>As there there are more than 30 indices and methods to we can compute all them in order to decide the best number of clusters using the <strong>majority rule</strong>
 </li>
-</ul></section><section id="finding-clusters-patterns" class="level3" data-number="10.3.6"><h3 data-number="10.3.6" class="anchored" data-anchor-id="finding-clusters-patterns">
-<span class="header-section-number">10.3.6</span> Finding clusters patterns</h3>
+</ul></section></section><section id="exploratory-factor-analysis" class="level2" data-number="10.4"><h2 data-number="10.4" class="anchored" data-anchor-id="exploratory-factor-analysis">
+<span class="header-section-number">10.4</span> Exploratory Factor Analysis</h2>
+<section id="coding-example-2" class="level3" data-number="10.4.1"><h3 data-number="10.4.1" class="anchored" data-anchor-id="coding-example-2">
+<span class="header-section-number">10.4.1</span> Coding Example</h3>
+<ol type="1">
+<li>Loading libraries to use</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://pbil.univ-lyon1.fr/ADE-4/">ade4</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://optimizer.r-forge.r-project.org/GPArotation_www/">GPArotation</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://personality-project.org/r/psych/">psych</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">olympic</span><span class="op">)</span></span>
+<span><span class="va">OlympicDt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="va">olympic</span><span class="op">$</span><span class="va">tab</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">extract_fa_summary</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span></span>
+<span>    <span class="co"># The [] are really good trick </span></span>
+<span>    <span class="co"># to transform object class from loadings to matrix</span></span>
+<span>    <span class="va">x</span><span class="op">$</span><span class="va">loadings</span><span class="op">[</span><span class="op">]</span>,</span>
+<span>    keep.rownames <span class="op">=</span> <span class="st">"col_names"</span></span>
+<span>  <span class="op">)</span><span class="op">[</span>, <span class="fu">`:=`</span><span class="op">(</span>complexity <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">complexity</span>,</span>
+<span>           communalities <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">communalities</span>,</span>
+<span>           uniquenesses <span class="op">=</span> <span class="va">x</span><span class="op">$</span><span class="va">uniquenesses</span><span class="op">)</span><span class="op">]</span><span class="op">[</span><span class="op">]</span></span>
+<span>  </span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Run the default EFA</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaDefault</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<span>  <span class="va">OlympicDt</span>,</span>
+<span>  nfactors <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  rotate <span class="op">=</span> <span class="st">"none"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaDefaultSummary</span> <span class="op">&lt;-</span> <span class="fu">extract_fa_summary</span><span class="op">(</span><span class="va">FaDefault</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaDefaultSummary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names        MR1         MR2 complexity communalities uniquenesses
+ 1:       100 -0.7137105  0.25681201   1.254681    0.57533508   0.42466494
+ 2:      long  0.6487212 -0.25057510   1.291896    0.48362698   0.51637289
+ 3:      poid  0.5619076  0.79354373   1.801345    0.94545194   0.05454816
+ 4:      haut  0.3067493  0.01369787   1.003988    0.09428232   0.90571722
+ 5:       400 -0.6265302  0.57944318   1.987915    0.72829430   0.27170557
+ 6:       110 -0.7470264  0.14562740   1.075896    0.57925571   0.42074421
+ 7:      disq  0.3516307  0.75158223   1.417759    0.68851997   0.31148000
+ 8:      perc  0.6456073  0.16696264   1.133166    0.44468513   0.55531465
+ 9:      jave  0.3045271  0.46544681   1.723550    0.30937671   0.69062251
+10:      1500 -0.2518295  0.58072631   1.363252    0.40066125   0.59933885</code></pre>
+</div>
+</div>
+<p>As MR1 shows some negative correlations as for those exports higher values represent bad results.</p>
+<ol start="3" type="1">
+<li>Let’s change the sign in columns were the variable is measuring time.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">NegCors</span> <span class="op">&lt;-</span> <span class="va">FaDefaultSummary</span><span class="op">[</span><span class="va">MR1</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="va">col_names</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">OlympicDtNeg</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/copy.html">copy</a></span><span class="op">(</span><span class="va">OlympicDt</span><span class="op">)</span><span class="op">[</span>, <span class="op">(</span><span class="va">NegCors</span><span class="op">)</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">.SD</span>, <span class="va">`-`</span><span class="op">)</span>,</span>
+<span>                  .SDcols <span class="op">=</span> <span class="va">NegCors</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">FaNeg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<span>  <span class="va">OlympicDtNeg</span>,</span>
+<span>  nfactors <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  rotate <span class="op">=</span> <span class="st">"none"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaNegSummary</span> <span class="op">&lt;-</span> <span class="fu">extract_fa_summary</span><span class="op">(</span><span class="va">FaNeg</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaNegSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR1</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names       MR1         MR2 complexity communalities uniquenesses
+ 1:       110 0.7470264 -0.14562740   1.075896    0.57925571   0.42074421
+ 2:       100 0.7137105 -0.25681201   1.254681    0.57533508   0.42466494
+ 3:      long 0.6487212 -0.25057510   1.291896    0.48362698   0.51637289
+ 4:      perc 0.6456073  0.16696264   1.133166    0.44468513   0.55531465
+ 5:       400 0.6265302 -0.57944318   1.987915    0.72829430   0.27170557
+ 6:      poid 0.5619076  0.79354373   1.801345    0.94545194   0.05454816
+ 7:      disq 0.3516307  0.75158223   1.417759    0.68851997   0.31148000
+ 8:      haut 0.3067493  0.01369787   1.003988    0.09428232   0.90571722
+ 9:      jave 0.3045271  0.46544681   1.723550    0.30937671   0.69062251
+10:      1500 0.2518295 -0.58072631   1.363252    0.40066125   0.59933885</code></pre>
+</div>
+</div>
+<p>Now as all items have positive correlations we know that the first factor is measuring good physical condition.</p>
+<div class="cell">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaNegSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names       MR1         MR2 complexity communalities uniquenesses
+ 1:      poid 0.5619076  0.79354373   1.801345    0.94545194   0.05454816
+ 2:      disq 0.3516307  0.75158223   1.417759    0.68851997   0.31148000
+ 3:      jave 0.3045271  0.46544681   1.723550    0.30937671   0.69062251
+ 4:      perc 0.6456073  0.16696264   1.133166    0.44468513   0.55531465
+ 5:      haut 0.3067493  0.01369787   1.003988    0.09428232   0.90571722
+ 6:       110 0.7470264 -0.14562740   1.075896    0.57925571   0.42074421
+ 7:      long 0.6487212 -0.25057510   1.291896    0.48362698   0.51637289
+ 8:       100 0.7137105 -0.25681201   1.254681    0.57533508   0.42466494
+ 9:       400 0.6265302 -0.57944318   1.987915    0.72829430   0.27170557
+10:      1500 0.2518295 -0.58072631   1.363252    0.40066125   0.59933885</code></pre>
+</div>
+</div>
+<p>After arranging the second factor we can see that we have positive correlations with exports that need strength and the negative items are more related to running.</p>
+<ol start="4" type="1">
+<li>Rotate the factors to get a different interpretation.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<span>  <span class="va">OlympicDtNeg</span>,</span>
+<span>  nfactors <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  rotate <span class="op">=</span> <span class="st">"oblimin"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaRotatedSummary</span> <span class="op">&lt;-</span> <span class="fu">extract_fa_summary</span><span class="op">(</span><span class="va">FaRotated</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaRotatedSummary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
+ 1:       100  0.74363071  0.10728317   1.041609    0.57533508   0.42466494
+ 2:      long  0.68497344  0.08232462   1.028884    0.48362698   0.51637289
+ 3:      poid  0.05957999  0.96647757   1.007600    0.94545194   0.05454816
+ 4:      haut  0.25408053  0.15601402   1.660220    0.09428232   0.90571722
+ 5:       400  0.83975679 -0.21939302   1.135878    0.72829430   0.27170557
+ 6:       110  0.71329125  0.22139650   1.190909    0.57925571   0.42074421
+ 7:      disq -0.09739014  0.83067815   1.027486    0.68851997   0.31148000
+ 8:      perc  0.46180342  0.45071592   1.998820    0.44468513   0.55531465
+ 9:      jave  0.01360190  0.55512758   1.001201    0.30937671   0.69062251
+10:      1500  0.52123292 -0.39628266   1.866531    0.40066125   0.59933885</code></pre>
+</div>
+</div>
+<p>After checking the results we can have the next conclusions:</p>
+<ul>
+<li>First factor is correlated with running exports from <code>400</code> to <code>long</code> as they complexity is close to 1.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR1</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
+ 1:       400  0.83975679 -0.21939302   1.135878    0.72829430   0.27170557
+ 2:       100  0.74363071  0.10728317   1.041609    0.57533508   0.42466494
+ 3:       110  0.71329125  0.22139650   1.190909    0.57925571   0.42074421
+ 4:      long  0.68497344  0.08232462   1.028884    0.48362698   0.51637289
+ 5:      1500  0.52123292 -0.39628266   1.866531    0.40066125   0.59933885
+ 6:      perc  0.46180342  0.45071592   1.998820    0.44468513   0.55531465
+ 7:      haut  0.25408053  0.15601402   1.660220    0.09428232   0.90571722
+ 8:      poid  0.05957999  0.96647757   1.007600    0.94545194   0.05454816
+ 9:      jave  0.01360190  0.55512758   1.001201    0.30937671   0.69062251
+10:      disq -0.09739014  0.83067815   1.027486    0.68851997   0.31148000</code></pre>
+</div>
+</div>
+<ul>
+<li>The second factor is related to strength exports from <code>poid</code> to <code>jave</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR2</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
+ 1:      poid  0.05957999  0.96647757   1.007600    0.94545194   0.05454816
+ 2:      disq -0.09739014  0.83067815   1.027486    0.68851997   0.31148000
+ 3:      jave  0.01360190  0.55512758   1.001201    0.30937671   0.69062251
+ 4:      perc  0.46180342  0.45071592   1.998820    0.44468513   0.55531465
+ 5:       110  0.71329125  0.22139650   1.190909    0.57925571   0.42074421
+ 6:      haut  0.25408053  0.15601402   1.660220    0.09428232   0.90571722
+ 7:       100  0.74363071  0.10728317   1.041609    0.57533508   0.42466494
+ 8:      long  0.68497344  0.08232462   1.028884    0.48362698   0.51637289
+ 9:       400  0.83975679 -0.21939302   1.135878    0.72829430   0.27170557
+10:      1500  0.52123292 -0.39628266   1.866531    0.40066125   0.59933885</code></pre>
+</div>
+</div>
+<ul>
+<li>To be good at <code>perc</code> you need to be good at running and have enough strength, having strength might makes harder to run <code>1500</code> and the current model doesn’t explain <code>haut</code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotatedSummary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">complexity</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names         MR1         MR2 complexity communalities uniquenesses
+ 1:      perc  0.46180342  0.45071592   1.998820    0.44468513   0.55531465
+ 2:      1500  0.52123292 -0.39628266   1.866531    0.40066125   0.59933885
+ 3:      haut  0.25408053  0.15601402   1.660220    0.09428232   0.90571722
+ 4:       110  0.71329125  0.22139650   1.190909    0.57925571   0.42074421
+ 5:       400  0.83975679 -0.21939302   1.135878    0.72829430   0.27170557
+ 6:       100  0.74363071  0.10728317   1.041609    0.57533508   0.42466494
+ 7:      long  0.68497344  0.08232462   1.028884    0.48362698   0.51637289
+ 8:      disq -0.09739014  0.83067815   1.027486    0.68851997   0.31148000
+ 9:      poid  0.05957999  0.96647757   1.007600    0.94545194   0.05454816
+10:      jave  0.01360190  0.55512758   1.001201    0.30937671   0.69062251</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Adding other factor.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">FaRotated3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/psych/man/fa.html">fa</a></span><span class="op">(</span></span>
+<span>  <span class="va">OlympicDtNeg</span>,</span>
+<span>  nfactors <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  rotate <span class="op">=</span> <span class="st">"oblimin"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaRotated3Summary</span> <span class="op">&lt;-</span> <span class="fu">extract_fa_summary</span><span class="op">(</span><span class="va">FaRotated3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">FaRotated3Summary</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">MR3</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    col_names          MR1         MR2         MR3 complexity communalities
+ 1:      1500  0.003753265 -0.05992761  0.88990937   1.009105    0.82720135
+ 2:      long  0.450088329  0.18593744  0.37985963   2.307547    0.49280544
+ 3:       400  0.623819228 -0.15638420  0.36089111   1.750136    0.68637827
+ 4:      jave -0.150141914  0.70682481  0.19604923   1.249068    0.41972639
+ 5:       100  0.725029988  0.02808030  0.09573790   1.037913    0.58952541
+ 6:      haut  0.207138333  0.16086084  0.08540410   2.257498    0.09434134
+ 7:      perc  0.476748412  0.37584090  0.00799539   1.897303    0.44434936
+ 8:      poid  0.062219693  0.95307506 -0.03125526   1.010684    0.95312415
+ 9:       110  0.906603876  0.01221335 -0.13377492   1.043896    0.76358834
+10:      disq  0.000360462  0.75003215 -0.16983917   1.102284    0.66191704
+    uniquenesses
+ 1:   0.17279751
+ 2:   0.50719138
+ 3:   0.31361941
+ 4:   0.58026537
+ 5:   0.41047863
+ 6:   0.90565800
+ 7:   0.55564693
+ 8:   0.04687213
+ 9:   0.23641248
+10:   0.33807947</code></pre>
+</div>
+</div>
+<p>The new third factor is related to <code>1500</code>, the <code>long</code> and <code>400</code> factors are now related to <code>MR1</code> and <code>MR3</code>.</p>
+<ol start="6" type="1">
+<li>Confirm your results by creatinga chart.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">FaRotatedSummary</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">FaRotated3Summary</span>,</span>
+<span>      by <span class="op">=</span> <span class="st">"col_names"</span>,</span>
+<span>      suffixes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"_2F"</span>, <span class="st">"_3F"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">MR1_2F</span>, <span class="va">MR1_3F</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_blank.html">geom_blank</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">MR1_2F</span><span class="op">*</span><span class="fl">1.1</span>, <span class="va">MR1_3F</span><span class="op">*</span><span class="fl">1.1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>size <span class="op">=</span> <span class="va">MR3</span>,</span>
+<span>                 color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">MR2_2F</span> <span class="op">-</span> <span class="va">MR2_3F</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">col_names</span><span class="op">)</span>,</span>
+<span>            vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                     breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_width.html">breaks_width</a></span><span class="op">(</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>                       high <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Results After Adding\nThe Third Factor"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Original Factor 1"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"New Factor 1"</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">"Factor 2 Change"</span>,</span>
+<span>       size <span class="op">=</span> <span class="st">"Factor 3"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, </span>
+<span>                                  face <span class="op">=</span> <span class="st">"bold"</span>,</span>
+<span>                                  size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span>,</span>
+<span>        legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="unsupervised-learning_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section><section id="finding-clusters-patterns" class="level3" data-number="10.4.2"><h3 data-number="10.4.2" class="anchored" data-anchor-id="finding-clusters-patterns">
+<span class="header-section-number">10.4.2</span> Finding clusters patterns</h3>
 <p>Para find cluster’s patterns we have 3 alternatives:</p>
 <ol type="1">
 <li><p>Using summary statistics by feature to compare groups with groups or one cluster the rest of the data.</p></li>

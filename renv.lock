@@ -89,6 +89,14 @@
         "scatterplot3d"
       ]
     },
+    "GPArotation": {
+      "Package": "GPArotation",
+      "Version": "2023.8-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9c021324c9ea7e2960cb55e90f1b7348",
+      "Requirements": []
+    },
     "GPfit": {
       "Package": "GPfit",
       "Version": "1.0-8",
@@ -339,6 +347,20 @@
       "Repository": "CRAN",
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862",
       "Requirements": []
+    },
+    "ade4": {
+      "Package": "ade4",
+      "Version": "1.7-22",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "9768be866e8e02810e94ceb95b32b367",
+      "Requirements": [
+        "MASS",
+        "Rcpp",
+        "RcppArmadillo",
+        "pixmap",
+        "sp"
+      ]
     },
     "backports": {
       "Package": "backports",
@@ -663,7 +685,7 @@
       "Version": "1.14.8",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "b11433606c156cc08a797faffd9c65f1",
+      "Hash": "b4c06e554f33344e044ccd7fdca750a9",
       "Requirements": []
     },
     "dendextend": {
@@ -1675,6 +1697,14 @@
         "Rcpp"
       ]
     },
+    "mnormt": {
+      "Package": "mnormt",
+      "Version": "2.1.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c83992ef63553d1e4b97162a4a753470",
+      "Requirements": []
+    },
     "modeldata": {
       "Package": "modeldata",
       "Version": "1.1.0",
@@ -1850,6 +1880,14 @@
         "vctrs"
       ]
     },
+    "pixmap": {
+      "Package": "pixmap",
+      "Version": "0.4-12",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "ff0e0b97265ced0db4d13d0005334d78",
+      "Requirements": []
+    },
     "pkgconfig": {
       "Package": "pkgconfig",
       "Version": "2.0.3",
@@ -2010,6 +2048,18 @@
       "Repository": "CRAN",
       "Hash": "eef74b13f32cae6bb0d495e53317c44c",
       "Requirements": []
+    },
+    "psych": {
+      "Package": "psych",
+      "Version": "2.3.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "458f21cdb24a71340615df3393e8fab1",
+      "Requirements": [
+        "lattice",
+        "mnormt",
+        "nlme"
+      ]
     },
     "purrr": {
       "Package": "purrr",
@@ -2365,6 +2415,16 @@
       "Repository": "CRAN",
       "Hash": "5f5a7629f956619d519205ec475fe647",
       "Requirements": []
+    },
+    "sp": {
+      "Package": "sp",
+      "Version": "2.0-0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "2551981e6f85d59c81652bf654d6c3ca",
+      "Requirements": [
+        "lattice"
+      ]
     },
     "stringi": {
       "Package": "stringi",
