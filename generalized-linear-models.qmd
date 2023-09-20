@@ -252,6 +252,9 @@ ames_recipe <-
 To make correct interpretations of our predictions it's important to remember that we need to **revert this transformation after getting the prediction**.
 
 
+This actions will reduce the **relative error** of each prediction. 
+
+
 #### Collinearity
 
 **Collinearity** refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for $\hat{\beta}_{j}$ to grow. That reduce the **power of the hypothesis test**,that is, the probability of correctly detecting a non-zero coeﬃcient.
@@ -356,6 +359,73 @@ workflow() %>%
   last_fit(split = BikeshareSpit) %>%
   collect_metrics()
 ```
+
+## Extending Linear Regression (Data Transformations)
+
+### Polynomial regression 
+
+It extends the *linear model* by adding extra predictors, obtained by **raising each of the original predictors to a power**. 
+
+As result, if the response is a numeric variable we can fit our model to follow the next form:
+
+$$
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d + \epsilon_i
+$$
+
+
+![](img/35-polynomial-4degree-regression.png){fig-align="center"}
+
+On the other hand, we can use the *logistic regression* and apply the same structure to predict the probability of particular class:
+
+$$
+\Pr(y_i > 250|x_i) = \frac{\exp(\beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d)}
+                          {1 + \exp(\beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d)}
+$$
+
+![](img/36-polynomial-4degree-logistic-regression.png){fig-align="center"}
+
+### Piecewise constant regression
+
+They **cut the range of a variable into K distinct regions** (known as *bins*) in order to produce a qualitative variable. This has the eﬀect of ﬁtting a piecewise constant function.
+
+If we define the cutpoints as $c_1, c_2, \dots, c_K$ in the range of *X*, we can create *dummy variables* to represent each range. For example, if $c_1 \leq x_i < c_2$ is `TRUE` then $C_1(x_i) = 1$ and then we need to repeat that process for each value of $X$ and range. As result we can fit a *lineal regression* based on the new variables.
+
+$$
+y_i = \beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i) + \epsilon_i
+$$
+
+![](img/37-step-function-regression.png){fig-align="center"}
+
+On the other hand, we can use the *logistic regression* and apply the same structure to predict the probability of particular class:
+
+$$
+\Pr(y_i > 250|x_i) = \frac{\exp(\beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i)}
+                          {1 + \exp(\beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i))}
+$$
+
+![](img/38-step-function-logistic-regression.png){fig-align="center"}
+
+### Piecewise polynomials regression (Natural Spine)
+
+It consist in ﬁtting separate low-degree polynomials over diﬀerent regions of *X*. For example, a **piecewise cubic polynomial** with a single knot at a point *c* takes the form.
+
+$$
+y_i =
+  \begin{cases}
+    \beta_{01} + \beta_{11} x_i + \beta_{21} x_i^2 + \beta_{31} x_i^3 + \epsilon_i &  \text{if } x_i<c\\
+    \beta_{02} + \beta_{12} x_i + \beta_{22} x_i^2 + \beta_{32} x_i^3 + \epsilon_i &  \text{if } x_i \geq c
+  \end{cases}
+$$
+
+As each polynomial has four parameters, we are using a total of **8 degrees of freedom** in ﬁtting that model. By using that model with `Wage`data, we can see a problem as the model used was **too flexible** and to solve it we need to **constrain** it to be continuous at `age = 50`. 
+
+![](img/39-piecewise-cubic-example.png){fig-align="center"}
+But as you could see after applying the **continuity constraint** the plot still present an unnatural V-shape that can solve by apply the **continuity constraint** to the *first* and *second* derivative of the function, the end with **5 degrees of freedom** model.
+
+![](img/40-constrained-piecewise-cubic-example.png){fig-align="center"}
+ 
+In this context, a **natural spline** refers to a *regression spline* with the additional constraints of maintaining **linearity at the boundaries**. 
+
 
 
 ## Subset Selection
@@ -803,10 +873,14 @@ explain_tidymodels(
   plot()
 ```
 
-
 ## Poisson Regression 
 
-If $Y \in \{ 0, 1, 2, 3, \dots \}$ that could be the result after **counting** a particular event the *linear regression* might not meet our needs as it could bring negative numbers. The **Poisson Distribution** follow the next function:
+If match with the next conditions we can fit a model based on **Poisson Distribution**:
+
+- The outcome variable is the result of **counting**, so $Y \in \{ 0, 1, 2, 3, \dots \}$.
+- $Ave(Y) \approx Var(Y) $, if not you can use the **Quasipoisson Distribution**.
+
+The *Poisson Distribution* follow the next function:
 
 $$
 Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
@@ -972,4 +1046,82 @@ accuracy(SmarketLrPredictions, truth = Direction, estimate = .pred_class)
 
 ```
 
+
+## Generalized Additive Models (GAM)
+
+They provide a general framework for extending a standard linear model by allowing non-linear functions of each of the variables, while maintaining additivity.
+
+To transform each predictor we have the next options:
+
+- A constant for each categorical level (step function)
+- Polynomial regression
+- Natural spines (optimized with least squares)
+- Smoothing splines (optimized with backﬁtting)
+- Local regression
+
+::: {.callout-note}
+**Backﬁtting** ﬁts a model involving multiple predictors by repeatedly updating the ﬁt for each predictor in turn, holding the others ﬁxed.
+:::
+
+|Pros|Cons|
+|:---|:---|
+|1. It **finds relationships that a lineal model would miss** without applying many transformations as it can fit a non-linear $f_j$ to each $X_j$ <br> <br> 2. We can **examine the eﬀect of each predictor on $Y$** individually as the model is additive. <br> <br> 3. The *smoothness* of each function $f_j$ can be summarized via **degrees of freedom**.|1. Important **interactions can be missed**, but they can be added manually|
+
+
+### GAM Regression
+
+To predict a numeric variable this method creates a function with the next form:
+
+$$
+y_i = \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip}) + \epsilon_i
+$$
+
+By taking the other predictor as constant we can plot effect of each function for each predictor in the `Wage` example:
+
+![](img/43-gam-regression.png){fig-align="center"}
+
+### GAM Classification
+
+To predict a categorical variable this method creates a function with the next form:
+
+$$
+\log \left( \frac{p(X)}{1-p(X)} \right)= \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip})
+$$
+
+By taking the other predictor as constant we can plot effect of each function for each predictor in the `Wage` example:
+
+![](img/44-gam-classification.png){fig-align="center"}
+
+
+### Coding example
+
+The `mgcv` package supports the next families based on the outcome variable type.
+
+- **Gaussian (Default):** Regular regression
+- **Binomial:** Probabilities
+- **Poisson/Quasipoisson:** counts
+
+```{r}
+library(tidymodels)
+library(mgcv)
+
+load("data/Soybean.RData")
+
+gam_fitted <- gen_additive_mod(mode = "regression") |>
+  set_engine(engine = "mgcv",
+             family = gaussian) |>
+  fit(weight ~ s(Time), data = soybean_train) 
+
+augment(gam_fitted, 
+        new_data = soybean_train) |>
+  ggplot(aes(Time, weight))+
+  geom_point()+
+  geom_line(aes(y = .pred),
+            color = "blue",
+            linewidth = 1)+
+  theme_light()
+
+extract_fit_engine(gam_fitted) |>
+  summary()
+```
 

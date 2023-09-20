@@ -148,6 +148,18 @@ $$
 RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
 $$
 
+- **Test Root Mean Squared Relative Error (RMSRE)**: It takes in consideration the magnitude of each prediction so low different a important for low values but doesn't matter to much for high values. This error goes lower after logging the outcome variable.**Objective: minimize**.
+
+$$
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n \left( \frac{y_i - \hat{y}_i}{y_i} \right)^2}
+$$
+
+
+To know if the **RMSE of our model** is high or low can compare it with the **standard deviation of the outcome** (`sd(y)`), then if the *RMSE being smaller than the standard deviation* that demonstrates that *the model tends to estimate better than simply taking the average*.
+
+$$
+RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}
+$$
 
 - **Mean squared error (MSE)**: The squared component results in larger errors having larger penalties. **Objective: minimize**
 
@@ -159,7 +171,7 @@ $$
 
 
 
-- $R^2$: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable(s). But if have too many limitations and You should not place too much emphasis on this metric. **Objective: minimize**
+- $R^2$: This is a popular metric that represents the proportion of the variance in the dependent variable that is predictable from the independent variable(s). But if have too many limitations and You should not place too much emphasis on this metric. **Objective: maximize**
 
 $$
 
@@ -220,6 +232,13 @@ $$
 $$
 MSE = \frac{1}{n} \sum_{i=1}^n (1 - \hat{p}_i)^2
 $$
+
+- **pseudo-**$R^2$**:** Measure of the "deviance explained" by any GLM. **Objective: maximize**.
+
+$$
+pseudoR^2 = 1 - \frac{deviance}{null.deviance}
+$$
+
 
 
 - **Cross-entropy (aka Log Loss or Deviance)**: Similar to MSE but it incorporates a log of the predicted probability multiplied by the true class, it disproportionately punishes predictions where we predict a small probability for the true class (*having high confidence in the wrong answer is really bad*). **Objective: minimize**.

@@ -11,7 +11,7 @@ The category that drives missing values will determine how you handle them. For 
 
 ## Visualizing missing values
 
-It is important to understand the **distribution of missing values** in a data set in order to determine the best approach for preprocessing. 
+It is important to understand the **distribution of missing values** in a data set in order to determine the best approach for pre-processing. 
 
 ```r
 vis_miss(AmesHousing::ames_raw, cluster = TRUE)
