@@ -77,13 +77,17 @@ Our challenge lies in ﬁnding a method for which both the variance and the squa
 
 ![](img/01-accuracy-vs-interpretability.png){fig-align="center"}
 
-## Evaluating model performance
+## Evaluating Model Performance
 
-To evaluate how good works a models we need to split the available data in two parts. 
+Evaluating the performance of a model is a crucial step in the machine learning process. This involves splitting the available data into two distinct parts:
 
-- **Training data**: Used to fit the model.
-- **Test data**: Used to confirm how well the model works with new data.
+- **Training Data**: This is the data that we use to "train" or "fit" the model. The model learns from this data, which includes both the input features and the corresponding target values.
 
+- **Test Data**: This is the data that we use to evaluate how well our model generalizes to new, unseen data. It's important to note that this data is not used during the training phase.
+
+Comparing the performance metrics on **both datasets** allows us to assess whether our model is **too flexible** (overfitting) or **too simple** (underfitting) for the given task. 
+
+To mitigate these issues, we can use techniques such as **regularization** and **hyperparameter tuning**. These techniques help improve the model's ability to generalize, leading to more robust and reliable predictions on unseen data.
 
 ### Regression models
 
