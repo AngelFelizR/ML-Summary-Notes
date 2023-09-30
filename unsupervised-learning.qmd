@@ -963,6 +963,13 @@ fviz_nbclust(ames_scale,
 
 ## Exploratory Factor Analysis
 
+When running the EFA we get two important results
+
+- **Variable' factor loadings**: Quantify the relationship (correlation) between each factor and each feature.
+
+- **Observations' factor scores**: Estimates much of each factor each observation present.
+
+
 ### Coding Example
 
 1. Loading libraries to use
@@ -998,12 +1005,25 @@ FaDefault <- fa(
   rotate = "none"
 )
 
+fa.diagram(FaDefault)
+
 FaDefaultSummary <- extract_fa_summary(FaDefault)
 
 FaDefaultSummary
 ```
 
 As MR1 shows some negative correlations as for those exports higher values represent bad results.
+
+```{r}
+library(ggplot2)
+
+as.data.table(FaDefault$scores
+)[, id := .I
+][, melt(.SD, id.vars = "id", variable.factor = FALSE)] |>
+ggplot(aes(value))+
+  stat_ecdf(aes(color = variable))
+```
+
 
 3. Let's change the sign in columns were the variable is measuring time.
 
@@ -1019,6 +1039,8 @@ FaNeg <- fa(
   nfactors = 2,
   rotate = "none"
 )
+
+fa.diagram(FaNeg)
 
 FaNegSummary <- extract_fa_summary(FaNeg)
 
