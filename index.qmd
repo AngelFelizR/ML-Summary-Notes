@@ -8,6 +8,7 @@ if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
 renv::restore()
 ```
 
-The purpose of creating this book is share the lessons learnt by reading and completing the exercises in the book.
+In this book I will write notes related to ML methodology based on the next resources:
 
-It also could work as summary of the main point of the book.
+- [Hands-On Machine Learning with R](https://bradleyboehmke.github.io/HOML/)
+- [An Introduction to Statistical Learning](https://www.statlearning.com/)

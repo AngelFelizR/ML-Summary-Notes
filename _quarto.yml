@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "An Introduction to Statistical Learning (Non Official Solution Book)"
+  title: "Machine Learning with R Notes"
   author: "Angel Feliz"
   reader-mode: true
   page-navigation: true
@@ -13,36 +13,30 @@ book:
     pinned: true
 
   page-footer:
-    left: |
-      Non official solitions of An Introduction to Statistical Learning 
-      Second Edition
     right: |
       This book was built with <a href="https://quarto.org/">Quarto</a>.
-  cover-image: cover.png
-  favicon: cover.png
   repo-url: https://github.com/AngelFelizR/ISL-Solutuon-Book
   repo-branch: main
   chapters:
   - index.qmd
   - part: "Teorical Summary"
     chapters: 
-      - modeling-process.qmd
-      - missing-values.qmd
-      - model-performance.qmd
-      - resampling-methods.qmd
-      - generalized-linear-models.qmd
-      - generative-classification-models.qmd
-      - flexible-regression.qmd
-      - non-parametric-models.qmd
-      - survival-analysis.qmd
-      - unsupervised-learning.qmd
+      - 01-modeling-process.qmd
+      - 02-feature-engineering.qmd
+      - 03-model-performance.qmd
+      - 04-resampling-methods.qmd
+      - 05-generalized-linear-models.qmd
+      - 06-generative-classification-models.qmd
+      - 07-non-parametric-models.qmd
+      - 08-survival-analysis.qmd
+      - 09-unsupervised-learning.qmd
   - part: "Exercise Solutions"
     chapters:
-      - 02-execises.qmd
-      - 03-execises.qmd
-      - 04-execises.qmd
-      - 05-execises.qmd
-      - 11-execises.qmd
+      - execises-02.qmd
+      - execises-03.qmd
+      - execises-04.qmd
+      - execises-05.qmd
+      - execises-11.qmd
       
 format:
   html:
