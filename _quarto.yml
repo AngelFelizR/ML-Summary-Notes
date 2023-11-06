@@ -19,7 +19,7 @@ book:
   repo-branch: main
   chapters:
   - index.qmd
-  - part: "Teorical Summary"
+  - part: "Summary Notes"
     chapters: 
       - 01-modeling-process.qmd
       - 02-feature-engineering.qmd
@@ -30,7 +30,7 @@ book:
       - 07-non-parametric-models.qmd
       - 08-survival-analysis.qmd
       - 09-unsupervised-learning.qmd
-  - part: "Exercise Solutions"
+  - part: "ISLR Execices 2nd Edition"
     chapters:
       - execises-02.qmd
       - execises-03.qmd

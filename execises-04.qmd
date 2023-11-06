@@ -629,7 +629,9 @@ LogisticLagModelFit <-
   fit(Direction ~ Lag1 + Lag2 + Lag3 + Lag4 + Lag5 + Volume, data = WeeklyDT)
 
 LogisticLagTrainPred <-
-  cbind(WeeklyDT, augment(LogisticLagModelFit, new_data = NULL))
+  cbind(WeeklyDT, 
+        predict(LogisticLagModelFit,
+                new_data = NULL))
 
 summary(LogisticLagModelFit$fit)
 ```

@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.433">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 05 - Resampling Methods</title>
+<title>Machine Learning with R Notes - 05 - Resampling Methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,9 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./11-execises.html" rel="next">
-<link href="./04-execises.html" rel="prev">
-<link href="./cover.png" rel="icon" type="image/png">
+<link href="./execises-11.html" rel="next">
+<link href="./execises-04.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -98,7 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
+    <span class="navbar-title">Machine Learning with R Notes</span>
     </a>
   </div>
         <div class="quarto-navbar-tools ms-auto">
@@ -115,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02-execises.html">Exercise Solutions</a></li><li class="breadcrumb-item"><a href="./05-execises.html">05 - Resampling Methods</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./execises-02.html">ISLR Execices 2nd Edition</a></li><li class="breadcrumb-item"><a href="./execises-05.html">05 - Resampling Methods</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -140,7 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Teorical Summary</span></a>
+ <span class="menu-text">Summary Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -148,62 +147,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link">
+  <a href="./01-modeling-process.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./missing-values.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-feature-engineering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-model-performance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-resampling-methods.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link">
+  <a href="./05-generalized-linear-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-generative-classification-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span></a>
+  <a href="./07-non-parametric-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
+  <a href="./08-survival-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unsupervised-learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  <a href="./09-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -211,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exercise Solutions</span></a>
+ <span class="menu-text">ISLR Execices 2nd Edition</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -219,31 +212,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02 - Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03 - Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">04 - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-execises.html" class="sidebar-item-text sidebar-link active">
+  <a href="./execises-05.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">05 - Resampling Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11 - Survival Analysis and Censored Data</span></a>
   </div>
 </li>
@@ -454,7 +447,7 @@ h3, h4 {
 <span>        panel.grid.major.x <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05-execises_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="execises-05_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="h" class="level4"><h4 class="anchored" data-anchor-id="h">H</h4>
@@ -590,18 +583,18 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="va">DefaultTestPredictions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5,000 × 7
-   default student balance income .pred_class .pred_No .pred_Yes
-   &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;          &lt;dbl&gt;     &lt;dbl&gt;
- 1 No      No         529. 35704. No             1.00  0.000446 
- 2 No      Yes        920.  7492. No             0.998 0.00202  
- 3 No      Yes        809. 17600. No             0.999 0.00138  
- 4 No      No           0  29275. No             1.00  0.0000198
- 5 No      No         237. 28252. No             1.00  0.0000728
- 6 No      No         607. 44995. No             0.999 0.000859 
- 7 No      No           0  50265. No             1.00  0.0000326
- 8 No      No         486. 61566. No             0.999 0.000649 
- 9 No      No        1095. 26465. No             0.992 0.00844  
-10 No      No         954. 32458. No             0.996 0.00444  
+   .pred_class .pred_No .pred_Yes default student balance income
+   &lt;fct&gt;          &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+ 1 No             1.00  0.000446  No      No         529. 35704.
+ 2 No             0.998 0.00202   No      Yes        920.  7492.
+ 3 No             0.999 0.00138   No      Yes        809. 17600.
+ 4 No             1.00  0.0000198 No      No           0  29275.
+ 5 No             1.00  0.0000728 No      No         237. 28252.
+ 6 No             0.999 0.000859  No      No         607. 44995.
+ 7 No             1.00  0.0000326 No      No           0  50265.
+ 8 No             0.999 0.000649  No      No         486. 61566.
+ 9 No             0.992 0.00844   No      No        1095. 26465.
+10 No             0.996 0.00444   No      No         954. 32458.
 # ℹ 4,990 more rows</code></pre>
 </div>
 </div>
@@ -642,7 +635,6 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="va">DefaultBasedResults</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   seed_used test_error_rate
-       &lt;int&gt;           &lt;num&gt;
 1:         8          0.0262
 2:         9          0.0240
 3:        10          0.0282</code></pre>
@@ -680,7 +672,6 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="op">]</span><span class="op">[</span>, <span class="va">diff</span> <span class="op">:=</span> <span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma</a></span><span class="op">(</span><span class="va">test_error_rate_dummy</span> <span class="op">-</span> <span class="va">test_error_rate</span>, accuracy <span class="op">=</span> <span class="fl">0.0001</span><span class="op">)</span><span class="op">]</span><span class="op">[</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   seed_used test_error_rate test_error_rate_dummy    diff
-       &lt;int&gt;           &lt;num&gt;                 &lt;num&gt;  &lt;char&gt;
 1:         8          0.0262                0.0260 -0.0002
 2:         9          0.0240                0.0248  0.0008
 3:        10          0.0282                0.0278 -0.0004</code></pre>
@@ -725,7 +716,6 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span><span class="va">DefaultBootstrapsSe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          term           SE
-        &lt;char&gt;        &lt;num&gt;
 1: (Intercept) 4.230130e-01
 2:     balance 2.203893e-04
 3:      income 4.895823e-06</code></pre>
@@ -741,7 +731,6 @@ Residual Deviance: 813.8    AIC: 819.8</code></pre>
 <span>  <span class="fu">mutate</span><span class="op">(</span>diff <span class="op">=</span> <span class="va">SE</span> <span class="op">-</span> <span class="va">std.error</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          term           SE    std.error          diff
-        &lt;char&gt;        &lt;num&gt;        &lt;num&gt;         &lt;num&gt;
 1: (Intercept) 4.230130e-01 4.347564e-01 -1.174338e-02
 2:     balance 2.203893e-04 2.273731e-04 -6.983879e-06
 3:      income 4.895823e-06 4.985167e-06 -8.934457e-08</code></pre>
@@ -805,10 +794,10 @@ Residual Deviance: 1487     AIC: 1493</code></pre>
 <span>  <span class="fu">augment</span><span class="op">(</span>new_data <span class="op">=</span> <span class="fu">ISLR</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/ISLR/man/Weekly.html">Weekly</a></span><span class="op">[</span><span class="fl">1L</span>,<span class="op">]</span> <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 12
-   Year  Lag1  Lag2  Lag3   Lag4  Lag5 Volume Today Direction .pred_class
-  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;      
-1  1990 0.816  1.57 -3.94 -0.229 -3.48  0.155 -0.27 Down      Up         
-# ℹ 2 more variables: .pred_Down &lt;dbl&gt;, .pred_Up &lt;dbl&gt;</code></pre>
+  .pred_class .pred_Down .pred_Up  Year  Lag1  Lag2  Lag3   Lag4  Lag5 Volume
+  &lt;fct&gt;            &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1 Up               0.429    0.571  1990 0.816  1.57 -3.94 -0.229 -3.48  0.155
+# ℹ 2 more variables: Today &lt;dbl&gt;, Direction &lt;fct&gt;</code></pre>
 </div>
 </div>
 </section><section id="d-3" class="level4"><h4 class="anchored" data-anchor-id="d-3">D</h4>
@@ -863,7 +852,7 @@ Residual Deviance: 1487     AIC: 1493</code></pre>
 <span>  <span class="fu">geom_smooth</span><span class="op">(</span>se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05-execises_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<p><img src="execises-05_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="c-4" class="level4"><h4 class="anchored" data-anchor-id="c-4">C</h4>
@@ -929,7 +918,6 @@ Residual Deviance: 1487     AIC: 1493</code></pre>
 <span>  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbindlist</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   degree .metric .estimator .estimate
-   &lt;char&gt;  &lt;char&gt;     &lt;char&gt;     &lt;num&gt;
 1:      1    rmse   standard 2.6996595
 2:      2    rmse   standard 0.9682064
 3:      3    rmse   standard 0.9780705
@@ -1142,7 +1130,7 @@ F-statistic: 166.7 on 4 and 95 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme</span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="05-execises_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="execises-05_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section><section id="g-1" class="level4"><h4 class="anchored" data-anchor-id="g-1">G</h4>
@@ -1408,19 +1396,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./04-execises.html" class="pagination-link">
+      <a href="./execises-04.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">04 - Classification</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./11-execises.html" class="pagination-link">
+      <a href="./execises-11.html" class="pagination-link">
         <span class="nav-page-text">11 - Survival Analysis and Censored Data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
-    <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>

@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.433">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 5&nbsp; Generalized linear models (GLM)</title>
+<title>Machine Learning with R Notes - 5&nbsp; Generalized linear models (GLM)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,9 +60,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./generative-classification-models.html" rel="next">
-<link href="./resampling-methods.html" rel="prev">
-<link href="./cover.png" rel="icon" type="image/png">
+<link href="./06-generative-classification-models.html" rel="next">
+<link href="./04-resampling-methods.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -98,7 +97,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
+    <span class="navbar-title">Machine Learning with R Notes</span>
     </a>
   </div>
         <div class="quarto-navbar-tools ms-auto">
@@ -115,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./modeling-process.html">Teorical Summary</a></li><li class="breadcrumb-item"><a href="./generalized-linear-models.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-modeling-process.html">Summary Notes</a></li><li class="breadcrumb-item"><a href="./05-generalized-linear-models.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -140,7 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Teorical Summary</span></a>
+ <span class="menu-text">Summary Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -148,62 +147,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link">
+  <a href="./01-modeling-process.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./missing-values.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-feature-engineering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-model-performance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-resampling-methods.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link active">
+  <a href="./05-generalized-linear-models.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-generative-classification-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span></a>
+  <a href="./07-non-parametric-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
+  <a href="./08-survival-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unsupervised-learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  <a href="./09-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -211,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exercise Solutions</span></a>
+ <span class="menu-text">ISLR Execices 2nd Edition</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -219,31 +212,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02 - Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03 - Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">04 - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05 - Resampling Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11 - Survival Analysis and Censored Data</span></a>
   </div>
 </li>
@@ -296,52 +289,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul>
 </li>
   <li>
-<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection"><span class="header-section-number">5.2</span> Subset Selection</a>
+<a href="#extending-linear-regression-data-transformations" id="toc-extending-linear-regression-data-transformations" class="nav-link" data-scroll-target="#extending-linear-regression-data-transformations"><span class="header-section-number">5.2</span> Extending Linear Regression (Data Transformations)</a>
   <ul>
-<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection"><span class="header-section-number">5.2.1</span> Best Subset Selection</a></li>
-  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection"><span class="header-section-number">5.2.2</span> Stepwise Selection: Forward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection"><span class="header-section-number">5.2.3</span> Stepwise Selection: Backward Stepwise Selection</a></li>
-  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches"><span class="header-section-number">5.2.4</span> Stepwise Selection: Hybrid Approaches</a></li>
-  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model"><span class="header-section-number">5.2.5</span> Choosing the Optimal Model</a></li>
+<li><a href="#polynomial-regression-1" id="toc-polynomial-regression-1" class="nav-link" data-scroll-target="#polynomial-regression-1"><span class="header-section-number">5.2.1</span> Polynomial regression</a></li>
+  <li><a href="#piecewise-constant-regression" id="toc-piecewise-constant-regression" class="nav-link" data-scroll-target="#piecewise-constant-regression"><span class="header-section-number">5.2.2</span> Piecewise constant regression</a></li>
+  <li><a href="#piecewise-polynomials-regression-natural-spine" id="toc-piecewise-polynomials-regression-natural-spine" class="nav-link" data-scroll-target="#piecewise-polynomials-regression-natural-spine"><span class="header-section-number">5.2.3</span> Piecewise polynomials regression (Natural Spine)</a></li>
   </ul>
 </li>
   <li>
-<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage"><span class="header-section-number">5.3</span> Shrinkage</a>
+<a href="#subset-selection" id="toc-subset-selection" class="nav-link" data-scroll-target="#subset-selection"><span class="header-section-number">5.3</span> Subset Selection</a>
   <ul>
-<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="header-section-number">5.3.1</span> Ridge Regression</a></li>
-  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression"><span class="header-section-number">5.3.2</span> Lasso Regression</a></li>
-  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="header-section-number">5.3.3</span> Coding example</a></li>
+<li><a href="#best-subset-selection" id="toc-best-subset-selection" class="nav-link" data-scroll-target="#best-subset-selection"><span class="header-section-number">5.3.1</span> Best Subset Selection</a></li>
+  <li><a href="#stepwise-selection-forward-stepwise-selection" id="toc-stepwise-selection-forward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-forward-stepwise-selection"><span class="header-section-number">5.3.2</span> Stepwise Selection: Forward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-backward-stepwise-selection" id="toc-stepwise-selection-backward-stepwise-selection" class="nav-link" data-scroll-target="#stepwise-selection-backward-stepwise-selection"><span class="header-section-number">5.3.3</span> Stepwise Selection: Backward Stepwise Selection</a></li>
+  <li><a href="#stepwise-selection-hybrid-approaches" id="toc-stepwise-selection-hybrid-approaches" class="nav-link" data-scroll-target="#stepwise-selection-hybrid-approaches"><span class="header-section-number">5.3.4</span> Stepwise Selection: Hybrid Approaches</a></li>
+  <li><a href="#choosing-the-optimal-model" id="toc-choosing-the-optimal-model" class="nav-link" data-scroll-target="#choosing-the-optimal-model"><span class="header-section-number">5.3.5</span> Choosing the Optimal Model</a></li>
   </ul>
 </li>
   <li>
-<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="header-section-number">5.4</span> Dimension Reduction</a>
+<a href="#shrinkage" id="toc-shrinkage" class="nav-link" data-scroll-target="#shrinkage"><span class="header-section-number">5.4</span> Shrinkage</a>
   <ul>
-<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr"><span class="header-section-number">5.4.1</span> Principal Components Regression (PCR)</a></li>
-  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls"><span class="header-section-number">5.4.2</span> Partial Least Squares (PLS)</a></li>
-  <li><a href="#pcr-vs-pls" id="toc-pcr-vs-pls" class="nav-link" data-scroll-target="#pcr-vs-pls"><span class="header-section-number">5.4.3</span> PCR vs PLS</a></li>
-  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="header-section-number">5.4.4</span> Coding example</a></li>
+<li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="header-section-number">5.4.1</span> Ridge Regression</a></li>
+  <li><a href="#lasso-regression" id="toc-lasso-regression" class="nav-link" data-scroll-target="#lasso-regression"><span class="header-section-number">5.4.2</span> Lasso Regression</a></li>
+  <li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="header-section-number">5.4.3</span> Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">5.5</span> Poisson Regression</a>
+<a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="header-section-number">5.5</span> Dimension Reduction</a>
   <ul>
-<li><a href="#coding-example-3" id="toc-coding-example-3" class="nav-link" data-scroll-target="#coding-example-3"><span class="header-section-number">5.5.1</span> Coding example</a></li>
+<li><a href="#principal-components-regression-pcr" id="toc-principal-components-regression-pcr" class="nav-link" data-scroll-target="#principal-components-regression-pcr"><span class="header-section-number">5.5.1</span> Principal Components Regression (PCR)</a></li>
+  <li><a href="#partial-least-squares-pls" id="toc-partial-least-squares-pls" class="nav-link" data-scroll-target="#partial-least-squares-pls"><span class="header-section-number">5.5.2</span> Partial Least Squares (PLS)</a></li>
+  <li><a href="#pcr-vs-pls" id="toc-pcr-vs-pls" class="nav-link" data-scroll-target="#pcr-vs-pls"><span class="header-section-number">5.5.3</span> PCR vs PLS</a></li>
+  <li><a href="#coding-example-2" id="toc-coding-example-2" class="nav-link" data-scroll-target="#coding-example-2"><span class="header-section-number">5.5.4</span> Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">5.6</span> Logistic Regression</a>
+<a href="#poisson-regression" id="toc-poisson-regression" class="nav-link" data-scroll-target="#poisson-regression"><span class="header-section-number">5.6</span> Poisson Regression</a>
   <ul>
-<li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients"><span class="header-section-number">5.6.1</span> Estimating coefficients</a></li>
-  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression"><span class="header-section-number">5.6.2</span> Multiple regression</a></li>
+<li><a href="#coding-example-3" id="toc-coding-example-3" class="nav-link" data-scroll-target="#coding-example-3"><span class="header-section-number">5.6.1</span> Coding example</a></li>
+  </ul>
+</li>
   <li>
-<a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model"><span class="header-section-number">5.6.3</span> Interpreting the model</a>
+<a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">5.7</span> Logistic Regression</a>
+  <ul>
+<li><a href="#estimating-coefficients" id="toc-estimating-coefficients" class="nav-link" data-scroll-target="#estimating-coefficients"><span class="header-section-number">5.7.1</span> Estimating coefficients</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression"><span class="header-section-number">5.7.2</span> Multiple regression</a></li>
+  <li>
+<a href="#interpreting-the-model" id="toc-interpreting-the-model" class="nav-link" data-scroll-target="#interpreting-the-model"><span class="header-section-number">5.7.3</span> Interpreting the model</a>
   <ul class="collapse">
 <li><a href="#understanding-a-confounding-paradox" id="toc-understanding-a-confounding-paradox" class="nav-link" data-scroll-target="#understanding-a-confounding-paradox">Understanding a confounding paradox</a></li>
   <li><a href="#multinomial-logistic-regression" id="toc-multinomial-logistic-regression" class="nav-link" data-scroll-target="#multinomial-logistic-regression">Multinomial Logistic Regression</a></li>
   </ul>
 </li>
-  <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios"><span class="header-section-number">5.6.4</span> Model limitatios</a></li>
-  <li><a href="#coding-example-4" id="toc-coding-example-4" class="nav-link" data-scroll-target="#coding-example-4"><span class="header-section-number">5.6.5</span> Coding example</a></li>
+  <li><a href="#model-limitatios" id="toc-model-limitatios" class="nav-link" data-scroll-target="#model-limitatios"><span class="header-section-number">5.7.4</span> Model limitatios</a></li>
+  <li><a href="#coding-example-4" id="toc-coding-example-4" class="nav-link" data-scroll-target="#coding-example-4"><span class="header-section-number">5.7.5</span> Coding example</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#generalized-additive-models-gam" id="toc-generalized-additive-models-gam" class="nav-link" data-scroll-target="#generalized-additive-models-gam"><span class="header-section-number">5.8</span> Generalized Additive Models (GAM)</a>
+  <ul>
+<li><a href="#gam-regression" id="toc-gam-regression" class="nav-link" data-scroll-target="#gam-regression"><span class="header-section-number">5.8.1</span> GAM Regression</a></li>
+  <li><a href="#gam-classification" id="toc-gam-classification" class="nav-link" data-scroll-target="#gam-classification"><span class="header-section-number">5.8.2</span> GAM Classification</a></li>
+  <li><a href="#coding-example-5" id="toc-coding-example-5" class="nav-link" data-scroll-target="#coding-example-5"><span class="header-section-number">5.8.3</span> Coding example</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -564,6 +573,7 @@ y(\lambda) =
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Sale_Price</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">ames_train</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">step_YeoJohnson</span><span class="op">(</span><span class="fu">all_outcomes</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To make correct interpretations of our predictions it’s important to remember that we need to <strong>revert this transformation after getting the prediction</strong>.</p>
+<p>This actions will reduce the <strong>relative error</strong> of each prediction.</p>
 </section><section id="collinearity" class="level4"><h4 class="anchored" data-anchor-id="collinearity">Collinearity</h4>
 <p><strong>Collinearity</strong> refers to the situation in which two or more predictor variables are closely related (highly correlated) to one another. It reduces the accuracy of the estimates of the regression coeﬃcients and causes the standard error for <span class="math inline">\(\hat{\beta}_{j}\)</span> to grow. That reduce the <strong>power of the hypothesis test</strong>,that is, the probability of correctly detecting a non-zero coeﬃcient.</p>
 <p>Looking at the correlation matrix of the predictors could be usefull, but it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation (<strong>multicollinearity</strong>).</p>
@@ -710,11 +720,70 @@ h_{i} = \frac{1}{n} +
 2 rsq     standard       0.671 Preprocessor1_Model1</code></pre>
 </div>
 </div>
-</section></section><section id="subset-selection" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="subset-selection">
-<span class="header-section-number">5.2</span> Subset Selection</h2>
+</section></section><section id="extending-linear-regression-data-transformations" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="extending-linear-regression-data-transformations">
+<span class="header-section-number">5.2</span> Extending Linear Regression (Data Transformations)</h2>
+<section id="polynomial-regression-1" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="polynomial-regression-1">
+<span class="header-section-number">5.2.1</span> Polynomial regression</h3>
+<p>It extends the <em>linear model</em> by adding extra predictors, obtained by <strong>raising each of the original predictors to a power</strong>.</p>
+<p>As result, if the response is a numeric variable we can fit our model to follow the next form:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d + \epsilon_i
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/35-polynomial-4degree-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>On the other hand, we can use the <em>logistic regression</em> and apply the same structure to predict the probability of particular class:</p>
+<p><span class="math display">\[
+\Pr(y_i &gt; 250|x_i) = \frac{\exp(\beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d)}
+                          {1 + \exp(\beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \beta_3 x_i^3 + \dots + \beta_d x_i^d)}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/36-polynomial-4degree-logistic-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="piecewise-constant-regression" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="piecewise-constant-regression">
+<span class="header-section-number">5.2.2</span> Piecewise constant regression</h3>
+<p>They <strong>cut the range of a variable into K distinct regions</strong> (known as <em>bins</em>) in order to produce a qualitative variable. This has the eﬀect of ﬁtting a piecewise constant function.</p>
+<p>If we define the cutpoints as <span class="math inline">\(c_1, c_2, \dots, c_K\)</span> in the range of <em>X</em>, we can create <em>dummy variables</em> to represent each range. For example, if <span class="math inline">\(c_1 \leq x_i &lt; c_2\)</span> is <code>TRUE</code> then <span class="math inline">\(C_1(x_i) = 1\)</span> and then we need to repeat that process for each value of <span class="math inline">\(X\)</span> and range. As result we can fit a <em>lineal regression</em> based on the new variables.</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i) + \epsilon_i
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/37-step-function-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>On the other hand, we can use the <em>logistic regression</em> and apply the same structure to predict the probability of particular class:</p>
+<p><span class="math display">\[
+\Pr(y_i &gt; 250|x_i) = \frac{\exp(\beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i)}
+                          {1 + \exp(\beta_0 + \beta_1 C_1(x_i) + \beta_2 C_2(x_i)  \dots + \beta_K C_K(x_i))}
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/38-step-function-logistic-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="piecewise-polynomials-regression-natural-spine" class="level3" data-number="5.2.3"><h3 data-number="5.2.3" class="anchored" data-anchor-id="piecewise-polynomials-regression-natural-spine">
+<span class="header-section-number">5.2.3</span> Piecewise polynomials regression (Natural Spine)</h3>
+<p>It consist in ﬁtting separate low-degree polynomials over diﬀerent regions of <em>X</em>. For example, a <strong>piecewise cubic polynomial</strong> with a single knot at a point <em>c</em> takes the form.</p>
+<p><span class="math display">\[
+y_i =
+  \begin{cases}
+    \beta_{01} + \beta_{11} x_i + \beta_{21} x_i^2 + \beta_{31} x_i^3 + \epsilon_i &amp;  \text{if } x_i&lt;c\\
+    \beta_{02} + \beta_{12} x_i + \beta_{22} x_i^2 + \beta_{32} x_i^3 + \epsilon_i &amp;  \text{if } x_i \geq c
+  \end{cases}
+\]</span></p>
+<p>As each polynomial has four parameters, we are using a total of <strong>8 degrees of freedom</strong> in ﬁtting that model. By using that model with <code>Wage</code>data, we can see a problem as the model used was <strong>too flexible</strong> and to solve it we need to <strong>constrain</strong> it to be continuous at <code>age = 50</code>.</p>
+<p><img src="img/39-piecewise-cubic-example.png" class="img-fluid" data-fig-align="center"> But as you could see after applying the <strong>continuity constraint</strong> the plot still present an unnatural V-shape that can solve by apply the <strong>continuity constraint</strong> to the <em>first</em> and <em>second</em> derivative of the function, the end with <strong>5 degrees of freedom</strong> model.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/40-constrained-piecewise-cubic-example.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>In this context, a <strong>natural spline</strong> refers to a <em>regression spline</em> with the additional constraints of maintaining <strong>linearity at the boundaries</strong>.</p>
+</section></section><section id="subset-selection" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="subset-selection">
+<span class="header-section-number">5.3</span> Subset Selection</h2>
 <p>This approach involves identifying a subset of the <em>p</em> predictors that we believe to be related to the response. We then ﬁt a model using least squares on the reduced set of variables.</p>
-<section id="best-subset-selection" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="best-subset-selection">
-<span class="header-section-number">5.2.1</span> Best Subset Selection</h3>
+<section id="best-subset-selection" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="best-subset-selection">
+<span class="header-section-number">5.3.1</span> Best Subset Selection</h3>
 <p>It ﬁts all <em>p</em> models that contain exactly one predictor, all <span class="math inline">\(\left( \begin{array}{c} p \\ 2 \end{array} \right) = p (p-1)/2\)</span> models that contain exactly two predictors, and so forth. Then it selects the <em>best</em> model based on smallest RSS or the largest <span class="math inline">\(R^2\)</span>.</p>
 <ul>
 <li>
@@ -734,8 +803,8 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>This method is really computational expensive as it needs to fit <span class="math inline">\(2^p\)</span> models. Just think that if your data has 20 predicts, then there are over one million possibilities. Thus an enormous search space can also lead to <strong>overﬁtting</strong> and <strong>high variance of the coeﬃcient estimates</strong>.</p>
-</section><section id="stepwise-selection-forward-stepwise-selection" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">
-<span class="header-section-number">5.2.2</span> Stepwise Selection: Forward Stepwise Selection</h3>
+</section><section id="stepwise-selection-forward-stepwise-selection" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="stepwise-selection-forward-stepwise-selection">
+<span class="header-section-number">5.3.2</span> Stepwise Selection: Forward Stepwise Selection</h3>
 <p>It begins with a model containing no predictors, and then adds the predictors who gives the greatest additional improvement to the ﬁt, one-at-a-time, until all of the predictors are in the model, as result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models.</p>
 <ul>
 <li>
@@ -754,8 +823,8 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>Though it tends to do well in practice, it is not guaranteed to ﬁnd the best possible model out of all <span class="math inline">\(2^p\)</span> models containing subsets of the <em>p</em> predictors, but can be used even if <span class="math inline">\(n &lt; p\)</span>.</p>
-</section><section id="stepwise-selection-backward-stepwise-selection" class="level3" data-number="5.2.3"><h3 data-number="5.2.3" class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">
-<span class="header-section-number">5.2.3</span> Stepwise Selection: Backward Stepwise Selection</h3>
+</section><section id="stepwise-selection-backward-stepwise-selection" class="level3" data-number="5.3.3"><h3 data-number="5.3.3" class="anchored" data-anchor-id="stepwise-selection-backward-stepwise-selection">
+<span class="header-section-number">5.3.3</span> Stepwise Selection: Backward Stepwise Selection</h3>
 <p>It begins with the full least squares model containing all <em>p</em> predictors, and then iteratively removes the least useful predictor, one-at-a-time. As result we will need to fit <span class="math inline">\(1+p(p+1)/2\)</span> models</p>
 <ul>
 <li>
@@ -774,11 +843,11 @@ h_{i} = \frac{1}{n} +
 </li>
 </ul>
 <p>This method don’t guarantee to yield the best model containing a subset of the <em>p</em> predictors and we need to cofirm that <span class="math inline">\(n \geq p\)</span>.</p>
-</section><section id="stepwise-selection-hybrid-approaches" class="level3" data-number="5.2.4"><h3 data-number="5.2.4" class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">
-<span class="header-section-number">5.2.4</span> Stepwise Selection: Hybrid Approaches</h3>
+</section><section id="stepwise-selection-hybrid-approaches" class="level3" data-number="5.3.4"><h3 data-number="5.3.4" class="anchored" data-anchor-id="stepwise-selection-hybrid-approaches">
+<span class="header-section-number">5.3.4</span> Stepwise Selection: Hybrid Approaches</h3>
 <p>In this method variables adds variables sequentially, but after adding each new variable, the method may also remove any variables that no longer provide an improvement in the model ﬁt. Such an approach attempts to more closely mimic <em>Best Subset Selection</em> while retaining the computational advantages of <em>forward</em> and <em>backward stepwise selection</em>.</p>
-</section><section id="choosing-the-optimal-model" class="level3" data-number="5.2.5"><h3 data-number="5.2.5" class="anchored" data-anchor-id="choosing-the-optimal-model">
-<span class="header-section-number">5.2.5</span> Choosing the Optimal Model</h3>
+</section><section id="choosing-the-optimal-model" class="level3" data-number="5.3.5"><h3 data-number="5.3.5" class="anchored" data-anchor-id="choosing-the-optimal-model">
+<span class="header-section-number">5.3.5</span> Choosing the Optimal Model</h3>
 <p>As the model which contains all of the predictors will always have the smallest RSS, we need to estimate the test error rate by:</p>
 <ul>
 <li>Making an adjustment to the training error to account for the bias due to overﬁtting.</li>
@@ -835,11 +904,11 @@ h_{i} = \frac{1}{n} +
 <figure class="figure"><p><img src="img/25-cp-bic-adj-r2-example.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section></section><section id="shrinkage" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="shrinkage">
-<span class="header-section-number">5.3</span> Shrinkage</h2>
+</section></section><section id="shrinkage" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="shrinkage">
+<span class="header-section-number">5.4</span> Shrinkage</h2>
 <p>This approach involves ﬁtting a model involving all <em>p</em> predictors and shrinks the estimated coeﬃcients towards zero. Depending on what type of shrinkage is performed, some of the coeﬃcients may be estimated exactly at zero, performing some variable selection.</p>
-<section id="ridge-regression" class="level3" data-number="5.3.1"><h3 data-number="5.3.1" class="anchored" data-anchor-id="ridge-regression">
-<span class="header-section-number">5.3.1</span> Ridge Regression</h3>
+<section id="ridge-regression" class="level3" data-number="5.4.1"><h3 data-number="5.4.1" class="anchored" data-anchor-id="ridge-regression">
+<span class="header-section-number">5.4.1</span> Ridge Regression</h3>
 <p>The method rather than using RSS as the metric to minimize with the regression coefficient <span class="math inline">\(\beta_0, \beta_1, \dots, \beta_p\)</span>, it is modified by adding a <strong>shrinkage penalty</strong> that the effect of estimating <span class="math inline">\(\beta_j\)</span> towards zero when the coefficient is close to 0:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p \beta_j^2
@@ -867,8 +936,8 @@ RSS + \lambda \sum_{j=1}^p \beta_j^2
 <figure class="figure"><p><img src="img/27-ridge-regression-bias-variance-trade-off.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="lasso-regression" class="level3" data-number="5.3.2"><h3 data-number="5.3.2" class="anchored" data-anchor-id="lasso-regression">
-<span class="header-section-number">5.3.2</span> Lasso Regression</h3>
+</section><section id="lasso-regression" class="level3" data-number="5.4.2"><h3 data-number="5.4.2" class="anchored" data-anchor-id="lasso-regression">
+<span class="header-section-number">5.4.2</span> Lasso Regression</h3>
 <p><em>Ridge Regression</em> don’t set the coefficient exactly to zero (unless <span class="math inline">\(\lambda = \infty\)</span>). That doesn’t affect the model accuracy but doesn’t provide any help when we have to interpret a model with many predicts. To over come that problem, the <em>Lasso Regression</em> performs <strong><em>variable selection</em></strong> based on minimization of the next function:</p>
 <p><span class="math display">\[
 RSS + \lambda \sum_{j=1}^p |\beta_j|
@@ -885,8 +954,8 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <figure class="figure"><p><img src="img/28-lasso-regression-change.png" style="width:90.0%;height:90.0%" class="figure-img"></p>
 </figure>
 </div>
-</section><section id="coding-example-1" class="level3" data-number="5.3.3"><h3 data-number="5.3.3" class="anchored" data-anchor-id="coding-example-1">
-<span class="header-section-number">5.3.3</span> Coding example</h3>
+</section><section id="coding-example-1" class="level3" data-number="5.4.3"><h3 data-number="5.4.3" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">5.4.3</span> Coding example</h3>
 <p>To perform a <strong>Ridge</strong> or <strong>Lasso</strong> regression we need to use the function <code>linear_reg</code> and define the <code>mixture</code> argument depending on the regression we want to perform.</p>
 <table class="table">
 <thead><tr class="header">
@@ -968,7 +1037,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Let’s have a example using the tidymodels approach. By following the next steps:</p>
@@ -1033,7 +1102,7 @@ RSS + \lambda \sum_{j=1}^p |\beta_j|
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">collect_metrics</span><span class="op">(</span><span class="va">tune_res</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"rsq"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
@@ -1130,11 +1199,11 @@ Computational engine: glmnet </code></pre>
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="dimension-reduction" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="dimension-reduction">
-<span class="header-section-number">5.4</span> Dimension Reduction</h2>
+</section></section><section id="dimension-reduction" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="dimension-reduction">
+<span class="header-section-number">5.5</span> Dimension Reduction</h2>
 <p>This method projects the <span class="math inline">\(p\)</span> predictors into an <span class="math inline">\(M\)</span>-dimensional subspace. If <span class="math inline">\(Z_1, Z_2, \dots, Z_M\)</span> represent <span class="math inline">\(M &lt; p\)</span> lineal combinations <span class="math inline">\(Z_m = \sum_{j=1}^p \phi_{jm}X_j\)</span> of <strong>ALL our original predictors</strong> based on some constants <span class="math inline">\(\phi_{1m}, \phi_{2m}, \dots, \phi_{pm}\)</span>, then we can use the new variables to fit a linear regression model by least squares.</p>
 <p><span class="math display">\[
 y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
@@ -1142,8 +1211,8 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 \]</span></p>
 <p>This is not a feature selection method as each of the <em>M</em> principal components used in the regression is a linear combination of all <em>p</em> of the original features.In this sense, PCR is more closely related to <em>ridge regression</em> than to the <em>lasso</em>.</p>
 <p>To select the <span class="math inline">\(\phi_{jm}\)</span>’s we will discuss two different ways:</p>
-<section id="principal-components-regression-pcr" class="level3" data-number="5.4.1"><h3 data-number="5.4.1" class="anchored" data-anchor-id="principal-components-regression-pcr">
-<span class="header-section-number">5.4.1</span> Principal Components Regression (PCR)</h3>
+<section id="principal-components-regression-pcr" class="level3" data-number="5.5.1"><h3 data-number="5.5.1" class="anchored" data-anchor-id="principal-components-regression-pcr">
+<span class="header-section-number">5.5.1</span> Principal Components Regression (PCR)</h3>
 <p>The PCR assumes that <em>the directions in which</em> <span class="math inline">\(X_1, \dots, X_M\)</span> <em>show the most variation are the directions that are associated with</em> <span class="math inline">\(Y\)</span>. If it’s that is true then fitting the model to <span class="math inline">\(Z_1, \dots, Z_m\)</span> will lead better results than using the original variables <span class="math inline">\(X_1, \dots, X_p\)</span></p>
 <p>To perform a <em>principal components analysis</em> (PCA):</p>
 <ol type="1">
@@ -1182,8 +1251,8 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 </figure>
 </div>
 <p>The <strong>number of principal components</strong>, M, is typically chosen by <strong>cross-validation</strong>.</p>
-</section><section id="partial-least-squares-pls" class="level3" data-number="5.4.2"><h3 data-number="5.4.2" class="anchored" data-anchor-id="partial-least-squares-pls">
-<span class="header-section-number">5.4.2</span> Partial Least Squares (PLS)</h3>
+</section><section id="partial-least-squares-pls" class="level3" data-number="5.5.2"><h3 data-number="5.5.2" class="anchored" data-anchor-id="partial-least-squares-pls">
+<span class="header-section-number">5.5.2</span> Partial Least Squares (PLS)</h3>
 <p>The PLS approach attempts to ﬁnd directions that help explain both the response and the predictors by placing the <strong>highest weight</strong> on the variables that are most <strong>strongly related to the response</strong>.</p>
 <ol type="1">
 <li>Standardize the predictors and <strong>response</strong>.</li>
@@ -1200,8 +1269,8 @@ y_i = \theta_0 + \sum_{m=1}^M \theta_m z_{im} + \epsilon_i,
 <li><p>Use least squares to ﬁt a linear model to predict <span class="math inline">\(Y\)</span> using <span class="math inline">\(Z_1, \dots, Z_M\)</span></p></li>
 </ol>
 <p>To select the number <span class="math inline">\(M\)</span> we can use <strong>cross-validation</strong>.</p>
-</section><section id="pcr-vs-pls" class="level3" data-number="5.4.3"><h3 data-number="5.4.3" class="anchored" data-anchor-id="pcr-vs-pls">
-<span class="header-section-number">5.4.3</span> PCR vs PLS</h3>
+</section><section id="pcr-vs-pls" class="level3" data-number="5.5.3"><h3 data-number="5.5.3" class="anchored" data-anchor-id="pcr-vs-pls">
+<span class="header-section-number">5.5.3</span> PCR vs PLS</h3>
 <p>The next figure illustrates how each method work.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/67-PCR-vs-PLS-diagrams.png" class="img-fluid figure-img"></p>
@@ -1225,8 +1294,8 @@ Performance Note
 <p>In practice, it often performs no better than ridge regression or PCR. While the supervised dimension reduction of PLS can reduce bias, it also has the potential to <strong>increase variance</strong>, so that the overall beneﬁt of PLS relative to PCR <strong>is a wash</strong>.</p>
 </div>
 </div>
-</section><section id="coding-example-2" class="level3" data-number="5.4.4"><h3 data-number="5.4.4" class="anchored" data-anchor-id="coding-example-2">
-<span class="header-section-number">5.4.4</span> Coding example</h3>
+</section><section id="coding-example-2" class="level3" data-number="5.5.4"><h3 data-number="5.5.4" class="anchored" data-anchor-id="coding-example-2">
+<span class="header-section-number">5.5.4</span> Coding example</h3>
 <p>To run a <strong>PCR</strong> or a <strong>PLS</strong> we just need to set a lineal model.</p>
 <div class="cell">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_spec</span> <span class="op">&lt;-</span> </span>
@@ -1267,7 +1336,7 @@ Performance Note
 <span>  <span class="fu">scale_x_log10</span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/comma.html">comma_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_threshold</span> <span class="op">&lt;-</span> <span class="fu">select_best</span><span class="op">(</span><span class="va">pca_tune_res</span>, metric <span class="op">=</span> <span class="st">"rmse"</span><span class="op">)</span></span>
 <span><span class="va">best_threshold</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1306,12 +1375,17 @@ Performance Note
 <span>  <span class="fu"><a href="https://modeloriented.github.io/DALEX/reference/model_parts.html">model_parts</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="generalized-linear-models_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="poisson-regression" class="level2" data-number="5.5"><h2 data-number="5.5" class="anchored" data-anchor-id="poisson-regression">
-<span class="header-section-number">5.5</span> Poisson Regression</h2>
-<p>If <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span> that could be the result after <strong>counting</strong> a particular event the <em>linear regression</em> might not meet our needs as it could bring negative numbers. The <strong>Poisson Distribution</strong> follow the next function:</p>
+</section></section><section id="poisson-regression" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="poisson-regression">
+<span class="header-section-number">5.6</span> Poisson Regression</h2>
+<p>If match with the next conditions we can fit a model based on <strong>Poisson Distribution</strong>:</p>
+<ul>
+<li>The outcome variable is the result of <strong>counting</strong>, so <span class="math inline">\(Y \in \{ 0, 1, 2, 3, \dots \}\)</span>.</li>
+<li>$Ave(Y) Var(Y) $, if not you can use the <strong>Quasipoisson Distribution</strong>.</li>
+</ul>
+<p>The <em>Poisson Distribution</em> follow the next function:</p>
 <p><span class="math display">\[
 Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
                  {k!}
@@ -1322,8 +1396,8 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 \log{ \left( \lambda(X_1, X_2, \dots , X_p)  \right)} = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p
 \]</span></p>
 <p>If select this model we need to be aware how to interpret the coefficients. For example, if <span class="math inline">\(\beta_1 = -0.08\)</span> for a categorical variable, we can conclude by calculating <span class="math inline">\(e^{-0.08}\)</span> that <strong><em>92.31%</em></strong> of events of the base line related to <span class="math inline">\(\beta_0\)</span> would happen.</p>
-<section id="coding-example-3" class="level3" data-number="5.5.1"><h3 data-number="5.5.1" class="anchored" data-anchor-id="coding-example-3">
-<span class="header-section-number">5.5.1</span> Coding example</h3>
+<section id="coding-example-3" class="level3" data-number="5.6.1"><h3 data-number="5.6.1" class="anchored" data-anchor-id="coding-example-3">
+<span class="header-section-number">5.6.1</span> Coding example</h3>
 <p>To perform <strong>Poisson Regression</strong> we just need to create the model specification by loading the <strong>poissonreg</strong> package and using <strong>glm</strong> engine.</p>
 <div class="cell">
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/poissonreg">poissonreg</a></span><span class="op">)</span></span>
@@ -1347,8 +1421,8 @@ Pr(Y = k) = \frac{e^{-\lambda} \lambda^{k}}
 2 rsq     standard       0.725 Preprocessor1_Model1</code></pre>
 </div>
 </div>
-</section></section><section id="logistic-regression" class="level2" data-number="5.6"><h2 data-number="5.6" class="anchored" data-anchor-id="logistic-regression">
-<span class="header-section-number">5.6</span> Logistic Regression</h2>
+</section></section><section id="logistic-regression" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="logistic-regression">
+<span class="header-section-number">5.7</span> Logistic Regression</h2>
 <p>It models the <strong>probability</strong> (<span class="math inline">\(p(X) = Pr(Y=1|X)\)</span>) that Y belongs to a particular category given some predictors by assuming that <span class="math inline">\(Y\)</span> follows a <strong>Bernoulli Distribution</strong>. This model calculates the probability using the <strong><em>logistic function</em></strong> which produce a S form between 0 and 1:</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
@@ -1359,21 +1433,21 @@ p(X) = \frac{e^{\beta_{0}+\beta_{1}X}}
 </figure>
 </div>
 <p>As the functions returns probabilities is responsibility of the analyst to define a <strong>threshold</strong> to make classifications.</p>
-<section id="estimating-coefficients" class="level3" data-number="5.6.1"><h3 data-number="5.6.1" class="anchored" data-anchor-id="estimating-coefficients">
-<span class="header-section-number">5.6.1</span> Estimating coefficients</h3>
+<section id="estimating-coefficients" class="level3" data-number="5.7.1"><h3 data-number="5.7.1" class="anchored" data-anchor-id="estimating-coefficients">
+<span class="header-section-number">5.7.1</span> Estimating coefficients</h3>
 <p>To estimate <span class="math inline">\(\hat{\beta}_{0}\)</span> and <span class="math inline">\(\hat{\beta}_{1}\)</span> the method used is called as <em>maximum likelihood</em> which consists in maximizing the <strong>likelihood function</strong>. It is important to clarify that the <em>least squares approach</em> is in fact a special case of maximum likelihood.</p>
 <p><span class="math display">\[
 \ell(\beta_{0}, \beta_{1}) = \prod_{i:y_{i} = 1}p(x_{i})\prod_{i':y_{i'} = 0}p(1-x_{i'})
 \]</span></p>
-</section><section id="multiple-regression" class="level3" data-number="5.6.2"><h3 data-number="5.6.2" class="anchored" data-anchor-id="multiple-regression">
-<span class="header-section-number">5.6.2</span> Multiple regression</h3>
+</section><section id="multiple-regression" class="level3" data-number="5.7.2"><h3 data-number="5.7.2" class="anchored" data-anchor-id="multiple-regression">
+<span class="header-section-number">5.7.2</span> Multiple regression</h3>
 <p>We also can generalize the <em>logistic function</em> as you can see bellow.</p>
 <p><span class="math display">\[
 p(X) = \frac{e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
             {1+e^{\beta_{0}+\beta_{1}X_{1}+\dots+\beta_{p}X_{p}}}
 \]</span></p>
-</section><section id="interpreting-the-model" class="level3" data-number="5.6.3"><h3 data-number="5.6.3" class="anchored" data-anchor-id="interpreting-the-model">
-<span class="header-section-number">5.6.3</span> Interpreting the model</h3>
+</section><section id="interpreting-the-model" class="level3" data-number="5.7.3"><h3 data-number="5.7.3" class="anchored" data-anchor-id="interpreting-the-model">
+<span class="header-section-number">5.7.3</span> Interpreting the model</h3>
 <p>To understand how each variable influence the probability <span class="math inline">\(p(X)\)</span>, we need to manipulate the <em>logistic function</em> until having a lineal combination on the right site.</p>
 <p><span class="math display">\[
 \underbrace{ \log{ \left( \overbrace{\frac{p(X)}{1 - p(X)}}^\text{odds ratio} \right)} }_\text{log odds or logit} = \beta_{0}+\beta_{1}X
@@ -1428,15 +1502,15 @@ Pr(Y = K|X= x) = \frac{1}
 \log{ \left( \frac{Pr(Y = k|X= x)}{Pr(Y = K|X= x)} \right)} = \beta_{k0}+\beta_{k1}x_{1}+\dots+\beta_{kp}x_{p}
 \]</span></p>
 <p>In consequence, each coefficient represent a measure of how much change the probability from the baseline probability.</p>
-</section></section><section id="model-limitatios" class="level3" data-number="5.6.4"><h3 data-number="5.6.4" class="anchored" data-anchor-id="model-limitatios">
-<span class="header-section-number">5.6.4</span> Model limitatios</h3>
+</section></section><section id="model-limitatios" class="level3" data-number="5.7.4"><h3 data-number="5.7.4" class="anchored" data-anchor-id="model-limitatios">
+<span class="header-section-number">5.7.4</span> Model limitatios</h3>
 <p>There are models that could make better classifications when:</p>
 <ul>
 <li>There is a substantial separation between the <span class="math inline">\(Y\)</span> classes.</li>
 <li>The predictors <span class="math inline">\(X\)</span> are approximately normal in each class and the sample size is small.</li>
 <li>When the decision boundary is not lineal.</li>
-</ul></section><section id="coding-example-4" class="level3" data-number="5.6.5"><h3 data-number="5.6.5" class="anchored" data-anchor-id="coding-example-4">
-<span class="header-section-number">5.6.5</span> Coding example</h3>
+</ul></section><section id="coding-example-4" class="level3" data-number="5.7.5"><h3 data-number="5.7.5" class="anchored" data-anchor-id="coding-example-4">
+<span class="header-section-number">5.7.5</span> Coding example</h3>
 <p>To perform <strong>Logistic Regression</strong> we just need to create the model specification by loading the <strong>discrim</strong> package and using <strong>MASS</strong> engine.</p>
 <div class="cell">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">Smarket_train</span> <span class="op">&lt;-</span> </span>
@@ -1470,6 +1544,122 @@ Prediction Down  Up
   .metric  .estimator .estimate
   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 1 accuracy binary         0.560</code></pre>
+</div>
+</div>
+</section></section><section id="generalized-additive-models-gam" class="level2" data-number="5.8"><h2 data-number="5.8" class="anchored" data-anchor-id="generalized-additive-models-gam">
+<span class="header-section-number">5.8</span> Generalized Additive Models (GAM)</h2>
+<p>They provide a general framework for extending a standard linear model by allowing non-linear functions of each of the variables, while maintaining additivity.</p>
+<p>To transform each predictor we have the next options:</p>
+<ul>
+<li>A constant for each categorical level (step function)</li>
+<li>Polynomial regression</li>
+<li>Natural spines (optimized with least squares)</li>
+<li>Smoothing splines (optimized with backﬁtting)</li>
+<li>Local regression</li>
+</ul>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Backﬁtting</strong> ﬁts a model involving multiple predictors by repeatedly updating the ﬁt for each predictor in turn, holding the others ﬁxed.</p>
+</div>
+</div>
+</div>
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Pros</th>
+<th style="text-align: left;">Cons</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">1. It <strong>finds relationships that a lineal model would miss</strong> without applying many transformations as it can fit a non-linear <span class="math inline">\(f_j\)</span> to each <span class="math inline">\(X_j\)</span> <br><br> 2. We can <strong>examine the eﬀect of each predictor on <span class="math inline">\(Y\)</span></strong> individually as the model is additive. <br><br> 3. The <em>smoothness</em> of each function <span class="math inline">\(f_j\)</span> can be summarized via <strong>degrees of freedom</strong>.</td>
+<td style="text-align: left;">1. Important <strong>interactions can be missed</strong>, but they can be added manually</td>
+</tr></tbody>
+</table>
+<section id="gam-regression" class="level3" data-number="5.8.1"><h3 data-number="5.8.1" class="anchored" data-anchor-id="gam-regression">
+<span class="header-section-number">5.8.1</span> GAM Regression</h3>
+<p>To predict a numeric variable this method creates a function with the next form:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip}) + \epsilon_i
+\]</span></p>
+<p>By taking the other predictor as constant we can plot effect of each function for each predictor in the <code>Wage</code> example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/43-gam-regression.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="gam-classification" class="level3" data-number="5.8.2"><h3 data-number="5.8.2" class="anchored" data-anchor-id="gam-classification">
+<span class="header-section-number">5.8.2</span> GAM Classification</h3>
+<p>To predict a categorical variable this method creates a function with the next form:</p>
+<p><span class="math display">\[
+\log \left( \frac{p(X)}{1-p(X)} \right)= \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \dots + f_p(x_{ip})
+\]</span></p>
+<p>By taking the other predictor as constant we can plot effect of each function for each predictor in the <code>Wage</code> example:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="img/44-gam-classification.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section><section id="coding-example-5" class="level3" data-number="5.8.3"><h3 data-number="5.8.3" class="anchored" data-anchor-id="coding-example-5">
+<span class="header-section-number">5.8.3</span> Coding example</h3>
+<p>The <code>mgcv</code> package supports the next families based on the outcome variable type.</p>
+<ul>
+<li>
+<strong>Gaussian (Default):</strong> Regular regression</li>
+<li>
+<strong>Binomial:</strong> Probabilities</li>
+<li>
+<strong>Poisson/Quasipoisson:</strong> counts</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">mgcv</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"data/Soybean.RData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gam_fitted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://parsnip.tidymodels.org/reference/gen_additive_mod.html">gen_additive_mod</a></span><span class="op">(</span>mode <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html">set_engine</a></span><span class="op">(</span>engine <span class="op">=</span> <span class="st">"mgcv"</span>,</span>
+<span>             family <span class="op">=</span> <span class="va">gaussian</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/mgcv/man/s.html">s</a></span><span class="op">(</span><span class="va">Time</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">soybean_train</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">gam_fitted</span>, </span>
+<span>        new_data <span class="op">=</span> <span class="va">soybean_train</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">.pred</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>            linewidth <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="05-generalized-linear-models_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://hardhat.tidymodels.org/reference/hardhat-extract.html">extract_fit_engine</a></span><span class="op">(</span><span class="va">gam_fitted</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Family: gaussian 
+Link function: identity 
+
+Formula:
+weight ~ s(Time)
+
+Parametric coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   6.1645     0.1143   53.93   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Approximate significance of smooth terms:
+          edf Ref.df     F p-value    
+s(Time) 8.495   8.93 338.2  &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+R-sq.(adj) =  0.902   Deviance explained = 90.4%
+GCV = 4.4395  Scale est. = 4.3117    n = 330</code></pre>
 </div>
 </div>
 
@@ -1707,19 +1897,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./resampling-methods.html" class="pagination-link">
+      <a href="./04-resampling-methods.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./generative-classification-models.html" class="pagination-link">
+      <a href="./06-generative-classification-models.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
-    <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>

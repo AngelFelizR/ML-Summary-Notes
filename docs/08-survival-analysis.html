@@ -5,7 +5,7 @@
 <meta name="generator" content="quarto-1.3.433">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Angel Feliz">
-<title>An Introduction to Statistical Learning (Non Official Solution Book) - 9&nbsp; Time-event (Survival) Analysis and Censored Data</title>
+<title>Machine Learning with R Notes - 8&nbsp; Time-event (Survival) Analysis and Censored Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,9 +79,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./unsupervised-learning.html" rel="next">
-<link href="./non-parametric-models.html" rel="prev">
-<link href="./cover.png" rel="icon" type="image/png">
+<link href="./09-unsupervised-learning.html" rel="next">
+<link href="./07-non-parametric-models.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -117,7 +116,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">An Introduction to Statistical Learning (Non Official Solution Book)</span>
+    <span class="navbar-title">Machine Learning with R Notes</span>
     </a>
   </div>
         <div class="quarto-navbar-tools ms-auto">
@@ -134,7 +133,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./modeling-process.html">Teorical Summary</a></li><li class="breadcrumb-item"><a href="./survival-analysis.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-modeling-process.html">Summary Notes</a></li><li class="breadcrumb-item"><a href="./08-survival-analysis.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -159,7 +158,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Teorical Summary</span></a>
+ <span class="menu-text">Summary Notes</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -167,62 +166,56 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./modeling-process.html" class="sidebar-item-text sidebar-link">
+  <a href="./01-modeling-process.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Strategy to implement machine learning solutions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./missing-values.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-feature-engineering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missingness</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model-performance.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-model-performance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Understanding model performance</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./resampling-methods.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-resampling-methods.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resampling methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generalized-linear-models.html" class="sidebar-item-text sidebar-link">
+  <a href="./05-generalized-linear-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generalized linear models (GLM)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./generative-classification-models.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-generative-classification-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models for Classiﬁcation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./flexible-regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Flexible Regression Models</span></span></a>
+  <a href="./07-non-parametric-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./non-parametric-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span></a>
+  <a href="./08-survival-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./survival-analysis.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./unsupervised-learning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+  <a href="./09-unsupervised-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
       </ul>
@@ -230,7 +223,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Exercise Solutions</span></a>
+ <span class="menu-text">ISLR Execices 2nd Edition</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -238,31 +231,31 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02 - Statistical Learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03 - Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">04 - Classification</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-05.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05 - Resampling Methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-execises.html" class="sidebar-item-text sidebar-link">
+  <a href="./execises-11.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">11 - Survival Analysis and Censored Data</span></a>
   </div>
 </li>
@@ -277,44 +270,44 @@ div.csl-indent {
    
   <ul>
 <li>
-<a href="#general-concepts" id="toc-general-concepts" class="nav-link active" data-scroll-target="#general-concepts"><span class="header-section-number">9.1</span> General concepts</a>
+<a href="#general-concepts" id="toc-general-concepts" class="nav-link active" data-scroll-target="#general-concepts"><span class="header-section-number">8.1</span> General concepts</a>
   <ul>
-<li><a href="#case-of-use" id="toc-case-of-use" class="nav-link" data-scroll-target="#case-of-use"><span class="header-section-number">9.1.1</span> Case of use</a></li>
-  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="header-section-number">9.1.2</span> Assumptions</a></li>
-  <li><a href="#censoring-types" id="toc-censoring-types" class="nav-link" data-scroll-target="#censoring-types"><span class="header-section-number">9.1.3</span> Censoring types</a></li>
+<li><a href="#case-of-use" id="toc-case-of-use" class="nav-link" data-scroll-target="#case-of-use"><span class="header-section-number">8.1.1</span> Case of use</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions"><span class="header-section-number">8.1.2</span> Assumptions</a></li>
+  <li><a href="#censoring-types" id="toc-censoring-types" class="nav-link" data-scroll-target="#censoring-types"><span class="header-section-number">8.1.3</span> Censoring types</a></li>
   </ul>
 </li>
   <li>
-<a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="header-section-number">9.2</span> Kaplan-Meier Survival Curve</a>
+<a href="#kaplan-meier-survival-curve" id="toc-kaplan-meier-survival-curve" class="nav-link" data-scroll-target="#kaplan-meier-survival-curve"><span class="header-section-number">8.2</span> Kaplan-Meier Survival Curve</a>
   <ul>
-<li><a href="#empirical-explanation" id="toc-empirical-explanation" class="nav-link" data-scroll-target="#empirical-explanation"><span class="header-section-number">9.2.1</span> Empirical explanation</a></li>
-  <li><a href="#mathematical-explanation" id="toc-mathematical-explanation" class="nav-link" data-scroll-target="#mathematical-explanation"><span class="header-section-number">9.2.2</span> Mathematical explanation</a></li>
-  <li><a href="#interpreting-survival-curve" id="toc-interpreting-survival-curve" class="nav-link" data-scroll-target="#interpreting-survival-curve"><span class="header-section-number">9.2.3</span> Interpreting Survival Curve</a></li>
-  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="header-section-number">9.2.4</span> Coding example</a></li>
+<li><a href="#empirical-explanation" id="toc-empirical-explanation" class="nav-link" data-scroll-target="#empirical-explanation"><span class="header-section-number">8.2.1</span> Empirical explanation</a></li>
+  <li><a href="#mathematical-explanation" id="toc-mathematical-explanation" class="nav-link" data-scroll-target="#mathematical-explanation"><span class="header-section-number">8.2.2</span> Mathematical explanation</a></li>
+  <li><a href="#interpreting-survival-curve" id="toc-interpreting-survival-curve" class="nav-link" data-scroll-target="#interpreting-survival-curve"><span class="header-section-number">8.2.3</span> Interpreting Survival Curve</a></li>
+  <li><a href="#coding-example" id="toc-coding-example" class="nav-link" data-scroll-target="#coding-example"><span class="header-section-number">8.2.4</span> Coding example</a></li>
   </ul>
 </li>
   <li>
-<a href="#weibull-model-survival-curve" id="toc-weibull-model-survival-curve" class="nav-link" data-scroll-target="#weibull-model-survival-curve"><span class="header-section-number">9.3</span> Weibull Model Survival Curve</a>
+<a href="#weibull-model-survival-curve" id="toc-weibull-model-survival-curve" class="nav-link" data-scroll-target="#weibull-model-survival-curve"><span class="header-section-number">8.3</span> Weibull Model Survival Curve</a>
   <ul>
-<li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="header-section-number">9.3.1</span> Coding example</a></li>
+<li><a href="#coding-example-1" id="toc-coding-example-1" class="nav-link" data-scroll-target="#coding-example-1"><span class="header-section-number">8.3.1</span> Coding example</a></li>
   </ul>
 </li>
-  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="header-section-number">9.4</span> Log-Rank Test</a></li>
+  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="header-section-number">8.4</span> Log-Rank Test</a></li>
   <li>
-<a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="header-section-number">9.5</span> Regression Models With a Survival Response</a>
+<a href="#regression-models-with-a-survival-response" id="toc-regression-models-with-a-survival-response" class="nav-link" data-scroll-target="#regression-models-with-a-survival-response"><span class="header-section-number">8.5</span> Regression Models With a Survival Response</a>
   <ul>
-<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="header-section-number">9.5.1</span> Hazard Function</a></li>
+<li><a href="#hazard-function" id="toc-hazard-function" class="nav-link" data-scroll-target="#hazard-function"><span class="header-section-number">8.5.1</span> Hazard Function</a></li>
   <li>
-<a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time"><span class="header-section-number">9.5.2</span> Modeling the survival time</a>
+<a href="#modeling-the-survival-time" id="toc-modeling-the-survival-time" class="nav-link" data-scroll-target="#modeling-the-survival-time"><span class="header-section-number">8.5.2</span> Modeling the survival time</a>
   <ul class="collapse">
 <li><a href="#lineal-approach" id="toc-lineal-approach" class="nav-link" data-scroll-target="#lineal-approach">Lineal approach</a></li>
   <li><a href="#flexible-approach" id="toc-flexible-approach" class="nav-link" data-scroll-target="#flexible-approach">Flexible approach</a></li>
   <li><a href="#weibull-model" id="toc-weibull-model" class="nav-link" data-scroll-target="#weibull-model">Weibull model</a></li>
   </ul>
 </li>
-  <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="header-section-number">9.5.3</span> Shrinkage for the Cox Model</a></li>
+  <li><a href="#shrinkage-for-the-cox-model" id="toc-shrinkage-for-the-cox-model" class="nav-link" data-scroll-target="#shrinkage-for-the-cox-model"><span class="header-section-number">8.5.3</span> Shrinkage for the Cox Model</a></li>
   <li>
-<a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="header-section-number">9.5.4</span> Model Evaluation</a>
+<a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation"><span class="header-section-number">8.5.4</span> Model Evaluation</a>
   <ul class="collapse">
 <li><a href="#comparing-predicted-and-true-survival-times" id="toc-comparing-predicted-and-true-survival-times" class="nav-link" data-scroll-target="#comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</a></li>
   <li><a href="#c-index" id="toc-c-index" class="nav-link" data-scroll-target="#c-index">C-index</a></li>
@@ -322,13 +315,13 @@ div.csl-indent {
 </li>
   </ul>
 </li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9.6</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8.6</span> References</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span>
+<span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Time-event (Survival) Analysis and Censored Data</span>
 </h1>
 </div>
 
@@ -342,8 +335,8 @@ div.csl-indent {
   </div>
   
 
-</header><section id="general-concepts" class="level2" data-number="9.1"><h2 data-number="9.1" class="anchored" data-anchor-id="general-concepts">
-<span class="header-section-number">9.1</span> General concepts</h2>
+</header><section id="general-concepts" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="general-concepts">
+<span class="header-section-number">8.1</span> General concepts</h2>
 <p>In this models the outcome variable is the <strong>time until an event occurs</strong> or any other numeric variable have been <strong>censored</strong> by any limitation during data collection. In consecuence, times are always <strong>positive</strong> and we need to use distributions like the <strong>Weibull</strong> distribution.</p>
 <ul>
 <li>
@@ -368,22 +361,22 @@ Y = \min(T, C)
 <figure class="figure"><p><img src="img/55-censored-survival-example.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-<section id="case-of-use" class="level3" data-number="9.1.1"><h3 data-number="9.1.1" class="anchored" data-anchor-id="case-of-use">
-<span class="header-section-number">9.1.1</span> Case of use</h3>
+<section id="case-of-use" class="level3" data-number="8.1.1"><h3 data-number="8.1.1" class="anchored" data-anchor-id="case-of-use">
+<span class="header-section-number">8.1.1</span> Case of use</h3>
 <ul>
 <li>The time needed for the individual to find a job again</li>
 <li>The time needed for a letter to be delivered</li>
 <li>The time needed for a cab to pick you up at your house after having called the cab company</li>
 <li>The time needed for a customer to churn.</li>
 <li>When our measure instrument cannot report values <strong>above a certain number</strong>.</li>
-</ul></section><section id="assumptions" class="level3" data-number="9.1.2"><h3 data-number="9.1.2" class="anchored" data-anchor-id="assumptions">
-<span class="header-section-number">9.1.2</span> Assumptions</h3>
+</ul></section><section id="assumptions" class="level3" data-number="8.1.2"><h3 data-number="8.1.2" class="anchored" data-anchor-id="assumptions">
+<span class="header-section-number">8.1.2</span> Assumptions</h3>
 <p>In order to analyze survival data, we need to determine whether the following assumptions are reasonable:</p>
 <ul>
 <li><p>The <strong>event time</strong> <span class="math inline">\(T\)</span> <strong>is independent of the censoring time</strong> <span class="math inline">\(C\)</span>. For example, <em>patients drop out of the cancer study early because they are very sick</em>, that would <strong>overestimate</strong> the true average survival time. We can check this assumption by exploring the <strong><em>reasons related to dropouts</em></strong>.</p></li>
 <li><p>The <strong>predictors are independent of the censoring event</strong> <span class="math inline">\(\delta = 0\)</span>. For example, if in our study <em>very sick males are more likely to drop out of the study than very sick females</em>, that would drive the <strong>wrong conclusion</strong> that males survive longer than females.</p></li>
-</ul></section><section id="censoring-types" class="level3" data-number="9.1.3"><h3 data-number="9.1.3" class="anchored" data-anchor-id="censoring-types">
-<span class="header-section-number">9.1.3</span> Censoring types</h3>
+</ul></section><section id="censoring-types" class="level3" data-number="8.1.3"><h3 data-number="8.1.3" class="anchored" data-anchor-id="censoring-types">
+<span class="header-section-number">8.1.3</span> Censoring types</h3>
 <ol type="1">
 <li>
 <strong>Right censoring</strong>: It occurs when <span class="math inline">\(T \geq Y\)</span>, i.e.&nbsp;the true event time <span class="math inline">\(T\)</span> is at least as large as the observed time <span class="math inline">\(Y\)</span>.</li>
@@ -393,8 +386,8 @@ Y = \min(T, C)
 <strong>Interval censoring</strong>: It refers to the setting in which we do not know the exact event time, but we know that it falls in some interval.</li>
 </ol>
 <p><em>Right censoring will be the main focus of this chapter.</em></p>
-</section></section><section id="kaplan-meier-survival-curve" class="level2" data-number="9.2"><h2 data-number="9.2" class="anchored" data-anchor-id="kaplan-meier-survival-curve">
-<span class="header-section-number">9.2</span> Kaplan-Meier Survival Curve</h2>
+</section></section><section id="kaplan-meier-survival-curve" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="kaplan-meier-survival-curve">
+<span class="header-section-number">8.2</span> Kaplan-Meier Survival Curve</h2>
 <p>The <strong>survival curve (function)</strong> is defined as the probability that the <em>event time</em> <span class="math inline">\(T\)</span> happens later than a time <span class="math inline">\(t\)</span>. As result, <em>the larger the value of </em><span class="math inline">\(S(t)\)</span><em>, the less likely that the event would take place before time</em> <span class="math inline">\(t\)</span>.</p>
 <p><span class="math display">\[
 S(t) = \Pr(T &gt; t)
@@ -424,13 +417,11 @@ $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34
 <span>            keyby <span class="op">=</span> <span class="fu">.</span><span class="op">(</span>alive_after_20_months <span class="op">=</span> <span class="va">time</span> <span class="op">&gt;</span> <span class="fl">20</span>,</span>
 <span>                      event_time <span class="op">=</span> <span class="va">status</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Key: &lt;alive_after_20_months, event_time&gt;
-   alive_after_20_months event_time     N
-                  &lt;lgcl&gt;      &lt;int&gt; &lt;int&gt;
-1:                 FALSE          0    17
-2:                 FALSE          1    23
-3:                  TRUE          0    35
-4:                  TRUE          1    12</code></pre>
+<pre><code>   alive_after_20_months event_time  N
+1:                 FALSE          0 17
+2:                 FALSE          1 23
+3:                  TRUE          0 35
+4:                  TRUE          1 12</code></pre>
 </div>
 </div>
 <ul>
@@ -438,15 +429,15 @@ $ time      &lt;dbl&gt; 57.64, 8.98, 26.46, 47.80, 6.30, 52.75, 55.80, 42.10, 34
 <li><p>Omitting the <span class="math inline">\(17\)</span> censored patients might sound as solution but that would <strong>under estimate</strong> the probability as a patient who was censored at <span class="math inline">\(t = 19.9\)</span> likely would have survived past <span class="math inline">\(t = 20\)</span>, and would be better to take a advantage of that censored time.</p></li>
 </ul>
 <p><em>The Kaplan-Meier method shares a solution to this problem.</em></p>
-<section id="empirical-explanation" class="level3" data-number="9.2.1"><h3 data-number="9.2.1" class="anchored" data-anchor-id="empirical-explanation">
-<span class="header-section-number">9.2.1</span> Empirical explanation</h3>
+<section id="empirical-explanation" class="level3" data-number="8.2.1"><h3 data-number="8.2.1" class="anchored" data-anchor-id="empirical-explanation">
+<span class="header-section-number">8.2.1</span> Empirical explanation</h3>
 <p><br></p>
 <div style="text-align: center;">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7_XK7mGMm1E?start=659" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="">
 </iframe>
 </div>
-</section><section id="mathematical-explanation" class="level3" data-number="9.2.2"><h3 data-number="9.2.2" class="anchored" data-anchor-id="mathematical-explanation">
-<span class="header-section-number">9.2.2</span> Mathematical explanation</h3>
+</section><section id="mathematical-explanation" class="level3" data-number="8.2.2"><h3 data-number="8.2.2" class="anchored" data-anchor-id="mathematical-explanation">
+<span class="header-section-number">8.2.2</span> Mathematical explanation</h3>
 <p>Let’s start defining some important elements:</p>
 <ul>
 <li>
@@ -479,8 +470,8 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 </figure>
 </div>
 <p><em>Based on this new function we can say that the probability of survival past 20 months is</em> <span class="math inline">\(71\%\)</span>.</p>
-</section><section id="interpreting-survival-curve" class="level3" data-number="9.2.3"><h3 data-number="9.2.3" class="anchored" data-anchor-id="interpreting-survival-curve">
-<span class="header-section-number">9.2.3</span> Interpreting Survival Curve</h3>
+</section><section id="interpreting-survival-curve" class="level3" data-number="8.2.3"><h3 data-number="8.2.3" class="anchored" data-anchor-id="interpreting-survival-curve">
+<span class="header-section-number">8.2.3</span> Interpreting Survival Curve</h3>
 <p>If select a <span class="math inline">\(t\)</span> value on the <span class="math inline">\(x\)</span>-axis we can answer the flowing questions:</p>
 <ul>
 <li>What is the probability that a breast cancer patient survives longer than 5 years? <span class="math inline">\(S(5)\)</span>
@@ -494,8 +485,8 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <figure class="figure"><p><img src="img/64-median-survival-curve.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="coding-example" class="level3" data-number="9.2.4"><h3 data-number="9.2.4" class="anchored" data-anchor-id="coding-example">
-<span class="header-section-number">9.2.4</span> Coding example</h3>
+</section><section id="coding-example" class="level3" data-number="8.2.4"><h3 data-number="8.2.4" class="anchored" data-anchor-id="coding-example">
+<span class="header-section-number">8.2.4</span> Coding example</h3>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
 <span></span>
@@ -546,7 +537,7 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span>  title <span class="op">=</span> <span class="st">"Brain Cancer Survival Curve"</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Some additional options to consider:</p>
@@ -578,15 +569,15 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span>       wrong <span class="op">=</span> <span class="va">BrainCancerSvWrong</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>As results we would unter estimate the probability of survive</em>.</p>
-</section></section><section id="weibull-model-survival-curve" class="level2" data-number="9.3"><h2 data-number="9.3" class="anchored" data-anchor-id="weibull-model-survival-curve">
-<span class="header-section-number">9.3</span> Weibull Model Survival Curve</h2>
+</section></section><section id="weibull-model-survival-curve" class="level2" data-number="8.3"><h2 data-number="8.3" class="anchored" data-anchor-id="weibull-model-survival-curve">
+<span class="header-section-number">8.3</span> Weibull Model Survival Curve</h2>
 <p>The Weibull model can produce a <em>smooth survival curve</em> by using some assumptions about the distribution, but it is very useful when we are adjusting the <em>results based on covariates</em> or <em>making inferences</em>.</p>
-<section id="coding-example-1" class="level3" data-number="9.3.1"><h3 data-number="9.3.1" class="anchored" data-anchor-id="coding-example-1">
-<span class="header-section-number">9.3.1</span> Coding example</h3>
+<section id="coding-example-1" class="level3" data-number="8.3.1"><h3 data-number="8.3.1" class="anchored" data-anchor-id="coding-example-1">
+<span class="header-section-number">8.3.1</span> Coding example</h3>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Defining the probabilities to plot</span></span>
 <span></span>
@@ -594,7 +585,7 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SurvivalProb</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fitting the distribution</span></span>
 <span></span>
@@ -626,11 +617,11 @@ S(d_k) = &amp; \Pr(T &gt; d_k|T &gt; d_{k-1}) \times \dots \times \Pr(T &gt; d_2
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/survminer/man/ggsurvplot_df.html">ggsurvplot_df</a></span><span class="op">(</span>surv.geom <span class="op">=</span> <span class="va">geom_line</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="log-rank-test" class="level2" data-number="9.4"><h2 data-number="9.4" class="anchored" data-anchor-id="log-rank-test">
-<span class="header-section-number">9.4</span> Log-Rank Test</h2>
+</section></section><section id="log-rank-test" class="level2" data-number="8.4"><h2 data-number="8.4" class="anchored" data-anchor-id="log-rank-test">
+<span class="header-section-number">8.4</span> Log-Rank Test</h2>
 <p>If we want to explore whether the sex is an important factor to impact the <em>survival curve</em> we can create a plot comparing the curve of each sex.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="img/57-survival-curve-male-female.png" class="img-fluid figure-img"></p>
@@ -667,11 +658,11 @@ W &amp; = \frac{\sum_{k=1}^K(q_{1k}-\text{E}(q_{1k}))}
 \]</span></p>
 <p>When the <strong>sample size is large</strong>, the log-rank test statistic <span class="math inline">\(W\)</span> has approximately a <strong>standard normal distribution</strong> and can be used to compute a <strong>p-value</strong> for the null hypothesis that there is no difference between the survival curves in the two groups.</p>
 <p>For the <code><a href="https://rdrr.io/pkg/ISLR2/man/BrainCancer.html">ISLR2::BrainCancer</a></code>the <strong>p-value is 0.2</strong> using the theoretical null distribution. Thus, <strong>we cannot reject the null hypothesis</strong> of no difference in survival curves between females and males.</p>
-</section><section id="regression-models-with-a-survival-response" class="level2" data-number="9.5"><h2 data-number="9.5" class="anchored" data-anchor-id="regression-models-with-a-survival-response">
-<span class="header-section-number">9.5</span> Regression Models With a Survival Response</h2>
+</section><section id="regression-models-with-a-survival-response" class="level2" data-number="8.5"><h2 data-number="8.5" class="anchored" data-anchor-id="regression-models-with-a-survival-response">
+<span class="header-section-number">8.5</span> Regression Models With a Survival Response</h2>
 <p>Fitting a linear regression to a censored data can be challenging as we want to predict <span class="math inline">\(T\)</span> rather than <span class="math inline">\(Y\)</span> and to overcome this difficulty need to use <em>a sequential construction</em>.</p>
-<section id="hazard-function" class="level3" data-number="9.5.1"><h3 data-number="9.5.1" class="anchored" data-anchor-id="hazard-function">
-<span class="header-section-number">9.5.1</span> Hazard Function</h3>
+<section id="hazard-function" class="level3" data-number="8.5.1"><h3 data-number="8.5.1" class="anchored" data-anchor-id="hazard-function">
+<span class="header-section-number">8.5.1</span> Hazard Function</h3>
 <p>The <strong>hazard function</strong> also known as <em>hazard rate</em> or <em>force of mortality</em> is useful to estimate the <strong>risk of an event</strong> and measures the instantaneous rate (<em>conditional probability/unit of time</em>) at which events occur given that the event has not yet occurred for the subjects under study.</p>
 <p><span class="math display">\[
 h(t) = \lim_{\Delta t \rightarrow 0} \frac{\Pr(t &lt; T \leq t + \Delta t| T &gt; t)}{\Delta t}
@@ -752,11 +743,11 @@ h(t) &amp; = \frac{f(t)}{S(t)}
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>face <span class="op">=</span> <span class="st">"bold"</span>, </span>
 <span>                                  margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">0.5</span>, unit <span class="op">=</span> <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/hazard-rate-simulated-plot-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section><section id="modeling-the-survival-time" class="level3" data-number="9.5.2"><h3 data-number="9.5.2" class="anchored" data-anchor-id="modeling-the-survival-time">
-<span class="header-section-number">9.5.2</span> Modeling the survival time</h3>
+</section><section id="modeling-the-survival-time" class="level3" data-number="8.5.2"><h3 data-number="8.5.2" class="anchored" data-anchor-id="modeling-the-survival-time">
+<span class="header-section-number">8.5.2</span> Modeling the survival time</h3>
 <p>As we often want to know how a treatment or the severity of an illness affects the survival of the patients.</p>
 <section id="lineal-approach" class="level4"><h4 class="anchored" data-anchor-id="lineal-approach">Lineal approach</h4>
 <p>To use the hazard function to <strong>model the survival time</strong> as a function of the <strong>covariates</strong> (predictors), we can assume the next form for the hazard function to assure positive results:</p>
@@ -871,7 +862,7 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <span>  censor <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section></section><section id="weibull-model" class="level4"><h4 class="anchored" data-anchor-id="weibull-model">Weibull model</h4>
@@ -907,7 +898,7 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SurvivalProb</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Defining the relations to plot</span></span>
 <span></span>
@@ -918,17 +909,15 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <span></span>
 <span><span class="va">BrainCancerGrid</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Key: &lt;diagnosis, ki&gt;
-    diagnosis    ki
-       &lt;char&gt; &lt;num&gt;
-1:  HG glioma    80
-2:  HG glioma    90
-3:  LG glioma    80
-4:  LG glioma    90
-5: Meningioma    80
-6: Meningioma    90
-7:      Other    80
-8:      Other    90</code></pre>
+<pre><code>    diagnosis ki
+1:  HG glioma 80
+2:  HG glioma 90
+3:  LG glioma 80
+4:  LG glioma 90
+5: Meningioma 80
+6: Meningioma 90
+7:      Other 80
+8:      Other 90</code></pre>
 </div>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># The predict function creates column per observation in newdata</span></span>
 <span></span>
@@ -957,11 +946,11 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <span>                color <span class="op">=</span> <span class="st">"diagnosis"</span>, </span>
 <span>                legend.title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="survival-analysis_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+<p><img src="08-survival-analysis_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="shrinkage-for-the-cox-model" class="level3" data-number="9.5.3"><h3 data-number="9.5.3" class="anchored" data-anchor-id="shrinkage-for-the-cox-model">
-<span class="header-section-number">9.5.3</span> Shrinkage for the Cox Model</h3>
+</section></section><section id="shrinkage-for-the-cox-model" class="level3" data-number="8.5.3"><h3 data-number="8.5.3" class="anchored" data-anchor-id="shrinkage-for-the-cox-model">
+<span class="header-section-number">8.5.3</span> Shrinkage for the Cox Model</h3>
 <p>To implement the “loss+penalty” formulation to our <em>partial likelihood</em> we use the next function:</p>
 <p><span class="math display">\[
 - \log
@@ -988,8 +977,8 @@ PL(\beta) = \prod_{i: \delta_i = 1} \frac{\exp \left( \sum_{j=1}^p x_{ij} \beta_
 <figure class="figure"><p><img src="img/62-lasso-penalized-Cox-model.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
-</section><section id="model-evaluation" class="level3" data-number="9.5.4"><h3 data-number="9.5.4" class="anchored" data-anchor-id="model-evaluation">
-<span class="header-section-number">9.5.4</span> Model Evaluation</h3>
+</section><section id="model-evaluation" class="level3" data-number="8.5.4"><h3 data-number="8.5.4" class="anchored" data-anchor-id="model-evaluation">
+<span class="header-section-number">8.5.4</span> Model Evaluation</h3>
 <section id="comparing-predicted-and-true-survival-times" class="level4"><h4 class="anchored" data-anchor-id="comparing-predicted-and-true-survival-times">Comparing predicted and true survival times</h4>
 <p>To compare the predicted and the true survival time, we need to figure out how to:</p>
 <ol type="1">
@@ -1230,8 +1219,8 @@ C = \frac{\sum_{i,i':y_i&gt;y_{i'}} I(\hat{\eta}_{i'} &gt; \hat{\eta}_{i}) \delt
 3              . 0.7501296</code></pre>
 </div>
 </div>
-</section></section></section></section><section id="references" class="level2" data-number="9.6"><h2 data-number="9.6" class="anchored" data-anchor-id="references">
-<span class="header-section-number">9.6</span> References</h2>
+</section></section></section></section><section id="references" class="level2" data-number="8.6"><h2 data-number="8.6" class="anchored" data-anchor-id="references">
+<span class="header-section-number">8.6</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -1472,19 +1461,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./non-parametric-models.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span>
+      <a href="./07-non-parametric-models.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Non-parametric Methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./unsupervised-learning.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./09-unsupervised-learning.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer">
-    <div class="nav-footer-left">Non official solitions of An Introduction to Statistical Learning Second Edition</div>   
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
