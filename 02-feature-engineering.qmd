@@ -5,46 +5,290 @@ format:
     css: summary-format.css
 ---
 
-# Dealing with missingness
+# Feature Engineering
 
-The category that drives missing values will determine how you handle them. For example, we may give values that are driven by informative missingness their own category (e.g., "None") as their unique value may affect predictive performance. Whereas values that are missing at random may deserve deletion or imputation.
+## Handeling Missing Values
 
-## Visualizing missing values
+### Flavors of missingness
 
-It is important to understand the **distribution of missing values** in a data set in order to determine the best approach for pre-processing. 
+1. **MCAR - Missing Completely at Random**: The probability of being missing is the same for all case. Strategies to handle MCAR are:
 
-```r
-vis_miss(AmesHousing::ames_raw, cluster = TRUE)
+  - To delete observations if you are losing less than 5% of the data.
+  - To impute the data
+
+2. **MAR - Missing At Random**: The locations of missing values in the dataset depend on some other, observed data. Strategies to handle MAR are:
+
+  - To impute the data
+  
+3. **MNAR - Missing Not At Random**: It means that the probability of being missing varies for reasons that are unknown to us. Strategies to handle MNAR are:
+
+  - To find more data about the causes for the missingness
+  - To perform what-if analyses to see how sensitive the results are under various scenarios
+
+::: {.callout-note}
+So we try to find any variable change its mean based on missing values to demostrate that they are missing at random.
+:::
+
+### Imputation Process
+
+#### Where we have missing values?
+
+```{r}
+airquality |>
+  mice::md.pattern(rotate.names = FALSE) |>
+  invisible()
 ```
 
-## Imputation
+After checking the plots we know that:
 
-Imputation is the process of replacing a missing value with a substituted, “best guess” value. Imputation should be one of the first feature engineering steps you take as it will affect any downstream preprocessing
+- We need to impute the `Ozone` column as it has 37 missing values.
+- As 5 rows are missing `Solar.R` we need to train 2 model. One trained with that variable and other trained with
 
-### Estimated statistic
+#### How is the relation between variables?
 
-An elementary approach to imputing missing values for a feature is to compute descriptive statistics such as the mean, median, or mode (for categorical) and use that value to replace `NA`s and add a column to indicate if a particular value was inputted.
+```{r}
+library(tidymodels)
 
-```r
-ames_recipe %>%
-  step_medianimpute(Gr_Liv_Area)
+airquality |>
+  pivot_longer(cols = -Ozone) |>
+  ggplot(aes(value, Ozone, color = is.na(Ozone)))+
+  naniar::geom_miss_point(show.legend = FALSE)+
+  facet_wrap(~name, scales = "free")+
+  theme_light()
+
 ```
 
-### K-nearest neighbor
+#### How well can be predict Ozone?
 
-K-nearest neighbor (KNN) imputes values by identifying observations with missing values, then identifying other observations that are most similar based on the other available features, and using the values from these nearest neighbor observations to impute missing values. KNN imputation is best used on small to moderate sized data sets as it becomes computationally burdensome with larger data sets.
+```{r}
+OzoneTrainSolar <- 
+  na.omit(airquality)
 
-```r
-ames_recipe %>%
-  step_knnimpute(all_predictors(), neighbors = 6)
+OzoneTrain <- airquality |>
+  select(-Solar.R) |>
+  na.omit()
+
+# Define Model
+lasso_model <- linear_reg(
+  engine = "glmnet",
+  penalty = 1,
+  mixture = 1
+)
+
+# Define Recipes
+step_ozone <- function(x){
+  
+  step_poly(x,
+            all_numeric_predictors(),
+            degree = 2) |>
+  step_interact(terms = ~(. -Ozone)^2) |>
+  step_zv(all_numeric_predictors()) |>
+  step_scale(all_numeric_predictors())
+  
+}
+
+OzoneRecipeSolar <- 
+  recipe(Ozone ~ Wind + Temp + Solar.R,
+         data = OzoneTrainSolar) |>
+  step_ozone()
+
+OzoneRecipe <- 
+  recipe(Ozone ~ Wind + Temp,
+         data = OzoneTrain) |>
+  step_ozone()
+
+
+# Defining Models
+OzoneSolarLmWf <- workflow(
+  OzoneRecipeSolar,
+  lasso_model
+)
+
+OzoneLmWf <- workflow(
+  OzoneRecipe,
+  lasso_model
+)
+
+# Training Models
+OzoneSolarLmFit <- fit(
+  OzoneSolarLmWf,
+  data = OzoneTrainSolar
+)
+
+OzoneLmFit <- fit(
+  OzoneLmWf,
+  data = OzoneTrain
+)
+
+# Defining re-samples
+set.seed(5050)
+OzoneTrainSolarRs <- mc_cv(OzoneTrainSolar, times = 30)
+set.seed(4040)
+OzoneTrainRs <- mc_cv(OzoneTrain, times = 30)
+set.seed(NULL)
+
+
+# Model evaluation
+fit_resamples(OzoneSolarLmWf,
+              resamples = OzoneTrainSolarRs) |>
+  collect_metrics()
+
+fit_resamples(OzoneLmWf,
+              resamples = OzoneTrainRs) |>
+  collect_metrics()
 ```
 
-### K-nearest neighbor
+#### Imputing Ozone
 
-Similar to KNN imputation, observations with missing values are identified and the feature containing the missing value is treated as the target and predicted using bagged decision trees.
+```{r}
+impute_ozone <- function(df,
+                         model1,
+                         model2){
+  
+  df |>
+  mutate(Ozone = coalesce(
+    Ozone,
+    predict(model1, df)$`.pred`,
+    predict(model2, df)$`.pred`
+  ))
+  
+}
 
-```r
-ames_recipe %>%
-  step_bagimpute(all_predictors())
+
+AirOzoneInput <-
+  airquality |>
+  mutate(Ozone_NA = if_else(is.na(Ozone),"Yes", "No")) |>
+  impute_ozone(OzoneSolarLmFit,
+               OzoneLmFit)
+
+OzoneSolarLmFit |>
+  augment(AirOzoneInput) |>
+  mutate(Ozone = coalesce(
+    Ozone,
+    predict(OzoneLmFit, AirOzoneInput)$`.pred`
+  )) |>
+  na.omit() |>
+  ggplot(aes(Ozone, .pred))+
+  geom_point(alpha = .4)+
+  geom_abline()+
+  theme_light()
+
 ```
 
+#### Validate how inputations fits to data
+
+```{r}
+pivot_longer(AirOzoneInput,
+             cols = -c(Ozone, Ozone_NA)) |>
+  na.omit() |>
+  ggplot(aes(value, Ozone, color = Ozone_NA))+
+  geom_point(show.legend = FALSE)+
+  scale_color_manual(values = c("Yes" = "red",
+                                "No" = "grey60"))+
+  facet_wrap(~name, scales = "free")+
+  theme_light()
+```
+
+
+#### How is the relation between variables?
+
+```{r}
+AirOzoneInput |>
+  select(-Ozone_NA) |>
+  pivot_longer(cols = -Solar.R) |>
+  ggplot(aes(value, Solar.R, color = is.na(Solar.R)))+
+  naniar::geom_miss_point(show.legend = FALSE)+
+  facet_wrap(~name, scales = "free")+
+  theme_light()
+
+```
+
+
+#### How well can be predict Solar.R?
+
+```{r}
+# Define Model
+knn_model <- nearest_neighbor(
+  mode = "regression",
+  neighbors = tune()
+)
+
+
+# Defining Recipe
+SolarRecipe <- 
+  recipe(Solar.R ~ .,
+         data = AirOzoneInput) |>
+  step_rm(Ozone_NA) |>
+  step_poly(all_numeric_predictors(),
+            degree = 2) |>
+  step_interact(terms = ~(. -Solar.R)^2) |>
+  step_zv(all_numeric_predictors()) |>
+  step_range()
+
+
+# Defining Models
+SolarKnnWf <- workflow(
+  SolarRecipe,
+  knn_model
+)
+
+# Defining re-samples
+set.seed(5154)
+SolarRs <- mc_cv(AirOzoneInput, times = 30)
+set.seed(NULL)
+
+# Model evaluation
+SolarKnnTunned <-
+  tune_grid(SolarKnnWf,
+            resamples = SolarRs,
+            grid = tibble(neighbors = 1:50),
+            metrics = metric_set(rsq))
+
+show_best(SolarKnnTunned)
+
+# Training Models
+SolarKnnFit <- 
+  SolarKnnWf |>
+  finalize_workflow(select_best(SolarKnnTunned)) |>
+  fit(data = AirOzoneInput)
+```
+
+#### Imputing Solar.R
+
+```{r}
+AirInputed <-
+  AirOzoneInput |>
+  mutate(Solar.R_NA = if_else(is.na(Solar.R),"Yes", "No"),
+         Solar.R = coalesce(
+           Solar.R,
+           predict(SolarKnnFit, AirOzoneInput)$`.pred`)
+  )
+
+AirOzoneInput |>
+  bind_cols(predict(SolarKnnFit, AirOzoneInput)) |>
+  rsq(truth = Solar.R,
+      estimate = `.pred`)
+
+```
+
+#### Validate how inputations fits to data
+
+```{r}
+SolarKnnFit |>
+  augment(AirOzoneInput) |>
+  na.omit() |>
+  ggplot(aes(Solar.R, .pred))+
+  geom_point(alpha = .4)+
+  geom_abline()+
+  theme_light()
+
+AirInputed |>
+  select(-Ozone_NA) |>
+  pivot_longer(cols = -c(Solar.R, Solar.R_NA)) |>
+  ggplot(aes(value, `Solar.R`, color = Solar.R_NA))+
+  geom_point(show.legend = FALSE)+
+  scale_color_manual(values = c("Yes" = "red",
+                                "No" = "grey60"))+
+  facet_wrap(~name, scales = "free")+
+  theme_light()
+```
