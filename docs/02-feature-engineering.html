@@ -253,19 +253,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>
 <a href="#handeling-missing-values" id="toc-handeling-missing-values" class="nav-link active" data-scroll-target="#handeling-missing-values"><span class="header-section-number">2.1</span> Handeling Missing Values</a>
   <ul>
-<li><a href="#flavors-of-missingness" id="toc-flavors-of-missingness" class="nav-link" data-scroll-target="#flavors-of-missingness"><span class="header-section-number">2.1.1</span> Flavors of missingness</a></li>
+<li><a href="#introducction" id="toc-introducction" class="nav-link" data-scroll-target="#introducction"><span class="header-section-number">2.1.1</span> Introducction</a></li>
   <li>
-<a href="#imputation-process" id="toc-imputation-process" class="nav-link" data-scroll-target="#imputation-process"><span class="header-section-number">2.1.2</span> Imputation Process</a>
+<a href="#imputation-practical-example" id="toc-imputation-practical-example" class="nav-link" data-scroll-target="#imputation-practical-example"><span class="header-section-number">2.1.2</span> Imputation practical example</a>
   <ul class="collapse">
-<li><a href="#where-we-have-missing-values" id="toc-where-we-have-missing-values" class="nav-link" data-scroll-target="#where-we-have-missing-values">Where we have missing values?</a></li>
-  <li><a href="#how-is-the-relation-between-variables" id="toc-how-is-the-relation-between-variables" class="nav-link" data-scroll-target="#how-is-the-relation-between-variables">How is the relation between variables?</a></li>
-  <li><a href="#how-well-can-be-predict-ozone" id="toc-how-well-can-be-predict-ozone" class="nav-link" data-scroll-target="#how-well-can-be-predict-ozone">How well can be predict Ozone?</a></li>
-  <li><a href="#imputing-ozone" id="toc-imputing-ozone" class="nav-link" data-scroll-target="#imputing-ozone">Imputing Ozone</a></li>
-  <li><a href="#validate-how-inputations-fits-to-data" id="toc-validate-how-inputations-fits-to-data" class="nav-link" data-scroll-target="#validate-how-inputations-fits-to-data">Validate how inputations fits to data</a></li>
-  <li><a href="#how-is-the-relation-between-variables-1" id="toc-how-is-the-relation-between-variables-1" class="nav-link" data-scroll-target="#how-is-the-relation-between-variables-1">How is the relation between variables?</a></li>
-  <li><a href="#how-well-can-be-predict-solar.r" id="toc-how-well-can-be-predict-solar.r" class="nav-link" data-scroll-target="#how-well-can-be-predict-solar.r">How well can be predict Solar.R?</a></li>
-  <li><a href="#imputing-solar.r" id="toc-imputing-solar.r" class="nav-link" data-scroll-target="#imputing-solar.r">Imputing Solar.R</a></li>
-  <li><a href="#validate-how-inputations-fits-to-data-1" id="toc-validate-how-inputations-fits-to-data-1" class="nav-link" data-scroll-target="#validate-how-inputations-fits-to-data-1">Validate how inputations fits to data</a></li>
+<li><a href="#confirming-if-missing-completely-at-random" id="toc-confirming-if-missing-completely-at-random" class="nav-link" data-scroll-target="#confirming-if-missing-completely-at-random">Confirming if missing completely at random</a></li>
+  <li><a href="#explore-missing-values-patterns" id="toc-explore-missing-values-patterns" class="nav-link" data-scroll-target="#explore-missing-values-patterns">Explore missing values patterns</a></li>
+  <li><a href="#imputing-ozone-values" id="toc-imputing-ozone-values" class="nav-link" data-scroll-target="#imputing-ozone-values">Imputing Ozone values</a></li>
+  <li><a href="#removing-solar.r-values" id="toc-removing-solar.r-values" class="nav-link" data-scroll-target="#removing-solar.r-values">Removing Solar.R values</a></li>
   </ul>
 </li>
   </ul>
@@ -291,326 +286,255 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header><section id="handeling-missing-values" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="handeling-missing-values">
 <span class="header-section-number">2.1</span> Handeling Missing Values</h2>
-<section id="flavors-of-missingness" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="flavors-of-missingness">
-<span class="header-section-number">2.1.1</span> Flavors of missingness</h3>
-<ol type="1">
-<li>
-<strong>MCAR - Missing Completely at Random</strong>: The probability of being missing is the same for all case. Strategies to handle MCAR are:</li>
-</ol>
-<ul>
-<li>To delete observations if you are losing less than 5% of the data.</li>
-<li>To impute the data</li>
-</ul>
-<ol start="2" type="1">
-<li>
-<strong>MAR - Missing At Random</strong>: The locations of missing values in the dataset depend on some other, observed data. Strategies to handle MAR are:</li>
-</ol>
-<ul>
-<li>To impute the data</li>
-</ul>
-<ol start="3" type="1">
-<li>
-<strong>MNAR - Missing Not At Random</strong>: It means that the probability of being missing varies for reasons that are unknown to us. Strategies to handle MNAR are:</li>
-</ol>
-<ul>
-<li>To find more data about the causes for the missingness</li>
-<li>To perform what-if analyses to see how sensitive the results are under various scenarios</li>
-</ul>
-<div class="callout callout-style-simple callout-note">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>So we try to find any variable change its mean based on missing values to demostrate that they are missing at random.</p>
-</div>
-</div>
-</div>
-</section><section id="imputation-process" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="imputation-process">
-<span class="header-section-number">2.1.2</span> Imputation Process</h3>
-<section id="where-we-have-missing-values" class="level4"><h4 class="anchored" data-anchor-id="where-we-have-missing-values">Where we have missing values?</h4>
+<section id="introducction" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="introducction">
+<span class="header-section-number">2.1.1</span> Introducction</h3>
+<p>If you are working with real data it’s normal to find missing values so it’s very important to understand how to manage them correctly. In <code>R</code>, <strong>the default for many functions is to remove missing values</strong> to create plots or train machine learning models, but that can be very dangerous as we are <strong>adding bias</strong> to our analysis that could compromise our final conclusions.</p>
+<p>But if only 5% of your dataset’s rows present missing values and you can confirm that the values are <strong>missing completely at random (MCAR)</strong> as the probability of being missing is the same for each row <strong>removing rows</strong> won’t have any affect in our analysis.</p>
+<p>Otherwise, the <strong>best</strong> way to handle missing values is to *<strong>impute values</strong> based on general patters found in the data. If we cannot find patterns in the current data we will need to find more data until finding a valid pattern to impute the values.</p>
+</section><section id="imputation-practical-example" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="imputation-practical-example">
+<span class="header-section-number">2.1.2</span> Imputation practical example</h3>
+<p>Let’s assume that all the predictors for a machine learning model are stored in the <code><a href="https://rdrr.io/r/datasets/airquality.html">datasets::airquality</a></code> data.frame which has some missing value we need to explore and decide what to do in this case.</p>
+<p>To perform all the task needed to complete the process we will load next packages.</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># For modeling and statistical analysis</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For modeling lasso or elastic-net regression</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://glmnet.stanford.edu">glmnet</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For exploring missing values</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/njtierney/naniar">naniar</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice">mice</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="confirming-if-missing-completely-at-random" class="level4"><h4 class="anchored" data-anchor-id="confirming-if-missing-completely-at-random">Confirming if missing completely at random</h4>
+<p>Based on next test, we can reject the null hypothesis and conclude that the missing values aren’t completely at random, so we will need to impute the missing values.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/mcar_test.html">mcar_test</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  statistic    df p.value missing.patterns
+      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;            &lt;int&gt;
+1      35.1    14 0.00142                4</code></pre>
+</div>
+</div>
+</section><section id="explore-missing-values-patterns" class="level4"><h4 class="anchored" data-anchor-id="explore-missing-values-patterns">Explore missing values patterns</h4>
+<p>Once we know that we need to impute values, it’s important to know the column with more missing values is the <code>Ozone</code> one with 37 values to impute which we can divide between the ones that can use the rest of features (35 rows) and the ones that can use all the column extent the <code>Solar.R</code> as they are missing (2 rows).</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern</a></span><span class="op">(</span>rotate.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>After checking the plots we know that:</p>
-<ul>
-<li>We need to impute the <code>Ozone</code> column as it has 37 missing values.</li>
-<li>As 5 rows are missing <code>Solar.R</code> we need to train 2 model. One trained with that variable and other trained with</li>
-</ul></section><section id="how-is-the-relation-between-variables" class="level4"><h4 class="anchored" data-anchor-id="how-is-the-relation-between-variables">How is the relation between variables?</h4>
+</section><section id="imputing-ozone-values" class="level4"><h4 class="anchored" data-anchor-id="imputing-ozone-values">Imputing Ozone values</h4>
+<section id="exploring-missing-values" class="level5"><h5 class="anchored" data-anchor-id="exploring-missing-values">Exploring missing values</h5>
+<p>In the next plot we can see how the missing <code>Ozone</code> values are spread across a wide range of values so we would be able to find big differences between the means of columns with or without missing <code>Ozone</code> values.</p>
+<p>As we are plotting all variables against the target variable, it’s ease to see that the <code>Temp</code>, <code>Wind</code> and <code>Solar.R</code> present a not linear relation with <code>Ozone</code> and we cannot see a clear pattern for <code>Day</code> and <code>Month</code>.</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">Ozone</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">value</span>, <span class="va">Ozone</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Ozone</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">naniar</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/geom_miss_point.html">geom_miss_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section><section id="how-well-can-be-predict-ozone" class="level4"><h4 class="anchored" data-anchor-id="how-well-can-be-predict-ozone">How well can be predict Ozone?</h4>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneTrainSolar</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">OzoneTrain</span> <span class="op">&lt;-</span> <span class="va">airquality</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Solar.R</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Define Model</span></span>
-<span><span class="va">lasso_model</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span></span>
-<span>  engine <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
-<span>  penalty <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  mixture <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Define Recipes</span></span>
-<span><span class="va">step_ozone</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
-<span>  </span>
-<span>  <span class="fu">step_poly</span><span class="op">(</span><span class="va">x</span>,</span>
-<span>            <span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>            degree <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_interact</span><span class="op">(</span>terms <span class="op">=</span> <span class="op">~</span><span class="op">(</span><span class="va">.</span> <span class="op">-</span><span class="va">Ozone</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_zv</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_scale</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="va">OzoneRecipeSolar</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Ozone</span> <span class="op">~</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Temp</span> <span class="op">+</span> <span class="va">Solar.R</span>,</span>
-<span>         data <span class="op">=</span> <span class="va">OzoneTrainSolar</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_ozone</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">OzoneRecipe</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Ozone</span> <span class="op">~</span> <span class="va">Wind</span> <span class="op">+</span> <span class="va">Temp</span>,</span>
-<span>         data <span class="op">=</span> <span class="va">OzoneTrain</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_ozone</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Defining Models</span></span>
-<span><span class="va">OzoneSolarLmWf</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span></span>
-<span>  <span class="va">OzoneRecipeSolar</span>,</span>
-<span>  <span class="va">lasso_model</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">OzoneLmWf</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span></span>
-<span>  <span class="va">OzoneRecipe</span>,</span>
-<span>  <span class="va">lasso_model</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Training Models</span></span>
-<span><span class="va">OzoneSolarLmFit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span></span>
-<span>  <span class="va">OzoneSolarLmWf</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">OzoneTrainSolar</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">OzoneLmFit</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span></span>
-<span>  <span class="va">OzoneLmWf</span>,</span>
-<span>  data <span class="op">=</span> <span class="va">OzoneTrain</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Defining re-samples</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">5050</span><span class="op">)</span></span>
-<span><span class="va">OzoneTrainSolarRs</span> <span class="op">&lt;-</span> <span class="fu">mc_cv</span><span class="op">(</span><span class="va">OzoneTrainSolar</span>, times <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">4040</span><span class="op">)</span></span>
-<span><span class="va">OzoneTrainRs</span> <span class="op">&lt;-</span> <span class="fu">mc_cv</span><span class="op">(</span><span class="va">OzoneTrain</span>, times <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Model evaluation</span></span>
-<span><span class="fu">fit_resamples</span><span class="op">(</span><span class="va">OzoneSolarLmWf</span>,</span>
-<span>              resamples <span class="op">=</span> <span class="va">OzoneTrainSolarRs</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 6
-  .metric .estimator   mean     n std_err .config             
-  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
-1 rmse    standard   17.2      30  0.647  Preprocessor1_Model1
-2 rsq     standard    0.721    30  0.0159 Preprocessor1_Model1</code></pre>
-</div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fit_resamples</span><span class="op">(</span><span class="va">OzoneLmWf</span>,</span>
-<span>              resamples <span class="op">=</span> <span class="va">OzoneTrainRs</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">collect_metrics</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 6
-  .metric .estimator   mean     n std_err .config             
-  &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
-1 rmse    standard   20.0      30  0.617  Preprocessor1_Model1
-2 rsq     standard    0.665    30  0.0147 Preprocessor1_Model1</code></pre>
-</div>
-</div>
-</section><section id="imputing-ozone" class="level4"><h4 class="anchored" data-anchor-id="imputing-ozone">Imputing Ozone</h4>
-<div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">impute_ozone</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
-<span>                         <span class="va">model1</span>,</span>
-<span>                         <span class="va">model2</span><span class="op">)</span><span class="op">{</span></span>
-<span>  </span>
-<span>  <span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Ozone <span class="op">=</span> <span class="fu">coalesce</span><span class="op">(</span></span>
-<span>    <span class="va">Ozone</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model1</span>, <span class="va">df</span><span class="op">)</span><span class="op">$</span><span class="va">`.pred`</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">model2</span>, <span class="va">df</span><span class="op">)</span><span class="op">$</span><span class="va">`.pred`</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="op">}</span></span>
-<span></span>
-<span></span>
-<span><span class="va">AirOzoneInput</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">airquality</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Ozone_NA <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Ozone</span><span class="op">)</span>,<span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">impute_ozone</span><span class="op">(</span><span class="va">OzoneSolarLmFit</span>,</span>
-<span>               <span class="va">OzoneLmFit</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">OzoneSolarLmFit</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">augment</span><span class="op">(</span><span class="va">AirOzoneInput</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Ozone <span class="op">=</span> <span class="fu">coalesce</span><span class="op">(</span></span>
-<span>    <span class="va">Ozone</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">OzoneLmFit</span>, <span class="va">AirOzoneInput</span><span class="op">)</span><span class="op">$</span><span class="va">`.pred`</span></span>
-<span>  <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Ozone</span>, <span class="va">.pred</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_abline</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">value</span>, <span class="va">Ozone</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/naniar/man/geom_miss_point.html">geom_miss_point</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Ozone</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>                  alpha <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                  show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>,</span>
+<span>              se <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>              color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRUE"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>                                <span class="st">"FALSE"</span> <span class="op">=</span> <span class="st">"gray60"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section><section id="validate-how-inputations-fits-to-data" class="level4"><h4 class="anchored" data-anchor-id="validate-how-inputations-fits-to-data">Validate how inputations fits to data</h4>
+<p><em>Based on this result results we know that we need a flexible model to catch the non-linear patterns and perform some <em>feature selection</em>.</em></p>
+</section><section id="training-the-model-to-impute" class="level5"><h5 class="anchored" data-anchor-id="training-the-model-to-impute">Training the model to impute</h5>
+<p>As we need to create 2 very similar models using to impute <code>Ozone</code> it’s better to create a function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">pivot_longer</span><span class="op">(</span><span class="va">AirOzoneInput</span>,</span>
-<span>             cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Ozone</span>, <span class="va">Ozone_NA</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">train_regression_model</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
+<span>                                   <span class="va">model_to_tune</span>,</span>
+<span>                                   <span class="va">model_grid</span>,</span>
+<span>                                   <span class="va">formula</span>,</span>
+<span>                                   <span class="va">step_fun</span>,</span>
+<span>                                   <span class="va">seed</span> <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">y_wf</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">recipe</span><span class="op">(</span><span class="va">formula</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">step_fun</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">workflow</span><span class="op">(</span><span class="va">model_to_tune</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Defining re-samples</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span></span>
+<span>  <span class="va">y_resamples</span> <span class="op">&lt;-</span> <span class="fu">mc_cv</span><span class="op">(</span><span class="va">df</span>, times <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">y_tuned</span> <span class="op">&lt;-</span> <span class="fu">tune_grid</span><span class="op">(</span></span>
+<span>    <span class="va">y_wf</span>,</span>
+<span>    resamples <span class="op">=</span> <span class="va">y_resamples</span>,</span>
+<span>    grid <span class="op">=</span> <span class="va">model_grid</span>,</span>
+<span>    metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">rsq</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="va">y_trained_model</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">y_wf</span>,</span>
+<span>                      <span class="fu">select_best</span><span class="op">(</span><span class="va">y_tuned</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">fit</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
+<span>  </span>
+<span>  </span>
+<span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"fit"</span> <span class="op">=</span> <span class="va">y_trained_model</span>,</span>
+<span>                  <span class="st">"best_fit"</span> <span class="op">=</span> <span class="fu">show_best</span><span class="op">(</span><span class="va">y_tuned</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">best_fit</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we need to define common inputs for both models.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">GlmModel</span> <span class="op">&lt;-</span> <span class="fu">linear_reg</span><span class="op">(</span></span>
+<span>  engine <span class="op">=</span> <span class="st">"glmnet"</span>,</span>
+<span>  penalty <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  mixture <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GlmGrid</span> <span class="op">&lt;-</span> <span class="fu">grid_regular</span><span class="op">(</span></span>
+<span>  <span class="fu">penalty</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu">mixture</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ozone_steps</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">recipe</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">recipe</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">step_poly</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            degree <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">step_interact</span><span class="op">(</span>terms <span class="op">=</span> <span class="op">~</span><span class="op">(</span><span class="va">.</span> <span class="op">-</span><span class="va">Ozone</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">step_zv</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">step_scale</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can fit but models.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneSolarGlmFitted</span> <span class="op">&lt;-</span> <span class="fu">train_regression_model</span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span>,</span>
+<span>  model_to_tune <span class="op">=</span> <span class="va">GlmModel</span>,</span>
+<span>  model_grid <span class="op">=</span> <span class="va">GlmGrid</span>,</span>
+<span>  formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="st">"Ozone ~ Temp + Solar.R + Wind"</span><span class="op">)</span>,</span>
+<span>  step_fun <span class="op">=</span> <span class="va">ozone_steps</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">5050</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 8
+        penalty mixture .metric .estimator  mean     n std_err .config          
+          &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;            
+1 1               1     rsq     standard   0.721    30  0.0159 Preprocessor1_Mo…
+2 1               0.889 rsq     standard   0.721    30  0.0157 Preprocessor1_Mo…
+3 1               0.778 rsq     standard   0.720    30  0.0156 Preprocessor1_Mo…
+4 0.0000000001    0     rsq     standard   0.718    30  0.0165 Preprocessor1_Mo…
+5 0.00000000129   0     rsq     standard   0.718    30  0.0165 Preprocessor1_Mo…</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneNotSolarGlmFitted</span> <span class="op">&lt;-</span> <span class="va">airquality</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Solar.R</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">train_regression_model</span><span class="op">(</span>model_to_tune <span class="op">=</span> <span class="va">GlmModel</span>,</span>
+<span>                         model_grid <span class="op">=</span> <span class="va">GlmGrid</span>,</span>
+<span>                         formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="st">"Ozone ~ Temp + Wind"</span><span class="op">)</span>,</span>
+<span>                         step_fun <span class="op">=</span> <span class="va">ozone_steps</span>,</span>
+<span>                         seed <span class="op">=</span> <span class="fl">4518</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 8
+        penalty mixture .metric .estimator  mean     n std_err .config          
+          &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;            
+1 0.0000000001        0 rsq     standard   0.654    30  0.0120 Preprocessor1_Mo…
+2 0.00000000129       0 rsq     standard   0.654    30  0.0120 Preprocessor1_Mo…
+3 0.0000000167        0 rsq     standard   0.654    30  0.0120 Preprocessor1_Mo…
+4 0.000000215         0 rsq     standard   0.654    30  0.0120 Preprocessor1_Mo…
+5 0.00000278          0 rsq     standard   0.654    30  0.0120 Preprocessor1_Mo…</code></pre>
+</div>
+</div>
+</section><section id="impute-missing-values" class="level5"><h5 class="anchored" data-anchor-id="impute-missing-values">Impute missing values</h5>
+<p>Once we have the model we can impute the <code>Ozone</code> values, but let’s also create a function to perform this task as we will need to repeat the process very time we have some new data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">impute_ozone</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
+<span>                         <span class="va">solar_model</span>,</span>
+<span>                         <span class="va">no_solar_model</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span><span class="va">df</span>,</span>
+<span>         Ozone_NA <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Ozone</span><span class="op">)</span>,</span>
+<span>         Ozone <span class="op">=</span> <span class="fu">case_when</span><span class="op">(</span></span>
+<span>           <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Ozone</span><span class="op">)</span> <span class="op">~</span> <span class="va">Ozone</span>,</span>
+<span>           <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Solar.R</span><span class="op">)</span><span class="op">~</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">solar_model</span>, new_data <span class="op">=</span> <span class="va">df</span><span class="op">)</span><span class="op">$</span><span class="va">.pred</span>,</span>
+<span>           <span class="cn">TRUE</span> <span class="op">~</span></span>
+<span>             <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">no_solar_model</span>, new_data <span class="op">=</span> <span class="va">df</span><span class="op">)</span><span class="op">$</span><span class="va">.pred</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="va">AirOzoneImputed</span> <span class="op">&lt;-</span> <span class="fu">impute_ozone</span><span class="op">(</span></span>
+<span>  <span class="va">airquality</span>,</span>
+<span>  solar_model <span class="op">=</span> <span class="va">OzoneSolarGlmFitted</span><span class="op">$</span><span class="va">fit</span>,</span>
+<span>  no_solar_model <span class="op">=</span> <span class="va">OzoneNotSolarGlmFitted</span><span class="op">$</span><span class="va">fit</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Show a by taking a quick view to the data we can see that the data point now can shape with th original data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirOzoneImputed</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Ozone</span>, <span class="va">Ozone_NA</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">value</span>, <span class="va">Ozone</span>, color <span class="op">=</span> <span class="va">Ozone_NA</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">geom_point</span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span>                                <span class="st">"No"</span> <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section><section id="how-is-the-relation-between-variables-1" class="level4"><h4 class="anchored" data-anchor-id="how-is-the-relation-between-variables-1">How is the relation between variables?</h4>
-<div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirOzoneInput</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Ozone_NA</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">Solar.R</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">value</span>, <span class="va">Solar.R</span>, color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Solar.R</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">naniar</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/geom_miss_point.html">geom_miss_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section><section id="how-well-can-be-predict-solar.r" class="level4"><h4 class="anchored" data-anchor-id="how-well-can-be-predict-solar.r">How well can be predict Solar.R?</h4>
-<div class="cell">
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define Model</span></span>
-<span><span class="va">knn_model</span> <span class="op">&lt;-</span> <span class="fu">nearest_neighbor</span><span class="op">(</span></span>
-<span>  mode <span class="op">=</span> <span class="st">"regression"</span>,</span>
-<span>  neighbors <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Defining Recipe</span></span>
-<span><span class="va">SolarRecipe</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Solar.R</span> <span class="op">~</span> <span class="va">.</span>,</span>
-<span>         data <span class="op">=</span> <span class="va">AirOzoneInput</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_rm</span><span class="op">(</span><span class="va">Ozone_NA</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_poly</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>            degree <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_interact</span><span class="op">(</span>terms <span class="op">=</span> <span class="op">~</span><span class="op">(</span><span class="va">.</span> <span class="op">-</span><span class="va">Solar.R</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_zv</span><span class="op">(</span><span class="fu">all_numeric_predictors</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">step_range</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Defining Models</span></span>
-<span><span class="va">SolarKnnWf</span> <span class="op">&lt;-</span> <span class="fu">workflow</span><span class="op">(</span></span>
-<span>  <span class="va">SolarRecipe</span>,</span>
-<span>  <span class="va">knn_model</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Defining re-samples</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">5154</span><span class="op">)</span></span>
-<span><span class="va">SolarRs</span> <span class="op">&lt;-</span> <span class="fu">mc_cv</span><span class="op">(</span><span class="va">AirOzoneInput</span>, times <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Model evaluation</span></span>
-<span><span class="va">SolarKnnTunned</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">tune_grid</span><span class="op">(</span><span class="va">SolarKnnWf</span>,</span>
-<span>            resamples <span class="op">=</span> <span class="va">SolarRs</span>,</span>
-<span>            grid <span class="op">=</span> <span class="fu">tibble</span><span class="op">(</span>neighbors <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span>,</span>
-<span>            metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">rsq</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">show_best</span><span class="op">(</span><span class="va">SolarKnnTunned</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 7
-  neighbors .metric .estimator  mean     n std_err .config              
-      &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;                
-1        22 rsq     standard   0.212    30  0.0227 Preprocessor1_Model22
-2        23 rsq     standard   0.212    30  0.0227 Preprocessor1_Model23
-3        21 rsq     standard   0.211    30  0.0228 Preprocessor1_Model21
-4        24 rsq     standard   0.211    30  0.0226 Preprocessor1_Model24
-5        12 rsq     standard   0.211    30  0.0229 Preprocessor1_Model12</code></pre>
-</div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Training Models</span></span>
-<span><span class="va">SolarKnnFit</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">SolarKnnWf</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">finalize_workflow</span><span class="op">(</span><span class="fu">select_best</span><span class="op">(</span><span class="va">SolarKnnTunned</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">fit</span><span class="op">(</span>data <span class="op">=</span> <span class="va">AirOzoneInput</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="imputing-solar.r" class="level4"><h4 class="anchored" data-anchor-id="imputing-solar.r">Imputing Solar.R</h4>
-<div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirInputed</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">AirOzoneInput</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Solar.R_NA <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Solar.R</span><span class="op">)</span>,<span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span>,</span>
-<span>         Solar.R <span class="op">=</span> <span class="fu">coalesce</span><span class="op">(</span></span>
-<span>           <span class="va">Solar.R</span>,</span>
-<span>           <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">SolarKnnFit</span>, <span class="va">AirOzoneInput</span><span class="op">)</span><span class="op">$</span><span class="va">`.pred`</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="va">AirOzoneInput</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">SolarKnnFit</span>, <span class="va">AirOzoneInput</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">rsq</span><span class="op">(</span>truth <span class="op">=</span> <span class="va">Solar.R</span>,</span>
-<span>      estimate <span class="op">=</span> <span class="va">`.pred`</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 3
-  .metric .estimator .estimate
-  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
-1 rsq     standard       0.552</code></pre>
-</div>
-</div>
-</section><section id="validate-how-inputations-fits-to-data-1" class="level4"><h4 class="anchored" data-anchor-id="validate-how-inputations-fits-to-data-1">Validate how inputations fits to data</h4>
-<div class="cell">
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">SolarKnnFit</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">augment</span><span class="op">(</span><span class="va">AirOzoneInput</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">Solar.R</span>, <span class="va">.pred</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">.4</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_abline</span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TRUE"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>                                <span class="st">"FALSE"</span> <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirInputed</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Ozone_NA</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Solar.R</span>, <span class="va">Solar.R_NA</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">value</span>, <span class="va">`Solar.R`</span>, color <span class="op">=</span> <span class="va">Solar.R_NA</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span> <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span>                                <span class="st">"No"</span> <span class="op">=</span> <span class="st">"grey60"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">name</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu">theme_light</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="removing-solar.r-values" class="level4"><h4 class="anchored" data-anchor-id="removing-solar.r-values">Removing Solar.R values</h4>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirOzoneImputed</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+<p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now the missing values represent only 5% of the data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 95.42484</code></pre>
+</div>
+</div>
+<p>And we don’t have enough data to reject the null hypothesis, and we can not affirm that the missing values are missing completely at random.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/mcar_test.html">mcar_test</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 4
+  statistic    df p.value missing.patterns
+      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;            &lt;int&gt;
+1      10.3     6   0.114                2</code></pre>
+</div>
+</div>
+<p>So we can remove the remaining missing values.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirqualityImputed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">AirqualityImputed</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Ozone Solar.R Wind Temp Month Day Ozone_NA
+1    41     190  7.4   67     5   1    FALSE
+2    36     118  8.0   72     5   2    FALSE
+3    12     149 12.6   74     5   3    FALSE
+4    18     313 11.5   62     5   4    FALSE
+7    23     299  8.6   65     5   7    FALSE
+8    19      99 13.8   59     5   8    FALSE</code></pre>
 </div>
 </div>
 
