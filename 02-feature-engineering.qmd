@@ -49,7 +49,7 @@ Once we know that we need to impute values, it's important to know the column wi
 
 ```{r}
 airquality |>
-  mice::md.pattern(rotate.names = FALSE) |>
+  md.pattern() |>
   invisible()
 ```
 
