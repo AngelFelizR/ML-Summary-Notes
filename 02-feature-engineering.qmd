@@ -7,21 +7,25 @@ format:
 
 # Feature Engineering
 
-## Handeling Missing Values
+## Handling Missing Values
 
-### Introducction
+### Introduction
 
-If you are working with real data it's normal to find missing values so it's very important to understand how to manage them correctly. In `R`, **the default for many functions is to remove missing values** to create plots or train machine learning models, but that can be very dangerous as we are **adding bias** to our analysis that could compromise our final conclusions.
+If you are working with real data, it's normal to find missing values, so it's very important to understand how to manage them correctly. In `R`, **the default for many functions is to remove missing values** to create plots or train machine learning models, but that can be very dangerous as we are **adding bias** to our analysis that could compromise our final conclusions.
 
-But if only 5% of your dataset's rows present missing values and you can confirm that the values are **missing completely at random (MCAR)** as the probability of being missing is the same for each row **removing rows** won't have any affect in our analysis. 
+But removing values could be a good option if we meet the following statements:
 
-Otherwise, the **best** way to handle missing values is to ***impute values** based on general patters found in the data. If we cannot find patterns in the current data we will need to find more data until finding a valid pattern to impute the values.
+- Only 5% of your dataset's rows present missing values.
+
+- All the values have the same probability to be missing. That's when we say that they are **missing completely at random (MCAR)**.
+
+Otherwise, the **best** way to handle missing values is to **impute values** based on general patterns found in the data. If we cannot find patterns in the current data, we will need to find more data until finding a valid pattern to impute the values.
 
 ### Imputation practical example
 
-Let's assume that all the predictors for a machine learning model are stored in the `datasets::airquality` data.frame which has some missing value we need to explore and decide what to do in this case.
+Let's assume that all the **predictors** for a machine learning model are stored in the `datasets::airquality` data frame, which has some missing values, so we need to explore and decide what to do in this case.
 
-To perform all the task needed to complete the process we will load next packages.
+To perform all the tasks needed to solve the missing values problems in our dataset, we will load the following packages:
 
 ```{r}
 # For modeling and statistical analysis
@@ -35,9 +39,9 @@ library(naniar)
 library(mice)
 ```
 
-#### Confirming if missing completely at random
+#### Confirming if values are MCAR
 
-Based on next test, we can reject the null hypothesis and conclude that the missing values aren't completely at random, so we will need to impute the missing values.
+Based on the next test, we can reject the null hypothesis and conclude that the missing values **aren't completely at random**, so we will need to impute the missing values.
 
 ```{r}
 mcar_test(airquality)
@@ -45,7 +49,7 @@ mcar_test(airquality)
 
 #### Explore missing values patterns
 
-Once we know that we need to impute values, it's important to know the column with more missing values is the `Ozone` one with 37 values to impute which we can divide between the ones that can use the rest of features (35 rows) and the ones that can use all the column extent the `Solar.R` as they are missing (2 rows).
+Once we know that we need to impute values, it's important to know that the column with more missing values is the `Ozone` with 37 values to impute, which we can divide between the ones that can use the rest of the features (35 rows) and the ones that can use all the columns except the `Solar.R` as they are missing (2 rows).
 
 ```{r}
 airquality |>
@@ -57,9 +61,9 @@ airquality |>
 
 ##### Exploring missing values
 
-In the next plot we can see how the missing `Ozone` values are spread across a wide range of values so we would be able to find big differences between the means of columns with or without missing `Ozone` values.
+In the next plot we can see how the missing `Ozone` values are spread across a wide range of values, so we wouldn't be able to find big differences between the means of columns with or without missing `Ozone` values.
 
-As we are plotting all variables against the target variable, it's ease to see that the `Temp`, `Wind` and `Solar.R` present a not linear relation with `Ozone` and we cannot see a clear pattern for `Day` and `Month`.
+As we are plotting all variables against the target variable, it's easy to see that the `Temp`, `Wind` and `Solar.R` present a not linear relation with `Ozone` and we cannot see a clear pattern for `Day` and `Month`. 
 
 ```{r}
 #| warning: false
@@ -79,43 +83,47 @@ airquality |>
   theme_light()
 ```
 
-*Based on this result results we know that we need a flexible model to catch the non-linear patterns and perform some _feature selection_.*
+*Based on this result, we know it's necessary to train a model able to catch the non-linear patterns and omit the _Day_ and _Month_ as they don't show any relation with Ozone.*
 
 ##### Training the model to impute
 
-As we need to create 2 very similar models using to impute `Ozone` it's better to create a function.
+As we need to create 2 very similar models (one using the `Solar.R` column and other without it) it's better to create a function.
 
 ```{r}
-train_regression_model <- function(df,
-                                   model_to_tune,
-                                   model_grid,
-                                   formula,
-                                   step_fun,
-                                   seed = 1234){
+fit_tuned_regression_model <- function(df,
+                                       model_to_tune,
+                                       model_grid,
+                                       formula,
+                                       step_fun,
+                                       metric = rsq,
+                                       seed = 1234){
   
+  # Defining empty model workflow
   y_wf <- 
     recipe(formula, data = df) |>
     step_fun() |>
     workflow(model_to_tune)
   
-  # Defining re-samples
+  # Defining re-samples based on seed
   set.seed(seed)
   y_resamples <- mc_cv(df, times = 30)
   set.seed(NULL)
   
+  # Fitting re-sample for each grid level
   y_tuned <- tune_grid(
     y_wf,
     resamples = y_resamples,
     grid = model_grid,
-    metrics = metric_set(rsq)
+    metrics = metric_set(metric)
   )
   
+  # Selecting the best model
   y_trained_model <- 
     finalize_workflow(y_wf,
                       select_best(y_tuned)) |>
     fit(df)
   
-  
+  # Presenting results
   results <- list("fit" = y_trained_model,
                   "best_fit" = show_best(y_tuned))
   
@@ -153,14 +161,14 @@ ozone_steps <- function(recipe){
 }
 ```
 
-Now we can fit but models.
+Now we can fit each model.
 
 ```{r}
-OzoneSolarGlmFitted <- train_regression_model(
+OzoneSolarGlmFitted <- fit_tuned_regression_model(
   df = na.omit(airquality),
   model_to_tune = GlmModel,
   model_grid = GlmGrid,
-  formula = as.formula("Ozone ~ Temp + Solar.R + Wind"),
+  formula = as.formula("Ozone ~ Solar.R + Temp + Wind"),
   step_fun = ozone_steps,
   seed = 5050
 )
@@ -168,7 +176,7 @@ OzoneSolarGlmFitted <- train_regression_model(
 OzoneNotSolarGlmFitted <- airquality |>
   select(-Solar.R) |>
   na.omit() |>
-  train_regression_model(model_to_tune = GlmModel,
+  fit_tuned_regression_model(model_to_tune = GlmModel,
                          model_grid = GlmGrid,
                          formula = as.formula("Ozone ~ Temp + Wind"),
                          step_fun = ozone_steps,
@@ -177,7 +185,7 @@ OzoneNotSolarGlmFitted <- airquality |>
 
 ##### Impute missing values
 
-Once we have the model we can impute the `Ozone` values, but let's also create a function to perform this task as we will need to repeat the process very time we have some new data.
+Once we have both models, we can impute the `Ozone` values, but let's also create a function to perform this task as we will need to repeat the process very time we need to predict a new value.
 
 ```{r}
 impute_ozone <- function(df,
@@ -203,7 +211,7 @@ AirOzoneImputed <- impute_ozone(
 )
 ```
 
-Show a by taking a quick view to the data we can see that the data point now can shape with th original data.
+By plotting the imputed `Ozone` values can see that the values follow the patterns present in the non-missing values.
 
 ```{r}
 AirOzoneImputed |>
@@ -217,7 +225,9 @@ AirOzoneImputed |>
   theme_light()
 ```
 
-#### Removing Solar.R values
+#### Fixing Solar.R values
+
+Once we don't have any missing value in the `Ozone` column we can explore the remaining 7 missing values in the `Solar.R` column.
 
 ```{r}
 AirOzoneImputed |>
@@ -225,13 +235,13 @@ AirOzoneImputed |>
   invisible()
 ```
 
-Now the missing values represent only 5% of the data.
+Now the missing values represent only 5% of the rows.
 
 ```{r}
 nrow(na.omit(AirOzoneImputed)) / nrow(AirOzoneImputed) * 100
 ```
 
-And we don't have enough data to reject the null hypothesis, and we can not affirm that the missing values are missing completely at random.
+And we don't have enough data to reject the null hypothesis, and we can not affirm that the missing values are not missing completely at random.
 
 ```{r}
 mcar_test(AirOzoneImputed)
@@ -244,3 +254,9 @@ AirqualityImputed <- na.omit(AirOzoneImputed)
 
 head(AirqualityImputed)
 ```
+
+### Final thoughts
+
+I hope this blog can help to improve your ability to handle missing values without compromising your results.
+
+Don't forget to explore well your columns as missing values are usually encoded with *0* or *99*. 
