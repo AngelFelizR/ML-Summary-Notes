@@ -251,18 +251,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
 <li>
-<a href="#handeling-missing-values" id="toc-handeling-missing-values" class="nav-link active" data-scroll-target="#handeling-missing-values"><span class="header-section-number">2.1</span> Handeling Missing Values</a>
+<a href="#handling-missing-values" id="toc-handling-missing-values" class="nav-link active" data-scroll-target="#handling-missing-values"><span class="header-section-number">2.1</span> Handling Missing Values</a>
   <ul>
-<li><a href="#introducction" id="toc-introducction" class="nav-link" data-scroll-target="#introducction"><span class="header-section-number">2.1.1</span> Introducction</a></li>
+<li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">2.1.1</span> Introduction</a></li>
   <li>
 <a href="#imputation-practical-example" id="toc-imputation-practical-example" class="nav-link" data-scroll-target="#imputation-practical-example"><span class="header-section-number">2.1.2</span> Imputation practical example</a>
   <ul class="collapse">
-<li><a href="#confirming-if-missing-completely-at-random" id="toc-confirming-if-missing-completely-at-random" class="nav-link" data-scroll-target="#confirming-if-missing-completely-at-random">Confirming if missing completely at random</a></li>
+<li><a href="#confirming-if-values-are-mcar" id="toc-confirming-if-values-are-mcar" class="nav-link" data-scroll-target="#confirming-if-values-are-mcar">Confirming if values are MCAR</a></li>
   <li><a href="#explore-missing-values-patterns" id="toc-explore-missing-values-patterns" class="nav-link" data-scroll-target="#explore-missing-values-patterns">Explore missing values patterns</a></li>
   <li><a href="#imputing-ozone-values" id="toc-imputing-ozone-values" class="nav-link" data-scroll-target="#imputing-ozone-values">Imputing Ozone values</a></li>
-  <li><a href="#removing-solar.r-values" id="toc-removing-solar.r-values" class="nav-link" data-scroll-target="#removing-solar.r-values">Removing Solar.R values</a></li>
+  <li><a href="#fixing-solar.r-values" id="toc-fixing-solar.r-values" class="nav-link" data-scroll-target="#fixing-solar.r-values">Fixing Solar.R values</a></li>
   </ul>
 </li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts"><span class="header-section-number">2.1.3</span> Final thoughts</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -284,17 +285,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
-</header><section id="handeling-missing-values" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="handeling-missing-values">
-<span class="header-section-number">2.1</span> Handeling Missing Values</h2>
-<section id="introducction" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="introducction">
-<span class="header-section-number">2.1.1</span> Introducction</h3>
-<p>If you are working with real data it’s normal to find missing values so it’s very important to understand how to manage them correctly. In <code>R</code>, <strong>the default for many functions is to remove missing values</strong> to create plots or train machine learning models, but that can be very dangerous as we are <strong>adding bias</strong> to our analysis that could compromise our final conclusions.</p>
-<p>But if only 5% of your dataset’s rows present missing values and you can confirm that the values are <strong>missing completely at random (MCAR)</strong> as the probability of being missing is the same for each row <strong>removing rows</strong> won’t have any affect in our analysis.</p>
-<p>Otherwise, the <strong>best</strong> way to handle missing values is to *<strong>impute values</strong> based on general patters found in the data. If we cannot find patterns in the current data we will need to find more data until finding a valid pattern to impute the values.</p>
+</header><section id="handling-missing-values" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="handling-missing-values">
+<span class="header-section-number">2.1</span> Handling Missing Values</h2>
+<section id="introduction" class="level3" data-number="2.1.1"><h3 data-number="2.1.1" class="anchored" data-anchor-id="introduction">
+<span class="header-section-number">2.1.1</span> Introduction</h3>
+<p>If you are working with real data, it’s normal to find missing values, so it’s very important to understand how to manage them correctly. In <code>R</code>, <strong>the default for many functions is to remove missing values</strong> to create plots or train machine learning models, but that can be very dangerous as we are <strong>adding bias</strong> to our analysis that could compromise our final conclusions.</p>
+<p>But removing values could be a good option if we meet the following statements:</p>
+<ul>
+<li><p>Only 5% of your dataset’s rows present missing values.</p></li>
+<li><p>All the values have the same probability to be missing. That’s when we say that they are <strong>missing completely at random (MCAR)</strong>.</p></li>
+</ul>
+<p>Otherwise, the <strong>best</strong> way to handle missing values is to <strong>impute values</strong> based on general patterns found in the data. If we cannot find patterns in the current data, we will need to find more data until finding a valid pattern to impute the values.</p>
 </section><section id="imputation-practical-example" class="level3" data-number="2.1.2"><h3 data-number="2.1.2" class="anchored" data-anchor-id="imputation-practical-example">
 <span class="header-section-number">2.1.2</span> Imputation practical example</h3>
-<p>Let’s assume that all the predictors for a machine learning model are stored in the <code><a href="https://rdrr.io/r/datasets/airquality.html">datasets::airquality</a></code> data.frame which has some missing value we need to explore and decide what to do in this case.</p>
-<p>To perform all the task needed to complete the process we will load next packages.</p>
+<p>Let’s assume that all the <strong>predictors</strong> for a machine learning model are stored in the <code><a href="https://rdrr.io/r/datasets/airquality.html">datasets::airquality</a></code> data frame, which has some missing values, so we need to explore and decide what to do in this case.</p>
+<p>To perform all the tasks needed to solve the missing values problems in our dataset, we will load the following packages:</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># For modeling and statistical analysis</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org">tidymodels</a></span><span class="op">)</span></span>
@@ -306,8 +311,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/njtierney/naniar">naniar</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/amices/mice">mice</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="confirming-if-missing-completely-at-random" class="level4"><h4 class="anchored" data-anchor-id="confirming-if-missing-completely-at-random">Confirming if missing completely at random</h4>
-<p>Based on next test, we can reject the null hypothesis and conclude that the missing values aren’t completely at random, so we will need to impute the missing values.</p>
+<section id="confirming-if-values-are-mcar" class="level4"><h4 class="anchored" data-anchor-id="confirming-if-values-are-mcar">Confirming if values are MCAR</h4>
+<p>Based on the next test, we can reject the null hypothesis and conclude that the missing values <strong>aren’t completely at random</strong>, so we will need to impute the missing values.</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/mcar_test.html">mcar_test</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -318,10 +323,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section><section id="explore-missing-values-patterns" class="level4"><h4 class="anchored" data-anchor-id="explore-missing-values-patterns">Explore missing values patterns</h4>
-<p>Once we know that we need to impute values, it’s important to know the column with more missing values is the <code>Ozone</code> one with 37 values to impute which we can divide between the ones that can use the rest of features (35 rows) and the ones that can use all the column extent the <code>Solar.R</code> as they are missing (2 rows).</p>
+<p>Once we know that we need to impute values, it’s important to know that the column with more missing values is the <code>Ozone</code> with 37 values to impute, which we can divide between the ones that can use the rest of the features (35 rows) and the ones that can use all the columns except the <code>Solar.R</code> as they are missing (2 rows).</p>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mice</span><span class="fu">::</span><span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern</a></span><span class="op">(</span>rotate.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -329,8 +334,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section><section id="imputing-ozone-values" class="level4"><h4 class="anchored" data-anchor-id="imputing-ozone-values">Imputing Ozone values</h4>
 <section id="exploring-missing-values" class="level5"><h5 class="anchored" data-anchor-id="exploring-missing-values">Exploring missing values</h5>
-<p>In the next plot we can see how the missing <code>Ozone</code> values are spread across a wide range of values so we would be able to find big differences between the means of columns with or without missing <code>Ozone</code> values.</p>
-<p>As we are plotting all variables against the target variable, it’s ease to see that the <code>Temp</code>, <code>Wind</code> and <code>Solar.R</code> present a not linear relation with <code>Ozone</code> and we cannot see a clear pattern for <code>Day</code> and <code>Month</code>.</p>
+<p>In the next plot we can see how the missing <code>Ozone</code> values are spread across a wide range of values, so we wouldn’t be able to find big differences between the means of columns with or without missing <code>Ozone</code> values.</p>
+<p>As we are plotting all variables against the target variable, it’s easy to see that the <code>Temp</code>, <code>Wind</code> and <code>Solar.R</code> present a not linear relation with <code>Ozone</code> and we cannot see a clear pattern for <code>Day</code> and <code>Month</code>.</p>
 <div class="cell">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">airquality</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">Ozone</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -349,40 +354,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p><em>Based on this result results we know that we need a flexible model to catch the non-linear patterns and perform some <em>feature selection</em>.</em></p>
+<p><em>Based on this result, we know it’s necessary to train a model able to catch the non-linear patterns and omit the <em>Day</em> and <em>Month</em> as they don’t show any relation with Ozone.</em></p>
 </section><section id="training-the-model-to-impute" class="level5"><h5 class="anchored" data-anchor-id="training-the-model-to-impute">Training the model to impute</h5>
-<p>As we need to create 2 very similar models using to impute <code>Ozone</code> it’s better to create a function.</p>
+<p>As we need to create 2 very similar models (one using the <code>Solar.R</code> column and other without it) it’s better to create a function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">train_regression_model</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
-<span>                                   <span class="va">model_to_tune</span>,</span>
-<span>                                   <span class="va">model_grid</span>,</span>
-<span>                                   <span class="va">formula</span>,</span>
-<span>                                   <span class="va">step_fun</span>,</span>
-<span>                                   <span class="va">seed</span> <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span><span class="op">{</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_tuned_regression_model</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
+<span>                                       <span class="va">model_to_tune</span>,</span>
+<span>                                       <span class="va">model_grid</span>,</span>
+<span>                                       <span class="va">formula</span>,</span>
+<span>                                       <span class="va">step_fun</span>,</span>
+<span>                                       <span class="va">metric</span> <span class="op">=</span> <span class="va">rsq</span>,</span>
+<span>                                       <span class="va">seed</span> <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
+<span>  <span class="co"># Defining empty model workflow</span></span>
 <span>  <span class="va">y_wf</span> <span class="op">&lt;-</span> </span>
 <span>    <span class="fu">recipe</span><span class="op">(</span><span class="va">formula</span>, data <span class="op">=</span> <span class="va">df</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">step_fun</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">workflow</span><span class="op">(</span><span class="va">model_to_tune</span><span class="op">)</span></span>
 <span>  </span>
-<span>  <span class="co"># Defining re-samples</span></span>
+<span>  <span class="co"># Defining re-samples based on seed</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="va">seed</span><span class="op">)</span></span>
 <span>  <span class="va">y_resamples</span> <span class="op">&lt;-</span> <span class="fu">mc_cv</span><span class="op">(</span><span class="va">df</span>, times <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
 <span>  </span>
+<span>  <span class="co"># Fitting re-sample for each grid level</span></span>
 <span>  <span class="va">y_tuned</span> <span class="op">&lt;-</span> <span class="fu">tune_grid</span><span class="op">(</span></span>
 <span>    <span class="va">y_wf</span>,</span>
 <span>    resamples <span class="op">=</span> <span class="va">y_resamples</span>,</span>
 <span>    grid <span class="op">=</span> <span class="va">model_grid</span>,</span>
-<span>    metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">rsq</span><span class="op">)</span></span>
+<span>    metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">metric</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span>  </span>
+<span>  <span class="co"># Selecting the best model</span></span>
 <span>  <span class="va">y_trained_model</span> <span class="op">&lt;-</span> </span>
 <span>    <span class="fu">finalize_workflow</span><span class="op">(</span><span class="va">y_wf</span>,</span>
 <span>                      <span class="fu">select_best</span><span class="op">(</span><span class="va">y_tuned</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">fit</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span>  </span>
-<span>  </span>
+<span>  <span class="co"># Presenting results</span></span>
 <span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"fit"</span> <span class="op">=</span> <span class="va">y_trained_model</span>,</span>
 <span>                  <span class="st">"best_fit"</span> <span class="op">=</span> <span class="fu">show_best</span><span class="op">(</span><span class="va">y_tuned</span><span class="op">)</span><span class="op">)</span></span>
 <span>  </span>
@@ -417,13 +426,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  </span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now we can fit but models.</p>
+<p>Now we can fit each model.</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneSolarGlmFitted</span> <span class="op">&lt;-</span> <span class="fu">train_regression_model</span><span class="op">(</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneSolarGlmFitted</span> <span class="op">&lt;-</span> <span class="fu">fit_tuned_regression_model</span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span>,</span>
 <span>  model_to_tune <span class="op">=</span> <span class="va">GlmModel</span>,</span>
 <span>  model_grid <span class="op">=</span> <span class="va">GlmGrid</span>,</span>
-<span>  formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="st">"Ozone ~ Temp + Solar.R + Wind"</span><span class="op">)</span>,</span>
+<span>  formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="st">"Ozone ~ Solar.R + Temp + Wind"</span><span class="op">)</span>,</span>
 <span>  step_fun <span class="op">=</span> <span class="va">ozone_steps</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">5050</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -440,7 +449,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">OzoneNotSolarGlmFitted</span> <span class="op">&lt;-</span> <span class="va">airquality</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">Solar.R</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">train_regression_model</span><span class="op">(</span>model_to_tune <span class="op">=</span> <span class="va">GlmModel</span>,</span>
+<span>  <span class="fu">fit_tuned_regression_model</span><span class="op">(</span>model_to_tune <span class="op">=</span> <span class="va">GlmModel</span>,</span>
 <span>                         model_grid <span class="op">=</span> <span class="va">GlmGrid</span>,</span>
 <span>                         formula <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html">as.formula</a></span><span class="op">(</span><span class="st">"Ozone ~ Temp + Wind"</span><span class="op">)</span>,</span>
 <span>                         step_fun <span class="op">=</span> <span class="va">ozone_steps</span>,</span>
@@ -457,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section><section id="impute-missing-values" class="level5"><h5 class="anchored" data-anchor-id="impute-missing-values">Impute missing values</h5>
-<p>Once we have the model we can impute the <code>Ozone</code> values, but let’s also create a function to perform this task as we will need to repeat the process very time we have some new data.</p>
+<p>Once we have both models, we can impute the <code>Ozone</code> values, but let’s also create a function to perform this task as we will need to repeat the process very time we need to predict a new value.</p>
 <div class="cell">
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">impute_ozone</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">df</span>,</span>
 <span>                         <span class="va">solar_model</span>,</span>
@@ -481,7 +490,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  no_solar_model <span class="op">=</span> <span class="va">OzoneNotSolarGlmFitted</span><span class="op">$</span><span class="va">fit</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Show a by taking a quick view to the data we can see that the data point now can shape with th original data.</p>
+<p>By plotting the imputed <code>Ozone</code> values can see that the values follow the patterns present in the non-missing values.</p>
 <div class="cell">
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirOzoneImputed</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Ozone</span>, <span class="va">Ozone_NA</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -496,7 +505,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section></section><section id="removing-solar.r-values" class="level4"><h4 class="anchored" data-anchor-id="removing-solar.r-values">Removing Solar.R values</h4>
+</section></section><section id="fixing-solar.r-values" class="level4"><h4 class="anchored" data-anchor-id="fixing-solar.r-values">Fixing Solar.R values</h4>
+<p>Once we don’t have any missing value in the <code>Ozone</code> column we can explore the remaining 7 missing values in the <code>Solar.R</code> column.</p>
 <div class="cell">
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">AirOzoneImputed</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://amices.org/mice/reference/md.pattern.html">md.pattern</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -505,14 +515,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="02-feature-engineering_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Now the missing values represent only 5% of the data.</p>
+<p>Now the missing values represent only 5% of the rows.</p>
 <div class="cell">
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 95.42484</code></pre>
 </div>
 </div>
-<p>And we don’t have enough data to reject the null hypothesis, and we can not affirm that the missing values are missing completely at random.</p>
+<p>And we don’t have enough data to reject the null hypothesis, and we can not affirm that the missing values are not missing completely at random.</p>
 <div class="cell">
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/naniar/man/mcar_test.html">mcar_test</a></span><span class="op">(</span><span class="va">AirOzoneImputed</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -537,9 +547,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 8    19      99 13.8   59     5   8    FALSE</code></pre>
 </div>
 </div>
+</section></section><section id="final-thoughts" class="level3" data-number="2.1.3"><h3 data-number="2.1.3" class="anchored" data-anchor-id="final-thoughts">
+<span class="header-section-number">2.1.3</span> Final thoughts</h3>
+<p>I hope this blog can help to improve your ability to handle missing values without compromising your results.</p>
+<p>Don’t forget to explore well your columns as missing values are usually encoded with <em>0</em> or <em>99</em>.</p>
 
 
-</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
